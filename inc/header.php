@@ -132,7 +132,9 @@ echo implode(' ', array_map(function($prop, $value) {
             <header id="header" style="width: 100%; height: 100px; border-bottom: 1px solid #6d307b;background: linear-gradient(114deg, rgba(202,85,139,1) 15%, rgba(78,40,88,1) 65%);">   
                 <section class="col-sm-4 col-lg-4 col-xs-4 col-md-4">
                     <div id="logo-group" style="height: 95px;">
-                        <span id="" style="height: inherit;width: inherit; margin-left: 15px;"> <img src="<?php echo ASSETS_URL; ?>/img/logo.png" alt="Alswh" class="img-responsive" style="height:inherit;width:inherit;"> </span>
+                        <span id="" style="height: inherit;width: inherit; margin-left: 15px;"> 
+                            <!--<img src="<?php echo ASSETS_URL; ?>/img/logo.png" alt="Alswh" class="img-responsive" style="height:inherit;width:inherit;">--> 
+                        </span>
                     </div>
                 </section>
                 <section class="col-sm-5 col-lg-5 col-xs-5 col-md-5">
