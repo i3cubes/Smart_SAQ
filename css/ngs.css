@@ -1,0 +1,80 @@
+/*
+ * It is advised not to edit the smartadmin_production.css
+ * as this will override any changes you make in the 
+ * later versions of this theme. 
+ * 
+ * We advise that you use use this CSS to override 
+ * SmartAdmin styles. 
+ * 
+ * Rename the stylesheet to whatever your liking so it will stay
+ * unique to you with each update of SmartAdmin.
+ */
+
+/*
+ * INDEX
+ * 
+ * - HTML
+ * - BODY
+ * - CUSTOM STYLES
+ */
+.todo>li>p {
+    min-height: 25px;
+}
+.ngs_form_lable{
+    font-size: 12px;
+    color: #000;
+    font-weight: 500;
+}
+.ngs_form_lable_value{
+    font-size: 14px;
+    color: #000;
+    font-weight: 300;
+}
+.ngs_form_lable_section_header{
+    font-size: 18px;
+    color: #000;
+    font-weight: bolder;
+}
+.ngs_form_footer_info{
+    font-size: 13px;
+    color: #804b8c;
+}
+@media print {
+    .print_hidden{display: none !important;}
+}
+/* A4 Landscape*/
+@page {
+    sheet-size: a4;
+    margin: 0mm 0mm 0mm 0mm;
+}
+   #saveOverlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+#saveOverlayText{
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  font-size: 30px;
+  color: white;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+}
+.res_tbl_head{
+    width: 200px;
+    font-weight: bold;
+}
+.ngs_input_error{
+    border-color: red;
+}
+.fnt_err{
+    color: red;
+}

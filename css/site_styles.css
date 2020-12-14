@@ -1,0 +1,56 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 6, 2020, 1:05:44 PM
+    Author     : Maleesh
+*/
+
+ #table {
+        border-collapse: collapse;
+        width: 100%;  
+    }   
+    
+     .table_style {
+        border: solid 2px #b7ddf2;
+        /*background: #ebf4fb;*/
+    }
+    
+    .headerStyle {
+        background-color: #465584;
+        color: #FFFFFF;
+        font-weight: bold;
+        font-size: 12px;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    
+    .textboldTable {
+        font-size: 16px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+        background-color: #C4C4E1;
+    }
+    
+    #table > tbody > tr {
+        height: 35px;
+    }
+    
+    .body_style {
+        padding-left: 6px;
+    }
+    
+    select {
+        padding:0px;
+        padding-left:6px;
+    }
+    
+    .customFiled {
+        width:200px;
+        height:25px;
+        margin-right: 20px;
+        margin-top:5px;
+        padding-left: 5px;
+        border: solid 1px #dfb4c6;
+    }

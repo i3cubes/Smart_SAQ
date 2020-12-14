@@ -1,0 +1,5 @@
+*.docx
+*.txt
+lib/ngs_config.php
+class/database.php
+

@@ -1,0 +1,48 @@
+        .ui-menu .ui-menu-item{
+            padding: 2px;
+        }
+
+        #table-row{
+            vertical-align: middle;
+            width: 8%;
+            padding: 2% 1%;
+        }
+
+        #table-row2{
+            vertical-align: middle;
+            padding: 1% 7%;
+        }
+
+        #table-row3{
+            vertical-align: middle;
+            padding: 1% 0%;
+        }
+        textarea{
+            resize: vertical !important;
+        }
+        .bodyheading{
+            font-family: Calibri;
+            font-size: 12pt;
+            font-weight: bold;
+        }
+        .checkbox-align{
+            left: 40%;
+            bottom: 3px;
+        }
+        .checkbox-align1{
+            left: 40%;
+            bottom: 3px;
+        }   
+        @media print {
+            .linkedDataTable{page-break-before: always;}
+            .Applicablethemes{page-break-before: always;}
+        }
+        #ifYes{
+            display: none; 
+        }    
+        #ifCurrentOrnew{
+            display: none;
+        }
+        #ifStudentInvolved{
+            display: none;
+        }
