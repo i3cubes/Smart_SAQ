@@ -56,7 +56,7 @@ $users = $user_obj->getAllUsers();
                 <header>
                     <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
                     <h2 style=""><b>USER MANAGEMENT</b></h2> 
-                    <button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="add_edit_user()">Add&nbsp;<i class="fa fa-plus"></i></button>
+                    <button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="add_edit_user('')">Add&nbsp;<i class="fa fa-plus"></i></button>
                 </header> 
                 <div class="widget-body">
                     <!--<div class="row">-->
