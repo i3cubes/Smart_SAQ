@@ -6,15 +6,15 @@ $u_obj = new user($_POST['id']);
 
 $u_obj->name = $_POST['username'];
 $u_obj->password = $_POST['password'];
-$u_obj->email = $_POST['email'];
-$u_obj->address = $_POST['address'];
-$u_obj->contact_no = $_POST['contact_no'];
+//$u_obj->email = $_POST['email'];
+//$u_obj->address = $_POST['address'];
+//$u_obj->contact_no = $_POST['contact_no'];
 
 switch ($_POST['option']) {
     case 'LOGIN': 
         $result = $u_obj->loginUser();
         if($result) {
-            echo json_encode(array('msg' => 1, 'designation' => $_SESSION['DESIGNATION']));
+            echo json_encode(array('msg' => 1));
         } else {
             echo json_encode(array('msg' => 0));
         }

@@ -30,6 +30,13 @@ include("../inc/header_less.php");
 //include("../inc/nav.php");
 // ====================== LOGIC ================== --!>
 include_once '../class/constants.php';
+include_once '../class/cls_saq_guideline.php';
+include_once '../class/cls_saq_guideline_files.php';
+
+if ($_REQUEST['id'] != 0) {
+    $saq_obj = new saq_guideline($_REQUEST['id']);
+    $saq_obj->getDetails();
+}
 ?>
 <style>
     .customFiled {
@@ -68,7 +75,7 @@ include_once '../class/constants.php';
                          data-widget-colorbutton="false">
 
                         <header style="margin:0px;">
-                            <?php if (!isset($_REQUEST['f'])) { ?><span class="widget-icon"><i class="fa fa-edit"></i></span><?php } ?>
+                            <span class="widget-icon"><?php if ($_REQUEST['id'] != '') { ?><i class="fa fa-edit"></i><?php } else { ?><i class="fa fa-plus"></i> <?php } ?></span>
                             <span><h2 style="margin-left: 10px;"><?php print (($_REQUEST['id'] != '') ? ((isset($_REQUEST['f'])) ? 'VIEW' : 'EDIT') : 'ADD') ?> SAQ GUIDELINE</h2></span>				                           
                         </header>
 
@@ -77,7 +84,7 @@ include_once '../class/constants.php';
 
                             <!-- widget content -->
                             <div class="widget-body">
-                                <form class="smart-form" id="centers_form">  
+                                <form class="smart-form" id="saq_form" onsubmit="submitHandler(event)">  
                                     <fieldset>  
                                         <section class="col col-4">
                                             <label class="ngs_form_lable">
@@ -86,7 +93,7 @@ include_once '../class/constants.php';
                                         </section>
                                         <section class="col col-4">
                                             <label class="input">
-                                                <input type="text" name="name" id="name" /> 
+                                                <input type="text" name="name" id="name" value="<?php print $saq_obj->name ?>"/> 
                                             </label>
                                         </section>
                                         <section class="col col-4">
@@ -96,7 +103,7 @@ include_once '../class/constants.php';
                                         </section>
                                         <section class="col col-4">
                                             <label class="textarea">
-                                                <textarea name="description" id="description" ></textarea>
+                                                <textarea name="description" id="description" ><?php print $saq_obj->description ?></textarea>
                                             </label>
                                         </section>
                                         <section class="col col-4">
@@ -106,10 +113,12 @@ include_once '../class/constants.php';
                                         </section>
                                         <section class="col col-4">
                                             <label class="input">
-                                                <input type="file" name="file" id="file" />
+                                                <input type="file" name="file" id="file" style="padding:5px;"/>
                                             </label>
                                         </section>
                                         <footer>
+                                            <input type="hidden" name="id" value="<?php print $saq_obj->id ?>" />
+                                            <input type="hidden" name="option" value="<?php print (($saq_obj->id != '') ? 'EDIT' : 'ADD') ?>" />
                                             <button class="btn btn-primary">Save&nbsp;<i class="fa fa-save"></i></button>
                                         </footer>
                                     </fieldset>                                             
@@ -129,6 +138,61 @@ include_once '../class/constants.php';
             </div>
 
             <!-- END ROW -->
+            <?php if ($saq_obj->id != '') { ?>
+                <div class="row">
+
+                    <!-- NEW COL START -->
+
+                    <!-- END COL -->
+
+                    <!-- NEW COL START -->
+                    <article class="col-sm-12 col-md-12 col-lg-12">
+
+                        <!-- Widget ID (each widget will need unique ID)-->
+                        <div class="jarviswidget" id="wid-id-4" 
+                             data-widget-deletebutton="false" 
+                             data-widget-togglebutton="false"
+                             data-widget-editbutton="false"
+                             data-widget-fullscreenbutton="false"
+                             data-widget-colorbutton="false">
+
+                            <header style="margin:0px;">                            
+                                <span><h2 style="margin-left: 10px;"> SAQ GUIDELINE FILES</h2></span>				                           
+                            </header>
+
+                            <!-- widget div-->
+                            <div>
+
+                                <!-- widget content -->
+                                <div class="widget-body">
+                                    <?php
+                                    $saq_g_file = new saq_guideline_file();
+                                    $saq_files = $saq_g_file->getAll($saq_obj->id);
+
+                                    if (count($saq_files) > 0) {
+                                        foreach ($saq_files as $file) {
+                                            print "<table>"
+                                                    . "<tr>"
+                                                    . "<td>" . $file['name'] . "</td>"
+                                                    . "</tr>"
+                                                    . "</table>";
+                                        }
+                                    }
+                                    ?>
+
+                                </div>
+                                <!-- end widget content -->
+
+                            </div>
+                            <!-- end widget div -->
+
+                        </div>
+                        <!-- end widget -->
+
+                        <!-- END COL -->		
+
+                </div>
+            <?php } ?>
         </section>
         <!-- end widget grid -->
 
@@ -150,57 +214,72 @@ include("../inc/scripts.php");
 
 <script type="text/javascript">
     $(document).ready(function () {
+<?php if ($saq_obj->id == '') { ?>
+            var validate = $("#saq_form").validate({
+                ignore: "not:hidden",
+                // Rules for form validation
+                rules: {
+                    name: {
+                        required: true
+                    },
+                    description: {
+                        required: true
+                    }
+                },
 
+                // Messages for form validation
+                messages: {
+                    name: {
+                        required: "Please enter name"
+                    },
+                    description: {
+                        required: "Please enter description"
+                    }
+                },
+
+                // Do not change code below
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element.parent());
+                }
+            });
+<?php } ?>
     });
 
-    // delete function
-    function deleteHandler(sta) {
-        var status;
-        if (sta == 'd') {
-            status = <?php print constants::$DISABALED ?>;
-        } else if (sta == 'a') {
-            status = <?php print constants::$ACTIVE ?>;
+    function submitHandler(e) {
+        e.preventDefault();
+        var form = $('#saq_form').serializeObject();
+        if ($("#saq_form").valid()) {
+            if ($("#file").prop('files').length > 0) {
+                var files = $("#file").prop('files')[0];
+                form_data = new FormData();
+                form_data.append("file", files);
+                form_data.append("data", JSON.stringify(form));
+            } else {
+                form_data = new FormData();
+                form_data.append("data", JSON.stringify(form));
+            }
+            console.log(form_data);
+//            return false;
+            $.ajax({
+                url: '../ajax/ajx_saq_guideline',
+                type: 'POST',
+                dataType: 'JSON',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,
+                success: function (response) {
+                    if (response['msg'] == 1) {
+                        window.parent.location.reload();
+                        window.parent.$.jeegoopopup.close();
+                    } else {
+                        alert('Failure');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert(status);
+                }
+            });
         }
-
-        $.ajax({
-            url: '../ajax/ajx_centers',
-            type: 'POST',
-            data: {option: 'DELETE', id: '<?php print $c_obj->id ?>', status: status},
-            dataType: "json",
-            success: function (response) {
-                if (response['msg'] == 1) {
-                    window.parent.$.jeegoopopup.close();
-                    window.parent.location.reload();
-                } else {
-                    alert('Failure');
-                }
-                $(newDiv).dialog("close");
-                $(newDiv).remove();
-            },
-            error: function (xhr, status, error) {
-                alert(status);
-            }
-        });
-    }
-
-    function submitHandler() {
-        var form = $('#centers_form').serialize();
-        $.ajax({
-            url: '../ajax/ajx_centers',
-            type: 'POST',
-            dataType: 'JSON',
-            data: form,
-            success: function (response) {
-                if (response['msg'] == 1) {
-                    window.parent.location.reload();
-                    window.parent.$.jeegoopopup.close();
-                } else {
-                    alert('Failure');
-                }
-            },
-            error: function (xhr, status, error) {
-                alert(status);
-            }
-        });
     }
 </script>

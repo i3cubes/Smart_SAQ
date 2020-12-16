@@ -117,7 +117,7 @@ if($_REQUEST['id'] != '') {
                                             </label>
                                         </section>   
                                         <?php } ?>
-                                        <section class="col col-4">
+<!--                                        <section class="col col-4">
                                             <label class="ngs_form_lable">
                                                 Email
                                             </label>
@@ -146,7 +146,7 @@ if($_REQUEST['id'] != '') {
                                             <label class="input">
                                                 <input type="text" name="address" id="address"/>
                                             </label>
-                                        </section>
+                                        </section>-->
                                         <footer>
                                             <input type="hidden" name="option" value="<?php print (($_REQUEST['id'] != '') ? 'EDITUSER' : 'ADDUSER') ?>" />
                                             <input type="hidden" name="id" value="<?php print $user_obj->id ?>" />

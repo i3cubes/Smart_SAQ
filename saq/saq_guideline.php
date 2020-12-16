@@ -1,4 +1,6 @@
 <?php
+//error_reporting(E_ALL);
+//ini_set("display_errors", 1);
 require_once("../lib/config.php");
 
 //require UI configuration (nav, ribbon, etc.)
@@ -25,6 +27,7 @@ $page_nav["saq_guidelines"]["active"] = true;
 include("../inc/nav.php");
 //include_once 'class/reports.php';
 include_once '../class/constants.php';
+include_once '../class/cls_saq_guideline.php';
 ?>
 <style>
 
@@ -61,11 +64,22 @@ include_once '../class/constants.php';
                             <tr style="height:40px;">
                                 <td class="headerStyle">NAME</td>
                                 <td class="headerStyle">DESCRIPTION</td>
-                                <td class="headerStyle" width="5%">EDIT</td>
+                                <td class="headerStyle" width="5%" align="center">EDIT</td>
                             </tr>
                         </thead>
                         <tbody>       
-                            
+                            <?php
+                                $saq_obj = new saq_guideline();
+                                $saq_guidelines = $saq_obj->getAll();
+                                
+                                foreach ($saq_guidelines as $guideline) {
+                                    print "<tr>"
+                                            . "<td>".$guideline['name']."</td>"
+                                            . "<td>".$guideline['description']."</td>"
+                                            . "<td align='center' width='5%'><button class='btn btn-primary btn-xs' onclick='saq_guideline_add_edit(".$guideline['id'].")'>Edit</button></td>"
+                                        . "</tr>";
+                                }
+                            ?>
                         </tbody>
                     </table>
                     <!--</div>-->
@@ -134,11 +148,11 @@ include("../inc/scripts.php");
                                 });
                             });     
                             
-                            function saq_guideline_add_edit() {
+                            function saq_guideline_add_edit(id = 0) {
                                  var options = {
-                                    url: 'saq_guideline_add_edit',
+                                    url: 'saq_guideline_add_edit?id=' + id,
                                     width: '600',
-                                    height: '500',
+                                    height: '600',
                                     skinClass: 'jg_popup_round',
                                     resizable: false,
                                     scrolling: 'yes'

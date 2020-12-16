@@ -49,7 +49,7 @@ include("inc/header.php");
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
 				<div class="well no-padding" style="margin-top: 32%;">
-					<form action="" id="login-form" class="smart-form client-form" method="post">
+                                    <form id="login-form" class="smart-form client-form" onsubmit="loginHandler(event)">
 						<header style="background-color: #008FC9 !important;">
 							Sign In
 						</header>
@@ -74,6 +74,7 @@ include("inc/header.php");
 							</section>
 						</fieldset>
 						<footer style="background-color: #A4A4A4;">
+                                                         <input type="hidden" name="option" value="LOGIN" />
 							<button type="submit" class="btn btn-primary" name="but" id="but" value="signin">
 								Sign in
 							</button>
@@ -136,4 +137,28 @@ include("inc/header.php");
 			}
 		});
 	});
+        
+        function loginHandler(e) {
+        e.preventDefault();
+        var form = $("#login-form").serialize();
+//        console.log(form);
+        if ($("#login-form").valid()) {
+            $.ajax({
+                url: 'ajax/ajx_user',
+                type: 'POST',
+                dataType: 'JSON',
+                data: form,
+                success: function (response) {
+                    if (response['msg'] == 1) {                        
+                            location.href = 'home';                        
+                    } else {
+                        $("#errorMsg").css("display", "block");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert(status);
+                }
+            });
+        }
+    }
 </script>
