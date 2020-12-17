@@ -1,3 +1,4 @@
+<IfModule mod_rewrite.c>
 RewriteEngine on
 
 # Rewrite /foo/bar to /foo/bar.php
@@ -9,3 +10,5 @@ RewriteRule .* - [L,R=404]
 
 # NOTE! FOR APACHE ON WINDOWS: Add [NC] to RewriteCond like this:
 # RewriteCond %{THE_REQUEST} "^[^ ]* .*?\.php[? ].*$" [NC]
+
+</IfModule>
