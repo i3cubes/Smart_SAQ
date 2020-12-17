@@ -49,20 +49,7 @@ class user {
 //        $this->address = $row['address'];
 //        $this->contact_no = $row['contact_no'];
         $this->status = $row['status'];
-    }
-
-    public function getDetailsByEmployeeId($id) {
-        $string = "SELECT * FROM `$this->table_name` WHERE `employees_id` = $id;";
-        $result = dbQuery($string);
-        $row = dbFetchAssoc($result);
-        $this->id = $row['id'];
-        $this->name = $row['name'];
-        $this->password = $row['password'];
-        $this->date_created = $row['date_create'];
-        $this->date_lastlogin = $row['date_lastlogin'];
-//        $this->type = $row['type'];
-        $this->status = $row['status'];
-    }
+    } 
 
     public function add() {       
         $this->password = sha1($this->password);
@@ -92,7 +79,7 @@ class user {
         $update_array = array();       
         if ($this->name != '') {
 //            if (!$this->checkUser($this->name)) {
-                array_push($update_array, "`name`=". getStringFormatted($this->name)."");
+                array_push($update_array, "`user_name`=". getStringFormatted($this->name)."");
 //            } else {
 //                return 100;
 //            }
@@ -163,10 +150,10 @@ class user {
 //        print $string;
         $result = dbQuery($string);
         if (dbNumRows($result) > 0) {
-//            $row = dbFetchAssoc($result);
+            $row = dbFetchAssoc($result);
 //            $emp_obj = new employees($row['employees_id']);
 //            $emp_obj->getDetails();
-//            $_SESSION['UID'] = $row['id'];
+            $_SESSION['UID'] = $row['id'];
 //            $_SESSION['DESIGNATION'] = $emp_obj->designation_id;
 //            $_SESSION['EMPID'] = $emp_obj->id;
 //            $_SESSION['EMPNAME'] = $emp_obj->name;
