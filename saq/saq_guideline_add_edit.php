@@ -93,7 +93,7 @@ if ($_REQUEST['id'] != 0) {
                                         </section>
                                         <section class="col col-4">
                                             <label class="input">
-                                                <input type="text" name="name" id="name" value="<?php print $saq_obj->name ?>"/> 
+                                                <input type="text" name="name" id="name" value="<?php print $saq_obj->name ?>" <?php print ((isset($_REQUEST['f'])?"disabled=''":"")) ?>/> 
                                             </label>
                                         </section>
                                         <section class="col col-4">
@@ -103,9 +103,10 @@ if ($_REQUEST['id'] != 0) {
                                         </section>
                                         <section class="col col-4">
                                             <label class="textarea">
-                                                <textarea name="description" id="description" ><?php print $saq_obj->description ?></textarea>
+                                                <textarea name="description" id="description" <?php print ((isset($_REQUEST['f'])?"disabled=''":"")) ?>><?php print $saq_obj->description ?></textarea>
                                             </label>
                                         </section>
+                                        <?php if(!isset($_REQUEST['f'])) { ?>
                                         <section class="col col-4">
                                             <label class="ngs_form_lable">
                                                 Upload File 
@@ -115,12 +116,13 @@ if ($_REQUEST['id'] != 0) {
                                             <label class="input">
                                                 <input type="file" name="file" id="file" style="padding:5px;"/>
                                             </label>
-                                        </section>
+                                        </section>                                       
                                         <footer>
                                             <input type="hidden" name="id" value="<?php print $saq_obj->id ?>" />
                                             <input type="hidden" name="option" value="<?php print (($saq_obj->id != '') ? 'EDIT' : 'ADD') ?>" />
                                             <button class="btn btn-primary">Save&nbsp;<i class="fa fa-save"></i></button>
                                         </footer>
+                                         <?php } ?>
                                     </fieldset>                                             
                                 </form>
 

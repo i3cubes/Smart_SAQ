@@ -23,7 +23,7 @@ class saq_guideline {
     
     public function getAll() {
         $array = array();
-        $string = "SELECT * FROM `$this->table_name`;";
+        $string = "SELECT * FROM `$this->table_name` WHERE `status` = ".constants::$active.";";
         $result = dbQuery($string);
         while ($row = dbFetchAssoc($result)) {
             array_push($array, array(
@@ -54,6 +54,16 @@ class saq_guideline {
         $string = "UPDATE `$this->table_name` SET `name` = ".getStringFormatted($this->name).","
                 . "`description` = ".getStringFormatted($this->description)." WHERE `id` = $this->id;";
 //        print $string;
+        $result = dbQuery($string);
+        if($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public function delete() {
+        $string = "UPDATE `$this->table_name` SET `status` = ".constants::$inactive." WHERE `id` = $this->id;";
         $result = dbQuery($string);
         if($result) {
             return true;

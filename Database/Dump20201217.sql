@@ -155,8 +155,9 @@ CREATE TABLE `saq_guideline` (
   `name` varchar(100) DEFAULT NULL,
   `description` varchar(200) DEFAULT NULL,
   `uploaded_date_time` datetime DEFAULT NULL,
+  `status` int(11) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -165,7 +166,7 @@ CREATE TABLE `saq_guideline` (
 
 LOCK TABLES `saq_guideline` WRITE;
 /*!40000 ALTER TABLE `saq_guideline` DISABLE KEYS */;
-INSERT INTO `saq_guideline` VALUES (1,'Test saq upload','Testing purpose',NULL),(2,'Test saq upload','Testing purpose','2020-12-15 16:28:02'),(3,'Test saq upload','Testing purpose','2020-12-15 16:29:17'),(4,'Test saq upload','Testing purpose','2020-12-15 16:30:34'),(5,'Test','Test description','2020-12-15 21:47:05');
+INSERT INTO `saq_guideline` VALUES (1,'Test saq upload','Testing purpose 1',NULL,1),(2,'Test saq upload','Testing purpose','2020-12-15 16:28:02',1),(3,'Test saq upload 1','Testing purpose 1','2020-12-15 16:29:17',1),(4,'Test saq upload','Testing purpose','2020-12-15 16:30:34',0),(5,'Test','Test description','2020-12-15 21:47:05',0),(6,'Testing saq','Testing saq description','2020-12-17 09:32:37',0);
 /*!40000 ALTER TABLE `saq_guideline` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -185,7 +186,7 @@ CREATE TABLE `saq_guideline_files` (
   PRIMARY KEY (`id`),
   KEY `fk_saq_guideline_files_saq_guideline1_idx` (`saq_guideline_id`),
   CONSTRAINT `fk_saq_guideline_files_saq_guideline1` FOREIGN KEY (`saq_guideline_id`) REFERENCES `saq_guideline` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -194,7 +195,7 @@ CREATE TABLE `saq_guideline_files` (
 
 LOCK TABLES `saq_guideline_files` WRITE;
 /*!40000 ALTER TABLE `saq_guideline_files` DISABLE KEYS */;
-INSERT INTO `saq_guideline_files` VALUES (1,'SRS_Smart SAQ_V1.0.pdf','../saq_guideline_files/1608029540556.pdf','2020-12-15 16:22:20',1),(2,'SRS_Smart SAQ_V1.0.pdf','../saq_guideline_files/1608029882259.pdf','2020-12-15 16:28:02',2),(3,'SRS_Smart SAQ_V1.0.pdf','../saq_guideline_files/1608029957915.pdf','2020-12-15 16:29:17',3),(4,'SRS_Smart SAQ_V1.0.pdf','../saq_guideline_files/1608030034773.pdf','2020-12-15 16:30:34',4),(5,'Untitled.png','../saq_guideline_files/1608048862663.png','2020-12-15 21:44:22',1),(6,'Capture.JPG','../saq_guideline_files/1608048907278.JPG','2020-12-15 21:45:07',1),(7,'Capture.JPG','../saq_guideline_files/1608049025610.JPG','2020-12-15 21:47:05',5),(8,'Untitled.png','../saq_guideline_files/1608049045617.png','2020-12-15 21:47:25',5);
+INSERT INTO `saq_guideline_files` VALUES (1,'SRS_Smart SAQ_V1.0.pdf','../saq_guideline_files/1608029540556.pdf','2020-12-15 16:22:20',1),(2,'SRS_Smart SAQ_V1.0.pdf','../saq_guideline_files/1608029882259.pdf','2020-12-15 16:28:02',2),(3,'SRS_Smart SAQ_V1.0.pdf','../saq_guideline_files/1608029957915.pdf','2020-12-15 16:29:17',3),(4,'SRS_Smart SAQ_V1.0.pdf','../saq_guideline_files/1608030034773.pdf','2020-12-15 16:30:34',4),(5,'Untitled.png','../saq_guideline_files/1608048862663.png','2020-12-15 21:44:22',1),(6,'Capture.JPG','../saq_guideline_files/1608048907278.JPG','2020-12-15 21:45:07',1),(7,'Capture.JPG','../saq_guideline_files/1608049025610.JPG','2020-12-15 21:47:05',5),(8,'Untitled.png','../saq_guideline_files/1608049045617.png','2020-12-15 21:47:25',5),(9,'admin_portal_layout.docx','../saq_guideline_files/1608177629893.docx','2020-12-17 09:30:29',3),(10,'SRS_Smart SAQ_V1.0.pdf','../saq_guideline_files/1608177757754.pdf','2020-12-17 09:32:37',6);
 /*!40000 ALTER TABLE `saq_guideline_files` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -648,4 +649,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-16  9:22:03
+-- Dump completed on 2020-12-17  9:35:43

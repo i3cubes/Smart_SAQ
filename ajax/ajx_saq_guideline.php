@@ -56,7 +56,15 @@ switch ($option) {
         } else {
             echo json_encode(array('msg' => 0));
         }
-        break;   
+        break;
+    case 'DELETE':        
+        $result = $saq_obj->delete();        
+        if($result) {            
+            echo json_encode(array('msg' => 1));
+        } else {
+            echo json_encode(array('msg' => 0));
+        }
+        break;
     default :
         header('HTTP/1.0 405 Method Not Allowed');
         break;

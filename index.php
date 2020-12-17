@@ -42,6 +42,7 @@ include("inc/header.php");
 
 					<div class="pull-left login-desc-box-l">
                                             <img alt="" src="img/tower_logo.png" height="200" width="200">
+                                            <!--<h3 style="text-align: center;">SAQ</h3>-->
 					</div>
 
 				</div>

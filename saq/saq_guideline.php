@@ -64,7 +64,10 @@ include_once '../class/cls_saq_guideline.php';
                             <tr style="height:40px;">
                                 <td class="headerStyle">NAME</td>
                                 <td class="headerStyle">DESCRIPTION</td>
+                                <td class="headerStyle" width="10%">UPLOADED DATE TIME</td>
+                                <td class="headerStyle" width="5%" align="center">VIEW</td>
                                 <td class="headerStyle" width="5%" align="center">EDIT</td>
+                                <td class="headerStyle" width="5%" align="center">DELETE</td>
                             </tr>
                         </thead>
                         <tbody>       
@@ -76,7 +79,10 @@ include_once '../class/cls_saq_guideline.php';
                                     print "<tr>"
                                             . "<td>".$guideline['name']."</td>"
                                             . "<td>".$guideline['description']."</td>"
-                                            . "<td align='center' width='5%'><button class='btn btn-primary btn-xs' onclick='saq_guideline_add_edit(".$guideline['id'].")'>Edit</button></td>"
+                                            . "<td>".$guideline['uploaded_date_time']."</td>"
+                                            . "<td align='center' width='5%'><button class='btn btn-primary btn-xs' onclick=saq_guideline_add_edit(".$guideline['id'].",'v')>VIEW&nbsp;<i class='fa fa-eye'></i></button></td>"
+                                            . "<td align='center' width='5%'><button class='btn btn-primary btn-xs' onclick='saq_guideline_add_edit(".$guideline['id'].")'>Edit&nbsp;<i class='fa fa-edit'></i></button></td>"
+                                            . "<td align='center' width='5%'><button class='btn btn-danger btn-xs' onclick='saq_guideline_delete(".$guideline['id'].")'>DELETE&nbsp;<i class='fa fa-trash'></i></button></td>"
                                         . "</tr>";
                                 }
                             ?>
@@ -148,9 +154,50 @@ include("../inc/scripts.php");
                                 });
                             });     
                             
-                            function saq_guideline_add_edit(id = 0) {
+                            function saq_guideline_delete(id) {
+                                 var newDiv = $(document.createElement('div'));
+                                $(newDiv).html('Are you sure ?');
+                                $(newDiv).attr("title", "DELETE");
+                                $(newDiv).dialog({
+                                    resizable: false,
+                                    height: 150,
+                                    modal: true,
+                                    buttons: {
+                                        Yes: function () {
+                                            $.ajax({
+                                                url: '../ajax/ajx_saq_guideline',
+                                                type: 'POST',
+                                                data: {option: 'DELETE', id: id},
+                                                dataType: "json",
+                                                success: function (response) {
+                                                    if (response['msg'] == 1) {
+                                                        location.reload();
+                                                    } else {
+                                                        alert('Failure');
+                                                    }
+                                                    $(newDiv).dialog("close");
+                                                    $(newDiv).remove();
+                                                },
+                                                error: function (xhr, status, error) {
+                                                    alert(status);
+                                                }
+                                            });
+                                        },
+                                        cancel: function () {
+                                            $(this).dialog("close");
+                                            $(newDiv).remove();
+                                        }
+                                    }
+                                });
+                            }
+                            
+                            function saq_guideline_add_edit(id = 0, flag = '') {
+                                var f = '';
+                                if(flag != '') {
+                                    f = '&f=' + flag;
+                                }
                                  var options = {
-                                    url: 'saq_guideline_add_edit?id=' + id,
+                                    url: 'saq_guideline_add_edit?id=' + id + f,
                                     width: '600',
                                     height: '600',
                                     skinClass: 'jg_popup_round',
