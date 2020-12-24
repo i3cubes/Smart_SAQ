@@ -31,12 +31,16 @@ if ($key == "2ea3490b80dd2bd77d1a") {
         //DATA
         if($ary_nodes[0]=='node'){
             foreach ($ary_nodes as $k=>$val){
-                $data[]=array("node_id"=>$k,"node_name"=>$val);
+                if($k!=0){
+                    $data[]=array("node_id"=>$k,"node_name"=>$val);
+                }
             }
         }
         else{
             foreach ($ary_nodes as $k=>$val){
-                $data[]=array("image_id"=>$k,"image_name"=>$val,"url"=>$system_url.$val);
+                if($k!=0){
+                    $data[]=array("image_id"=>$k,"image_name"=>$val,"url"=>$system_url.$val);
+                }
             }
         }
         $response[0]["result"] = '1';
