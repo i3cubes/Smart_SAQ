@@ -3,7 +3,7 @@ include_once '../class/cls_site_manager.php';
 include_once '../class/cls_site.php';
 
 
-$system_url="http://220.247.201.200/SmartField/images/";
+$system_url="http://203.94.66.253/dialogsaq/images/";
 $key = $_REQUEST['KEY'];
 $sid=$_REQUEST['SID'];
 $device_id=$_REQUEST['device_id'];
@@ -13,12 +13,15 @@ $site_name=$_REQUEST['name'];
 $site_code=$_REQUEST['code'];
 $radius=$_REQUEST['radius'];
 
+$site_id=$_REQUEST['site_id'];
+$tab_id=$_REQUEST['tab_id'];
+
 //Define tree
 $node[0]= array(0=>"node",1=>"Site",2=>"Agreements");
 $node[1]=array(0=>"node",3=>"Roof Top",4=>"Green Field");
 $node[3]=array(0=>"node",5=>"10M",6=>"Pole",7=>"15M");
 $node[4]=array(0=>"node",8=>"80M",9=>"50M",10=>"30M");
-$node[5]=array(0=>"image",1=>"imag1.jpg",1=>"imag2.jpg",1=>"imag3.jpg");
+$node[5]=array(0=>"image",1=>"imag1.jpeg",1=>"imag2.jpg",1=>"imag3.jpg");
 $node[6]=array(0=>"image",1=>"imag4.jpg",1=>"imag5.jpg",1=>"imag6.jpg");
 $node[7]=array(0=>"image",1=>"imag7.jpg",1=>"imag8.jpg",1=>"imag9.jpg");
 //print $ip;
@@ -70,6 +73,28 @@ if ($key == "2ea3490b80dd2bd77d1a") {
             array_push($data['saq'], $ary_s);
         }
         $response[1] = $data;
+        break;
+    case '102':
+        $site=new site($site_id);
+        $site->getData();
+        $t_data=$site->getTabbedData();
+        
+        $response[0]["result"] = '1';
+                
+        switch ($tab_id){
+            case '1':
+                break;
+            case '2':
+                break;
+            case '3':
+                break;
+            case '4':
+                break;
+            default :
+                $response[0]["count"] = count($t_data);
+                $response[1] = $t_data;
+                break;
+        }
         break;
     default :
         $response[0]["result"] = '0';
