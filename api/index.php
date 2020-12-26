@@ -21,9 +21,9 @@ $node[0]= array(0=>"node",1=>"Site",2=>"Agreements");
 $node[1]=array(0=>"node",3=>"Roof Top",4=>"Green Field");
 $node[3]=array(0=>"node",5=>"10M",6=>"Pole",7=>"15M");
 $node[4]=array(0=>"node",8=>"80M",9=>"50M",10=>"30M");
-$node[5]=array(0=>"image",1=>"imag1.jpeg",1=>"imag2.jpg",1=>"imag3.jpg");
-$node[6]=array(0=>"image",1=>"imag4.jpg",1=>"imag5.jpg",1=>"imag6.jpg");
-$node[7]=array(0=>"image",1=>"imag7.jpg",1=>"imag8.jpg",1=>"imag9.jpg");
+$node[5]=array(0=>"image",1=>"imag1.jpeg",2=>"imag2.jpg",3=>"imag3.jpg");
+$node[6]=array(0=>"image",4=>"imag4.jpg",5=>"imag5.jpg",6=>"imag6.jpg");
+$node[7]=array(0=>"image",7=>"imag7.jpg",8=>"imag8.jpg",9=>"imag9.jpg");
 //print $ip;
 $log_file = "api_calls.txt";
 $str = date("Y-m-d H:i:s") . " || {" . implode(",", array_keys($_REQUEST)) . "} -- {" . implode(",", $_REQUEST) . "}";
@@ -57,6 +57,26 @@ if ($key == "2ea3490b80dd2bd77d1a") {
         $response[0]["result"] = '1';
         $response[0]["count"] = count($ary_nodes);
         $response[0]["type"] = $ary_nodes[0];
+        $response[1]["data"] = $data;
+        break;
+    case '112':
+        foreach ($node[5] as $k=>$val){
+            if($k!=0){
+                $data[]=array("image_id"=>$k,"image_name"=>$val,"url"=>$system_url.$val);
+            }
+        }
+        foreach ($node[6] as $k=>$val){
+            if($k!=0){
+                $data[]=array("image_id"=>$k,"image_name"=>$val,"url"=>$system_url.$val);
+            }
+        }
+        foreach ($node[7] as $k=>$val){
+            if($k!=0){
+                $data[]=array("image_id"=>$k,"image_name"=>$val,"url"=>$system_url.$val);
+            }
+        }
+        $response[0]["result"] = '1';
+        $response[0]["count"] = count($data);
         $response[1]["data"] = $data;
         break;
     case '101':
