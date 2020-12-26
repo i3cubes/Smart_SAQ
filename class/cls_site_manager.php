@@ -19,7 +19,7 @@ class site_manager {
         $result=array();
         $ary_sql=array();
         if($name!=""){
-            array_push($ary_sql, "t1.name LIKE ='%$name%'");
+            array_push($ary_sql, "t1.name LIKE '%$name%'");
         }
         if($region_id!=""){
             array_push($ary_sql, "t1.saq_region_id='$region_id'");
