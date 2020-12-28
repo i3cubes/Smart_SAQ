@@ -1,12 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<ns1:project xmlns:ns1="http://www.netbeans.org/ns/project/1" xmlns:ns3="http://www.netbeans.org/ns/php-project/1" xmlns:ns2="http://www.netbeans.org/ns/spellchecker-wordlist/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<ns1:type>org.netbeans.modules.php.project</ns1:type>
-	<ns1:configuration>
-		<ns3:data>
-			<ns3:name>dialog-admin</ns3:name>
-		</ns3:data>
-		<ns2:spellchecker-wordlist>
-			<ns2:word>EOIS</ns2:word>
-		</ns2:spellchecker-wordlist>
-	</ns1:configuration>
+<?xml version="1.0" encoding="UTF-8"?>
+<ns1:project xmlns:ns1="http://www.netbeans.org/ns/project/1" xmlns:ns2="http://www.netbeans.org/ns/spellchecker-wordlist/1" xmlns:ns3="http://www.netbeans.org/ns/php-project/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <ns1:type>org.netbeans.modules.php.project</ns1:type>
+    <ns1:configuration>
+        <ns3:data>
+            <ns3:name>dialog-admin</ns3:name>
+        </ns3:data>
+        <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+            <word>EOIS</word>
+            <word>TNL</word>
+        </spellchecker-wordlist>
+    </ns1:configuration>
 </ns1:project>

@@ -11,6 +11,8 @@
  *
  * @author kumar
  */
+include_once 'database.php';
+
 class site {
     //put your code here
     public $id;

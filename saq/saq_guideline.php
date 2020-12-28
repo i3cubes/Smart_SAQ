@@ -11,7 +11,7 @@ require_once("../inc/config.ui.php");
   YOU CAN SET CONFIGURATION VARIABLES HERE BEFORE IT GOES TO NAV, RIBBON, ETC.
   E.G. $page_title = "Custom Title" */
 
-$page_title = "SAQ-GUIDELINES";
+$page_title = "Saq-guidelines";
 
 /* ---------------- END PHP Custom Scripts ------------- */
 

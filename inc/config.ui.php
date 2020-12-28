@@ -31,6 +31,14 @@ $ary_samples = array("samples" => array(
 
 $ary_navi = array_merge($ary_navi, $ary_samples);
 
+$ary_sites = array("site_management" => array(
+        "title" => "SITES",
+        "icon" => "fa fa-inbox",
+        "url" => APP_URL . "/sites/site_management"
+        ));
+
+$ary_navi = array_merge($ary_navi, $ary_sites);
+
 $ary_saq_guidelines = array("saq_guidelines" => array(
         "title" => "SAQ GUIDELINES",
         "icon" => "fa fa-inbox",

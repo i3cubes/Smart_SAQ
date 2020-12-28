@@ -41,6 +41,7 @@ class site_manager {
         while ($row = dbFetchAssoc($res)) {
             //print_r($row);
             $site=new site($row['id']);
+            $site->id=$row['id'];
             $site->name=$row['name'];
             $site->code=$row['code'];
             $site->type=$row['type'];
