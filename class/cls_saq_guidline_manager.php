@@ -1,5 +1,6 @@
 <?php
 include_once 'cls_saq_guideline.php';
+include_once 'database.php';
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
