@@ -31,10 +31,10 @@ $ary_samples = array("samples" => array(
 
 $ary_navi = array_merge($ary_navi, $ary_samples);
 
-$ary_sites = array("site_management" => array(
+$ary_sites = array("view" => array(
         "title" => "SITES",
         "icon" => "fa fa-inbox",
-        "url" => APP_URL . "/sites/site_management"
+        "url" => APP_URL . "/sites/view"
         ));
 
 $ary_navi = array_merge($ary_navi, $ary_sites);
