@@ -15,7 +15,7 @@ class guidline_manager {
     //put your code here
     public function getGuidlines(){
         $res=array();
-        $str="SELECT * FROM saq_guidelines WHERE status='1';";
+        $str="SELECT * FROM saq_guideline WHERE status='1';";
         $result= dbQuery($str);
         if(dbNumRows($result)>0){
             $row= dbFetchAssoc($result);
