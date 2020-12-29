@@ -25,6 +25,7 @@ $page_nav["samples"]["sub"]["agreements"]["active"] = true;
 include("../inc/nav.php");
 //include_once 'class/reports.php';
 include_once '../class/constants.php';
+include_once '../class/cls_site_manager.php';
 ?>
 <style>
 
@@ -55,67 +56,25 @@ include_once '../class/constants.php';
                 </header> 
                 <div class="widget-body">
                     <div class="tree">
-                        <ul>
-                            <li>
-                                <span><i class="fa fa-lg fa-calendar"></i> 2013, Week 2</span>
-                                <ul>
-                                    <li>
-                                        <span class="label label-success"><i class="fa fa-lg fa-plus-circle"></i> Monday, January 7: 8.00 hours</span>
-                                        <ul>
-                                            <li>
-                                                <span><i class="fa fa-clock-o"></i> 8.00</span> &ndash; <a href="javascript:void(0);">Changed CSS to accomodate...</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <span class="label label-success"><i class="fa fa-lg fa-minus-circle"></i> Tuesday, January 8: 8.00 hours</span>
-                                        <ul>
-                                            <li>
-                                                <span><i class="fa fa-clock-o"></i> 6.00</span> &ndash; <a href="javascript:void(0);">Altered code...</a>
-                                            </li>
-                                            <li>
-                                                <span><i class="fa fa-clock-o"></i> 2.00</span> &ndash; <a href="javascript:void(0);">Simplified our approach to...</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <span class="label label-warning"><i class="fa fa-lg fa-minus-circle"></i> Wednesday, January 9: 6.00 hours</span>
-                                        <ul>
-                                            <li>
-                                                <span><i class="fa fa-clock-o"></i> 3.00</span> &ndash; <a href="javascript:void(0);">Fixed bug caused by...</a>
-                                            </li>
-                                            <li>
-                                                <span><i class="fa fa-clock-o"></i> 3.00</span> &ndash; <a href="javascript:void(0);">Comitting latest code to Git...</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <span class="label label-danger"><i class="fa fa-lg fa-minus-circle"></i> Wednesday, January 9: 4.00 hours</span>
-                                        <ul>
-                                            <li>
-                                                <span><i class="fa fa-clock-o"></i> 2.00</span> &ndash; <a href="javascript:void(0);">Create component that...</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <span><i class="fa fa-lg fa-calendar"></i> 2013, Week 3</span>
-                                <ul>
-                                    <li>
-                                        <span class="label label-success"><i class="fa fa-lg fa-minus-circle"></i> Monday, January 14: 8.00 hours</span>
-                                        <ul>
-                                            <li>
-                                                <span><i class="fa fa-clock-o"></i> 7.75</span> &ndash; <a href="javascript:void(0);">Writing documentation...</a>
-                                            </li>
-                                            <li>
-                                                <span><i class="fa fa-clock-o"></i> 0.25</span> &ndash; <a href="javascript:void(0);">Reverting code back to...</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
+                                <?php 
+                                    $site_mgr_obj = new site_manager();
+                                    $sites = $site_mgr_obj->serchSite('', '', '');
+                                    
+                                    if(count($sites) > 0) {
+                                        foreach ($sites as $site) {
+                                            print "<ul>"
+                                            . "<li>"
+                                                    . "<span class=''>$site->name</span>"
+                                                    . "<ul>"
+                                                        . "<li>"
+                                                            . "<span class='label label-success' style='cursor:pointer;' onclick='addHandler($site->id)'><i class='fa fa-lg fa-plus-circle'></i> ADD</span>"
+                                                        . "</li>"
+                                                    . "</ul>"
+                                                    . "</li>"
+                                                    . "</ul>";
+                                        }
+                                    }
+                                ?>                               
                     </div>
 
                 </div>
@@ -177,5 +136,9 @@ include("../inc/scripts.php");
     $(document).ready(function () {
         loadScript("<?php echo ASSETS_URL; ?>/js/plugin/bootstraptree/bootstrap-tree.min.js");
     });
+    
+    function addHandler(id) {
+        alert(id);
+    }
 </script>
 
