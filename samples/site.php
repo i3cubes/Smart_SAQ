@@ -62,12 +62,21 @@ include_once '../class/cls_site_manager.php';
                                     
                                     if(count($sites) > 0) {
                                         foreach ($sites as $site) {
+                                            $site_images_count = $site_mgr_obj->getSiteImage($site->id);
+                                            if($site_images_count) {
+                                                $icon = "<li>"
+                                                            . "<span class='label label-warning' style='cursor:pointer;' onclick='addHandler($site->id)'><i class='fa fa-images'></i></span>"
+                                                        . "</li>";
+                                            } else {
+                                                $icon = "";
+                                            }
                                             print "<ul>"
                                             . "<li>"
                                                     . "<span class=''>$site->name</span>"
                                                     . "<ul>"
+                                                    . "$icon"
                                                         . "<li>"
-                                                            . "<span class='label label-success' style='cursor:pointer;' onclick='addHandler($site->id)'><i class='fa fa-lg fa-plus-circle'></i> ADD</span>"
+                                                            . "<span class='label label-success' style='cursor:pointer;' onclick='addHandlerNode($site->id)'><i class='fa fa-lg fa-plus-circle'></i> ADD</span>"
                                                         . "</li>"
                                                     . "</ul>"
                                                     . "</li>"
@@ -138,7 +147,14 @@ include("../inc/scripts.php");
     });
     
     function addHandler(id) {
-        location.href = 'gallery?id=' + id;
+//        location.href = 'gallery?id=' + id;
+        
+         var url='gallery?<?php print SID."&id="?>'+id;
+        var NWin = window.open(url,'_blank');
+             if (window.focus)
+             {
+               NWin.focus();
+             }
     }
 </script>
 

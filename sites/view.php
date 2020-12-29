@@ -21,7 +21,7 @@ include("../inc/header.php");
 
 //include left panel (navigation)
 //follow the tree in inc/config.ui.php
-$page_nav["site_management"]["active"] = true;
+$page_nav["view"]["active"] = true;
 include("../inc/nav.php");
 //include_once 'class/reports.php';
 include_once '../class/constants.php';

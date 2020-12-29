@@ -79,5 +79,18 @@ class site_manager {
         }
         return $result;
     }
+    
+    // check site have sample images
+    public function getSiteImage($saq_site_id) {
+        $string = "SELECT * FROM `saq_site_images` WHERE `saq_sites_id` = $saq_site_id;";
+        $result = dbQuery($string);
+        if(dbNumRows($result)>0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    // check site have sample agreements
 }
 ?>

@@ -17,12 +17,12 @@ $page_title = "Site";
 //you can add your custom css in $page_css array.
 //Note: all css files are inside css/ folder
 $page_css[] = "ngs.css";
-include("../inc/header.php");
+include("../inc/header_less.php");
 
 //include left panel (navigation)
 //follow the tree in inc/config.ui.php
-$page_nav["samples"]["sub"]["site"]["active"] = true;
-include("../inc/nav.php");
+//$page_nav["samples"]["sub"]["site"]["active"] = true;
+//include("../inc/nav.php");
 //include_once 'class/reports.php';
 include_once '../class/constants.php';
 include_once '../class/cls_site_manager.php';
@@ -33,7 +33,7 @@ include_once '../class/cls_site_manager.php';
 <link rel="stylesheet" href="<?php echo ASSETS_URL; ?>/css/dropzone.css">
 <!-- ==========================CONTENT STARTS HERE ========================== -->
 <!-- MAIN PANEL -->
-<div id="main" role="main" style="padding-bottom: 0px;">  
+<div id="" role="main" style="padding-bottom: 0px;">  
     <!-- MAIN CONTENT -->
     <div id="content">
         <div class="row" id="div_db">
@@ -55,37 +55,27 @@ include_once '../class/cls_site_manager.php';
                     <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
                     <h2 style=""><b>SITES IMAGES</b></h2>                     
                 </header> 
-                <div class="widget-body">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-align-right">
-                            <div class="page-title">
-                                <a class="btn btn-default" onclick="upload_image(<?php print $_REQUEST['id'] ?>)">Upload</a>                            
-                            </div>
-
-
+                <div class="widget-body">                    
+                                           
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div id="drop" class="dropzone">
                         </div>
-
-                        
                     </div>
                     
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div id="drop">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-align-right">
+                            <div class="page-title">
+                                <a class="btn btn-default" onclick="upload_image()">Upload</a>                            
                             </div>
-                        </div>
 
-                    <div class="row">
+
+                        </div>
+                   
                         <div class="superbox col-sm-12">
-                            <div class="superbox-list">
-                                <img src="<?php echo ASSETS_URL; ?>/img/medical_center_logo.png" data-img="<?php echo ASSETS_URL; ?>/img/medical_center_logo.png" alt="" title="" class="superbox-img">
-                            </div>
-                            <div class="superbox-list">
-                                <img src="<?php echo ASSETS_URL; ?>/img/maxresdefault.jpg" data-img="<?php echo ASSETS_URL; ?>/img/maxresdefault.jpg" alt="" title="" class="superbox-img">
-                            </div>
+
                             <div class="superbox-float"></div>
 
                         </div>
-                        <div class="superbox-show" style="height:300px; display: none"></div>
-                    </div>
+                        <div class="superbox-show" style="height:300px; display: none"></div>                    
 
                 </div>
             </div>
@@ -145,31 +135,61 @@ include("../inc/scripts.php");
 
 <script>
                                     $(document).ready(function () {
-                                        
+
+                                        getImages(<?php print $_REQUEST['id'] ?>);
+
                                         $("#drop").dropzone({
-                                        url: "../ajax/ajx_project_file_upload",
-                                        autoProcessQueue: false,
-                                        addRemoveLinks: true,
-                                        init: function () {
-                                            this.on("sending", function (file, xhr, formData) {
-                                                formData.append("option", "ADD");
-                                                formData.append("proId", project_id);
-                                                JSON.stringify(formData);
-                                            });
-                                            this.on("complete", function () {
-                                                if (this.getQueuedFiles().length == 0 && this.getUploadingFiles().length == 0) {
-                                                    var _this = this;
-                                                    _this.removeAllFiles();
-                                                    $.notify("Successfully uploaded", "success");
-                                                    view_proect_files();
-                                                }
-                                            });
-                                        }
+                                            url: "../ajax/ajx_saq_site_images",
+                                            autoProcessQueue: false,
+                                            addRemoveLinks: true,
+                                            init: function () {
+                                                this.on("sending", function (file, xhr, formData) {
+                                                    formData.append("option", "ADD");
+                                                    formData.append("saq_site_id", <?php print $_REQUEST['id'] ?>);
+//                                                JSON.stringify(formData);
+                                                });
+                                                this.on("complete", function () {
+                                                    if (this.getQueuedFiles().length == 0 && this.getUploadingFiles().length == 0) {
+                                                        var _this = this;
+                                                        _this.removeAllFiles();
+                                                        $.notify("Successfully uploaded", "success");
+                                                        getImages(<?php print $_REQUEST['id'] ?>);
+                                                    }
+                                                });
+                                            }
+                                        });
                                     });
-                                    });                                    
 
-                                    function upload_image(saq_site_id) {
+                                    function getImages(saq_site_id) {
+                                        $.ajax({
+                                            url: '../ajax/ajx_saq_site_images',
+                                            type: 'GET',
+                                            dataType: 'json',
+                                            data: {'option': 'VIEW', 'saq_site_id': saq_site_id},
+                                            success: function (response) {
+                                                if (response.length > 0) {
+                                                    $('.superbox .superbox-list').remove();
+                                                    $.each(response, function (index, data) {
+                                                        $('.superbox').append(`
+                                                            <div class="superbox-list">
+                                                                <img src="${data.base_path}" data-img="${data.base_path}" alt="" title="" class="superbox-img">
+                                                            </div>`)
+                                                    });
+                                                }
+                                            },
+                                            error: function (xhr, resp, text) {
+                                                alert("error :" + xhr.responseText);
+                                            }
+                                        });
+                                    }
 
+                                    function upload_image() {
+                                        var myDropzone = Dropzone.forElement(".dropzone");
+                                        if (myDropzone.files.length != 0) {
+                                            myDropzone.processQueue();
+                                        } else {
+                                            $.notify("add files", "error");
+                                        }
                                     }
 
                                     // PAGE RELATED SCRIPTS

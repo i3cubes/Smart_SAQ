@@ -18,13 +18,13 @@ require_once("../lib/config.php");
   E.G. $page_title = "Custom Title" */
 
 /* ---------------- END PHP Custom Scripts ------------- */
-
+$page_title = 'Details';
 //include header
 //you can add your custom css in $page_css array.
 //Note: all css files are inside css/ folder
 //$page_css[] = "your_style.css";
 //include("../inc/header.php");
-include("../ngs/header_ngspopup.php");
+include("../inc/header_less.php");
 
 //include left panel (navigation)
 //follow the tree in inc/config.ui.php
@@ -90,7 +90,7 @@ if ($_REQUEST['id'] != 0) {
                                     <li class="active">
                                         <a href="#general" data-toggle="tab" aria-expanded="true">General</a>
                                     </li>
-                                    <li class="active">
+                                    <li class="">
                                         <a href="#contact" data-toggle="tab" aria-expanded="true">Contact Data</a>
                                     </li>
                                     <li>
@@ -383,8 +383,7 @@ if ($_REQUEST['id'] != 0) {
                                                 </section>
                                             </fieldset>
                                         </form>
-                                    </div> 
-                                    ////
+                                    </div>                                    
                                     <div class="tab-pane fade active in" id="contact">
                                         <form class="smart-form">
                                             <fieldset>                                                
@@ -472,8 +471,7 @@ if ($_REQUEST['id'] != 0) {
                                                 </section>
                                             </fieldset>
                                         </form>
-                                    </div>
-                                    ///////////////////////
+                                    </div>                                    
                                     <div class="tab-pane fade active in" id="technical">
                                         <form class="smart-form">
                                             <fieldset>
@@ -1107,10 +1105,6 @@ include("../inc/scripts.php");
 $(document).ready(function () {
     $("#main_tab").tabs({
         active: 0
-    });
-
-    $("#sub_main_tab").tabs({
-        active: 0
-    });
+    });    
 });
 </script>

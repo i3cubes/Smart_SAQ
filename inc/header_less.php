@@ -8,7 +8,7 @@ echo implode(' ', array_map(function($prop, $value) {
         <meta charset="utf-8">
         <!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
 
-        <title> <?php echo $page_title != "" ? $page_title . " - " : ""; ?>smsnow</title>
+        <title> <?php echo $page_title != "" ? $page_title . " - " : ""; ?></title>
         <meta name="description" content="">
         <meta name="author" content="">
 
@@ -106,7 +106,7 @@ echo implode(' ', array_map(function($prop, $value) {
 //               loading();
             });         
         </script>
-        <?php $page_body_prop['class'] = 'smart-style-3 desktop-detected pace-done container'; ?>
+        <?php $page_body_prop['class'] = 'smart-style-3 desktop-detected pace-done'; ?>
     </head>
     <body onload=""<?php
     echo implode(' ', array_map(function($prop, $value) {
