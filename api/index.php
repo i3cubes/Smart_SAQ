@@ -1,9 +1,11 @@
 <?php
 include_once '../class/cls_site_manager.php';
 include_once '../class/cls_site.php';
+include_once '../class/cls_saq_guidline_manager.php';
+include_once '../class/cls_saq_guideline.php';
 
 
-$system_url="http://203.94.66.253/dialogsaq/images/";
+$system_url="http://203.94.66.253/dialogsaq/";
 $key = $_REQUEST['KEY'];
 $sid=$_REQUEST['SID'];
 $device_id=$_REQUEST['device_id'];
@@ -50,7 +52,7 @@ if ($key == "2ea3490b80dd2bd77d1a") {
         else{
             foreach ($ary_nodes as $k=>$val){
                 if($k!=0){
-                    $data[]=array("image_id"=>$k,"image_name"=>$val,"url"=>$system_url.$val);
+                    $data[]=array("image_id"=>$k,"image_name"=>$val,"url"=>$system_url."images/".$val);
                 }
             }
         }
@@ -62,17 +64,17 @@ if ($key == "2ea3490b80dd2bd77d1a") {
     case '112':
         foreach ($node[5] as $k=>$val){
             if($k!=0){
-                $data[]=array("image_id"=>$k,"image_name"=>$val,"url"=>$system_url.$val);
+                $data[]=array("image_id"=>$k,"image_name"=>$val,"url"=>$system_url."images/".$val);
             }
         }
         foreach ($node[6] as $k=>$val){
             if($k!=0){
-                $data[]=array("image_id"=>$k,"image_name"=>$val,"url"=>$system_url.$val);
+                $data[]=array("image_id"=>$k,"image_name"=>$val,"url"=>$system_url."images/".$val);
             }
         }
         foreach ($node[7] as $k=>$val){
             if($k!=0){
-                $data[]=array("image_id"=>$k,"image_name"=>$val,"url"=>$system_url.$val);
+                $data[]=array("image_id"=>$k,"image_name"=>$val,"url"=>$system_url."images/".$val);
             }
         }
         $response[0]["result"] = '1';
@@ -115,6 +117,22 @@ if ($key == "2ea3490b80dd2bd77d1a") {
                 $response[1] = $t_data;
                 break;
         }
+        break;
+    case '130':
+        $saq_gl_mgr=new guidline_manager();
+        $saq_gl=new \guidline();
+        $ary_gl=$saq_gl_mgr->getGuidlines();
+        $response[0]["result"] = '1';
+        $response[0]["count"] = count($ary_gl);
+        $data=array();
+        foreach ($ary_gl as $saq_gl){
+            $files=array();
+            foreach ($saq_gl->files as $f){
+                array_push($files, array('name'=>$f['name'],'type'=>$f['type'],"url"=>$system_url."files/".$f['path']));
+            }
+            array_push($data, array("name"=>$saq_gl->name,"description"=>$saq_gl->description,"files"=>$files));
+        }
+        $response[1]['data']=$data;
         break;
     default :
         $response[0]["result"] = '0';
