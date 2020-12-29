@@ -21,7 +21,7 @@ class guidline {
         $this->id = $id;
     }
     public function getData(){
-        $str="SELECT * FROM saq_guidelines WHERE id='$this->id';";
+        $str="SELECT * FROM saq_guideline WHERE id='$this->id';";
         $result= dbQuery($str);
         if(dbNumRows($result)>0){
             $row= dbFetchAssoc($result);
