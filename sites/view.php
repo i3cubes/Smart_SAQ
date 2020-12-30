@@ -54,6 +54,7 @@ include_once '../class/cls_site_manager.php';
                     <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
                     <h2 style=""><b>SITES</b></h2> 
                     <button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="add_edit_site(0)">Add&nbsp;<i class="fa fa-plus"></i></button>
+                    <button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="add_edit_site(0)">Bulk Edit&nbsp;<i class="fa fa-cogs"></i></button>
                 </header> 
                 <div class="widget-body">
                     <!--<div class="row">-->
