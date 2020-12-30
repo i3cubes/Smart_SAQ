@@ -54,4 +54,9 @@ class agreement_model extends tree_node {
         }
         return $this->child;
     }
+    public function addFile($type,$name,$path){
+        $str="INSERT INTO saq_sample_agreement_files VALUES(NULL,'$name','$type','$path','$this->id');";
+        $result= dbQuery($str);
+        return $result;
+    }
 }

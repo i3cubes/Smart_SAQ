@@ -78,4 +78,9 @@ class site_model extends tree_node {
         }        
         return $this->child;
     }
+    public function addImage($type,$name,$path){
+        $str="INSERT INTO saq_site_model_images VALUES(NULL,'$name','$type','$path','$this->id');";
+        $result= dbQuery($str);
+        return $result;
+    }
 }
