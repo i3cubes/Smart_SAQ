@@ -64,11 +64,10 @@ include_once '../class/cls_agreement_model.php';
 
                         if (count($parent_nodes) > 0) {
                             foreach ($parent_nodes as $parent_node) {
-                                $agreement_file_count = $agreement_obj->getFiles($parent_node['id']);
+                                $agreement_obj = new agreement_model($parent_node['id']);
+                                $agreement_file_count = $agreement_obj->getFiles();
                                 if (count($agreement_file_count) > 0) {
-                                    $icon = "<li>"
-                                            . "<span class='label label-warning' style='cursor:pointer;' onclick='addHandler(" . $parent_node['id'] . ")'><i class='fa fa-images'></i></span>"
-                                            . "</li>";
+                                    $icon = "&nbsp;&nbsp;&nbsp;<i class='fa fa-file' style='font-size:15px;color:blue;' onclick='addHandler(".$parent_node['id'].")'></i>";
                                 } else {
                                     $icon = "";
                                 }
@@ -77,12 +76,8 @@ include_once '../class/cls_agreement_model.php';
 
                                 print "<ul>"
                                         . "<li>"
-                                        . "<span class=''>" . $parent_node['name'] . "</span>"
-                                        . "$sub_child_html_main"
-                                        . "$icon"
-//                                        . "<li>"
-//                                        . "<span class='label label-success' style='cursor:pointer;' onclick='addHandlerNode(" . $parent_node['parent_model_id'] . ")'><i class='fa fa-lg fa-plus-circle'></i> ADD</span>"
-//                                        . "</li>"                                       
+                                        . "<span class=''>" . $parent_node['name'] . " &nbsp;<i class='fa fa-plus' style='font-size:15px;color:green;' onclick='addHandlerNode(".$parent_node['id'].")'></i>$icon</span>"                                        
+                                        . "$sub_child_html_main"                                     
                                         . "</li>"
                                         . "</ul>";
                         }}
@@ -95,13 +90,12 @@ include_once '../class/cls_agreement_model.php';
 //                            print_r($child_nodes);
                             if (count($child_nodes) > 0) {
                                 $html = "<ul>";
-                                foreach ($child_nodes as $node) {                                    
-                                    $child_files = $agreement_obj->getFiles($node->id);
+                                foreach ($child_nodes as $node) {  
+                                    $agreement_obj = new agreement_model($node->id);
+                                    $child_files = $agreement_obj->getFiles();
 
                                     if (count($child_files) > 0) {
-                                        $icon = "<li>"
-                                                . "<span class='label label-warning' style='cursor:pointer;' onclick='addHandler($node->id)'><i class='fa fa-images'></i></span>"
-                                                . "</li>";
+                                        $icon = "&nbsp;&nbsp;&nbsp;<i class='fa fa-file' style='font-size:15px;cursor:pointer;color:blue;' onclick='addHandler($node->id)'></i>";
                                     } else {
                                         $icon = "";
                                     }
@@ -109,12 +103,8 @@ include_once '../class/cls_agreement_model.php';
                                     $sub_child_html = process_sub_nav_node($node->id);
 
                                     $html .= "<li>"
-                                            . "<span class=''>$node->name</span>"
-                                            . $sub_child_html
-                                            . "$icon"
-//                                            . "<li>"
-//                                            . "<span class='label label-success' style='cursor:pointer;' onclick='addHandlerNode($node->parent_id)'><i class='fa fa-lg fa-plus-circle'></i> ADD</span>"
-//                                            . "</li>"
+                                            . "<span class=''>$node->name&nbsp;<i class='fa fa-plus' style='font-size:15px;cursor:pointer;color:green;' onclick='addHandlerNode($node->id)'></i>$icon</span>"
+                                            . $sub_child_html              
                                             . "</li>";
                                 }
                                 $html .= "</ul>";
@@ -184,8 +174,28 @@ include_once '../class/cls_agreement_model.php';
                 loadScript("<?php echo ASSETS_URL; ?>/js/plugin/bootstraptree/bootstrap-tree.min.js");
     });
 
-    function addHandler(id) {
-        alert(id);
+      function addHandler(id) {
+      var options = {
+                                    url: 'agreement_view?id=' + id,
+                                    width: '600',
+                                    height: '500',
+                                    skinClass: 'jg_popup_round',
+                                    resizable: false,
+                                    scrolling: 'no'
+                                };
+                                $.jeegoopopup.open(options);
+    }
+    
+    function addHandlerNode(id) {
+        var options = {
+                                    url: 'agreement_add?id=' + id,
+                                    width: '400',
+                                    height: '300',
+                                    skinClass: 'jg_popup_round',
+                                    resizable: false,
+                                    scrolling: 'no'
+                                };
+                                $.jeegoopopup.open(options);
     }
 </script>
 

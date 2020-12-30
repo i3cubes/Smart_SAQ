@@ -65,11 +65,11 @@ include_once '../class/cls_site_model.php';
 
                         if (count($parent_nodes) > 0) {
                             foreach ($parent_nodes as $parent_node) {
-                                $site_images_count = $site_obj->getImages($parent_node['id']);
+                                $site_obj = new site_model($parent_node['id']);
+                                $site_images_count = $site_obj->getImages();
+//                                print_r($site_images_count);
                                 if (count($site_images_count) > 0) {
-                                    $icon = "<li>"
-                                            . "<span class='label label-warning' style='cursor:pointer;' onclick='addHandler(" . $parent_node['id'] . ")'><i class='fa fa-images'></i></span>"
-                                            . "</li>";
+                                    $icon = "&nbsp;&nbsp;&nbsp;<i class='fa fa-image' style='font-size:15px;color:blue;' onclick='addHandler(".$parent_node['id'].")'></i>";
                                 } else {
                                     $icon = "";
                                 }
@@ -78,12 +78,8 @@ include_once '../class/cls_site_model.php';
 
                                 print "<ul>"
                                         . "<li>"
-                                        . "<span class=''>" . $parent_node['name'] . "</span>"                                        
-                                        . "$sub_child_html_main"
-                                        . "$icon"
-//                                        . "<li>"
-//                                        . "<span class='label label-success' style='cursor:pointer;' onclick='addHandlerNode(" . $parent_node['parent_model_id'] . ")'><i class='fa fa-lg fa-plus-circle'></i> ADD</span>"
-//                                        . "</li>"                                       
+                                        . "<span class=''>" . $parent_node['name'] . " &nbsp;<i class='fa fa-plus' style='font-size:15px;color:green;' onclick='addHandlerNode(".$parent_node['id'].")'></i>$icon</span>"                                        
+                                        . "$sub_child_html_main"                                                                        
                                         . "</li>"
                                         . "</ul>";
                             }
@@ -102,9 +98,7 @@ include_once '../class/cls_site_model.php';
                                     $child_images = $site_obj->getImages();
 
                                     if (count($child_images) > 0) {
-                                        $icon = "<li>"
-                                                . "<span class='label label-warning' style='cursor:pointer;' onclick='addHandler($node->id)'><i class='fa fa-images'></i></span>"
-                                                . "</li>";
+                                        $icon = "&nbsp;&nbsp;&nbsp;<i class='fa fa-image' style='font-size:15px;cursor:pointer;color:blue;' onclick='addHandler($node->id)'></i>";
                                     } else {
                                         $icon = "";
                                     }
@@ -112,12 +106,8 @@ include_once '../class/cls_site_model.php';
                                     $sub_child_html = process_sub_nav_node($node->id);
 
                                     $html .= "<li>"
-                                            . "<span class=''>$node->name</span>"
+                                            . "<span class=''>$node->name&nbsp;<i class='fa fa-plus' style='font-size:15px;cursor:pointer;color:green;' onclick='addHandlerNode($node->id)'></i>$icon</span>"
                                             . $sub_child_html
-                                            . "$icon"
-//                                            . "<li>"
-//                                            . "<span class='label label-success' style='cursor:pointer;' onclick='addHandlerNode($node->parent_id)'><i class='fa fa-lg fa-plus-circle'></i> ADD</span>"
-//                                            . "</li>"
                                             . "</li>";
                                 }
                                 $html .= "</ul>";

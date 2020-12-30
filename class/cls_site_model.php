@@ -28,6 +28,9 @@ class site_model extends tree_node {
             $str="INSERT INTO saq_site_model VALUES(NULL,'$this->name','1',".getStringFormatted($this->parent_id).");";
             $result= dbQuery($str);
             $this->id= dbInsertId();
+            return true;
+        } else {
+            return false;
         }
     }
     
@@ -63,7 +66,13 @@ class site_model extends tree_node {
         $str="SELECT * FROM saq_site_model_images WHERE saq_site_model_id='$this->id';";
         $result= dbQuery($str);
         while ($row= dbFetchAssoc($result)){
-            array_push($this->files, array($row['id'],$row['name'],$row['type'],$row['base_path']));
+            array_push($this->files, array(
+                'id' => $row['id'],
+                'name' => $row['name'],
+                'type' => $row['type'],
+                'base_path' => $row['base_path'],
+                'saq_site_model_id' => $row['saq_site_model_id']    
+            ));
         }
         return $this->files;
     }

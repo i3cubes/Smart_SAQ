@@ -145,7 +145,7 @@ include("../inc/scripts.php");
                                             init: function () {
                                                 this.on("sending", function (file, xhr, formData) {
                                                     formData.append("option", "ADD");
-                                                    formData.append("saq_site_id", <?php print $_REQUEST['id'] ?>);
+                                                    formData.append("id", <?php print $_REQUEST['id'] ?>);
 //                                                JSON.stringify(formData);
                                                 });
                                                 this.on("complete", function () {
@@ -160,12 +160,12 @@ include("../inc/scripts.php");
                                         });
                                     });
 
-                                    function getImages(saq_site_id) {
+                                    function getImages(id) {
                                         $.ajax({
                                             url: '../ajax/ajx_saq_site_images',
                                             type: 'GET',
                                             dataType: 'json',
-                                            data: {'option': 'VIEW', 'saq_site_id': saq_site_id},
+                                            data: {'option': 'VIEW', 'id': id},
                                             success: function (response) {
                                                 if (response.length > 0) {
                                                     $('.superbox .superbox-list').remove();

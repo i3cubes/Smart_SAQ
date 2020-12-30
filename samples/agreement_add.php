@@ -69,7 +69,7 @@ include_once '../class/constants.php';
 
                         <header style="margin:0px;">
                             <span class="widget-icon"><i class="fa fa-plus"></i></span>
-                            <span><h2 style="margin-left: 10px;">ADD SITE MODEL</h2></span>				                           
+                            <span><h2 style="margin-left: 10px;">ADD AGREEMENT MODEL</h2></span>				                           
                         </header>
 
                         <!-- widget div-->
@@ -90,8 +90,7 @@ include_once '../class/constants.php';
                                             </label>
                                         </section>                                                                                                                  
                                         <footer>
-                                            <input type="hidden" name="parent_model_id" id="parent_model_id" value="<?php print $_REQUEST['id'] ?>" />
-                                            <input type="hidden" name="option" id="option" value="ADD" />
+                                            <input type="hidden" name="parent_agreement_id" id="parent_agreement_id" value="<?php print $_REQUEST['id'] ?>" />                                            
                                             <button class="btn btn-primary">Save&nbsp;<i class="fa fa-save"></i></button>
                                         </footer>                                        
                                     </fieldset>                                             
@@ -137,10 +136,10 @@ include("../inc/scripts.php");
     function submitHandler(e) {
         e.preventDefault();        
             $.ajax({
-                url: '../ajax/ajx_saq_site_model',
+                url: '../ajax/ajx_saq_agreement',
                 type: 'POST',
                 dataType: 'JSON',                
-                data: {option: $('#option').val(), name: $('#name').val(), parent_model_id: $('#parent_model_id').val()},
+                data: {option: 'ADD', name: $('#name').val(), parent_agreement_id: $('#parent_agreement_id').val()},
                 success: function (response) {
                     if (response['msg'] == 1) {
                         window.parent.location.reload();

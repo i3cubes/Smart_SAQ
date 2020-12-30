@@ -28,6 +28,13 @@ class agreement_model extends tree_node {
             $str="INSERT INTO saq_sample_agreement VALUES(NULL,'$this->name','1',".getStringFormatted($this->parent_id).");";
             $result= dbQuery($str);
             $this->id= dbInsertId();
+            if($result) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
         }
     }
     public function getData(){
@@ -58,11 +65,17 @@ class agreement_model extends tree_node {
         }
         return $array;
     }
-    public function getFiles($id){
-        $str="SELECT * FROM saq_sample_agreement_files WHERE saq_sample_agreement_id=$id;";
+    public function getFiles(){
+        $str="SELECT * FROM saq_sample_agreement_files WHERE saq_sample_agreement_id=$this->id;";
         $result= dbQuery($str);
         while ($row= dbFetchAssoc($result)){
-            array_push($this->files, array($row['id'],$row['name'],$row['type'],$row['base_path']));
+            array_push($this->files, array(
+                'id'=>$row['id'],
+                'name'=>$row['name'],
+                'type'=>$row['type'],
+                'base_path'=>$row['base_path'],
+                'saq_sample_agreement_id'=>$row['saq_sample_agreement_id']
+            ));
         }
         return $this->files;
     }
@@ -80,5 +93,15 @@ class agreement_model extends tree_node {
         $str="INSERT INTO saq_sample_agreement_files VALUES(NULL,'$name','$type','$path','$this->id');";
         $result= dbQuery($str);
         return $result;
+    }
+    
+    public function delete($id) {
+        $str="DELETE FROM `saq_sample_agreement_files` WHERE `id` = $id;";
+        $result = dbQuery($str);
+        if($result) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
