@@ -1,4 +1,6 @@
 <?php
+//error_reporting();
+//ini_set("display_errors", 1);
 require_once("../lib/config.php");
 
 //require UI configuration (nav, ribbon, etc.)
@@ -25,7 +27,7 @@ $page_nav["samples"]["sub"]["agreements"]["active"] = true;
 include("../inc/nav.php");
 //include_once 'class/reports.php';
 include_once '../class/constants.php';
-include_once '../class/cls_site_manager.php';
+include_once '../class/cls_agreement_model.php';
 ?>
 <style>
 
@@ -56,87 +58,132 @@ include_once '../class/cls_site_manager.php';
                 </header> 
                 <div class="widget-body">
                     <div class="tree">
-                                <?php 
-                                    $site_mgr_obj = new site_manager();
-                                    $sites = $site_mgr_obj->serchSite('', '', '');
-                                    
-                                    if(count($sites) > 0) {
-                                        foreach ($sites as $site) {
-                                            print "<ul>"
-                                            . "<li>"
-                                                    . "<span class=''>$site->name</span>"
-                                                    . "<ul>"
-                                                        . "<li>"
-                                                            . "<span class='label label-success' style='cursor:pointer;' onclick='addHandler($site->id)'><i class='fa fa-lg fa-plus-circle'></i> ADD</span>"
-                                                        . "</li>"
-                                                    . "</ul>"
-                                                    . "</li>"
-                                                    . "</ul>";
-                                        }
+                        <?php
+                        $agreement_obj = new agreement_model();
+                        $parent_nodes = $agreement_obj->getParentNodes();
+
+                        if (count($parent_nodes) > 0) {
+                            foreach ($parent_nodes as $parent_node) {
+                                $agreement_file_count = $agreement_obj->getFiles($parent_node['id']);
+                                if (count($agreement_file_count) > 0) {
+                                    $icon = "<li>"
+                                            . "<span class='label label-warning' style='cursor:pointer;' onclick='addHandler(" . $parent_node['id'] . ")'><i class='fa fa-images'></i></span>"
+                                            . "</li>";
+                                } else {
+                                    $icon = "";
+                                }
+
+                                $sub_child_html_main = process_sub_nav_node($parent_node['id']);
+
+                                print "<ul>"
+                                        . "<li>"
+                                        . "<span class=''>" . $parent_node['name'] . "</span>"
+                                        . "$sub_child_html_main"
+                                        . "$icon"
+//                                        . "<li>"
+//                                        . "<span class='label label-success' style='cursor:pointer;' onclick='addHandlerNode(" . $parent_node['parent_model_id'] . ")'><i class='fa fa-lg fa-plus-circle'></i> ADD</span>"
+//                                        . "</li>"                                       
+                                        . "</li>"
+                                        . "</ul>";
+                        }}
+                        
+                        function process_sub_nav_node($parent_model_id) {
+//                            $tree_node_obj = new tree_node($parent_model_id);
+                            $agreement_obj = new agreement_model($parent_model_id);
+
+                            $child_nodes = $agreement_obj->getChild();
+//                            print_r($child_nodes);
+                            if (count($child_nodes) > 0) {
+                                $html = "<ul>";
+                                foreach ($child_nodes as $node) {                                    
+                                    $child_files = $agreement_obj->getFiles($node->id);
+
+                                    if (count($child_files) > 0) {
+                                        $icon = "<li>"
+                                                . "<span class='label label-warning' style='cursor:pointer;' onclick='addHandler($node->id)'><i class='fa fa-images'></i></span>"
+                                                . "</li>";
+                                    } else {
+                                        $icon = "";
                                     }
+                                    
+                                    $sub_child_html = process_sub_nav_node($node->id);
+
+                                    $html .= "<li>"
+                                            . "<span class=''>$node->name</span>"
+                                            . $sub_child_html
+                                            . "$icon"
+//                                            . "<li>"
+//                                            . "<span class='label label-success' style='cursor:pointer;' onclick='addHandlerNode($node->parent_id)'><i class='fa fa-lg fa-plus-circle'></i> ADD</span>"
+//                                            . "</li>"
+                                            . "</li>";
+                                }
+                                $html .= "</ul>";
+                            }
+                            return $html;
+                        }
                                 ?>                               
+                            </div>
+
+                        </div>
                     </div>
 
-                </div>
             </div>
 
-    </div>
+            <!-- end row -->
 
-    <!-- end row -->
-
-</section>
-<!-- end widget grid -->
+        </section>
+        <!-- end widget grid -->
 
 
 
-</div>
-<!-- END MAIN CONTENT -->
+        </div>
+        <!-- END MAIN CONTENT -->
 
-</div>
-<!-- END MAIN PANEL -->
+        </div>
+        <!-- END MAIN PANEL -->
 
-<!-- ==========================CONTENT ENDS HERE ========================== -->
+        <!-- ==========================CONTENT ENDS HERE ========================== -->
 
-<!-- PAGE FOOTER -->
-<?php
+        <!-- PAGE FOOTER -->
+        <?php
 //include("inc/footer.php");
-?>
-<!-- END PAGE FOOTER -->
+        ?>
+        <!-- END PAGE FOOTER -->
 
-<?php
+        <?php
 //include required scripts
-include("../inc/scripts.php");
-?>
+        include("../inc/scripts.php");
+        ?>
 
-<!-- PAGE RELATED PLUGIN(S) 
-<script src="..."></script>-->
-<!-- Flot Chart Plugin: Flot Engine, Flot Resizer, Flot Tooltip -->
-<script src="<?php echo ASSETS_URL; ?>/js/plugin/flot/jquery.flot.cust.min.js"></script>
-<script src="<?php echo ASSETS_URL; ?>/js/plugin/flot/jquery.flot.resize.min.js"></script>
-<script src="<?php echo ASSETS_URL; ?>/js/plugin/flot/jquery.flot.tooltip.min.js"></script>
+        <!-- PAGE RELATED PLUGIN(S) 
+        <script src="..."></script>-->
+        <!-- Flot Chart Plugin: Flot Engine, Flot Resizer, Flot Tooltip -->
+        <script src="<?php echo ASSETS_URL; ?>/js/plugin/flot/jquery.flot.cust.min.js"></script>
+        <script src="<?php echo ASSETS_URL; ?>/js/plugin/flot/jquery.flot.resize.min.js"></script>
+        <script src="<?php echo ASSETS_URL; ?>/js/plugin/flot/jquery.flot.tooltip.min.js"></script>
 
-<!-- Vector Maps Plugin: Vectormap engine, Vectormap language -->
-<script src="<?php echo ASSETS_URL; ?>/js/plugin/vectormap/jquery-jvectormap-1.2.2.min.js"></script>
-<script src="<?php echo ASSETS_URL; ?>/js/plugin/vectormap/jquery-jvectormap-world-mill-en.js"></script>
+        <!-- Vector Maps Plugin: Vectormap engine, Vectormap language -->
+        <script src="<?php echo ASSETS_URL; ?>/js/plugin/vectormap/jquery-jvectormap-1.2.2.min.js"></script>
+        <script src="<?php echo ASSETS_URL; ?>/js/plugin/vectormap/jquery-jvectormap-world-mill-en.js"></script>
 
-<!-- Full Calendar -->
-<script src="<?php echo ASSETS_URL; ?>/js/plugin/fullcalendar/jquery.fullcalendar.min.js"></script>
+        <!-- Full Calendar -->
+        <script src="<?php echo ASSETS_URL; ?>/js/plugin/fullcalendar/jquery.fullcalendar.min.js"></script>
 
-<script type="text/javascript" src="../jeegoopopup/jquery.jeegoopopup.1.0.0.js"></script>
-<link href="../jeegoopopup/skins/blue/style.css" rel="Stylesheet" type="text/css" />
-<link href="../jeegoopopup/skins/round/style.css" rel="Stylesheet" type="text/css" />
+        <script type="text/javascript" src="../jeegoopopup/jquery.jeegoopopup.1.0.0.js"></script>
+        <link href="../jeegoopopup/skins/blue/style.css" rel="Stylesheet" type="text/css" />
+        <link href="../jeegoopopup/skins/round/style.css" rel="Stylesheet" type="text/css" />
 
-<script src="<?php echo ASSETS_URL; ?>/js/plugin/datatables/jquery.dataTables.min.js"></script>
-<script src="<?php echo ASSETS_URL; ?>/js/plugin/datatables/dataTables.colVis.min.js"></script>
-<script src="<?php echo ASSETS_URL; ?>/js/plugin/datatables/dataTables.tableTools.min.js"></script>
-<script src="<?php echo ASSETS_URL; ?>/js/plugin/datatables/dataTables.bootstrap.min.js"></script>
-<script src="<?php echo ASSETS_URL; ?>/js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
+        <script src="<?php echo ASSETS_URL; ?>/js/plugin/datatables/jquery.dataTables.min.js"></script>
+        <script src="<?php echo ASSETS_URL; ?>/js/plugin/datatables/dataTables.colVis.min.js"></script>
+        <script src="<?php echo ASSETS_URL; ?>/js/plugin/datatables/dataTables.tableTools.min.js"></script>
+        <script src="<?php echo ASSETS_URL; ?>/js/plugin/datatables/dataTables.bootstrap.min.js"></script>
+        <script src="<?php echo ASSETS_URL; ?>/js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
 
-<script>
-    $(document).ready(function () {
-        loadScript("<?php echo ASSETS_URL; ?>/js/plugin/bootstraptree/bootstrap-tree.min.js");
+        <script>
+            $(document).ready(function () {
+                loadScript("<?php echo ASSETS_URL; ?>/js/plugin/bootstraptree/bootstrap-tree.min.js");
     });
-    
+
     function addHandler(id) {
         alert(id);
     }

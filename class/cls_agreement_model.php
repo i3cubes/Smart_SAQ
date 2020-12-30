@@ -11,6 +11,11 @@
  *
  * @author kumar
  */
+include_once 'database.php';
+include_once 'constants.php';
+
+include_once 'cls_tree_node.php';
+
 class agreement_model extends tree_node {
     public $child=array();
     
@@ -31,13 +36,30 @@ class agreement_model extends tree_node {
             $result= dbQuery($str);
             if(dbNumRows($result)>0){
                 $row= dbFetchAssoc($result);
+                $this->id=$row['id'];
                 $this->name=$row['name'];
                 $this->parent_id=$row['parent_agreement_id'];
             }
         }
     }
-    public function getFiles(){
-        $str="SELECT * FROM saq_sample_agreement_files WHERE saq_sample_agreement_id='$this->id';";
+    
+    public function getParentNodes() {
+        $array = array();
+        $str="SELECT * FROM `saq_sample_agreement` WHERE `parent_agreement_id` IS NULL AND `status` = ".constants::$ACTIVE.";";
+//        print $str;
+        $result= dbQuery($str);
+        while ($row = dbFetchAssoc($result)) {
+            array_push($array, array(
+                'id' => $row['id'],
+                'name' => $row['name'],
+                'status' => $row['status'],
+                'parent_agreement_id' => $row['parent_agreement_id']
+             ));
+        }
+        return $array;
+    }
+    public function getFiles($id){
+        $str="SELECT * FROM saq_sample_agreement_files WHERE saq_sample_agreement_id=$id;";
         $result= dbQuery($str);
         while ($row= dbFetchAssoc($result)){
             array_push($this->files, array($row['id'],$row['name'],$row['type'],$row['base_path']));
@@ -45,12 +67,12 @@ class agreement_model extends tree_node {
         return $this->files;
     }
     public function getChild(){
-        $str="SELECT * FROM saq_sample_agreement WHERE parent_agreement_id='$this->id';";
+        $str="SELECT * FROM saq_sample_agreement WHERE parent_agreement_id='$this->id' AND status = ".constants::$ACTIVE.";";
         $result= dbQuery($str);
         while ($row= dbFetchAssoc($result)){
             $agr=new agreement_model($row['id']);
             $agr->getData();
-            array_push($array, $agr);
+            array_push($this->child, $agr);
         }
         return $this->child;
     }

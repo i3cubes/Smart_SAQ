@@ -13,7 +13,7 @@ $saq_site_model_obj->parent_id = $_REQUEST['parent_model_id'];
 switch ($_REQUEST['option']) {
     case 'ADD':
         $result = $saq_site_model_obj->save();
-        if($result) {
+        if(is_int($result)) {
             echo json_encode(array('msg' => 1));
         } else {
             echo json_encode(array('msg' => 0));

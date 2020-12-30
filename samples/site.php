@@ -74,16 +74,16 @@ include_once '../class/cls_site_model.php';
                                     $icon = "";
                                 }
 
-                                $sub_child_html = process_sub_nav_node($parent_node['id']);
+                                $sub_child_html_main = process_sub_nav_node($parent_node['id']);
 
                                 print "<ul>"
                                         . "<li>"
                                         . "<span class=''>" . $parent_node['name'] . "</span>"                                        
-                                        . "$sub_child_html"
+                                        . "$sub_child_html_main"
                                         . "$icon"
-                                        . "<li>"
-                                        . "<span class='label label-success' style='cursor:pointer;' onclick='addHandlerNode(" . $parent_node['parent_model_id'] . ")'><i class='fa fa-lg fa-plus-circle'></i> ADD</span>"
-                                        . "</li>"                                       
+//                                        . "<li>"
+//                                        . "<span class='label label-success' style='cursor:pointer;' onclick='addHandlerNode(" . $parent_node['parent_model_id'] . ")'><i class='fa fa-lg fa-plus-circle'></i> ADD</span>"
+//                                        . "</li>"                                       
                                         . "</li>"
                                         . "</ul>";
                             }
@@ -115,9 +115,9 @@ include_once '../class/cls_site_model.php';
                                             . "<span class=''>$node->name</span>"
                                             . $sub_child_html
                                             . "$icon"
-                                            . "<li>"
-                                            . "<span class='label label-success' style='cursor:pointer;' onclick='addHandlerNode($node->parent_id)'><i class='fa fa-lg fa-plus-circle'></i> ADD</span>"
-                                            . "</li>"
+//                                            . "<li>"
+//                                            . "<span class='label label-success' style='cursor:pointer;' onclick='addHandlerNode($node->parent_id)'><i class='fa fa-lg fa-plus-circle'></i> ADD</span>"
+//                                            . "</li>"
                                             . "</li>";
                                 }
                                 $html .= "</ul>";
