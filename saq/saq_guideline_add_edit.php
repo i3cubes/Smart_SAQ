@@ -76,7 +76,7 @@ if ($_REQUEST['id'] != 0) {
 
                         <header style="margin:0px;">
                             <span class="widget-icon"><?php if ($_REQUEST['id'] != '') { ?><i class="fa fa-edit"></i><?php } else { ?><i class="fa fa-plus"></i> <?php } ?></span>
-                            <span><h2 style="margin-left: 10px;"><?php print (($_REQUEST['id'] != '') ? ((isset($_REQUEST['f'])) ? 'VIEW' : 'EDIT') : 'ADD') ?> SAQ GUIDELINE</h2></span>				                           
+                            <span><h2 style="margin-left: 10px;">ADD\EDIT SAQ GUIDELINE</h2></span>				                           
                         </header>
 
                         <!-- widget div-->

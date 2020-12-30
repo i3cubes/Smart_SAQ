@@ -22,10 +22,10 @@ class guidline_manager {
             $row= dbFetchAssoc($result);
             $gl=new saq_guideline($row['id']);
             $gl->name=$row['name'];
-            $gl->version=$row['version'];
             $gl->description=$row['description'];
             $gl->status=$row['status'];
-            $gl->getFiles();
+            $gl->date=$row['uploaded_date_time'];
+            //$gl->getFiles();
             array_push($res, $gl);
         }
         return $res;
