@@ -1,4 +1,6 @@
 <?php
+//error_reporting();
+//ini_set("display_errors", 1);
 require_once("../lib/config.php");
 
 //require UI configuration (nav, ribbon, etc.)
@@ -25,7 +27,8 @@ $page_nav["samples"]["sub"]["site"]["active"] = true;
 include("../inc/nav.php");
 //include_once 'class/reports.php';
 include_once '../class/constants.php';
-include_once '../class/cls_site_manager.php';
+include_once '../class/cls_site_model.php';
+//include_once '../class/cls_tree_node.php';
 ?>
 <style>
 
@@ -56,34 +59,72 @@ include_once '../class/cls_site_manager.php';
                 </header> 
                 <div class="widget-body">
                     <div class="tree">
-                        <?php 
-                                    $site_mgr_obj = new site_manager();
-                                    $sites = $site_mgr_obj->serchSite('', '', '');
-                                    
-                                    if(count($sites) > 0) {
-                                        foreach ($sites as $site) {
-                                            $site_images_count = $site_mgr_obj->getSiteImage($site->id);
-                                            if($site_images_count) {
-                                                $icon = "<li>"
-                                                            . "<span class='label label-warning' style='cursor:pointer;' onclick='addHandler($site->id)'><i class='fa fa-images'></i></span>"
-                                                        . "</li>";
-                                            } else {
-                                                $icon = "";
-                                            }
-                                            print "<ul>"
-                                            . "<li>"
-                                                    . "<span class=''>$site->name</span>"
-                                                    . "<ul>"
-                                                    . "$icon"
-                                                        . "<li>"
-                                                            . "<span class='label label-success' style='cursor:pointer;' onclick='addHandlerNode($site->id)'><i class='fa fa-lg fa-plus-circle'></i> ADD</span>"
-                                                        . "</li>"
-                                                    . "</ul>"
-                                                    . "</li>"
-                                                    . "</ul>";
-                                        }
+                        <?php
+                        $site_obj = new site_model();
+                        $parent_nodes = $site_obj->getParentNodes();
+
+                        if (count($parent_nodes) > 0) {
+                            foreach ($parent_nodes as $parent_node) {
+                                $site_images_count = $site_obj->getImages($parent_node['id']);
+                                if (count($site_images_count) > 0) {
+                                    $icon = "<li>"
+                                            . "<span class='label label-warning' style='cursor:pointer;' onclick='addHandler(" . $parent_node['id'] . ")'><i class='fa fa-images'></i></span>"
+                                            . "</li>";
+                                } else {
+                                    $icon = "";
+                                }
+
+                                $sub_child_html = process_sub_nav_node($parent_node['id']);
+
+                                print "<ul>"
+                                        . "<li>"
+                                        . "<span class=''>" . $parent_node['name'] . "</span>"                                        
+                                        . "$sub_child_html"
+                                        . "$icon"
+                                        . "<li>"
+                                        . "<span class='label label-success' style='cursor:pointer;' onclick='addHandlerNode(" . $parent_node['parent_model_id'] . ")'><i class='fa fa-lg fa-plus-circle'></i> ADD</span>"
+                                        . "</li>"                                       
+                                        . "</li>"
+                                        . "</ul>";
+                            }
+                        }
+
+                        function process_sub_nav_node($parent_model_id) {
+//                            $tree_node_obj = new tree_node($parent_model_id);
+                            $site_obj = new site_model($parent_model_id);
+
+                            $child_nodes = $site_obj->getChild();
+//                            print_r($child_nodes);
+                            if (count($child_nodes) > 0) {
+                                $html = "<ul>";
+                                foreach ($child_nodes as $node) {
+                                    $site_obj = new site_model();
+                                    $child_images = $site_obj->getImages();
+
+                                    if (count($child_images) > 0) {
+                                        $icon = "<li>"
+                                                . "<span class='label label-warning' style='cursor:pointer;' onclick='addHandler($node->id)'><i class='fa fa-images'></i></span>"
+                                                . "</li>";
+                                    } else {
+                                        $icon = "";
                                     }
-                                ?> 
+                                    
+                                    $sub_child_html = process_sub_nav_node($node->id);
+
+                                    $html .= "<li>"
+                                            . "<span class=''>$node->name</span>"
+                                            . $sub_child_html
+                                            . "$icon"
+                                            . "<li>"
+                                            . "<span class='label label-success' style='cursor:pointer;' onclick='addHandlerNode($node->parent_id)'><i class='fa fa-lg fa-plus-circle'></i> ADD</span>"
+                                            . "</li>"
+                                            . "</li>";
+                                }
+                                $html .= "</ul>";
+                            }
+                            return $html;
+                        }
+                        ?> 
                     </div>
 
                 </div>
@@ -145,16 +186,28 @@ include("../inc/scripts.php");
     $(document).ready(function () {
         loadScript("<?php echo ASSETS_URL; ?>/js/plugin/bootstraptree/bootstrap-tree.min.js");
     });
-    
+
     function addHandler(id) {
 //        location.href = 'gallery?id=' + id;
-        
-         var url='gallery?<?php print SID."&id="?>'+id;
-        var NWin = window.open(url,'_blank');
-             if (window.focus)
-             {
-               NWin.focus();
-             }
+
+        var url = 'gallery?<?php print SID . "&id=" ?>' + id;
+        var NWin = window.open(url, '_blank');
+        if (window.focus)
+        {
+            NWin.focus();
+        }
+    }
+    
+    function addHandlerNode(id) {
+        var options = {
+                                    url: 'site_model_add?id=' + id,
+                                    width: '400',
+                                    height: '300',
+                                    skinClass: 'jg_popup_round',
+                                    resizable: false,
+                                    scrolling: 'no'
+                                };
+                                $.jeegoopopup.open(options);
     }
 </script>
 

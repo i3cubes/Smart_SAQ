@@ -11,6 +11,11 @@
  *
  * @author kumar
  */
+include_once 'database.php';
+include_once 'constants.php';
+
+include_once 'cls_tree_node.php';
+
 class site_model extends tree_node {
     public $child=array();
     
@@ -18,12 +23,28 @@ class site_model extends tree_node {
         parent::__construct($id);
         $this->file_type="image";
     }
-    public function save(){
+    public function save(){       
         if($this->name!=""){
             $str="INSERT INTO saq_site_model VALUES(NULL,'$this->name','1',".getStringFormatted($this->parent_id).");";
             $result= dbQuery($str);
             $this->id= dbInsertId();
         }
+    }
+    
+    public function getParentNodes() {
+        $array = array();
+        $str="SELECT * FROM `saq_site_model` WHERE `parent_model_id` IS NULL AND `status` = ".constants::$ACTIVE.";";
+//        print $str;
+        $result= dbQuery($str);
+        while ($row = dbFetchAssoc($result)) {
+            array_push($array, array(
+                'id' => $row['id'],
+                'name' => $row['name'],
+                'status' => $row['status'],
+                'parent_model_id' => $row['parent_model_id']
+             ));
+        }
+        return $array;
     }
 
     public function getData(){
@@ -32,6 +53,7 @@ class site_model extends tree_node {
             $result= dbQuery($str);
             if(dbNumRows($result)>0){
                 $row= dbFetchAssoc($result);
+                $this->id=$row['id'];
                 $this->name=$row['name'];
                 $this->parent_id=$row['parent_model_id'];
             }
@@ -46,13 +68,14 @@ class site_model extends tree_node {
         return $this->files;
     }
     public function getChild(){
-        $str="SELECT * FROM saq_site_model WHERE parent_model_id='$this->id';";
+        $array = array();
+        $str="SELECT * FROM saq_site_model WHERE parent_model_id='$this->id';";        
         $result= dbQuery($str);
         while ($row= dbFetchAssoc($result)){
             $m=new site_model($row['id']);
             $m->getData();
-            array_push($array, $m);
-        }
+            array_push($this->child, $m);
+        }        
         return $this->child;
     }
 }
