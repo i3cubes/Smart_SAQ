@@ -34,6 +34,16 @@ class site_model extends tree_node {
         }
     }
     
+    public function edit() {
+        $str="UPDATE `saq_site_model` SET `name` = '$this->name' WHERE `id` = $this->id;";
+        $result= dbQuery($str);
+        if($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     public function getParentNodes() {
         $array = array();
         $str="SELECT * FROM `saq_site_model` WHERE `parent_model_id` IS NULL AND `status` = ".constants::$ACTIVE.";";
@@ -78,7 +88,7 @@ class site_model extends tree_node {
     }
     public function getChild(){
         $array = array();
-        $str="SELECT * FROM saq_site_model WHERE parent_model_id='$this->id';";        
+        $str="SELECT * FROM saq_site_model WHERE parent_model_id='$this->id' AND status = ".constants::$ACTIVE.";";        
         $result= dbQuery($str);
         while ($row= dbFetchAssoc($result)){
             $m=new site_model($row['id']);
@@ -91,5 +101,15 @@ class site_model extends tree_node {
         $str="INSERT INTO saq_site_model_images VALUES(NULL,'$name','$type','$path','$this->id');";
         $result= dbQuery($str);
         return $result;
+    }
+    
+    public function delete() {
+        $str="UPDATE `saq_site_model` SET `status` = ".constants::$inactive." WHERE `id` = $this->id;";
+        $result = dbQuery($str);
+        if($result) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

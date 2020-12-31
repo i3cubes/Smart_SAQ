@@ -55,7 +55,7 @@ include_once '../class/cls_saq_guideline.php';
                 <header>
                     <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
                     <h2 style=""><b>SAQ GUIDELINES</b></h2> 
-                    <button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="saq_guideline_add_edit()">Add&nbsp;<i class="fa fa-plus"></i></button>
+                    <button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="saq_guideline_add_edit(0,'a')">Add&nbsp;<i class="fa fa-plus"></i></button>
                 </header> 
                 <div class="widget-body">
                     <!--<div class="row">-->
@@ -81,7 +81,7 @@ include_once '../class/cls_saq_guideline.php';
                                             . "<td>".$guideline['description']."</td>"
                                             . "<td>".$guideline['uploaded_date_time']."</td>"
                                             . "<td align='center' width='5%'><button class='btn btn-primary btn-xs' onclick=saq_guideline_add_edit(".$guideline['id'].",'v')>VIEW&nbsp;<i class='fa fa-eye'></i></button></td>"
-                                            . "<td align='center' width='5%'><button class='btn btn-primary btn-xs' onclick='saq_guideline_add_edit(".$guideline['id'].")'>Edit&nbsp;<i class='fa fa-edit'></i></button></td>"
+                                            . "<td align='center' width='5%'><button class='btn btn-primary btn-xs' onclick='saq_guideline_add_edit(".$guideline['id'].",'')'>Edit&nbsp;<i class='fa fa-edit'></i></button></td>"
                                             . "<td align='center' width='5%'><button class='btn btn-danger btn-xs' onclick='saq_guideline_delete(".$guideline['id'].")'>DELETE&nbsp;<i class='fa fa-trash'></i></button></td>"
                                         . "</tr>";
                                 }
@@ -199,10 +199,10 @@ include("../inc/scripts.php");
                                  var options = {
                                     url: 'saq_guideline_add_edit?id=' + id + f,
                                     width: '600',
-                                    height: '600',
+                                    height: ((flag == 'a') ? '440' : '600'),
                                     skinClass: 'jg_popup_round',
                                     resizable: false,
-                                    scrolling: 'yes'
+                                    scrolling: ((flag == 'a') ? 'no' : 'yes')
                                 };
                                 $.jeegoopopup.open(options);
                             }

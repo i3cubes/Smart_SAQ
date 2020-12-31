@@ -75,8 +75,8 @@ if ($_REQUEST['id'] != 0) {
                          data-widget-colorbutton="false">
 
                         <header style="margin:0px;">
-                            <span class="widget-icon"><?php if ($_REQUEST['id'] != '') { ?><i class="fa fa-edit"></i><?php } else { ?><i class="fa fa-plus"></i> <?php } ?></span>
-                            <span><h2 style="margin-left: 10px;"><?php print (($_REQUEST['id'] != '') ? ((isset($_REQUEST['f'])) ? 'VIEW' : 'EDIT') : 'ADD') ?> SAQ GUIDELINE</h2></span>				                           
+                            <span class="widget-icon"><?php if ($_REQUEST['id'] != 0) { ?><i class="fa fa-edit"></i><?php } else { ?><i class="fa fa-plus"></i> <?php } ?></span>
+                            <span><h2 style="margin-left: 10px;"><?php print (($_REQUEST['id'] != 0) ? ((isset($_REQUEST['f'])) ? 'VIEW' : 'EDIT') : 'ADD') ?> SAQ GUIDELINE</h2></span>				                           
                         </header>
 
                         <!-- widget div-->
@@ -93,7 +93,7 @@ if ($_REQUEST['id'] != 0) {
                                         </section>
                                         <section class="col col-4">
                                             <label class="input">
-                                                <input type="text" name="name" id="name" value="<?php print $saq_obj->name ?>" <?php print ((isset($_REQUEST['f'])?"disabled=''":"")) ?>/> 
+                                                <input type="text" name="name" id="name" value="<?php print $saq_obj->name ?>" <?php print (($_REQUEST['f'] == 'v')?"disabled=''":"") ?>/> 
                                             </label>
                                         </section>
                                         <section class="col col-4">
@@ -103,10 +103,13 @@ if ($_REQUEST['id'] != 0) {
                                         </section>
                                         <section class="col col-4">
                                             <label class="textarea">
-                                                <textarea name="description" id="description" <?php print ((isset($_REQUEST['f'])?"disabled=''":"")) ?>><?php print $saq_obj->description ?></textarea>
+                                                <textarea name="description" id="description" <?php print (($_REQUEST['f'] == 'v')?"disabled=''":"") ?>><?php print $saq_obj->description ?></textarea>
                                             </label>
                                         </section>
-                                        <?php if(!isset($_REQUEST['f'])) { ?>
+                                        
+                                        <?php 
+//                                        print $_REQUEST['f'];
+                                        if($_REQUEST['f'] != 'v') { ?>
                                         <section class="col col-4">
                                             <label class="ngs_form_lable">
                                                 Upload File 
@@ -125,7 +128,25 @@ if ($_REQUEST['id'] != 0) {
                                          <?php } ?>
                                     </fieldset>                                             
                                 </form>
+                                <section class="col-12">
+                                    <?php
+                                    if($saq_obj->id != '') {
+                                        $saq_g_file = new saq_guideline_file();
+                                    $saq_files = $saq_g_file->getAll($saq_obj->id);
 
+                                    if (count($saq_files) > 0) {
+                                        foreach ($saq_files as $file) {
+                                            print "<table>"
+                                                    . "<tr>"
+                                                    . "<td>" . $file['name'] . "</td>"
+                                                    . "<td><button class='btn btn-danger' onclick='deleteFile(".$file['id'].")'>Delete&nbsp;<i class='fa fa-trash'></i></button></td>"
+                                                    . "</tr>"
+                                                    . "</table>";
+                                        }
+                                    }
+                                    }                                    
+                                    ?>
+                                </section>
                             </div>
                             <!-- end widget content -->
 
@@ -139,62 +160,7 @@ if ($_REQUEST['id'] != 0) {
 
             </div>
 
-            <!-- END ROW -->
-            <?php if ($saq_obj->id != '') { ?>
-                <div class="row">
-
-                    <!-- NEW COL START -->
-
-                    <!-- END COL -->
-
-                    <!-- NEW COL START -->
-                    <article class="col-sm-12 col-md-12 col-lg-12">
-
-                        <!-- Widget ID (each widget will need unique ID)-->
-                        <div class="jarviswidget" id="wid-id-4" 
-                             data-widget-deletebutton="false" 
-                             data-widget-togglebutton="false"
-                             data-widget-editbutton="false"
-                             data-widget-fullscreenbutton="false"
-                             data-widget-colorbutton="false">
-
-                            <header style="margin:0px;">                            
-                                <span><h2 style="margin-left: 10px;"> SAQ GUIDELINE FILES</h2></span>				                           
-                            </header>
-
-                            <!-- widget div-->
-                            <div>
-
-                                <!-- widget content -->
-                                <div class="widget-body">
-                                    <?php
-                                    $saq_g_file = new saq_guideline_file();
-                                    $saq_files = $saq_g_file->getAll($saq_obj->id);
-
-                                    if (count($saq_files) > 0) {
-                                        foreach ($saq_files as $file) {
-                                            print "<table>"
-                                                    . "<tr>"
-                                                    . "<td>" . $file['name'] . "</td>"
-                                                    . "</tr>"
-                                                    . "</table>";
-                                        }
-                                    }
-                                    ?>
-
-                                </div>
-                                <!-- end widget content -->
-
-                            </div>
-                            <!-- end widget div -->
-
-                        </div>
-                        <!-- end widget -->
-
-                        <!-- END COL -->		
-
-                </div>
-            <?php } ?>
+            <!-- END ROW -->          
         </section>
         <!-- end widget grid -->
 

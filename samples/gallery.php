@@ -53,7 +53,7 @@ include_once '../class/cls_site_manager.php';
                  data-widget-colorbutton="false">
                 <header>
                     <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
-                    <h2 style=""><b>SITES IMAGES</b></h2>                     
+                    <h2 style=""><b>SITE IMAGES</b></h2>                     
                 </header> 
                 <div class="widget-body">                    
                                            

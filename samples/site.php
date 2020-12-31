@@ -71,7 +71,7 @@ include_once '../class/cls_site_model.php';
                                 if (count($site_images_count) > 0) {
                                     $icon = "&nbsp;&nbsp;&nbsp;<i class='fa fa-image' style='font-size:15px;color:blue;' onclick='addHandler(".$parent_node['id'].")'></i>";
                                 } else {
-                                    $icon = "";
+                                    $icon = "&nbsp;&nbsp;&nbsp;<i class='fa fa-image' style='font-size:15px;cursor:pointer;color:green;' onclick='addHandler(".$parent_node['id'].")'></i>";
                                 }
 
                                 $sub_child_html_main = process_sub_nav_node($parent_node['id']);
@@ -100,13 +100,13 @@ include_once '../class/cls_site_model.php';
                                     if (count($child_images) > 0) {
                                         $icon = "&nbsp;&nbsp;&nbsp;<i class='fa fa-image' style='font-size:15px;cursor:pointer;color:blue;' onclick='addHandler($node->id)'></i>";
                                     } else {
-                                        $icon = "";
+                                        $icon = "&nbsp;&nbsp;&nbsp;<i class='fa fa-image' style='font-size:15px;cursor:pointer;color:green;' onclick='addHandler($node->id)'></i>";
                                     }
                                     
                                     $sub_child_html = process_sub_nav_node($node->id);
 
                                     $html .= "<li>"
-                                            . "<span class=''>$node->name&nbsp;<i class='fa fa-plus' style='font-size:15px;cursor:pointer;color:green;' onclick='addHandlerNode($node->id)'></i>$icon</span>"
+                                            . "<span class=''>$node->name&nbsp;<i class='fa fa-cog' style='font-size:15px;cursor:pointer;' onclick='editHandler($node->id)'></i>$icon</span>"
                                             . $sub_child_html
                                             . "</li>";
                                 }
@@ -188,11 +188,23 @@ include("../inc/scripts.php");
         }
     }
     
+    function editHandler(id) {
+        var options = {
+                                    url: 'site_model_edit?id=' + id,
+                                    width: '425',
+                                    height: '200',
+                                    skinClass: 'jg_popup_round',
+                                    resizable: false,
+                                    scrolling: 'no'
+                                };
+                                $.jeegoopopup.open(options);
+    }
+    
     function addHandlerNode(id) {
         var options = {
                                     url: 'site_model_add?id=' + id,
                                     width: '400',
-                                    height: '300',
+                                    height: '250',
                                     skinClass: 'jg_popup_round',
                                     resizable: false,
                                     scrolling: 'no'

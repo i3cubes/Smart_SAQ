@@ -3,7 +3,8 @@ include_once '../class/file.php';
 
 
 $file_id = $_REQUEST['file_id'];
-if ($file_id != "") {
+//print 'a';
+if ($file_id != "") {  
     $file = new file($file_id);
     
     $row_file = $file->get_file_infomation("saq_sample_agreement_files");   
@@ -106,8 +107,8 @@ include_once '../class/constants.php';
                          data-widget-colorbutton="false">
 
                         <header style="margin:0px;">
-                            <span class="widget-icon"><i class="fa fa-eye"></i></span>
-                            <span><h2 style="margin-left: 10px;">VIEW AGREEMENT</h2></span>				                           
+                            <span class="widget-icon"><i class="fa fa-plus"></i></span>
+                            <span><h2 style="margin-left: 10px;">ADD FILE</h2></span>				                           
                         </header>
 
                         <!-- widget div-->
