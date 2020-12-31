@@ -82,7 +82,7 @@ include_once '../class/cls_saq_guideline_manager.php';
                                             . "<td>".$saq_gl->name."</td>"
                                             . "<td>".$saq_gl->description."</td>"
                                             . "<td>".date("d/m/Y", strtotime($saq_gl->date))."</td>"
-                                            . '<td align="center" width="5%"><i class="fa fa-cog fa-lg saq_edit" id="'.$saq_gl->id.'" onclick=saq_guideline_add_edit("'.$saq_gl->id.'","e") aria-hidden="true"></i></td>'
+                                            . '<td align="center" width="5%"><i class="fa fa-cog fa-lg" style="cursor:pointer;" id="'.$saq_gl->id.'" onclick=saq_guideline_add_edit("'.$saq_gl->id.'","e") aria-hidden="true"></i></td>'
                                         . "</tr>";
                                 }
                             ?>
@@ -159,7 +159,7 @@ $(document).ready(function () {
                                  var options = {
                                     url: 'saq_guideline_add_edit?id=' + id,
                                     width: '600',
-                                    height: ((flag == 'a') ? '420' : '600'),
+                                    height: 450,
                                     skinClass: 'jg_popup_round',
                                     resizable: false,
                                     scrolling: 'yes'

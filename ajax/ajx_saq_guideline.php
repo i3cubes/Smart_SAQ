@@ -30,7 +30,7 @@ if (!empty($_FILES)) {
         $saq_g_file->name = $file_name;
     }
 }
-
+//print $option;
 
 switch ($option) {
     case 'ADD': 
@@ -64,6 +64,18 @@ switch ($option) {
         } else {
             echo json_encode(array('msg' => 0));
         }
+        break;
+    case 'DELETEFILE':
+        $result = $saq_obj->deleteFile($_REQUEST['id']);        
+        if($result) {            
+            echo json_encode(array('msg' => 1));
+        } else {
+            echo json_encode(array('msg' => 0));
+        }
+        break;
+    case 'GETFILES':
+        $result = $saq_obj->getFiles($_REQUEST['id']);                 
+            echo json_encode($result);        
         break;
     default :
         header('HTTP/1.0 405 Method Not Allowed');

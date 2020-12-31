@@ -193,7 +193,7 @@ include_once '../class/cls_agreement_model.php';
                                     height: '500',
                                     skinClass: 'jg_popup_round',
                                     resizable: false,
-                                    scrolling: 'no'
+                                    scrolling: 'yes'
                                 };
                                 $.jeegoopopup.open(options);
     }

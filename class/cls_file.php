@@ -2,7 +2,7 @@
 include_once 'database.php';
 
 class file {
-    public $name, $type, $id, $base_path, $table_name;
+    public $name, $type, $id, $base_path,$location, $table_name;
     
     public function __construct($id) {
         $this->id = $id;
@@ -17,6 +17,7 @@ class file {
             $this->name = $row['name'];
             $this->type = $row['type'];
             $this->base_path = $row['base_path'];
+            $this->location = $row['location'];
             $this->id = $row['id'];
         } else {
             return false;
