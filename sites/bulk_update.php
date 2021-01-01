@@ -89,30 +89,30 @@ if($_POST['submitted']=='yes'){
 							<div class="widget-body">
 								<form id="from_inventory_add" class="smart-form" method="post" action="<?php echo htmlentities($_SERVER['PHP_SELF']);?>">
 								<table class="table table-striped" width="100%">
-									<tbody>
-									<tr>
-										<td align="right"><strong>TAB:</strong></td>
-										<td width="150">
-                                                                                    <label class="select">													
-                                                                                            <select name="tab" id="tab">
-                                                                                            <option value="G" selected="">General</option>
-                                                                                            <option value="C">Contact</option>
-                                                                                            <option value="T">Technical</option>
-                                                                                            <option value="P">Agreement&Payment</option>
-                                                                                            <option value="A">Approvals</option>
-                                                                                            </select> <i></i> 
-                                                                                    </label>
-										</td>
-										<td align="right"><strong>Template File:</strong></td>
-										<td>
-											
-										</td>
-										<td align="right"><strong></strong></td>
-										<td>
-                                                                                    <button type="submit" class="btn btn-primary" id="but" name="but" value="update" style="padding: 6px 12px;">Update</button>
-										</td>
-									</tr>
-									</tbody>
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <td align="right"><strong>EDIT TAB:</strong></td>
+                                                                        <td width="150">
+                                                                            <label class="select">													
+                                                                                <select name="tab" id="tab">
+                                                                                <option value="G" selected="">General</option>
+                                                                                <option value="C">Contact</option>
+                                                                                <option value="T">Technical</option>
+                                                                                <option value="P">Agreement&Payment</option>
+                                                                                <option value="A">Approvals</option>
+                                                                                </select> <i></i> 
+                                                                            </label>
+                                                                        </td>
+                                                                        <td><strong>Template File:</strong></td>
+                                                                        <td>
+
+                                                                        </td>
+                                                                        <td><strong></strong></td>
+                                                                        <td>
+                                                                            <button type="submit" class="btn btn-primary" id="but" name="but" value="update" style="padding: 6px 12px;">Update</button>
+                                                                        </td>
+                                                                    </tr>
+                                                                    </tbody>
 								</table>
 								<br>
 								<div style="border-top: 1px solid gray; width: 80%; margin-left: auto;margin-right: auto;">
@@ -121,92 +121,16 @@ if($_POST['submitted']=='yes'){
 								</div>
 								
 									<div class="row do-not-print" id="row_1">
-										<section class="col col-2">
-										<label class="label font-xs">Part No</label>
-											<label class="input">
-												<input type="text" class="" name="inv_part_no" id="inv_part_no" placeholder="Part No">
-												<b class="tooltip tooltip-bottom-right">Part No</b> 
-											</label>
-										</section>
-										<section class="col col-4">
-										<label class="label font-xs">Part Name</label>
-											<label class="input">
-												<input type="text" class="" name="" id="inv_part_name" placeholder="Part Name">
-												<b class="tooltip tooltip-bottom-right">Part Name</b> 
-											</label>
-											</label>
-										</section>
-										<section class="col col-1">
-										<label class="label font-xs">Location</label>
-                                                                                    <label class="select">
-                                                                                        <input type="hidden" name="inv_location" id="inv_location" value="<?php print $location?>">
-                                                                                        <!--<select name="inv_location" id="inv_location">
-                                                                                        <?php 
-                                                                                        //$ary_location=$sys->getLocations();
-                                                                                        //foreach ($ary_location as $row){
-                                                                                            //print '<option value="'.$row['ID'].'">'.$row['Name'].'</option>';
-                                                                                        //}
-                                                                                        ?>
-                                                                                        </select> <i></i> -->
-                                                                                    </label>
-										</section>
-										<section class="col col-1">
-											<label class="label font-xs">Bin</label>
-											<label class="input">
-												<input type="text" name="" id="inv_bin" placeholder="Bin">
-												<b class="tooltip tooltip-bottom-right">Bin</b> </label>
-											<label class="label font-xs" id="txt_bin"></label>
-										</section>
-                                                                                <section class="col col-1">
-											<label class="label font-xs">Cost</label>
-											<label class="input">
-												<input type="text" name="inv_cost" id="inv_cost" placeholder="Cost">
-												<b class="tooltip tooltip-bottom-right">Cost</b> </label>
-											<label class="label font-xs" id="txt_cost"></label>
-										</section>
-										
-										<section class="col col-1">
-											<label class="label font-xs">price (Rs)</label>
-											<label class="input">
-												<input type="text" name="inv_price" id="inv_price" placeholder="Price">
-												<b class="tooltip tooltip-bottom-right">Price</b> </label>
-											<label class="label font-xs" id="txt_price"></label>
-										</section>
-										<section class="col col-1">
-										<label class="label font-xs">Qty (press Enter to add)</label>
-										<label class="input">
-											<input type="text" name="inv_qty" id="inv_qty" placeholder="Qty">
-                                                                                        <label class="label font-xs" id="txt_total_cost"></label>
-										</section>
+                                                                            <table class="table table-striped" width="100%">
+                                                                                <tr>
+                                                                                    <td>Code</td>
+                                                                                    <td>Result</td>
+                                                                                    <td>Note</td>
+                                                                                </tr>
+                                                                            </table>
 									</div>
 									
-									<footer>	
-										<div class="row do-not-print">	
-											<section class="col col-3">
-												
-											</section>
-											<section class="col col-3">
-
-											</section>
-											<section class="col col-3">
-                                                                                            <span><strong>GRN TOTAL: &nbsp;&nbsp;</strong></span><span id="grn_total" style="color: #77021d"></span>
-											</section>
-											<section class="col col-3">
-                                                                                            <input type="hidden" name="inv_grn_id" id="inv_grn_id" value="<?php print $grn_id?>">
-                                                                                            <input type="hidden" name="inv_prd_id" id="inv_prd_id" value="">		
-                                                                                            <input type="hidden" name="submitted" id="submitted" value="">
-                                                                                            <?php if($ary_prev[3][6][0]=='1'){?>
-                                                                                            <button type="button" class="btn btn-primary" id="but_save" name="but" value="save">
-                                                                                                    Save
-                                                                                            </button>
-                                                                                            <?php                                                                                             
-                                                                                                }
-                                                                                            ?>
-                                                                                        </section>
-										</div>		
-										
-										<p style="display: none;" id="msg_prev"><font color="red"><i class="fa-fw fa fa-times"></i>You are not authorized</font></p>
-									</footer>
+									
 								</form>						
 								
 							</div>
