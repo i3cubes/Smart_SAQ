@@ -1,4 +1,41 @@
 <?php
+include_once '../class/file.php';
+
+
+$file_id = $_REQUEST['file_id'];
+//print 'a';
+if ($file_id != "") {  
+    $file = new file($file_id);
+    
+    $row_file = $file->get_file_infomation("saq_guideline_files");   
+    $file_path = $file->location;
+    $file_name = $file->name;
+
+    if ($file_path != "") {
+        $exist = true;
+    } else {
+        $exist = false;
+    }
+
+    if ($exist) {
+        $file_name = urlencode($file_name);
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename=' . $file_name);
+        header('Content-Transfer-Encoding: binary');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($file_path));
+        ob_clean();
+        flush();
+        readfile($file_path);        
+    } else {
+        print "File Not Found";
+    }
+}
+?>
+<?php
 session_start();
 
 //error_reporting();
@@ -67,15 +104,14 @@ if ($_REQUEST['id'] != 0) {
                 <article class="col-sm-12 col-md-12 col-lg-12">
 
                     <!-- Widget ID (each widget will need unique ID)-->
-                    <div class="jarviswidget" id="wid-id-4" 
+                    <div class="jarviswidget" 
                          data-widget-deletebutton="false" 
                          data-widget-togglebutton="false"
                          data-widget-editbutton="false"
                          data-widget-fullscreenbutton="false"
                          data-widget-colorbutton="false">
 
-                        <header style="margin:0px;">
-                            <span class="widget-icon"><?php if ($_REQUEST['id'] != '') { ?><i class="fa fa-edit"></i><?php } else { ?><i class="fa fa-plus"></i> <?php } ?></span>
+                        <header style="margin:0px;">                            
                             <span><h2 style="margin-left: 10px;">ADD\EDIT SAQ GUIDELINE</h2></span>				                           
                         </header>
 
@@ -93,7 +129,7 @@ if ($_REQUEST['id'] != 0) {
                                         </section>
                                         <section class="col col-4">
                                             <label class="input">
-                                                <input type="text" name="name" id="name" value="<?php print $saq_obj->name ?>" <?php print ((isset($_REQUEST['f'])?"disabled=''":"")) ?>/> 
+                                                <input type="text" name="name" id="name" value="<?php print $saq_obj->name ?>"/> 
                                             </label>
                                         </section>
                                         <section class="col col-4">
@@ -103,10 +139,10 @@ if ($_REQUEST['id'] != 0) {
                                         </section>
                                         <section class="col col-4">
                                             <label class="textarea">
-                                                <textarea name="description" id="description" <?php print ((isset($_REQUEST['f'])?"disabled=''":"")) ?>><?php print $saq_obj->description ?></textarea>
+                                                <textarea name="description" id="description"><?php print $saq_obj->description ?></textarea>
                                             </label>
                                         </section>
-                                        <?php if(!isset($_REQUEST['f'])) { ?>
+                                                                                                                    
                                         <section class="col col-4">
                                             <label class="ngs_form_lable">
                                                 Upload File 
@@ -118,14 +154,38 @@ if ($_REQUEST['id'] != 0) {
                                             </label>
                                         </section>                                       
                                         <footer>
-                                            <input type="hidden" name="id" value="<?php print $saq_obj->id ?>" />
+                                            <input type="hidden" name="id" id="id" value="<?php print $saq_obj->id ?>" />
                                             <input type="hidden" name="option" value="<?php print (($saq_obj->id != '') ? 'EDIT' : 'ADD') ?>" />
                                             <button class="btn btn-primary">Save&nbsp;<i class="fa fa-save"></i></button>
-                                        </footer>
-                                         <?php } ?>
+                                            <?php if($saq_obj->id != '') {?>
+                                            <button class="btn btn-danger" type="button" onclick="saq_guideline_delete(<?php print $saq_obj->id ?>)">Delete&nbsp;<i class="fa fa-trash"></i></button>
+                                            <?php } ?>
+                                        </footer>                                          
                                     </fieldset>                                             
                                 </form>
+                                <section class="col-12" style="margin:0px 15px;">
+                                    <?php
+                                    if($saq_obj->id != '') {
+                                        $saq_g_file = new saq_guideline_file();
+                                    $saq_files = $saq_g_file->getAll($saq_obj->id);
 
+                                    if (count($saq_files) > 0) {
+                                        print "<table class='table' id='saq_files'>"
+                                        . "<thead>"
+                                        . "<th>Name</th>"
+                                                . "<th>Delete</th></thead><tbody>";
+                                        foreach ($saq_files as $file) {                                            
+                                                   print "<tr>"
+                                                    . "<td><a href='saq_guideline_add_edit?file_id=".$file['location']."' download>" . $file['name'] . "</a></td>"
+                                                    . "<td width='5%' align='center'><button class='btn btn-danger btn-xs' type='button' onclick='deleteFile(".$file['id'].")'><i class='fa fa-trash'></i></button></td>"
+                                                    . "</tr>";
+                                                    
+                                        }
+                                        print "</tbody></table>";
+                                    }
+                                    }                                    
+                                    ?>
+                                </section>
                             </div>
                             <!-- end widget content -->
 
@@ -139,62 +199,7 @@ if ($_REQUEST['id'] != 0) {
 
             </div>
 
-            <!-- END ROW -->
-            <?php if ($saq_obj->id != '') { ?>
-                <div class="row">
-
-                    <!-- NEW COL START -->
-
-                    <!-- END COL -->
-
-                    <!-- NEW COL START -->
-                    <article class="col-sm-12 col-md-12 col-lg-12">
-
-                        <!-- Widget ID (each widget will need unique ID)-->
-                        <div class="jarviswidget" id="wid-id-4" 
-                             data-widget-deletebutton="false" 
-                             data-widget-togglebutton="false"
-                             data-widget-editbutton="false"
-                             data-widget-fullscreenbutton="false"
-                             data-widget-colorbutton="false">
-
-                            <header style="margin:0px;">                            
-                                <span><h2 style="margin-left: 10px;"> SAQ GUIDELINE FILES</h2></span>				                           
-                            </header>
-
-                            <!-- widget div-->
-                            <div>
-
-                                <!-- widget content -->
-                                <div class="widget-body">
-                                    <?php
-                                    $saq_g_file = new saq_guideline_file();
-                                    $saq_files = $saq_g_file->getAll($saq_obj->id);
-
-                                    if (count($saq_files) > 0) {
-                                        foreach ($saq_files as $file) {
-                                            print "<table>"
-                                                    . "<tr>"
-                                                    . "<td>" . $file['name'] . "</td>"
-                                                    . "</tr>"
-                                                    . "</table>";
-                                        }
-                                    }
-                                    ?>
-
-                                </div>
-                                <!-- end widget content -->
-
-                            </div>
-                            <!-- end widget div -->
-
-                        </div>
-                        <!-- end widget -->
-
-                        <!-- END COL -->		
-
-                </div>
-            <?php } ?>
+            <!-- END ROW -->          
         </section>
         <!-- end widget grid -->
 
@@ -284,4 +289,106 @@ include("../inc/scripts.php");
             });
         }
     }
+    
+    function deleteFile(id) {
+         var newDiv = $(document.createElement('div'));
+    $(newDiv).html('Are you sure ?');
+    $(newDiv).attr("title", "DELETE");
+    $(newDiv).dialog({
+        resizable: false,
+        height: 150,
+        modal: true,
+        buttons: {
+            Yes: function () {
+                $.ajax({
+                    url: '../ajax/ajx_saq_guideline',
+                    type: 'POST',
+                    data: {option: 'DELETEFILE', id: id},
+                    dataType: "json",
+                    success: function (response) {
+                        if (response['msg'] == 1) {
+//                            getFiles();
+                            window.parent.location.reload();
+                        window.parent.$.jeegoopopup.close();
+                        } else {
+                            alert('Failure');
+                        }
+                        $(newDiv).dialog("close");
+                        $(newDiv).remove();
+                    },
+                    error: function (xhr, status, error) {
+                        alert(status);
+                    }
+                });
+            },
+            cancel: function () {
+                $(this).dialog("close");
+                $(newDiv).remove();
+            }
+        }
+    });
+    }
+    
+    function getFiles() {
+        $.ajax({
+            url: '../ajax/ajx_saq_guideline',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {option: 'GETFILES', id: $('#id').val()},
+            success: function(response) {
+                $('#saq_files > tbody').children().remove();
+                if(response.length > 0) {
+                    $.each(response, function(index, data){
+                        $('#saq_files tbody').append(`
+                                "<tr>"
+                                                    . "<td><a href='saq_guideline_add_edit?file_id=".${data.id}."' download>${data.name}</a></td>"
+                                                    . "<td width='5%' align='center'><button class='btn btn-danger btn-xs' type='button' onclick='deleteFile(${data.id})'><i class='fa fa-trash'></i></button></td>"
+                                                    . "</tr>"
+                        `);
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                        alert(status);
+                    }
+        });
+    }
+    
+    function saq_guideline_delete(id) {
+     var newDiv = $(document.createElement('div'));
+    $(newDiv).html('Are you sure ?');
+    $(newDiv).attr("title", "DELETE");
+    $(newDiv).dialog({
+        resizable: false,
+        height: 150,
+        modal: true,
+        buttons: {
+            Yes: function () {
+                $.ajax({
+                    url: '../ajax/ajx_saq_guideline',
+                    type: 'POST',
+                    data: {option: 'DELETE', id: id},
+                    dataType: "json",
+                    success: function (response) {
+                        if (response['msg'] == 1) {
+                            window.parent.location.reload();
+                        window.parent.$.jeegoopopup.close();
+                        } else {
+                            alert('Failure');
+                        }
+                        $(newDiv).dialog("close");
+                        $(newDiv).remove();
+                    },
+                    error: function (xhr, status, error) {
+                        alert(status);
+                    }
+                });
+            },
+            cancel: function () {
+                $(this).dialog("close");
+                $(newDiv).remove();
+            }
+        }
+    });
+}
 </script>

@@ -19,10 +19,25 @@ switch ($_REQUEST['option']) {
             echo json_encode(array('msg' => 0));
         }
         break;
+    case 'EDIT':
+        $saq_agreement_model_obj->id = $_REQUEST['id'];
+        $result = $saq_agreement_model_obj->edit();
+        if($result) {
+            echo json_encode(array('msg' => 1));
+        } else {
+            echo json_encode(array('msg' => 0));
+        }
+        break;
     case 'VIEW':        
         break;
-    case 'DELETE':
-
+    case 'DELETE':        
+        $saq_agreement_model_obj->id = $_REQUEST['id'];
+        $result = $saq_agreement_model_obj->delete();
+        if($result) {
+            echo json_encode(array('msg' => 1));
+        } else {
+            echo json_encode(array('msg' => 0));
+        }
         break;
     default :
         header('HTTP/1.0 405 Method Not Allowed');

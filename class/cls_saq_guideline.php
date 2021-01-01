@@ -29,9 +29,8 @@ class saq_guideline {
                 . "NOW()"
                 . ");";
         $result = dbQuery($string);
-        if($result) {
-            $this->id= dbInsertId();
-            return true;
+        if($result) {             
+            return dbInsertId();
         } else {
             return false;
         }
@@ -51,6 +50,33 @@ class saq_guideline {
     
     public function delete() {
         $string = "UPDATE `$this->table_name` SET `status` = ".constants::$inactive." WHERE `id` = $this->id;";
+        $result = dbQuery($string);
+        if($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public function getFiles($id) {
+        $array = array();
+        $string = "SELECT * FROM `saq_guideline_files` WHERE `saq_guideline_id` = $id;";
+        $result = dbQuery($string);
+        while ($row = dbFetchAssoc($result)) {
+            array_push($array, array(
+                'id' => $row['id'],
+                'name' => $row['name'],
+                'location' => $row['location'],
+                'uploaded_date_time' => $row['uploaded_date_time'],
+                'saq_guideline_id' => $row['saq_guideline_id']
+            ));
+        }
+        return $array;
+    }
+
+
+    public function deleteFile($id) {
+        $string = "DELETE FROM `saq_guideline_files` WHERE `id` = $id;";       
         $result = dbQuery($string);
         if($result) {
             return true;

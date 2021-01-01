@@ -32,7 +32,7 @@ switch ($_REQUEST['option']) {
         echo json_encode($view_agreement_file);
         break;
     case 'DELETE':
-        $delete_file = $agreement_model_obj->delete($_REQUEST['id']);
+        $delete_file = $agreement_model_obj->deleteFile($_REQUEST['id']);
         if($delete_file) {
             echo json_encode(array('msg' => 1));
         } else {

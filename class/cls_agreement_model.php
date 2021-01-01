@@ -37,6 +37,15 @@ class agreement_model extends tree_node {
             return false;
         }
     }
+    public function edit() {
+        $str="UPDATE `saq_sample_agreement` SET `name` = '$this->name' WHERE `id` = $this->id;";
+        $result= dbQuery($str);
+        if($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     public function getData(){
         if($this->id!=""){
             $str="SELECT * FROM saq_sample_agreement WHERE id='$this->id' AND status='1';";
@@ -95,8 +104,18 @@ class agreement_model extends tree_node {
         return $result;
     }
     
-    public function delete($id) {
-        $str="DELETE FROM `saq_sample_agreement_files` WHERE `id` = $id;";
+    public function deleteFile($id) {
+        $str = "DELETE FROM `saq_sample_agreement_files` WHERE `id` = $id;";
+        $result = dbQuery($str);
+        if($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public function delete() {
+        $str="UPDATE `saq_sample_agreement` SET `status` = ".constants::$inactive." WHERE `id` = $this->id;";
         $result = dbQuery($str);
         if($result) {
             return true;

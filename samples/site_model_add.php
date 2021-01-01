@@ -69,7 +69,7 @@ include_once '../class/constants.php';
 
                         <header style="margin:0px;">
                             <span class="widget-icon"><i class="fa fa-plus"></i></span>
-                            <span><h2 style="margin-left: 10px;">ADD SITE MODEL</h2></span>				                           
+                            <span><h2 style="margin-left: 10px;">ADD NODE</h2></span>				                           
                         </header>
 
                         <!-- widget div-->

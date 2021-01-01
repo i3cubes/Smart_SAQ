@@ -18,7 +18,15 @@ require_once("../lib/config.php");
   E.G. $page_title = "Custom Title" */
 
 /* ---------------- END PHP Custom Scripts ------------- */
-$page_title = 'Details';
+include_once '../class/constants.php';
+include_once '../class/cls_site.php';
+
+if ($_REQUEST['id'] != 0) {
+    $site_obj = new site($_REQUEST['id']);
+    $site_obj->getData();
+//    print_r($site_obj);
+}
+$page_title = $site_obj->code;
 //include header
 //you can add your custom css in $page_css array.
 //Note: all css files are inside css/ folder
@@ -31,14 +39,7 @@ include("../inc/header_less.php");
 $page_nav["site_management"]["active"] = true;
 //include("../inc/nav.php");
 // ====================== LOGIC ================== --!>
-include_once '../class/constants.php';
-include_once '../class/cls_site.php';
 
-if ($_REQUEST['id'] != 0) {
-    $site_obj = new site($_REQUEST['id']);
-    $site_obj->getData();
-//    print_r($site_obj);
-}
 ?>
 <style>
     .customFiled {
@@ -77,7 +78,7 @@ if ($_REQUEST['id'] != 0) {
                          data-widget-colorbutton="false">
 
                         <header style="margin:0px;">
-                            <h2 style=""><b>DETAILS</b></h2> 
+                            <h2 style=""><b>Site Code: <?php print $site_obj->code ?> &nbsp;Site name: <?php print $site_obj->name ?></b></h2> 
                         </header>
 
                         <!-- widget div-->
@@ -109,7 +110,27 @@ if ($_REQUEST['id'] != 0) {
                                 <div id="" class="tab-content">
                                     <div class="tab-pane fade active in" id="general">
                                         <form class="smart-form">
-                                            <fieldset>                                                
+                                            <fieldset>
+                                                <section class="col-sm-5">
+                                                    <label class="ngs_form_label">
+                                                        Site Code
+                                                    </label>
+                                                    <label class="input">
+                                                        <input type="text" name="site_code" id="site_code" value="<?php print $site_obj->code; ?>"/>
+                                                    </label>
+                                                </section>
+                                                <section class="col-sm-2">
+                                                    &nbsp;
+                                                </section>
+                                                <section class="col-sm-5">
+                                                    <label class="ngs_form_label">
+                                                        Site Name
+                                                    </label>
+                                                    <label class="input">
+                                                        <input type="text" name="site_name" id="site_name" value="<?php print $site_obj->name; ?>"/>
+                                                    </label>
+                                                </section> 
+                                                
                                                 <section class="col-sm-5">
                                                     <label class="ngs_form_label">
                                                         District
