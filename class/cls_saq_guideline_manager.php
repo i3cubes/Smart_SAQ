@@ -14,7 +14,7 @@ include_once 'constants.php';
  *
  * @author kumar
  */
-class guidline_manager {
+class saq_guideline_manager {
 
     //put your code here
     public function getGuidlines() {
