@@ -23,11 +23,14 @@ if (!empty($_FILES)) {
     $test = explode(".", $_FILES['file']['name']);
     $extension = end($test);
     $newName = time() . rand(100, 999) . "." . $extension;
-    $location = "../saq_guideline_files/" . $newName;
+    $location = "files/saq_guidelines/" . $newName;
+    $save_to = "../files/saq_guidelines/" . $newName;
     $file_name = $_FILES['file']['name'];
-    if (move_uploaded_file($_FILES['file']['tmp_name'], $location)) {
+    $file_type = $_FILES['file']['type'];
+    if (move_uploaded_file($_FILES['file']['tmp_name'], $save_to)) {
         $saq_g_file->location = $location;
         $saq_g_file->name = $file_name;
+        $saq_g_file->type=$file_type;
     }
 }
 //print $option;

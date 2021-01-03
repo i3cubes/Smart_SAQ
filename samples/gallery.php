@@ -134,87 +134,87 @@ include("../inc/scripts.php");
 <script src="<?php echo ASSETS_URL; ?>/js/dropzone.js"></script>
 
 <script>
-                                    $(document).ready(function () {
+    $(document).ready(function () {
 
-                                        getImages(<?php print $_REQUEST['id'] ?>);
+        getImages(<?php print $_REQUEST['id'] ?>);
 
-                                        $("#drop").dropzone({
-                                            url: "../ajax/ajx_saq_site_images",
-                                            autoProcessQueue: false,
-                                            addRemoveLinks: true,
-                                            init: function () {
-                                                this.on("sending", function (file, xhr, formData) {
-                                                    formData.append("option", "ADD");
-                                                    formData.append("id", <?php print $_REQUEST['id'] ?>);
+        $("#drop").dropzone({
+            url: "../ajax/ajx_saq_site_images",
+            autoProcessQueue: false,
+            addRemoveLinks: true,
+            init: function () {
+                this.on("sending", function (file, xhr, formData) {
+                    formData.append("option", "ADD");
+                    formData.append("id", <?php print $_REQUEST['id'] ?>);
 //                                                JSON.stringify(formData);
-                                                });
-                                                this.on("complete", function () {
-                                                    if (this.getQueuedFiles().length == 0 && this.getUploadingFiles().length == 0) {
-                                                        var _this = this;
-                                                        _this.removeAllFiles();
-                                                        $.notify("Successfully uploaded", "success");
-                                                        getImages(<?php print $_REQUEST['id'] ?>);
-                                                    }
-                                                });
-                                            }
-                                        });
-                                    });
+                });
+                this.on("complete", function () {
+                    if (this.getQueuedFiles().length == 0 && this.getUploadingFiles().length == 0) {
+                        var _this = this;
+                        _this.removeAllFiles();
+                        $.notify("Successfully uploaded", "success");
+                        getImages(<?php print $_REQUEST['id'] ?>);
+                    }
+                });
+            }
+        });
+    });
 
-                                    function getImages(id) {
-                                        $.ajax({
-                                            url: '../ajax/ajx_saq_site_images',
-                                            type: 'GET',
-                                            dataType: 'json',
-                                            data: {'option': 'VIEW', 'id': id},
-                                            success: function (response) {
-                                                if (response.length > 0) {
-                                                    $('.superbox .superbox-list').remove();
-                                                    $.each(response, function (index, data) {
-                                                        $('.superbox').append(`
-                                                            <div class="superbox-list">
-                                                                <img src="${data.base_path}" data-img="${data.base_path}" alt="" title="" class="superbox-img">
-                                                            </div>`)
-                                                    });
-                                                }
-                                            },
-                                            error: function (xhr, resp, text) {
-                                                alert("error :" + xhr.responseText);
-                                            }
-                                        });
-                                    }
+    function getImages(id) {
+        $.ajax({
+            url: '../ajax/ajx_saq_site_images',
+            type: 'GET',
+            dataType: 'json',
+            data: {'option': 'VIEW', 'id': id},
+            success: function (response) {
+                if (response.length > 0) {
+                    $('.superbox .superbox-list').remove();
+                    $.each(response, function (index, data) {
+                        $('.superbox').append(`
+                            <div class="superbox-list">
+                                <img src="${data.base_path}" data-img="${data.base_path}" alt="" title="" class="superbox-img">
+                            </div>`)
+                    });
+                }
+            },
+            error: function (xhr, resp, text) {
+                alert("error :" + xhr.responseText);
+            }
+        });
+    }
 
-                                    function upload_image() {
-                                        var myDropzone = Dropzone.forElement(".dropzone");
-                                        if (myDropzone.files.length != 0) {
-                                            myDropzone.processQueue();
-                                        } else {
-                                            $.notify("add files", "error");
-                                        }
-                                    }
+    function upload_image() {
+        var myDropzone = Dropzone.forElement(".dropzone");
+        if (myDropzone.files.length != 0) {
+            myDropzone.processQueue();
+        } else {
+            $.notify("add files", "error");
+        }
+    }
 
-                                    // PAGE RELATED SCRIPTS
+    // PAGE RELATED SCRIPTS
 
-                                    // pagefunction
+    // pagefunction
 
-                                    var pagefunction = function () {
+    var pagefunction = function () {
 
-                                        $('.superbox').SuperBox({
-                                            background: '#FF0000', // Full image background color. Default: #333
-                                            border: 'white', // Full image border color. Default: #222
-                                            height: 600, // Maximum full image height. Default: 400
-                                            view: 'landscape|square|portrait', // Sets ratio on smaller viewports. Default: landscape
-                                            xColor: '#CCC', // Close icon color. Default: #FFF
-                                            xShadow: 'embed' // Close icon shadow. Default: none
-                                        });
+        $('.superbox').SuperBox({
+            background: '#FF0000', // Full image background color. Default: #333
+            border: 'white', // Full image border color. Default: #222
+            height: 600, // Maximum full image height. Default: 400
+            view: 'landscape|square|portrait', // Sets ratio on smaller viewports. Default: landscape
+            xColor: '#CCC', // Close icon color. Default: #FFF
+            xShadow: 'embed' // Close icon shadow. Default: none
+        });
 
-                                    };
+    };
 
-                                    // end pagefunction
+    // end pagefunction
 
-                                    // run pagefunction on load
+    // run pagefunction on load
 
-                                    // load bootstrap-progress bar script
-                                    loadScript("<?php echo ASSETS_URL; ?>/js/plugin/superbox/superbox.min.js", pagefunction);
+    // load bootstrap-progress bar script
+    loadScript("<?php echo ASSETS_URL; ?>/js/plugin/superbox/superbox.min.js", pagefunction);
 
 </script>
 

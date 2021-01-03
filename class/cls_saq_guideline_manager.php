@@ -28,7 +28,7 @@ class saq_guideline_manager {
                 $gl->description = $row['description'];
                 $gl->status = $row['status'];
                 $gl->date = $row['uploaded_date_time'];
-                //$gl->getFiles();
+                //$gl-> getFiles();
                 array_push($res, $gl);
             }
         }

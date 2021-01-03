@@ -1,0 +1,32 @@
+Site Code,Site Name,"Site 
+Type",Site Address,"Site 
+Ownership",Operators Name,"Tower 
+Height",Building Height,Land Area,On Air Date,Category,Longitude,Latitude,Access Type,Manual Distance,Access Permission Type,PG Installation Possibility,Region,"Region ID 
+[AUTO FILL]",District,"District ID 
+[AUTO FILL]",Div Sec ID,Lacal Authority ID,Police Station ID,DNS Office ID,"Current 
+Status",SAQ Special Comment
+AM0007,Addaippaliam Dialog,GBT,"Main Street, Addalaichenai 11",DAP,,100,,,2003-06-09,,7.300145,81.67763,,,,,Ampara,20,Ampara,20,,,,,On Air - Fiber_Connected_SLT VLL       ,Upgrades Resticted
+AN0002,2nd Mile Post Lamp,Lamp Pole,"169,2nd cross Street Pettah",ESLL,,20,,,2010-09-09,,8.330899,80.397645,,,,,Anuradhapura,11,Anuradhapura,11,,,,,On Air    ,Written Access permission to be requested
+BD0056,Badulla North Dialog,COW,"No-106, 2nd Cross Street, Colombo-11.",DAP,,40,,,2005-10-10,,6.987598,81.050948,,,,,Badulla,21,Badulla,21,,,,,WIP,
+BA0098,Batti Dutch Bar Airtel,GBMP,"Near 02nd Mile Post Round the Bout, Puttalam Road, Anuradhpura",Airtel,,30,,,2011-03-11,,7.739548,81.679352,,,,,Batticaloa,19,Vavuniya,5,,,,,Locked     ,
+CM0123,10th Lane North Etisalat,MTU,"No-70/72, 3rd Cross Street, Colombo-11",Etisalat,,40,,,2002-12-12,,6.90206,79.864441,,,,,Colombo,9,Colombo,9,,,,,Hold-Under Acquisition    ,
+GA0314,Ahangama Dialog,Other ,"ESLL Lamp Pole Site, In Front of 42nd Lane, Colombo- 06",DAP,,18,,,2006-09-13,,6.058622,80.219549,,,,,Galle,25,Galle,25,,,,,Hold-Permanant           ,
+GM5012,Airport Rd Lamp,RTMP,king's View Residencies,ESLL,,9,,,2015-02-14,,7.087554,80.002356,,,,,Gampaha,8,Gampaha,8,,,,,Hold-Civil Construction  ,
+HA0078,Barawakumbuka DBN,RTT,"No-128, 4th Cross Street, Colombo-11.",DBN,,24,,,2004-07-15,,6.145161,81.118722,,,,,Hambantota,23,Hambantota,23,,,,,Hold-Eq. Installtion ,
+JA0126,Araly MTU,RTP,"67A, Cotbay, Chinabay, Trincomalee.",DAP,,6,,,2018-05-16,,9.669448,80.030657,,,,,Jaffna,1,Jaffna,1,,,,,On Air - Fiber_Connected           ,
+KL0005,Aluthgama Town Dialog,Tree,"Regimental HQ Battalion the Gajaba Regiment, Senapura",DAP,,35,,,2009-11-17,,6.589153,79.981036,,,,,Kaluthara,10,Kaluthara,10,,,,,On Air-Removal Proposed    ,
+KA0137,Akurana Town East Hutch,IBS,"7th Sense,No 18,Gregories Road,Colombo 07.",Hutch,,3,,,2010-09-18,,7.302206,80.630415,,,,,Kandy,14,Kandy,14,,,,,Removed              ,
+KE0019,Aranayaka Dialog,RTWM,"Manipai Aanakoddai, Aanakkoddai, Jaffna.",DAP,,15,,,2003-04-09,,7.255348,80.34512,,,,,Kegalle,16,Kegalle,16,,,,,Temporary Site      ,
+KI0035,Dharmapuram SLA,RTGM,"498, Galle Road, Colombo 03",SLA,,20,,,2010-12-09,,9.382016,80.396345,,,,,Kilinochchi,2,Kilinochchi,2,,,,,WIP-Civil Completed          ,
+KU0134,Ambanpola Dialog,GBGM,"No.498, Galle Road, Colombo 03",DAP,,40,,,2005-02-10,,7.48504,80.359493,,,,,Kurunegala,7,Kurunegala,7,,,,,WIP-Notified for WOs             ,
+MA0007,Koorai Dialog,GBP,"No.498, Galle Road, Colombo 03",DAP,,35,,,2011-10-11,,8.980626,79.899701,,,,,Mannar,3,Mannar,3,,,,,WIP-Under Acquisition          ,
+MT0111,Dewahoowa Mobitel,VDSL,"No.52, Abayarama Mw, Abayapura",Mobitel,,10,,,2002-06-12,,7.463441,80.617203,,,,,Matale,13,Matale,13,,,,,WIP-Under Civil Construction,
+MR0063,Dampella Hutch,Micro,"No-1008, Anuradhapura junction, Trincomalee.",Hutch,,4,,,2006-09-13,,5.951479,80.549717,,,,,Matara,24,Matara,24,,,,,WIP-Under TE Installation,
+MO0021,Badalkumbura Lanaka Bell,PICO,"No-2B/24, Pubudu Mw, Borelesgamuwa",Lanka Bell,,5,,,2015-08-14,,6.893023,81.334704,,,,,Monaragala,22,Monaragala,22,,,,,On Air - Fiber_Connected      ,
+MU0083,Chempankundu Dialog,Repeater,"Aberfoyle Estate, Sooriyakanda",DAP,,70,,,2004-03-15,,9.268824,80.816342,,,,,Mulathivu,4,Mulathivu,4,,,,,Removed              ,
+NU0191,Bogawanthalawa south Airtel,SmC,"278, Union Place, Colombo 02",Airtel,,3,,,2018-09-16,,6.945401,80.781804,,,,,Nuwara Eliya,15,Nuwara Eliya,15,,,,,On Air,
+PO0013,Attambuoya Etisalat,GBT,"278, Union Place, Colombo 02",Etisalat,,80,,,2009-01-17,,7.988613,81.019448,,,,,Polonnaruwa,12,Polonnaruwa,12,,,,,Temporary Site      ,
+PU0167,Angampitiya Dialog,GBMP,"Access Tower 2,Dawson Street. Colombo 2.",DAP,,50,,,2010-06-18,,8.038581,79.837126,,,,,Puttalam,6,Puttalam,6,,,,,Hold-Civil Construction  ,
+RA0049,Banagoda Dialog,MTU,"Hospital Road, Achchuweli South, Achchuweli.",DAP,,40,,,2009-07-30,,6.696653,80.396572,,,,,Rathnapura,17,Rathnapura,17,,,,,Hold-Eq. Installtion ,
+TR5011,Harbour new road Lamp,IBS,"Achchuweli North, Achchuweli , Jaffna",ESLL,,15,,,2013-05-31,,8.590846,81.209268,,,,,Trincomalee,18,Trincomalee,18,,,,,Hold-Temporary,
+VA0056,Katkulam Dialog [Ulukkulam],RTMP,"sannathi rd,achchuwely.",DAP,,9,,,2013-04-01,,8.748907,80.483843,,,,,Vavuniya,5,Vavuniya,5,,,,,Temporary Site      ,
