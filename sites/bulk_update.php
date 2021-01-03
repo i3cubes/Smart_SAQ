@@ -31,13 +31,113 @@ $page_nav["forms"]["sub"]["smart_layout"]["active"] = true;
 
 // ====================== LOGIC ================== --!>
 
-//include_once 'lib/i3c_config.php';
+include_once '../class/cls_site.php';
+include_once '../class/cls_site_manager.php';
+
+$site_mgr=new site_manager();
 
 //print_r($_POST);
-if($_POST['submitted']=='yes'){	
-
+//print $_FILES['file']['tmp_name'];
+if($_POST['but']=='update'){	
+    if(isset($_FILES)){
+        $f_name=$_FILES['file']['name']; 
+        $source = $_FILES['file']['tmp_name'];
+        $save_to="../files/sitedata/".time()."_".$f_name;
+        //print $save_to;
+        if(move_uploaded_file($source, $save_to)) { 
+            chmod($saveloc,644);
+            //Update Data
+            $row = 1;
+            $col_count=0;
+            if (($handle = fopen($save_to, "r")) !== FALSE) {
+                while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                    //print $data;
+                    $msg="";
+                    if($row==1){
+                        $col_count=count($data);
+                    }
+                    else{
+                        $num = count($data);
+                        //print "N=".$num;
+                        if($col_count==$num){
+                            //Update
+                            $site_id=$site_mgr->getSiteIDFromCode(trim($data[0]));
+                            if($site_id!=''){
+                                $site=new site($site_id);
+                            }
+                            else{
+                                $site=new site();
+                                $site->code=trim($data[0]);
+                                if($site->addTemplate()){
+                                    $msg.="new site added.";
+                                }
+                                else{
+                                    $msg.="<font color='red'>Could not add new site.</font>";
+                                }
+                            }
+                            $site->name=$data[1];
+                            $site->type=$data[2];
+                            $site->address=$data[3];
+                            $site->site_ownership=$data[4];
+                            $site->operator_name=$data[5];
+                            $site->tower_height=$data[6];
+                            $site->building_height=$data[7];
+                            $site->land_area=$data[8];
+                            $site->on_air_date=$data[9];
+                            $site->category=$data[10];
+                            $site->lat=$data[11];
+                            $site->lon=$data[12];
+                            $site->access_type=$data[13];
+                            $site->manual_distance=$data[14];
+                            $site->access_permision_type=$data[15];
+                            $site->pg_installation_possibility=$data[16];
+                            $site->region_id=cleanCSVData($data[18]);
+                            //$site->province_id=cleanData($data[21]);
+                            $site->district_id=cleanCSVData($data[20]);
+                            $site->ds_id=cleanCSVData($data[21]);
+                            $site->la_id=cleanCSVData($data[22]);
+                            $site->police_station_id=cleanCSVData($data[23]);
+                            $site->dns_office_id=cleanCSVData($data[24]);
+                            
+                            //var_dump($site);
+                            if($site->update("")){
+                                $msg.="site data updated";
+                            }
+                            else{
+                                $msg.="<font color='red'>site data update failed.</font>";
+                            }
+                            $log.="<tr>
+                                        <td>".$data[0]."</td>
+                                        <td>". $msg."</td>
+                                        <td>".$site->update_string."</td>
+                                    </tr>";
+                        }
+                        else{
+                            //Error
+                            $msg.='data column count mismatched.please check the address and other fields whether additional "," is there.';
+                        }
+                        
+                    }
+                    $row++;
+                    //print $msg."<br>";
+                }
+                fclose($handle);
+            }
+        }
+        else{
+            $err_msg="Could not upload the file.";
+        }
+    }
 }
 
+function cleanCSVData($d){
+    if($d=='#N/A'){
+        return "";
+    }
+    else{
+        return $d;
+    }
+}
 
 ?>
 <!-- ==========================CONTENT STARTS HERE ========================== -->
@@ -87,7 +187,7 @@ if($_POST['submitted']=='yes'){
 							
 							<!-- widget content -->
 							<div class="widget-body">
-								<form id="from_inventory_add" class="smart-form" method="post" action="<?php echo htmlentities($_SERVER['PHP_SELF']);?>">
+								<form id="from_inventory_add" class="smart-form" method="post" action="" enctype="multipart/form-data">
 								<table class="table table-striped" width="100%">
                                                                     <tbody>
                                                                     <tr>
@@ -127,10 +227,11 @@ if($_POST['submitted']=='yes'){
 									<div class="row do-not-print" id="row_1">
                                                                             <table class="table table-striped" width="100%">
                                                                                 <tr>
-                                                                                    <td>Code</td>
-                                                                                    <td>Result</td>
+                                                                                    <td width="150px">Code</td>
+                                                                                    <td width="300px">Result</td>
                                                                                     <td>Note</td>
                                                                                 </tr>
+                                                                                <?php print $log?>
                                                                             </table>
 									</div>
 									
@@ -186,8 +287,26 @@ if($_POST['submitted']=='yes'){
 
 
 $(document).ready(function() {
+    $('#template_file_url').html("<a href='<?php echo ASSETS_URL?>/sites/download_template_file?file=G' target='_blank'>template-general</a>");
     $('#tab').change(function(){
-        $('#template_file_url').html("../file/template.php");
+        switch($(this).children("option:selected").val()){
+            case 'G':
+                $('#template_file_url').html("<a href='<?php echo ASSETS_URL?>/sites/download_template_file?file=G' target='_blank'>template-general</a>");
+                break;
+            case 'C':
+                $('#template_file_url').html("<a href='<?php echo ASSETS_URL?>/sites/download_template_file?file=C' target='_blank'>template-contact</a>");
+                break;
+            case 'T':
+                $('#template_file_url').html("<a href='<?php echo ASSETS_URL?>/sites/download_template_file?file=T' target='_blank'>template-technical</a>");
+                break;
+            case 'P':
+                $('#template_file_url').html("<a href='<?php echo ASSETS_URL?>/sites/download_template_file?file=P' target='_blank'>template-agreement_payments</a>");
+                break;
+            case 'A':
+                $('#template_file_url').html("<a href='<?php echo ASSETS_URL?>/sites/download_template_file?file=A' target='_blank'>template-approvals</a>");
+                break;
+        }
+        
     });
 });
 </script>

@@ -66,10 +66,10 @@
 		<!--<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>-->
 		<script>
 //			if (!window.jQuery.ui) {
-//				document.write('<script src="<?php echo ASSETS_URL; ?>/js/libs/jquery-ui-1.10.3.min.js"><\/script>');
+//				document.write('<script src="<?php //echo ASSETS_URL; ?>/js/libs/jquery-ui-1.10.3.min.js"><\/script>');
 //			}
 		</script>
-
+                <script src="<?php echo ASSETS_URL; ?>/js/libs/jquery-2.0.2.min.js"></script>
 
 	</head>
 	<body></body>
