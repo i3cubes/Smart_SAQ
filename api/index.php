@@ -127,7 +127,7 @@ if ($key == "2ea3490b80dd2bd77d1a") {
         $data=array();
         foreach ($ary_gl as $saq_gl){
             $files=array();
-            $saq_files=$saq_gl->getFiles();
+            //$saq_files=$saq_gl->getFiles();
             foreach ($saq_files as $f){
                 array_push($files, array('name'=>$f['name'],'type'=>$f['type'],"url"=>$system_url."".$f['location']));
             }
