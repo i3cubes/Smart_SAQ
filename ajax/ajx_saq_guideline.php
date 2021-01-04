@@ -19,7 +19,8 @@ if (array_key_exists('data', $_REQUEST)) {
 $saq_g_file = new saq_guideline_file('');
 
 // upload file if uploded
-if (!empty($_FILES)) {    
+if (!empty($_FILES)) {   
+    print_r ($_FILES);
     $test = explode(".", $_FILES['file']['name']);
     $extension = end($test);
     $newName = time() . rand(100, 999) . "." . $extension;
