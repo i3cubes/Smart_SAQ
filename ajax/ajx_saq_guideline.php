@@ -26,6 +26,8 @@ if (!empty($_FILES)) {
     $newName = time() . rand(100, 999) . "." . $extension;
     $location = "files/saq_guidelines/" . $newName;
     $save_to = "../files/saq_guidelines/" . $newName;
+    print "<br>";
+    print $save_to;
     $file_name = $_FILES['file']['name'];
     $file_type = $_FILES['file']['type'];
     print $_FILES['file']['tmp_name']."-->".$save_to;
