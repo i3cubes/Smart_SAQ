@@ -27,6 +27,7 @@ if (!empty($_FILES)) {
     $save_to = "../files/saq_guidelines/" . $newName;
     $file_name = $_FILES['file']['name'];
     $file_type = $_FILES['file']['type'];
+    print $_FILES['file']['tmp_name']."-->".$save_to;
     if (move_uploaded_file($_FILES['file']['tmp_name'], $save_to)) {
         $saq_g_file->location = $location;
         $saq_g_file->name = $file_name;
