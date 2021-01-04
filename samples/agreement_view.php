@@ -1,5 +1,5 @@
 <?php
-include_once '../class/file.php';
+include_once '../class/cls_file.php';
 
 
 $file_id = $_REQUEST['file_id'];
@@ -225,7 +225,7 @@ include("../inc/scripts.php");
                                                     $.each(response, function(index, data){
                                                        $('#agreement_files tbody').append(
                                                         `<tr>
-                                                            <td><a href='agreement_view?file_id=${data.id}' download>${data.name}</a></td>
+                                                            <td><a href='?file_id=${data.id}'>${data.name}</a></td>
                                                             <td><button class='btn btn-danger btn-xs' onclick='deleteFile(${data.id})'><i class='fa fa-trash'></i></button></td>
                                                         </tr>`); 
                                                     });                                                    

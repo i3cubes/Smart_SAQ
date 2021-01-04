@@ -32,7 +32,7 @@ if (!empty($_FILES)) {
     $file_type = $_FILES['file']['type'];
     //print $_FILES['file']['tmp_name']."-->".$save_to;
     if (move_uploaded_file($_FILES['file']['tmp_name'], $save_to)) {
-        $saq_g_file->location = $location;
+        $saq_g_file->location = $save_to;
         $saq_g_file->name = $file_name;
         $saq_g_file->type=$file_type;
     }
