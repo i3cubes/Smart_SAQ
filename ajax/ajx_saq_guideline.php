@@ -19,12 +19,15 @@ if (array_key_exists('data', $_REQUEST)) {
 $saq_g_file = new saq_guideline_file('');
 
 // upload file if uploded
-if (!empty($_FILES)) {    
+if (!empty($_FILES)) {   
+    //print_r ($_FILES);
     $test = explode(".", $_FILES['file']['name']);
     $extension = end($test);
     $newName = time() . rand(100, 999) . "." . $extension;
     $location = "files/saq_guidelines/" . $newName;
     $save_to = "../files/saq_guidelines/" . $newName;
+   // print "<br>";
+    //print $save_to;
     $file_name = $_FILES['file']['name'];
     $file_type = $_FILES['file']['type'];
     //print $_FILES['file']['tmp_name']."-->".$save_to;
