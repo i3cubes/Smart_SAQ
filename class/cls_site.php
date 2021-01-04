@@ -98,45 +98,74 @@ class site {
         }
     }
 
-    public function update($tab){
+    public function update($tab,$source='API'){
         if($this->id!=""){
-            $sql=array();
-            array_push($sql, $this->getCleanedData('name', $this->name));
-            array_push($sql, $this->getCleanedData('type', $this->type));
-            array_push($sql, $this->getCleanedData('address', $this->address));
-            array_push($sql, $this->getCleanedData('site_ownership', $this->site_ownership));
-            array_push($sql, $this->getCleanedData('operators_name', $this->operator_name));
-            array_push($sql, $this->getCleanedData('tower_height', $this->tower_height));
-            array_push($sql, $this->getCleanedData('building_height', $this->building_height));
-            array_push($sql, $this->getCleanedData('land_area', $this->land_area));
-            array_push($sql, $this->getCleanedData('on_air_date', $this->on_air_date));
-            array_push($sql, $this->getCleanedData('category', $this->category));
-            array_push($sql, $this->getCleanedData('lat', $this->lat));
-            array_push($sql, $this->getCleanedData('lon', $this->lon));
-            array_push($sql, $this->getCleanedData('access_type', $this->access_type));
-            array_push($sql, $this->getCleanedData('manual_distance', $this->manual_distance));
-            array_push($sql, $this->getCleanedData('access_permission_type', $this->access_permision_type));
-            array_push($sql, $this->getCleanedData('PG_installation_possibility', $this->pg_installation_possibility));
-            array_push($sql, $this->getCleanedData('saq_district_id', $this->district_id));
-            array_push($sql, $this->getCleanedData('saq_ds_id', $this->ds_id));
-            array_push($sql, $this->getCleanedData('saq_la_id', $this->la_id));
-            array_push($sql, $this->getCleanedData('saq_police_station_id', $this->police_station_id));
-            array_push($sql, $this->getCleanedData('saq_region_id', $this->region_id));
-            array_push($sql, $this->getCleanedData('saq_dns_office_id', $this->dns_office_id));
-            $sql_str= implode(",", array_filter($sql));
-            $this->update_string= implode("||", array_filter($sql));
             
-            $str="UPDATE saq_sites SET ".$sql_str." WHERE id='$this->id';";
+            $sql=array();
+            switch ($tab){
+            case 'D':
+                array_push($sql, $this->getCleanedData('name', $this->name),$source);
+                array_push($sql, $this->getCleanedData('type', $this->type),$source);
+                array_push($sql, $this->getCleanedData('address', $this->address),$source);
+                array_push($sql, $this->getCleanedData('site_ownership', $this->site_ownership),$source);
+                array_push($sql, $this->getCleanedData('operators_name', $this->operator_name),$source);
+                array_push($sql, $this->getCleanedData('tower_height', $this->tower_height),$source);
+                array_push($sql, $this->getCleanedData('building_height', $this->building_height),$source);
+                array_push($sql, $this->getCleanedData('land_area', $this->land_area),$source);
+                array_push($sql, $this->getCleanedData('on_air_date', $this->on_air_date),$source);
+                array_push($sql, $this->getCleanedData('category', $this->category),$source);
+                array_push($sql, $this->getCleanedData('lat', $this->lat),$source);
+                array_push($sql, $this->getCleanedData('lon', $this->lon),$source);
+                array_push($sql, $this->getCleanedData('access_type', $this->access_type),$source);
+                array_push($sql, $this->getCleanedData('manual_distance', $this->manual_distance),$source);
+                array_push($sql, $this->getCleanedData('access_permission_type', $this->access_permision_type),$source);
+                array_push($sql, $this->getCleanedData('PG_installation_possibility', $this->pg_installation_possibility),$source);
+                array_push($sql, $this->getCleanedData('saq_district_id', $this->district_id),$source);
+                array_push($sql, $this->getCleanedData('saq_ds_id', $this->ds_id),$source);
+                array_push($sql, $this->getCleanedData('saq_la_id', $this->la_id),$source);
+                array_push($sql, $this->getCleanedData('saq_police_station_id', $this->police_station_id),$source);
+                array_push($sql, $this->getCleanedData('saq_region_id', $this->region_id),$source);
+                array_push($sql, $this->getCleanedData('saq_dns_office_id', $this->dns_office_id),$source);
+                
+                break;
             //print $str;
-            $result= dbQuery($str);
-            return $result;
+            case 'C':
+            //Contact
+                array_push($sql, $this->getCleanedData('LO_name', $this->lo_name),$source);
+                array_push($sql, $this->getCleanedData('LO_address', $this->lo_address),$source);
+                array_push($sql, $this->getCleanedData('LO_nic_brc', $this->lo_nic_brc),$source);
+                array_push($sql, $this->getCleanedData('LO_mobile', $this->lo_mobile),$source);
+                array_push($sql, $this->getCleanedData('LO_land_number', $this->lo_land_number),$source);
+                array_push($sql, $this->getCleanedData('contact_person_number', $this->contact_person_number),$source);
+                array_push($sql, $this->getCleanedData('LO_fax', $this->lo_fax),$source);
+                array_push($sql, $this->getCleanedData('LO_email', $this->lo_email),$source);
+
+                break;
+            default :
+                $sql=null;
+            
+            }
+            if(!empty($sql)){
+                $sql_str= implode(",", array_filter($sql));
+                $this->update_string= implode("||", array_filter($sql));
+
+                $str="UPDATE saq_sites SET ".$sql_str." WHERE id='$this->id';";
+                $result= dbQuery($str);
+                return $result;
+            }
+            else{
+                return false;
+            }
         }
         else{
             return false;
         }
     }
     
-    private function getCleanedData($field,$data){
+    private function getCleanedData($field,$data,$source='API'){
+        if($source=='WEB' && $data==''){
+            $data="NULL"; // -----enable set null by web interface when data fiels is empty
+        }
         if($data=='NULL'){
             return "$field=NULL";
         }
