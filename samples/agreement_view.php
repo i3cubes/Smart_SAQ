@@ -68,6 +68,10 @@ include("../inc/header_less.php");
 //include("../inc/nav.php");
 // ====================== LOGIC ================== --!>
 include_once '../class/constants.php';
+include_once '../class/cls_agreement_model.php';
+
+$agreement_model_obj = new agreement_model($_REQUEST['id']);
+$agreement_model_obj->getData();
 ?>
 <style>
     .customFiled {
@@ -108,7 +112,7 @@ include_once '../class/constants.php';
 
                         <header style="margin:0px;">
                             <span class="widget-icon"><i class="fa fa-plus"></i></span>
-                            <span><h2 style="margin-left: 10px;">ADD FILE</h2></span>				                           
+                            <span><h2 style="margin-left: 10px;">AGREEMENT FILE - <?php print $agreement_model_obj->name ?></h2></span>				                           
                         </header>
 
                         <!-- widget div-->

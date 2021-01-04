@@ -165,7 +165,7 @@ include("../inc/scripts.php");
                             dataType: "json",
                             success: function (res) {
                                 if (res['msg'] == 1) {
-                                    window.parent.location.reload();
+                                    window.parent.loadTree();
                                     window.parent.$.jeegoopopup.close();
                                 } else {
                                     alert('Error');
@@ -196,7 +196,7 @@ include("../inc/scripts.php");
             data: {option: 'EDIT', name: $('#name').val(), id: $('#id').val()},
             success: function (response) {
                 if (response['msg'] == 1) {
-                    window.parent.location.reload();
+                    window.parent.loadTree();
                     window.parent.$.jeegoopopup.close();
                 } else {
                     alert('Failure');

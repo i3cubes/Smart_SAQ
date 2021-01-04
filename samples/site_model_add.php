@@ -143,7 +143,7 @@ include("../inc/scripts.php");
                 data: {option: $('#option').val(), name: $('#name').val(), parent_model_id: $('#parent_model_id').val()},
                 success: function (response) {
                     if (response['msg'] == 1) {
-                        window.parent.location.reload();
+                        window.parent.loadTree();
                         window.parent.$.jeegoopopup.close();
                     } else {
                         alert('Failure');
