@@ -80,7 +80,7 @@ class site_model extends tree_node {
                 'id' => $row['id'],
                 'name' => $row['name'],
                 'type' => $row['type'],
-                'base_path' => $row['base_path'],
+                'base_path' => "../".$row['base_path'],
                 'saq_site_model_id' => $row['saq_site_model_id']    
             ));
         }

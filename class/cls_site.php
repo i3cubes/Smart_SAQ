@@ -17,11 +17,13 @@ class site {
     //put your code here
     public $id;
     public $name,$code,$type,$address,$site_ownership,$operator_name,$tower_height,$building_height,$land_area;
-    public $on_air_date,$category,$lat,$lon,$access_type,$manual_distance,$access_permision_type;
+    public $on_air_date,$category,$lat,$lon,$access_type,$manual_distance,$access_permision_type,$pg_installation_possibility;
     public $lo_name,$lo_address,$lo_nic_brc,$lo_mobile,$lo_land_number,$contact_person_number,$lo_fax,$lo_email;
-    public $district_id,$district_name,$ds_id,$ds_name,$la_id,$la_name,$police_station_id,$police_station_name;
+    public $province_id,$peovince_name,$district_id,$district_name,$ds_id,$ds_name,$la_id,$la_name,$police_station_id,$police_station_name;
     public $region_id,$region_name,$dns_office_id,$dns_office_name;
-    
+    public $update_string;
+
+
     public function __construct($id = '') {
         $this->id = $id;
     }
@@ -69,6 +71,86 @@ class site {
         $this->region_name=$row['region_name'];
     }
     
+    public function addSite(){
+        if($this->addTemplate()){
+            $this->update("");
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public function addTemplate(){
+        if($this->code!=""){
+            $str="INSERT INTO saq_sites (code) VALUES('$this->code');";
+            $res= dbQuery($str);
+            if($res){
+                $this->id= dbInsertId();
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
+    }
+
+    public function update($tab){
+        if($this->id!=""){
+            $sql=array();
+            array_push($sql, $this->getCleanedData('name', $this->name));
+            array_push($sql, $this->getCleanedData('type', $this->type));
+            array_push($sql, $this->getCleanedData('address', $this->address));
+            array_push($sql, $this->getCleanedData('site_ownership', $this->site_ownership));
+            array_push($sql, $this->getCleanedData('operators_name', $this->operator_name));
+            array_push($sql, $this->getCleanedData('tower_height', $this->tower_height));
+            array_push($sql, $this->getCleanedData('building_height', $this->building_height));
+            array_push($sql, $this->getCleanedData('land_area', $this->land_area));
+            array_push($sql, $this->getCleanedData('on_air_date', $this->on_air_date));
+            array_push($sql, $this->getCleanedData('category', $this->category));
+            array_push($sql, $this->getCleanedData('lat', $this->lat));
+            array_push($sql, $this->getCleanedData('lon', $this->lon));
+            array_push($sql, $this->getCleanedData('access_type', $this->access_type));
+            array_push($sql, $this->getCleanedData('manual_distance', $this->manual_distance));
+            array_push($sql, $this->getCleanedData('access_permission_type', $this->access_permision_type));
+            array_push($sql, $this->getCleanedData('PG_installation_possibility', $this->pg_installation_possibility));
+            array_push($sql, $this->getCleanedData('saq_district_id', $this->district_id));
+            array_push($sql, $this->getCleanedData('saq_ds_id', $this->ds_id));
+            array_push($sql, $this->getCleanedData('saq_la_id', $this->la_id));
+            array_push($sql, $this->getCleanedData('saq_police_station_id', $this->police_station_id));
+            array_push($sql, $this->getCleanedData('saq_region_id', $this->region_id));
+            array_push($sql, $this->getCleanedData('saq_dns_office_id', $this->dns_office_id));
+            $sql_str= implode(",", array_filter($sql));
+            $this->update_string= implode("||", array_filter($sql));
+            
+            $str="UPDATE saq_sites SET ".$sql_str." WHERE id='$this->id';";
+            //print $str;
+            $result= dbQuery($str);
+            return $result;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    private function getCleanedData($field,$data){
+        if($data=='NULL'){
+            return "$field=NULL";
+        }
+        else{
+            if($data==''){
+                return false;
+            }
+            else{
+                return $field."=".getStringFormatted($data);
+            }
+        }
+    }
+
+
     public function getTechnologyPresent(){
         $tecnologies=array();
         $str="SELECT * FROM saq_site_technical as t1 left join saq_technical as t2 on t1.saq_technical_id=t2.id "

@@ -1,8 +1,8 @@
 <?php
 include_once '../class/cls_site_manager.php';
 include_once '../class/cls_site.php';
-include_once '../class/cls_saq_guidline_manager.php';
-include_once '../class/cls_saq_guidline.php';
+include_once '../class/cls_saq_guideline_manager.php';
+include_once '../class/cls_saq_guideline.php';
 
 
 $system_url="http://203.94.66.253/dialogsaq/";
@@ -119,16 +119,17 @@ if ($key == "2ea3490b80dd2bd77d1a") {
         }
         break;
     case '130':
-        $saq_gl_mgr=new guidline_manager();
-        $saq_gl=new guidline();
+        $saq_gl_mgr=new saq_guideline_manager();
+        $saq_gl=new \saq_guideline();
         $ary_gl=$saq_gl_mgr->getGuidlines();
         $response[0]["result"] = '1';
         $response[0]["count"] = count($ary_gl);
         $data=array();
         foreach ($ary_gl as $saq_gl){
             $files=array();
-            foreach ($saq_gl->files as $f){
-                array_push($files, array('name'=>$f['name'],'type'=>$f['type'],"url"=>$system_url."files/".$f['path']));
+            $saq_files=$saq_gl->getFiles();
+            foreach ($saq_files as $f){
+                array_push($files, array('name'=>$f['name'],'type'=>$f['type'],"url"=>$system_url."".$f['location']));
             }
             array_push($data, array("name"=>$saq_gl->name,"description"=>$saq_gl->description,"files"=>$files));
         }

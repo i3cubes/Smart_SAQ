@@ -4,7 +4,7 @@ include_once 'database.php';
 include_once 'constants.php';
 
 class saq_guideline_file {
-    public $id,$name,$location,$uploaded_date_time,$saq_guideline_id;
+    public $id,$name,$type,$location,$uploaded_date_time,$saq_guideline_id;
     private $table_name = 'saq_guideline_files';
     
     public function __construct($id = '') {
@@ -17,6 +17,7 @@ class saq_guideline_file {
         $row = dbFetchAssoc($result);
         $this->id = $row['id'];
         $this->name = $row['name'];
+        $this->type=$row['type'];
         $this->location = $row['location'];
         $this->uploaded_date_time = $row['uploaded_date_time'];
         $this->saq_guideline_id = $row['saq_guideline_id'];
@@ -30,6 +31,7 @@ class saq_guideline_file {
             array_push($array, array(
                 'id' => $row['id'],
                 'name' => $row['name'],
+                'type' => $row['type'],
                 'location' => $row['location'],                
                 'uploaded_date_time' => $row['uploaded_date_time'],
                 'saq_guideline_id' => $row['saq_guideline_id']
@@ -39,8 +41,9 @@ class saq_guideline_file {
     }
     
     public function add() {
-        $string = "INSERT INTO `$this->table_name` (`name`,`location`,`uploaded_date_time`,`saq_guideline_id`) VALUES ("
+        $string = "INSERT INTO `$this->table_name` (`name`,`type`,`location`,`uploaded_date_time`,`saq_guideline_id`) VALUES ("
                 . "".getStringFormatted($this->name).","
+                . "".getStringFormatted($this->type).","
                 . "".getStringFormatted($this->location).","
                 . "NOW(),"
                 . "$this->saq_guideline_id"
@@ -56,6 +59,7 @@ class saq_guideline_file {
     
     public function edit() {
         $string = "UPDATE `$this->table_name` SET `name` = ".getStringFormatted($this->name).","
+                . "type=".getStringFormatted($this->type).","
                 . "`location` = ".getStringFormatted($this->location)." WHERE `id` = $this->id;";
         $result = dbQuery($string);
         if($result) {

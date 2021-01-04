@@ -58,14 +58,15 @@ class saq_guideline {
         }
     }
     
-    public function getFiles($id) {
+    public function getFiles() {
         $array = array();
-        $string = "SELECT * FROM `saq_guideline_files` WHERE `saq_guideline_id` = $id;";
+        $string = "SELECT * FROM `saq_guideline_files` WHERE `saq_guideline_id` = '$this->id';";
         $result = dbQuery($string);
         while ($row = dbFetchAssoc($result)) {
             array_push($array, array(
                 'id' => $row['id'],
                 'name' => $row['name'],
+                'type' => $row['type'],
                 'location' => $row['location'],
                 'uploaded_date_time' => $row['uploaded_date_time'],
                 'saq_guideline_id' => $row['saq_guideline_id']

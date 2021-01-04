@@ -79,8 +79,19 @@ class site_manager {
         }
         return $result;
     }
-      
-    
+    public function getSiteIDFromCode($code){
+        $str="SELECT id from saq_sites WHERE code='$code';";
+        $result= dbQuery($str);
+        if(dbNumRows($result)>0){
+            $row= dbFetchArray($result);
+            return $row[0];
+        }
+        else{
+            return false;
+        }
+    }
+
+
     // check site have sample agreements
 }
 ?>

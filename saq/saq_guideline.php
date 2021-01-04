@@ -73,7 +73,7 @@ include_once '../class/cls_saq_guideline_manager.php';
                         </thead>
                         <tbody>       
                             <?php
-                                $saq_gl_mgr=new guidline_manager();
+                                $saq_gl_mgr=new saq_guideline_manager();
                                 $saq_gl = new \saq_guideline();
                                 $saq_guidelines = $saq_gl_mgr->getGuidlines();
 //                                print_r($saq_guidelines);

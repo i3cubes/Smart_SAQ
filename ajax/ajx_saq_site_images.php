@@ -13,9 +13,10 @@ switch ($_REQUEST['option']) {
             $test = explode(".", $_FILES['file']['name']);
             $extension = end($test);
             $newName = time() . rand(100, 999) . "." . $extension;
-            $location = "../saq_site_images/" . $newName;
+            $location = "files/site_images/" . $newName;
+            $save_to = "../files/site_images/" . $newName;
             $file_name = $_FILES['file']['name'];
-            if (move_uploaded_file($_FILES['file']['tmp_name'], $location)) {               
+            if (move_uploaded_file($_FILES['file']['tmp_name'], $save_to)) {               
                 $result = $site_model_obj->addImage($_FILES['file']['type'],$file_name,$location);
                 if ($result) {
                     echo json_encode(array('msg' => 1));

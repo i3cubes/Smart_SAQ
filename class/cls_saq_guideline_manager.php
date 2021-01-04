@@ -14,7 +14,7 @@ include_once 'constants.php';
  *
  * @author kumar
  */
-class guidline_manager {
+class saq_guideline_manager {
 
     //put your code here
     public function getGuidlines() {
@@ -28,7 +28,7 @@ class guidline_manager {
                 $gl->description = $row['description'];
                 $gl->status = $row['status'];
                 $gl->date = $row['uploaded_date_time'];
-                //$gl->getFiles();
+                //$gl-> getFiles();
                 array_push($res, $gl);
             }
         }
