@@ -13,9 +13,10 @@ switch ($_REQUEST['option']) {
             $test = explode(".", $_FILES['file']['name']);
             $extension = end($test);
             $newName = time() . rand(100, 999) . "." . $extension;
-            $location = "../saq_sample_agreement_files/" . $newName;
+            $location = "files/sample_agreements/" . $newName;
+            $save_to = "../files/sample_agreements/" . $newName;
             $file_name = $_FILES['file']['name'];
-            if (move_uploaded_file($_FILES['file']['tmp_name'], $location)) {               
+            if (move_uploaded_file($_FILES['file']['tmp_name'], $save_to)) {               
                 $result = $agreement_model_obj->addFile($_FILES['file']['type'],$file_name,$location);
                 if ($result) {
                     echo json_encode(array('msg' => 1));
