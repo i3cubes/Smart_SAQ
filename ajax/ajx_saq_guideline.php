@@ -32,6 +32,10 @@ if (!empty($_FILES)) {
         $saq_g_file->name = $file_name;
         $saq_g_file->type=$file_type;
     }
+    else{
+        $msg_err="cannot move file..";
+        print "cannot move file..";
+    }
 }
 //print $option;
 
