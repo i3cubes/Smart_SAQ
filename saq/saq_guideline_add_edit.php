@@ -1,9 +1,11 @@
 <?php
-include_once '../class/file.php';
+//error_reporting(E_ALL);
+//ini_set("display_errors", 1);
+include_once '../class/cls_file.php';
 
 
 $file_id = $_REQUEST['file_id'];
-//print 'a';
+//print_r($_REQUEST);
 if ($file_id != "") {  
     $file = new file($file_id);
     
@@ -176,7 +178,7 @@ if ($_REQUEST['id'] != 0) {
                                                 . "<th>Delete</th></thead><tbody>";
                                         foreach ($saq_files as $file) {                                            
                                                    print "<tr>"
-                                                    . "<td><a href='saq_guideline_add_edit?file_id=".$file['location']."' download>" . $file['name'] . "</a></td>"
+                                                    . "<td><a href='?file_id=".$file['id']."'>" . $file['name'] . "</a></td>"
                                                     . "<td width='5%' align='center'><button class='btn btn-danger btn-xs' type='button' onclick='deleteFile(".$file['id'].")'><i class='fa fa-trash'></i></button></td>"
                                                     . "</tr>";
                                                     
@@ -250,6 +252,10 @@ include("../inc/scripts.php");
                 }
             });
 <?php } ?>
+    
+//        $('.download_file').click(function() {
+//            location.reload();
+//        });
     });
 
     function submitHandler(e) {
@@ -341,7 +347,7 @@ include("../inc/scripts.php");
                     $.each(response, function(index, data){
                         $('#saq_files tbody').append(`
                                 "<tr>"
-                                                    . "<td><a href='saq_guideline_add_edit?file_id=".${data.id}."' download>${data.name}</a></td>"
+                                                    . "<td><a href='?file_id=".${data.id}."'>${data.name}</a></td>"
                                                     . "<td width='5%' align='center'><button class='btn btn-danger btn-xs' type='button' onclick='deleteFile(${data.id})'><i class='fa fa-trash'></i></button></td>"
                                                     . "</tr>"
                         `);

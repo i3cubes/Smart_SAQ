@@ -25,7 +25,10 @@ include("../inc/header_less.php");
 //include("../inc/nav.php");
 //include_once 'class/reports.php';
 include_once '../class/constants.php';
-include_once '../class/cls_site_manager.php';
+include_once '../class/cls_site_model.php';
+
+$site_model_obj = new site_model($_REQUEST['id']);
+$site_model_obj->getData();
 ?>
 <style>
 
@@ -53,7 +56,7 @@ include_once '../class/cls_site_manager.php';
                  data-widget-colorbutton="false">
                 <header>
                     <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
-                    <h2 style=""><b>SITE IMAGES</b></h2>                     
+                    <h2 style=""><b>SITE IMAGES - <?php print $site_model_obj->name ?></b></h2>                     
                 </header> 
                 <div class="widget-body">                    
                                            
