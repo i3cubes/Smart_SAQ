@@ -37,6 +37,7 @@ class site {
                 . "left join saq_police_station as t5 on t1.saq_police_station_id=t5.id "
                 . "left join saq_region as t6 on t1.saq_region_id=t6.id "
                 . "WHERE t1.id='".$this->id."';";
+        print $str."<br>";
         $res= dbQuery($str);
         $row= dbFetchAssoc($res);
         $this->id=$row['id'];
