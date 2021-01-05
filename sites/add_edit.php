@@ -527,7 +527,7 @@ include_once '../class/cls_saq_approvals.php';
                                                                 <?php
                                                                 foreach ($technologies as $tech) {
 //                                                                    var_dump($checkAvailable);
-                                                                    $checkAvailable = $site_obj->getTechnologyPresent($tech->id);
+                                                                    $checkAvailable = $site_obj->getTechnologyPresentSite($tech->id);
                                                                     print "<td align='center'>
                                                                     <label class='checkbox'>
                                                                         <input type='checkbox' name='technologies' id='$tech->id' value='$tech->id' ".(($checkAvailable==true)?"checked=''":"").">
@@ -553,7 +553,7 @@ include_once '../class/cls_saq_approvals.php';
                                                                 $other_operators =$saq_other_operator_obj->getAll();
                                                                 
                                                                 foreach ($other_operators as $operator) {
-                                                                    $checkAvailable = $site_obj->getOtherOperatorPresent($operator->id);
+                                                                    $checkAvailable = $site_obj->getOtherOperatorPresentSite($operator->id);
                                                                     print "<tr><td style='padding:10px;'>$operator->name</td>"
                                                                             . "<td align='center'>
                                                                     <label class='checkbox'>
@@ -804,7 +804,7 @@ include_once '../class/cls_saq_approvals.php';
                                                                 $approvals = $saq_approvels_obj->getAll();
                                                                 
                                                                 foreach ($approvals as $approval) {
-                                                                    $checkAvailable = $site_obj->getApprovalsPresent($approval->id);
+                                                                    $checkAvailable = $site_obj->getApprovalsPresentSite($approval->id);
                                                                     print "<tr ".(($approval->requirement == 'Compulsory') ? "style='background: yellow;'":"").">"
                                                                     . "<td>$approval->id</td>"
                                                                     . "<td>$approval->requirement</td>"
