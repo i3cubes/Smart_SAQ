@@ -3,34 +3,35 @@
 include_once 'database.php';
 include_once 'constants.php';
 
-class saq_technical {
-    
-    public $id,$technology;
-    private $table_name = 'saq_technical';
+class saq_approvals {
+    public $id,$requirement,$description,$code;
+    private $table_name = 'saq_approvals';
     
     public function __construct($id = '') {
         $this->id = $id;
     }
-
-
+    
     public function getData() {
         $string = "SELECT * FROM `$this->table_name` WHERE `id` = $this->id;";
         $result = dbQuery($string);
         $row = dbFetchAssoc($result);
         $this->id = $row['id'];
-        $this->technology = $row['technology'];
+        $this->requirement = $row['requirement'];
+        $this->description = $row['description'];
+        $this->code = $row['code'];
     }
-
-        public function getAll() {
+    
+    public function getAll() {
         $array = array();
         $string = "SELECT * FROM `$this->table_name`;";
         $result = dbQuery($string);
         while ($row = dbFetchAssoc($result)) {
-            $technology_obj = new saq_technical($row['id']);
-            $technology_obj->getData();
-            array_push($array, $technology_obj);
+            $saq_approvels_obj = new saq_approvals($row['id']);
+            $saq_approvels_obj->getData();
+            array_push($array, $saq_approvels_obj);
         }
         return $array;
     }
 }
+?>
 

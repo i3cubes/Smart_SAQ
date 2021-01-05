@@ -3,10 +3,10 @@
 include_once 'database.php';
 include_once 'constants.php';
 
-class saq_technical {
+class saq_other_operator {
     
-    public $id,$technology;
-    private $table_name = 'saq_technical';
+    public $id,$name;
+    private $table_name = 'saq_other_operator';
     
     public function __construct($id = '') {
         $this->id = $id;
@@ -18,7 +18,7 @@ class saq_technical {
         $result = dbQuery($string);
         $row = dbFetchAssoc($result);
         $this->id = $row['id'];
-        $this->technology = $row['technology'];
+        $this->name = $row['name'];
     }
 
         public function getAll() {
@@ -26,9 +26,9 @@ class saq_technical {
         $string = "SELECT * FROM `$this->table_name`;";
         $result = dbQuery($string);
         while ($row = dbFetchAssoc($result)) {
-            $technology_obj = new saq_technical($row['id']);
-            $technology_obj->getData();
-            array_push($array, $technology_obj);
+            $other_operator_obj = new saq_other_operator($row['id']);
+            $other_operator_obj->getData();
+            array_push($array, $other_operator_obj);
         }
         return $array;
     }

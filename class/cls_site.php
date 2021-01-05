@@ -13,6 +13,9 @@
  */
 include_once 'database.php';
 
+include_once 'cls_saq_technical.php';
+include_once 'cls_saq_site_agreement_data.php';
+
 class site {
     //put your code here
     public $id;
@@ -151,7 +154,7 @@ class site {
                 $this->update_string= implode("||", array_filter($sql));
 
                 $str="UPDATE saq_sites SET ".$sql_str." WHERE id='$this->id';";
-                print $str;
+//                print $str;
                 $result= dbQuery($str);
                 return $result;
             }
@@ -182,35 +185,69 @@ class site {
     }
 
 
-    public function getTechnologyPresent(){
+    public function getTechnologyPresent($technical_id){
         $tecnologies=array();
-        $str="SELECT * FROM saq_site_technical as t1 left join saq_technical as t2 on t1.saq_technical_id=t2.id "
-                . "WHERE t1.saq_sites_id='$this->id'";
+        $str="SELECT t1.* FROM saq_site_technical as t1 left join saq_technical as t2 on t1.saq_technical_id=t2.id "
+                . "WHERE t1.saq_sites_id='$this->id' AND t1.saq_technical_id = $technical_id";
+//        print $str;
         $res= dbQuery($str);
-        while ($row = dbFetchAssoc($res)) {
-            array_push($tecnologies, array($row['technology']=>$row['availability']));
+        if(dbNumRows($res)==1) {
+            $row = dbFetchAssoc($res);   
+            if($row['available'] == 'Y') {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
         }
-        return $tecnologies;
+             
+//        return $tecnologies;
     }
-    public function getOtherOperatorPresent(){
+    public function getOtherOperatorPresent($other_operator_id){
         $operators=array();
-        $str="SELECT * FROM saq_site_other_operator as t1 left join saq_other_operator as t2 on t1.saq_other_operator_id=t2.id "
-                . "WHERE t1.saq_sites_id='$this->id'";
+        $str="SELECT t1.* FROM saq_site_other_operator as t1 left join saq_other_operator as t2 on t1.saq_other_operator_id=t2.id "
+                . "WHERE t1.saq_sites_id='$this->id' AND t1.saq_other_operator_id = $other_operator_id;";
         $res= dbQuery($str);
-        while ($row = dbFetchAssoc($res)) {
-            array_push($operators, $row['name']);
+        if(dbNumRows($res)>0) {
+            return true;
+        } else {
+            return false;
         }
-        return $operators;
+//        while ($row = dbFetchAssoc($res)) {
+//            array_push($operators, $row['name']);
+//        }
+//        return $operators;
     }
-    public function getApprovalsPresent(){
+    
+    public function getSiteAgreementData() {
+        $string = "SELECT t2.id FROM `saq_sites` AS `t1` INNER JOIN `saq_site_agreement_data` AS `t2` ON t2.saq_sites_id = t1.id WHERE t1.id = $this->id;";
+//        print $string;
+        $result = dbQuery($string);
+        if(dbNumRows($result)==1) {
+            $row = dbFetchAssoc($result);
+//            print 'id'. $row['id'];
+            $saq_s_a_d_obj = new saq_site_agreement_data($row['id']);
+            $saq_s_a_d_obj->getData();
+        } else {
+            $saq_s_a_d_obj = new saq_site_agreement_data();
+        }
+        return $saq_s_a_d_obj;
+    }
+    public function getApprovalsPresent($approval_id){
         $approvals=array();
         $str="SELECT * FROM saq_site_approvals as t1 left join saq_approvals as t2 on t1.saq_approvals_id=t2.id "
-                . "WHERE t1.saq_sites_id='$this->id'";
+                . "WHERE t1.saq_sites_id='$this->id' AND t1.saq_approvals_id = $approval_id;";
         $res= dbQuery($str);
-        while ($row = dbFetchAssoc($res)) {
-            array_push($approvals, array('requirement'=>$row['requirement'],'description'=>$row['description'],'code'=>$row['code'],'available'=>$row['available']));
+        if(dbNumRows($res)>0) {
+            return true;
+        } else {
+            return false;
         }
-        return $approvals;
+//        while ($row = dbFetchAssoc($res)) {
+//            array_push($approvals, array('requirement'=>$row['requirement'],'description'=>$row['description'],'code'=>$row['code'],'available'=>$row['available']));
+//        }
+//        return $approvals;
     }
 
     public function getTabbedData(){

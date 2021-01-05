@@ -39,6 +39,10 @@ include("../inc/header_less.php");
 $page_nav["site_management"]["active"] = true;
 //include("../inc/nav.php");
 // ====================== LOGIC ================== --!>
+
+include_once '../class/cls_saq_technical.php';
+include_once '../class/cls_saq_other_operator.php';
+include_once '../class/cls_saq_approvals.php';
 ?>
 <style>
     .customFiled {
@@ -508,59 +512,30 @@ $page_nav["site_management"]["active"] = true;
                                                     <table class="table">
                                                         <thead>
                                                         <th>Technology</th>
-                                                        <th align="center">GSM</th>
-                                                        <th align="center">2G</th>
-                                                        <th align="center">3G</th>
-                                                        <th align="center">4G</th>
-                                                        <th align="center">TDD</th>
-                                                        <th align="center">FDD</th>
-                                                        <th align="center">Fiber</th>
+                                                        <?php
+                                                            $technology_obj = new saq_technical();
+                                                            $technologies = $technology_obj->getAll();
+//                                                            print_r($technologies);
+                                                            foreach ($technologies as $tech) {
+                                                                print "<th align='center'>$tech->technology</th>";
+                                                            }
+                                                        ?>
                                                         </thead>
                                                         <tbody>
                                                             <tr>
                                                                 <td>Dialog</td>
-                                                                <td align="center">
-                                                                    <label class="checkbox">
-                                                                        <input type="checkbox" name="gsm" id="gsm">
+                                                                <?php
+                                                                foreach ($technologies as $tech) {
+//                                                                    var_dump($checkAvailable);
+                                                                    $checkAvailable = $site_obj->getTechnologyPresent($tech->id);
+                                                                    print "<td align='center'>
+                                                                    <label class='checkbox'>
+                                                                        <input type='checkbox' name='technologies' id='$tech->id' value='$tech->id' ".(($checkAvailable==true)?"checked=''":"").">
                                                                         <i></i>
                                                                     </label>
-                                                                </td>
-                                                                <td align="center">
-                                                                    <label class="checkbox">
-                                                                        <input type="checkbox" name="2g" id="2g">
-                                                                        <i></i>
-                                                                    </label>
-                                                                </td>
-                                                                <td align="center">
-                                                                    <label class="checkbox">
-                                                                        <input type="checkbox" name="3g" id="3g">
-                                                                        <i></i>
-                                                                    </label>
-                                                                </td>
-                                                                <td align="center">
-                                                                    <label class="checkbox">
-                                                                        <input type="checkbox" name="4g" id="4g">
-                                                                        <i></i>
-                                                                    </label>
-                                                                </td>
-                                                                <td align="center"> 
-                                                                    <label class="checkbox">
-                                                                        <input type="checkbox" name="tdd" id="tdd">
-                                                                        <i></i>
-                                                                    </label>
-                                                                </td>
-                                                                <td align="center">
-                                                                    <label class="checkbox">
-                                                                        <input type="checkbox" name="fdd" id="fdd">
-                                                                        <i></i>
-                                                                    </label>
-                                                                </td>
-                                                                <td align="center">
-                                                                    <label class="checkbox">
-                                                                        <input type="checkbox" name="fiber" id="fiber">
-                                                                        <i></i>
-                                                                    </label>
-                                                                </td>
+                                                                </td>";
+                                                                }
+                                                                ?>                                                               
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -570,146 +545,56 @@ $page_nav["site_management"]["active"] = true;
                                                     <table class="table">
                                                         <thead>
                                                         <th>Operator</th>
-                                                        <th>Present</th>
+                                                        <th width="5%">Present</th>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td style="padding:10px;">Mobitel</td>
-                                                                <td>
-                                                                    <label class="checkbox">
-                                                                        <input type="checkbox" name="mobitel" id="mobitel">
+                                                            <?php
+                                                                $saq_other_operator_obj = new saq_other_operator();
+                                                                $other_operators =$saq_other_operator_obj->getAll();
+                                                                
+                                                                foreach ($other_operators as $operator) {
+                                                                    $checkAvailable = $site_obj->getOtherOperatorPresent($operator->id);
+                                                                    print "<tr><td style='padding:10px;'>$operator->name</td>"
+                                                                            . "<td align='center'>
+                                                                    <label class='checkbox'>
+                                                                        <input type='checkbox' name='other_operators' id='$operator->id' value='$operator->id' ".(($checkAvailable)?"checked=''":"").">
                                                                         <i></i>
                                                                     </label>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="padding:10px;">Hutch</td>
-                                                                <td>
-                                                                    <label class="checkbox">
-                                                                        <input type="checkbox" name="hutch" id="hutch">
-                                                                        <i></i>
-                                                                    </label>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="padding:10px;">Airtel</td>
-                                                                <td>
-                                                                    <label class="checkbox">
-                                                                        <input type="checkbox" name="airtel" id="airtel">
-                                                                        <i></i>
-                                                                    </label>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="padding:10px;">LB</td>
-                                                                <td>
-                                                                    <label class="checkbox">
-                                                                        <input type="checkbox" name="lb" id="lb">
-                                                                        <i></i>
-                                                                    </label>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="padding:10px;">SLA</td>
-                                                                <td>
-                                                                    <label class="checkbox">
-                                                                        <input type="checkbox" name="sla" id="sla">
-                                                                        <i></i>
-                                                                    </label>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="padding:10px;">STF</td>
-                                                                <td>
-                                                                    <label class="checkbox">
-                                                                        <input type="checkbox" name="stf" id="stf">
-                                                                        <i></i>
-                                                                    </label>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="padding:10px;">SAF</td>
-                                                                <td>
-                                                                    <label class="checkbox">
-                                                                        <input type="checkbox" name="saf" id="saf">
-                                                                        <i></i>
-                                                                    </label>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="padding:10px;">Police</td>
-                                                                <td>
-                                                                    <label class="checkbox">
-                                                                        <input type="checkbox" name="police" id="police">
-                                                                        <i></i>
-                                                                    </label>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="padding:10px;">Sirasa</td>
-                                                                <td>
-                                                                    <label class="checkbox">
-                                                                        <input type="checkbox" name="sirasa" id="sirasa">
-                                                                        <i></i>
-                                                                    </label>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="padding:10px;">TNL</td>
-                                                                <td>
-                                                                    <label class="checkbox">
-                                                                        <input type="checkbox" name="tnl" id="tnl">
-                                                                        <i></i>
-                                                                    </label>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="padding:10px;">Suwarnawahini</td>
-                                                                <td>
-                                                                    <label class="checkbox">
-                                                                        <input type="checkbox" name="suwarnwahini" id="suwarnwahini">
-                                                                        <i></i>
-                                                                    </label>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="padding:10px;">Derana</td>
-                                                                <td>
-                                                                    <label class="checkbox">
-                                                                        <input type="checkbox" name="derana" id="derana">
-                                                                        <i></i>
-                                                                    </label>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="padding:10px;">Other</td>
-                                                                <td>
-                                                                    <label class="checkbox">
-                                                                        <input type="checkbox" name="other" id="other">
-                                                                        <i></i>
-                                                                    </label>
-                                                                </td>
-                                                            </tr>
+                                                                </td></tr>";
+                                                                }
+                                                            ?>                                                            
                                                         </tbody>
                                                     </table>
+                                                    <br />
+                                                    <br />
+                                                    <section class="col-12">                                                        
+                                                       <input type="hidden" name="id" value="<?php print $site_obj->id ?>" />
+                                                        <input type="hidden" name="tab" value="A" />
+                                                        <input type="hidden" name="option" value="<?php print (($site_obj->id != '') ? 'EDIT' : 'ADD') ?>"/>
+                                                        <button class="btn btn-primary btn-xs" onclick="" style="float:right;">Save &nbsp;<i class="fa fa-save"></i></button>
+                                                    </section>
                                                 </fieldset>
                                             </form>
                                         </div>
                                         <div class="tab-pane fade active in" id="agreement">
                                             <form class="smart-form">
+                                                  <?php
+                                                    $agreement_data_obj = $site_obj->getSiteAgreementData();
+//                                                    var_dump($agreement_data_obj);
+                                                  ?>
                                                 <fieldset>
                                                     <table class="table table-bordered">
                                                         <tr>
                                                             <td>Site ID</td>
                                                             <td>
                                                                 <label class="input">
-                                                                    <input type="text" name="site_id" id="site_id" />
+                                                                    <input type="text" name="site_id" id="site_id" value="<?php print $site_obj->code ?>"/>
                                                                 </label>
                                                             </td>
                                                             <td>Site Name</td>
                                                             <td>
                                                                 <label class="input">
-                                                                    <input type="text" name="site_id" id="site_id" />
+                                                                    <input type="text" name="site_name" id="site_name" value="<?php print $site_obj->name ?>"/>
                                                                 </label>
                                                             </td>
                                                         </tr>
@@ -717,13 +602,13 @@ $page_nav["site_management"]["active"] = true;
                                                             <td>Agreement Status</td>
                                                             <td>
                                                                 <label class="input">
-                                                                    <input type="text" name="site_id" id="site_id" />
+                                                                    <input type="text" name="agreement_status" id="agreement_status" value="<?php print $agreement_data_obj->agreement_status ?>"/>
                                                                 </label>
                                                             </td>
                                                             <td>Agreement Expire Date</td>
                                                             <td>
                                                                 <label class="input">
-                                                                    <input type="text" name="site_id" id="site_id" />
+                                                                    <input type="text" name="agreement_expire_date" id="agreement_expire_date" value="<?php print $agreement_data_obj->date_expire ?>"/>
                                                                 </label>
                                                             </td>
                                                         </tr>
@@ -731,13 +616,13 @@ $page_nav["site_management"]["active"] = true;
                                                             <td>Agreement Start Date</td>
                                                             <td>
                                                                 <label class="input">
-                                                                    <input type="text" name="agreement_start_date" id="agreement_start_date" />
+                                                                    <input type="text" name="agreement_start_date" id="agreement_start_date" value="<?php print $agreement_data_obj->date_start ?>"/>
                                                                 </label>
                                                             </td>
                                                             <td>payment MODE</td>
                                                             <td>
                                                                 <label class="input">
-                                                                    <input type="text" name="payment_mode" id="payment_mode" />
+                                                                    <input type="text" name="payment_mode" id="payment_mode" value="<?php print $agreement_data_obj->payment_mode ?>"/>
                                                                 </label>
                                                             </td>
                                                         </tr>
@@ -745,13 +630,13 @@ $page_nav["site_management"]["active"] = true;
                                                             <td>Leas Period</td>
                                                             <td>
                                                                 <label class="input">
-                                                                    <input type="text" name="leas_period" id="leas_period" />
+                                                                    <input type="text" name="leas_period" id="leas_period" value="<?php print $agreement_data_obj->lease_period ?>"/>
                                                                 </label>
                                                             </td>
                                                             <td>Current Month payment</td>
                                                             <td>
                                                                 <label class="input">
-                                                                    <input type="text" name="current_month_payment" id="current_month_payment" />
+                                                                    <input type="text" name="current_month_payment" id="current_month_payment" value="<?php // print $agreement_data_obj-> ?>"/>
                                                                 </label>
                                                             </td>
                                                         </tr>
@@ -759,13 +644,13 @@ $page_nav["site_management"]["active"] = true;
                                                             <td>Start Monthly Rental</td>
                                                             <td>
                                                                 <label class="input">
-                                                                    <input type="text" name="start_monthly_rental" id="start_monthly_rental" />
+                                                                    <input type="text" name="start_monthly_rental" id="start_monthly_rental" value="<?php print $agreement_data_obj->start_monthly_rental ?>"/>
                                                                 </label>
                                                             </td>
                                                             <td>Monthly deducting amount for ADV recovery</td>
                                                             <td>
                                                                 <label class="input">
-                                                                    <input type="text" name="mdafar" id="mdafar" />
+                                                                    <input type="text" name="mdafar" id="mdafar" value="<?php print $agreement_data_obj->monthly_deduction_for_adv ?>"/>
                                                                 </label>
                                                             </td>
                                                         </tr>
@@ -773,13 +658,13 @@ $page_nav["site_management"]["active"] = true;
                                                             <td>RATE Increment</td>
                                                             <td>
                                                                 <label class="input">
-                                                                    <input type="text" name="rate_increment" id="rate_increment" />
+                                                                    <input type="text" name="rate_increment" id="rate_increment" value="<?php print $agreement_data_obj->rate_increment ?>"/>
                                                                 </label>
                                                             </td>
                                                             <td>ADV recovery period</td>
                                                             <td>
                                                                 <label class="input">
-                                                                    <input type="text" name="adv_recovery_period" id="adv_recovery_period" />
+                                                                    <input type="text" name="adv_recovery_period" id="adv_recovery_period" value="<?php print $agreement_data_obj->adv_recovery_period ?>"/>
                                                                 </label>
                                                             </td>
                                                         </tr>
@@ -787,13 +672,13 @@ $page_nav["site_management"]["active"] = true;
                                                             <td>Advance payment</td>
                                                             <td>
                                                                 <label class="input">
-                                                                    <input type="text" name="advance_payment" id="advance_payment" />
+                                                                    <input type="text" name="advance_payment" id="advance_payment" value="<?php print $agreement_data_obj->advance_payment ?>"/>
                                                                 </label>
                                                             </td>
                                                             <td>Account holder name</td>
                                                             <td>
                                                                 <label class="input">
-                                                                    <input type="text" name="acc_holder_name" id="acc_holder_name" />
+                                                                    <input type="text" name="acc_holder_name" id="acc_holder_name" value="<?php print $agreement_data_obj->account_holder_name ?>"/>
                                                                 </label>
                                                             </td>
                                                         </tr>
@@ -801,13 +686,13 @@ $page_nav["site_management"]["active"] = true;
                                                             <td>Bank Account</td>
                                                             <td>
                                                                 <label class="input">
-                                                                    <input type="text" name="bank_account" id="bank_account" />
+                                                                    <input type="text" name="bank_account" id="bank_account" value="<?php print $agreement_data_obj->bank_account ?>"/>
                                                                 </label>
                                                             </td>
                                                             <td>Branch Name</td>
                                                             <td>
                                                                 <label class="input">
-                                                                    <input type="text" name="branch_name" id="branch_name" />
+                                                                    <input type="text" name="branch_name" id="branch_name" value="<?php print $agreement_data_obj->branch_name ?>"/>
                                                                 </label>
                                                             </td>
                                                         </tr>
@@ -815,7 +700,7 @@ $page_nav["site_management"]["active"] = true;
                                                             <td>Bank Name</td>
                                                             <td>
                                                                 <label class="input">
-                                                                    <input type="text" name="bank_name" id="bank_name" />
+                                                                    <input type="text" name="bank_name" id="bank_name" value="<?php print $agreement_data_obj->bank_name ?>"/>
                                                                 </label>
                                                             </td>
                                                             <td>&nbsp;</td>
@@ -827,7 +712,7 @@ $page_nav["site_management"]["active"] = true;
                                                             <td>Account type</td>
                                                             <td>
                                                                 <label class="input">
-                                                                    <input type="text" name="acc_type" id="acc_type" />
+                                                                    <input type="text" name="acc_type" id="acc_type" value="<?php print $agreement_data_obj->account_type ?>"/>
                                                                 </label>
                                                             </td>
                                                             <td>&nbsp;</td>
@@ -839,7 +724,7 @@ $page_nav["site_management"]["active"] = true;
                                                             <td>Account holder NIC Number</td>
                                                             <td>
                                                                 <label class="input">
-                                                                    <input type="text" name="acc_holder_nic_no" id="acc_holder_nic_no" />
+                                                                    <input type="text" name="acc_holder_nic_no" id="acc_holder_nic_no" value="<?php print $agreement_data_obj->account_holder_nic ?>"/>
                                                                 </label>
                                                             </td>
                                                             <td>&nbsp;</td>
@@ -891,6 +776,14 @@ $page_nav["site_management"]["active"] = true;
                                                                 </label></td>
                                                         </tr>
                                                     </table>
+                                                    <br />
+                                                    <br />
+                                                    <section class="col-12">                                                        
+                                                       <input type="hidden" name="id" value="<?php print $site_obj->id ?>" />
+                                                        <input type="hidden" name="tab" value="A" />
+                                                        <input type="hidden" name="option" value="<?php print (($site_obj->id != '') ? 'EDIT' : 'ADD') ?>"/>
+                                                        <button class="btn btn-primary btn-xs" onclick="" style="float:right;">Save &nbsp;<i class="fa fa-save"></i></button>
+                                                    </section>
                                                 </fieldset>
                                             </form>
                                         </div>
@@ -901,195 +794,38 @@ $page_nav["site_management"]["active"] = true;
                                                         <thead>
                                                         <th width="5%"></th>
                                                         <th>Requirement</th>
-                                                        <th>Approvel Name</th>
+                                                        <th>Approval Name</th>
                                                         <th>Short Name</th>
-                                                        <th>Availability</th>
+                                                        <th align='center'>Availability</th>
                                                         </thead>
                                                         <tbody>
-                                                            <tr style="background:yellow;">
-                                                                <td>1</td>
-                                                                <td>Compulsory</td>
-                                                                <td>Telecommunications Regulatory Commission Of Sri Lanka</td>
-                                                                <td>TRC</td>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr style="background:yellow;">
-                                                                <td>2</td>
-                                                                <td>Compulsory</td>
-                                                                <td>Ministry Of Defense</td>
-                                                                <td>MOD</td>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr style="background:yellow;">
-                                                                <td>3</td>
-                                                                <td>Compulsory</td>
-                                                                <td>Civil Aviation Authority Of Sri Lanka</td>
-                                                                <td>CAA</td>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr style="background:yellow;">
-                                                                <td>4</td>
-                                                                <td>Compulsory</td>
-                                                                <td>Central Environmental Authority</td>
-                                                                <td>CEA</td>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr style="background:yellow;">
-                                                                <td>5</td>
-                                                                <td>Compulsory</td>
-                                                                <td>Board Of Investment Of Sri Lanka</td>
-                                                                <td>BOI</td>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr style="background:yellow;">
-                                                                <td>6</td>
-                                                                <td>Compulsory</td>
-                                                                <td>Urban Development Authority</td>
-                                                                <td>UDA</td>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr style="background:yellow;">
-                                                                <td>7</td>
-                                                                <td>Compulsory</td>
-                                                                <td>Local Authority</td>
-                                                                <td>LA</td>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>8</td>
-                                                                <td>Optional</td>
-                                                                <td>National Building Research Organization</td>
-                                                                <td>NBRO</td>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>9</td>
-                                                                <td>Optional</td>
-                                                                <td>Divisional Secretariat No Objection Letter</td>
-                                                                <td>DVS</td>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>10</td>
-                                                                <td>Optional</td>
-                                                                <td>Land Commissioner General’s Department</td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>11</td>
-                                                                <td>Optional</td>
-                                                                <td>Department Of Archaeology</td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>12</td>
-                                                                <td>Optional</td>
-                                                                <td>Ministry Of Buddha asana</td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>13</td>
-                                                                <td>Optional</td>
-                                                                <td>Land Reform Commission</td>
-                                                                <td>LRC</td>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>14</td>
-                                                                <td>Optional</td>
-                                                                <td>Department Of Forest Conservation</td>
-                                                                <td>LRC</td>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>15</td>
-                                                                <td>Optional</td>
-                                                                <td>Department Of Wildlife Conservation</td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>16</td>
-                                                                <td>Optional</td>
-                                                                <td>Department Of Wildlife Conservation</td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>17</td>
-                                                                <td>Optional</td>
-                                                                <td>Ministry Of Plantation Industries</td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>18</td>
-                                                                <td>Optional</td>
-                                                                <td>Department Of Coast Conservation and Coastal Resource Management</td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>19</td>
-                                                                <td>Optional</td>
-                                                                <td>Road Development Authority</td>
-                                                                <td>RDA</td>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>20</td>
-                                                                <td>Optional</td>
-                                                                <td>Department Of Railways</td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>21</td>
-                                                                <td>Optional</td>
-                                                                <td>Sri Lanka Land Reclamation & Development Corporation</td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>22</td>
-                                                                <td>Optional</td>
-                                                                <td>Department of Agrarian Development</td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>23</td>
-                                                                <td>Optional</td>
-                                                                <td>Irrigation Department</td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>24</td>
-                                                                <td>Optional</td>
-                                                                <td>Condominium Management Authority</td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>25</td>
-                                                                <td>Optional</td>
-                                                                <td>Management Approval</td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr style="background:yellow;">
-                                                                <td>26</td>
-                                                                <td>Compulsory</td>
-                                                                <td>Environmental Protection Licen</td>
-                                                                <td>EPL</td>
-                                                                <td></td>
-                                                            </tr>
+                                                            <?php
+                                                                $saq_approvels_obj = new saq_approvals();
+                                                                $approvals = $saq_approvels_obj->getAll();
+                                                                
+                                                                foreach ($approvals as $approval) {
+                                                                    $checkAvailable = $site_obj->getApprovalsPresent($approval->id);
+                                                                    print "<tr ".(($approval->requirement == 'Compulsory') ? "style='background: yellow;'":"").">"
+                                                                    . "<td>$approval->id</td>"
+                                                                    . "<td>$approval->requirement</td>"
+                                                                            . "<td>$approval->description</td>"
+                                                                            . "<td>$approval->code</td>"
+                                                                            . "<td align='center' width='5%' style='padding: 10px 30px'><label class='checkbox'>"
+                                                                            . "<input type='checkbox' name='approcels' id='$approval->id' value='$approval->id' ".(($checkAvailable)?"checked=''":"")."/><i></iS></label></td>"
+                                                                            . "</tr>";
+                                                                }
+                                                            ?>                                                       
                                                         </tbody>
                                                     </table>
+                                                    <br />
+                                                    <br />
+                                                    <section class="col-12">
+                                                        
+                                                       <input type="hidden" name="id" value="<?php print $site_obj->id ?>" />
+                                                        <input type="hidden" name="tab" value="A" />
+                                                        <input type="hidden" name="option" value="<?php print (($site_obj->id != '') ? 'EDIT' : 'ADD') ?>"/>
+                                                        <button class="btn btn-primary btn-xs" onclick="" style="float:right;">Save &nbsp;<i class="fa fa-save"></i></button>
+                                                    </section>
                                                 </fieldset>
                                             </form>
                                         </div>
