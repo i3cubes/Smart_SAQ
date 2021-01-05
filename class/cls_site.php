@@ -105,41 +105,41 @@ class site {
             $sql=array();
             switch ($tab){
             case 'D':
-                array_push($sql, $this->getCleanedData('name', $this->name),$source);
-                array_push($sql, $this->getCleanedData('type', $this->type),$source);
-                array_push($sql, $this->getCleanedData('address', $this->address),$source);
-                array_push($sql, $this->getCleanedData('site_ownership', $this->site_ownership),$source);
-                array_push($sql, $this->getCleanedData('operators_name', $this->operator_name),$source);
-                array_push($sql, $this->getCleanedData('tower_height', $this->tower_height),$source);
-                array_push($sql, $this->getCleanedData('building_height', $this->building_height),$source);
-                array_push($sql, $this->getCleanedData('land_area', $this->land_area),$source);
-                array_push($sql, $this->getCleanedData('on_air_date', $this->on_air_date),$source);
-                array_push($sql, $this->getCleanedData('category', $this->category),$source);
-                array_push($sql, $this->getCleanedData('lat', $this->lat),$source);
-                array_push($sql, $this->getCleanedData('lon', $this->lon),$source);
-                array_push($sql, $this->getCleanedData('access_type', $this->access_type),$source);
-                array_push($sql, $this->getCleanedData('manual_distance', $this->manual_distance),$source);
-                array_push($sql, $this->getCleanedData('access_permission_type', $this->access_permision_type),$source);
-                array_push($sql, $this->getCleanedData('PG_installation_possibility', $this->pg_installation_possibility),$source);
-                array_push($sql, $this->getCleanedData('saq_district_id', $this->district_id),$source);
-                array_push($sql, $this->getCleanedData('saq_ds_id', $this->ds_id),$source);
-                array_push($sql, $this->getCleanedData('saq_la_id', $this->la_id),$source);
-                array_push($sql, $this->getCleanedData('saq_police_station_id', $this->police_station_id),$source);
-                array_push($sql, $this->getCleanedData('saq_region_id', $this->region_id),$source);
-                array_push($sql, $this->getCleanedData('saq_dns_office_id', $this->dns_office_id),$source);
+                array_push($sql, $this->getCleanedData('name', $this->name,$source));
+                array_push($sql, $this->getCleanedData('type', $this->type,$source));
+                array_push($sql, $this->getCleanedData('address', $this->address,$source));
+                array_push($sql, $this->getCleanedData('site_ownership', $this->site_ownership,$source));
+                array_push($sql, $this->getCleanedData('operators_name', $this->operator_name,$source));
+                array_push($sql, $this->getCleanedData('tower_height', $this->tower_height,$source));
+                array_push($sql, $this->getCleanedData('building_height', $this->building_height,$source));
+                array_push($sql, $this->getCleanedData('land_area', $this->land_area,$source));
+                array_push($sql, $this->getCleanedData('on_air_date', $this->on_air_date,$source));
+                array_push($sql, $this->getCleanedData('category', $this->category,$source));
+                array_push($sql, $this->getCleanedData('lat', $this->lat,$source));
+                array_push($sql, $this->getCleanedData('lon', $this->lon,$source));
+                array_push($sql, $this->getCleanedData('access_type', $this->access_type,$source));
+                array_push($sql, $this->getCleanedData('manual_distance', $this->manual_distance,$source));
+                array_push($sql, $this->getCleanedData('access_permission_type', $this->access_permision_type,$source));
+                array_push($sql, $this->getCleanedData('PG_installation_possibility', $this->pg_installation_possibility,$source));
+                array_push($sql, $this->getCleanedData('saq_district_id', $this->district_id,$source));
+                array_push($sql, $this->getCleanedData('saq_ds_id', $this->ds_id,$source));
+                array_push($sql, $this->getCleanedData('saq_la_id', $this->la_id,$source));
+                array_push($sql, $this->getCleanedData('saq_police_station_id', $this->police_station_id,$source));
+                array_push($sql, $this->getCleanedData('saq_region_id', $this->region_id,$source));
+                array_push($sql, $this->getCleanedData('saq_dns_office_id', $this->dns_office_id,$source));
                 
                 break;
             //print $str;
             case 'C':
             //Contact
-                array_push($sql, $this->getCleanedData('LO_name', $this->lo_name),$source);
-                array_push($sql, $this->getCleanedData('LO_address', $this->lo_address),$source);
-                array_push($sql, $this->getCleanedData('LO_nic_brc', $this->lo_nic_brc),$source);
-                array_push($sql, $this->getCleanedData('LO_mobile', $this->lo_mobile),$source);
-                array_push($sql, $this->getCleanedData('LO_land_number', $this->lo_land_number),$source);
-                array_push($sql, $this->getCleanedData('contact_person_number', $this->contact_person_number),$source);
-                array_push($sql, $this->getCleanedData('LO_fax', $this->lo_fax),$source);
-                array_push($sql, $this->getCleanedData('LO_email', $this->lo_email),$source);
+                array_push($sql, $this->getCleanedData('LO_name', $this->lo_name,$source));
+                array_push($sql, $this->getCleanedData('LO_address', $this->lo_address,$source));
+                array_push($sql, $this->getCleanedData('LO_nic_brc', $this->lo_nic_brc,$source));
+                array_push($sql, $this->getCleanedData('LO_mobile', $this->lo_mobile,$source));
+                array_push($sql, $this->getCleanedData('LO_land_number', $this->lo_land_number,$source));
+                array_push($sql, $this->getCleanedData('contact_person_number', $this->contact_person_number,$source));
+                array_push($sql, $this->getCleanedData('LO_fax', $this->lo_fax,$source));
+                array_push($sql, $this->getCleanedData('LO_email', $this->lo_email,$source));
 
                 break;
             default :
