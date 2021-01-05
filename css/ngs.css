@@ -33,6 +33,7 @@
     background-blend-mode: overlay;
     background-repeat: no-repeat;
     font-family: bavaria;
+    overflow-x: hidden;
  }
 .todo>li>p {
     min-height: 25px;
