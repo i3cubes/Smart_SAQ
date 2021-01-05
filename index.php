@@ -34,10 +34,10 @@ include("inc/header.php");
     #main_id {
         background-image: url("img/front_page_image.jpg") !important;
         background-repeat: no-repeat;
-        /*background-size:cover;*/
-        /*height: 100vh;*/
-        /*width: 100vw;*/
-        /*overflow: hidden;*/
+        background-size:cover;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
     }
 </style>
 
