@@ -109,7 +109,7 @@ $page_nav["site_management"]["active"] = true;
                                 </ul>
                                 <div id="" class="tab-content">
                                     <div class="tab-pane fade active in" id="general">
-                                        <form class="smart-form">
+                                        <form class="smart-form" id="general_form">
                                             <fieldset>
                                                 <section class="col-sm-5">
                                                     <label class="ngs_form_label">
@@ -147,7 +147,7 @@ $page_nav["site_management"]["active"] = true;
                                                         Province
                                                     </label>
                                                     <label class="input">
-                                                        <input type="text" name="province" id="province"/>
+                                                        <input type="text" name="province" id="province" value=""/>
                                                     </label>
                                                 </section>  
 
@@ -227,7 +227,7 @@ $page_nav["site_management"]["active"] = true;
                                                         SAQ officer Name
                                                     </label>
                                                     <label class="input">
-                                                        <input type="text" name="saq_office_name" id="saq_office_name"/>
+                                                        <input type="text" name="saq_officer_name" id="saq_officer_name"/>
                                                     </label>
                                                 </section>
 
@@ -236,7 +236,7 @@ $page_nav["site_management"]["active"] = true;
                                                         DNS Officer Name
                                                     </label>
                                                     <label class="input">
-                                                        <input type="text" name="dns_office_name" id="dns_office_name"/>
+                                                        <input type="text" name="dns_officer_name" id="dns_officer_name"/>
                                                     </label>
                                                 </section>
                                                 <section class="col-sm-2">
@@ -347,7 +347,7 @@ $page_nav["site_management"]["active"] = true;
                                                         Longitude
                                                     </label>
                                                     <label class="input">
-                                                        <input type="text" name="longitude" id="on_air_date" value="<?php print $site_obj->lon; ?>"/>
+                                                        <input type="text" name="longitude" id="longitude" value="<?php print $site_obj->lon; ?>"/>
                                                     </label>
                                                 </section>
 
@@ -356,7 +356,7 @@ $page_nav["site_management"]["active"] = true;
                                                         Latitude
                                                     </label>
                                                     <label class="input">
-                                                        <input type="text" name="latitude" id="site_category" value="<?php print $site_obj->lat; ?>"/>
+                                                        <input type="text" name="latitude" id="latitude" value="<?php print $site_obj->lat; ?>"/>
                                                     </label>
                                                 </section>
                                                 <section class="col-sm-2">
@@ -367,7 +367,7 @@ $page_nav["site_management"]["active"] = true;
                                                         Access Type
                                                     </label>
                                                     <label class="input">
-                                                        <input type="text" name="access_type" id="longitude" value="<?php print $site_obj->access_type; ?>"/>
+                                                        <input type="text" name="access_type" id="access_type" value="<?php print $site_obj->access_type; ?>"/>
                                                     </label>
                                                 </section>
 
@@ -406,7 +406,7 @@ $page_nav["site_management"]["active"] = true;
                                         </form>
                                     </div>                                    
                                     <div class="tab-pane fade active in" id="contact">
-                                        <form class="smart-form">
+                                        <form class="smart-form" id="contact_form">
                                             <fieldset>                                                
                                                 <section class="col-sm-5">
                                                     <label class="ngs_form_label">
