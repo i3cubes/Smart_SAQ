@@ -30,9 +30,17 @@ include("inc/header.php");
 ?>
 <!-- ==========================CONTENT STARTS HERE ========================== -->
 <!-- possible classes: minified, no-right-panel, fixed-ribbon, fixed-header, fixed-width-->
+<style>
+    #main_id {
+        background-image: url("img/front_page_image.jpg") !important;
+        background-repeat: no-repeat;
+        background-size:cover;
+        height: 100vh;
+        width: 100vw;
+    }
+</style>
 
-
-<div id="main" role="main" style="margin-left:0px;">
+<div id="main_id" role="main" style="margin-left:0px;">
 
 	<!-- MAIN CONTENT -->
 	<div id="content" class="container">
@@ -42,7 +50,7 @@ include("inc/header.php");
 				<div class="hero">
 
 					<div class="pull-left login-desc-box-l">
-                                            <img alt="" src="img/tower_logo.png" height="200" width="200">
+                                            <!--<img alt="" src="img/tower_logo.png" height="200" width="200">-->
                                             <!--<h3 style="text-align: center;">SAQ</h3>-->
 					</div>
 
