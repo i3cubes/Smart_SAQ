@@ -31,11 +31,15 @@ include("inc/header.php");
 <!-- ==========================CONTENT STARTS HERE ========================== -->
 <!-- possible classes: minified, no-right-panel, fixed-ribbon, fixed-header, fixed-width-->
 <style>
+    body {
+        overflow: hidden !important;
+    }
+    
     #main_id {
         background-image: url("img/front_page_image.jpg") !important;
         background-repeat: no-repeat;
         background-size:cover;
-        height: 100%;
+        height: 105vh;
         width: 100vw;
         overflow-x: hidden;
     }
