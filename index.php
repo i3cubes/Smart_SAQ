@@ -32,7 +32,7 @@ include("inc/header.php");
 <!-- possible classes: minified, no-right-panel, fixed-ribbon, fixed-header, fixed-width-->
 
 
-<div id="main" role="main" style="margin-left:0px;background: url(img/bg.jpg) #fff;">
+<div id="main" role="main" style="margin-left:0px;">
 
 	<!-- MAIN CONTENT -->
 	<div id="content" class="container">
