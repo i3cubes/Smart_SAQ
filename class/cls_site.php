@@ -36,6 +36,7 @@ class site {
                 . "WHERE t1.id='".$this->id."';";
         $res= dbQuery($str);
         $row= dbFetchAssoc($res);
+        $this->id=$row['id'];
         $this->name=$row['name'];
         $this->code=$row['code'];
         $this->type=$row['type'];
@@ -150,6 +151,7 @@ class site {
                 $this->update_string= implode("||", array_filter($sql));
 
                 $str="UPDATE saq_sites SET ".$sql_str." WHERE id='$this->id';";
+                print $str;
                 $result= dbQuery($str);
                 return $result;
             }
