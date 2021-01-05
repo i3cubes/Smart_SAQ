@@ -35,7 +35,7 @@ include("inc/header.php");
         background-image: url("img/front_page_image.jpg") !important;
         background-repeat: no-repeat;
         background-size:cover;
-        height: 100%;
+        height: 100vh;
         width: 100vw;
         overflow-x: hidden;
     }
