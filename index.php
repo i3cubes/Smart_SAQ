@@ -65,7 +65,7 @@ include("inc/header.php");
 			<div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
 				<div class="well no-padding" style="margin-top: 32%;">
                                     <form id="login-form" class="smart-form client-form" onsubmit="loginHandler(event)">
-						<header style="background-color: #c9005dd1 !important;">
+						<header style="background-color: #c9005dd1 !important;color:white;">
 							Sign In
 						</header>
 
