@@ -36,10 +36,10 @@ include("inc/header.php");
     }
     
     #main_id {
-        background-image: url("img/front_page_image.jpg") !important;
+        background-image: url("img/dialog.jpg") !important;
         background-repeat: no-repeat;
         background-size:cover;
-        height: 105vh;
+        height: 100vh;
         width: 100vw;
         overflow-x: hidden;
     }
@@ -65,7 +65,7 @@ include("inc/header.php");
 			<div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
 				<div class="well no-padding" style="margin-top: 32%;">
                                     <form id="login-form" class="smart-form client-form" onsubmit="loginHandler(event)">
-						<header style="background-color: #008FC9 !important;">
+						<header style="background-color: #c9005dd1 !important;">
 							Sign In
 						</header>
 
@@ -88,9 +88,9 @@ include("inc/header.php");
 							<section>								
 							</section>
 						</fieldset>
-						<footer style="background-color: #A4A4A4;">
+						<footer style="">
                                                          <input type="hidden" name="option" value="LOGIN" />
-							<button type="submit" class="btn btn-primary" name="but" id="but" value="signin">
+                                                         <button type="submit" class="btn btn-primary" style="background:#c9005dd1;" name="but" id="but" value="signin">
 								Sign in
 							</button>
 						</footer>
