@@ -6,8 +6,8 @@ $site_obj = new site($_REQUEST['id']);
 // tab general
 $site_obj->code = $_REQUEST['site_code'];
 $site_obj->name = $_REQUEST['site_name'];
-$site_obj->district_id = $_REQUEST[''];
-$site_obj->province_id = $_REQUEST[''];
+$site_obj->district_id = $_REQUEST['district_id'];
+$site_obj->province_id = $_REQUEST['province_id'];
 $site_obj->divisional_secretariat = $_REQUEST['divisional_secretariat'];
 $site_obj->local_authority = $_REQUEST['local_authority'];
 $site_obj->gs_division = $_REQUEST['gs_division'];
@@ -37,8 +37,19 @@ $site_obj->lo_email = $_REQUEST['email_address'];
 $site_obj->lo_address = $_REQUEST['land_owner_address'];
 $site_obj->lo_nic_brc = $_REQUEST['land_owner_nic'];
 $site_obj->lo_mobile = $_REQUEST['land_owner_mobile_number'];
+$site_obj->lo_land_number = $_REQUEST['land_owner_land_number'];
 $site_obj->contact_person_number = $_REQUEST['contact_person_and_number'];
 $site_obj->lo_fax = $_REQUEST['fax'];
+
+// tab technical
+$site_obj->technical = $_REQUEST['technologies'];
+$site_obj->other_operators = $_REQUEST['other_operators'];
+
+// tab agreement & payments
+$site_obj->agreement_data = $_REQUEST;
+
+// tab approvals
+$site_obj->approvals = $_REQUEST['approvals'];
 
 switch ($_REQUEST['option']) {
     case 'ADD': 

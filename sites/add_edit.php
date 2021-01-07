@@ -43,6 +43,13 @@ $page_nav["site_management"]["active"] = true;
 include_once '../class/cls_saq_technical.php';
 include_once '../class/cls_saq_other_operator.php';
 include_once '../class/cls_saq_approvals.php';
+include_once '../class/cls_saq_district.php';
+include_once '../class/cls_saq_province.php';
+include_once '../class/cls_divisional_secretariat.php';
+include_once '../class/cls_saq_local_authority.php';
+include_once '../class/cls_saq_local_authority.php';
+include_once '../class/cls_police_station.php';
+include_once '../class/cls_saq_region.php';
 ?>
 <style>
     .customFiled {
@@ -106,9 +113,9 @@ include_once '../class/cls_saq_approvals.php';
                                         <li>
                                             <a href="#approvals" data-toggle="tab" aria-expanded="false">Approvals</a>
                                         </li>
-<!--                                        <li>
-                                            <a href="#tasks" data-toggle="tab" aria-expanded="false">Tasks</a>
-                                        </li>-->
+                                        <!--                                        <li>
+                                                                                    <a href="#tasks" data-toggle="tab" aria-expanded="false">Tasks</a>
+                                                                                </li>-->
                                     </ul>
                                     <div id="" class="tab-content">
                                         <div class="tab-pane fade active in" id="general">
@@ -138,12 +145,20 @@ include_once '../class/cls_saq_approvals.php';
                                                         <label class="ngs_form_label">
                                                             District
                                                         </label>
-                                                        <label class="input">
-    <!--                                                        <select name="district" id="district">
-                                                            <?php
-                                                            ?>
-                                                            </select>-->
-                                                            <input type="text" name="district" id="district" value="<?php print $site_obj->district_name; ?>"/>
+                                                        <label class="select"><i class="icon-append fa fa-user"></i>
+                                                            <select name="district_id" id="district_id">
+                                                                <?php
+                                                                $saq_district_obj = new saq_district('');
+                                                                $districts = $saq_district_obj->getAll();
+//                                                                print_r($districts);
+                                                                if (count($districts) > 0) {
+                                                                    foreach ($districts as $district) {
+                                                                        print "<option value='$district->id' " . (($site_obj->district_id == $district->id) ? "selected=''" : "") . ">$district->name</option>";
+                                                                    }
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                            <!--<input type="text" name="district" id="district" value="<?php print $site_obj->district_name; ?>"/>-->
                                                         </label>
                                                     </section>
                                                     <section class="col-sm-2">
@@ -153,9 +168,24 @@ include_once '../class/cls_saq_approvals.php';
                                                         <label class="ngs_form_label">
                                                             Province
                                                         </label>
-                                                        <label class="input">
-                                                            <input type="text" name="province" id="province" value=""/>
+                                                        <label class="select"><i class="icon-append fa fa-user"></i>
+                                                            <select name="province_id" id="province_id">
+                                                                <?php
+                                                                $saq_province_obj = new saq_province('');
+                                                                $provinces = $saq_province_obj->getAll();
+//                                                                print_r($districts);
+                                                                if (count($provinces) > 0) {
+                                                                    foreach ($provinces as $province) {
+                                                                        print "<option value='$province->id' " . (($site_obj->province_id == $province->id) ? "selected=''" : "") . ">$province->name</option>";
+                                                                    }
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                            <!--<input type="text" name="district" id="district" value="<?php print $site_obj->district_name; ?>"/>-->
                                                         </label>
+                                                        <!--                                                        <label class="input">
+                                                                                                                    <input type="text" name="province" id="province" value=""/>
+                                                                                                                </label>-->
                                                     </section>  
 
                                                     <section class="col-sm-5">
@@ -501,24 +531,24 @@ include_once '../class/cls_saq_approvals.php';
                                                         <input type="hidden" name="id" value="<?php print $site_obj->id ?>" />
                                                         <input type="hidden" name="tab" value="C" />
                                                         <input type="hidden" name="option" value="<?php print (($site_obj->id != '') ? 'EDIT' : 'ADD') ?>"/>
-                                                        <button class="btn btn-primary btn-xs" onclick="" style="float:right;">Save &nbsp;<i class="fa fa-save"></i></button>
+                                                        <button class="btn btn-primary btn-xs" style="float:right;">Save &nbsp;<i class="fa fa-save"></i></button>
                                                     </section>
                                                 </fieldset>
                                             </form>
                                         </div>                                    
                                         <div class="tab-pane fade active in" id="technical">
-                                            <form class="smart-form">
+                                            <form class="smart-form" id="technical_form" onsubmit="saveHandler(event, 'technical_form')">
                                                 <fieldset>
                                                     <table class="table">
                                                         <thead>
                                                         <th>Technology</th>
                                                         <?php
-                                                            $technology_obj = new saq_technical();
-                                                            $technologies = $technology_obj->getAll();
+                                                        $technology_obj = new saq_technical();
+                                                        $technologies = $technology_obj->getAll();
 //                                                            print_r($technologies);
-                                                            foreach ($technologies as $tech) {
-                                                                print "<th align='center'>$tech->technology</th>";
-                                                            }
+                                                        foreach ($technologies as $tech) {
+                                                            print "<th align='center'>$tech->technology</th>";
+                                                        }
                                                         ?>
                                                         </thead>
                                                         <tbody>
@@ -530,7 +560,7 @@ include_once '../class/cls_saq_approvals.php';
                                                                     $checkAvailable = $site_obj->getTechnologyPresentSite($tech->id);
                                                                     print "<td align='center'>
                                                                     <label class='checkbox'>
-                                                                        <input type='checkbox' name='technologies' id='$tech->id' value='$tech->id' ".(($checkAvailable==true)?"checked=''":"").">
+                                                                        <input type='checkbox' name='technologies' id='$tech->id' value='$tech->id' " . (($checkAvailable == true) ? "checked=''" : "") . ">
                                                                         <i></i>
                                                                     </label>
                                                                 </td>";
@@ -549,39 +579,39 @@ include_once '../class/cls_saq_approvals.php';
                                                         </thead>
                                                         <tbody>
                                                             <?php
-                                                                $saq_other_operator_obj = new saq_other_operator();
-                                                                $other_operators =$saq_other_operator_obj->getAll();
-                                                                
-                                                                foreach ($other_operators as $operator) {
-                                                                    $checkAvailable = $site_obj->getOtherOperatorPresentSite($operator->id);
-                                                                    print "<tr><td style='padding:10px;'>$operator->name</td>"
-                                                                            . "<td align='center'>
+                                                            $saq_other_operator_obj = new saq_other_operator();
+                                                            $other_operators = $saq_other_operator_obj->getAll();
+
+                                                            foreach ($other_operators as $operator) {
+                                                                $checkAvailable = $site_obj->getOtherOperatorPresentSite($operator->id);
+                                                                print "<tr><td style='padding:10px;'>$operator->name</td>"
+                                                                        . "<td align='center'>
                                                                     <label class='checkbox'>
-                                                                        <input type='checkbox' name='other_operators' id='$operator->id' value='$operator->id' ".(($checkAvailable)?"checked=''":"").">
+                                                                        <input type='checkbox' name='other_operators' id='$operator->id' value='$operator->id' " . (($checkAvailable) ? "checked=''" : "") . ">
                                                                         <i></i>
                                                                     </label>
                                                                 </td></tr>";
-                                                                }
+                                                            }
                                                             ?>                                                            
                                                         </tbody>
                                                     </table>
                                                     <br />
                                                     <br />
                                                     <section class="col-12">                                                        
-                                                       <input type="hidden" name="id" value="<?php print $site_obj->id ?>" />
-                                                        <input type="hidden" name="tab" value="A" />
-                                                        <input type="hidden" name="option" value="<?php print (($site_obj->id != '') ? 'EDIT' : 'ADD') ?>"/>
+                                                        <input type="hidden" name="id" id="id" value="<?php print $site_obj->id ?>" />
+                                                        <input type="hidden" name="tab" value="T" />
+                                                        <input type="hidden" name="option" id="option" value="<?php print (($site_obj->id != '') ? 'EDIT' : 'ADD') ?>"/>
                                                         <button class="btn btn-primary btn-xs" onclick="" style="float:right;">Save &nbsp;<i class="fa fa-save"></i></button>
                                                     </section>
                                                 </fieldset>
                                             </form>
                                         </div>
                                         <div class="tab-pane fade active in" id="agreement">
-                                            <form class="smart-form">
-                                                  <?php
-                                                    $agreement_data_obj = $site_obj->getSiteAgreementData();
+                                            <form class="smart-form" id="agreement_form" onsubmit="saveHandler(event, 'agreement_form')">
+                                                <?php
+                                                $agreement_data_obj = $site_obj->getSiteAgreementData();
 //                                                    var_dump($agreement_data_obj);
-                                                  ?>
+                                                ?>
                                                 <fieldset>
                                                     <table class="table table-bordered">
                                                         <tr>
@@ -627,7 +657,7 @@ include_once '../class/cls_saq_approvals.php';
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Leas Period</td>
+                                                            <td>Lease Period</td>
                                                             <td>
                                                                 <label class="input">
                                                                     <input type="text" name="leas_period" id="leas_period" value="<?php print $agreement_data_obj->lease_period ?>"/>
@@ -636,7 +666,7 @@ include_once '../class/cls_saq_approvals.php';
                                                             <td>Current Month payment</td>
                                                             <td>
                                                                 <label class="input">
-                                                                    <input type="text" name="current_month_payment" id="current_month_payment" value="<?php // print $agreement_data_obj-> ?>"/>
+                                                                    <input type="text" name="current_month_payment" id="current_month_payment" value="<?php print $agreement_data_obj->current_month_payment  ?>"/>
                                                                 </label>
                                                             </td>
                                                         </tr>
@@ -779,8 +809,9 @@ include_once '../class/cls_saq_approvals.php';
                                                     <br />
                                                     <br />
                                                     <section class="col-12">                                                        
-                                                       <input type="hidden" name="id" value="<?php print $site_obj->id ?>" />
-                                                        <input type="hidden" name="tab" value="A" />
+                                                        <input type="hidden" name="id" value="<?php print $site_obj->id ?>" />
+                                                        <input type="hidden" name="agreement_data_id" value="<?php print $agreement_data_obj->id ?>" />
+                                                        <input type="hidden" name="tab" value="P" />
                                                         <input type="hidden" name="option" value="<?php print (($site_obj->id != '') ? 'EDIT' : 'ADD') ?>"/>
                                                         <button class="btn btn-primary btn-xs" onclick="" style="float:right;">Save &nbsp;<i class="fa fa-save"></i></button>
                                                     </section>
@@ -788,7 +819,7 @@ include_once '../class/cls_saq_approvals.php';
                                             </form>
                                         </div>
                                         <div class="tab-pane fade active in" id="approvals">
-                                            <form class="smart-form">
+                                            <form class="smart-form" id='approval_form' onsubmit="saveHandler(event, 'approval_form')">
                                                 <fieldset>
                                                     <table class="table table-bordered">
                                                         <thead>
@@ -800,30 +831,30 @@ include_once '../class/cls_saq_approvals.php';
                                                         </thead>
                                                         <tbody>
                                                             <?php
-                                                                $saq_approvels_obj = new saq_approvals();
-                                                                $approvals = $saq_approvels_obj->getAll();
-                                                                
-                                                                foreach ($approvals as $approval) {
-                                                                    $checkAvailable = $site_obj->getApprovalsPresentSite($approval->id);
-                                                                    print "<tr ".(($approval->requirement == 'Compulsory') ? "style='background: yellow;'":"").">"
-                                                                    . "<td>$approval->id</td>"
-                                                                    . "<td>$approval->requirement</td>"
-                                                                            . "<td>$approval->description</td>"
-                                                                            . "<td>$approval->code</td>"
-                                                                            . "<td align='center' width='5%' style='padding: 10px 30px'><label class='checkbox'>"
-                                                                            . "<input type='checkbox' name='approcels' id='$approval->id' value='$approval->id' ".(($checkAvailable)?"checked=''":"")."/><i></iS></label></td>"
-                                                                            . "</tr>";
-                                                                }
+                                                            $saq_approvels_obj = new saq_approvals();
+                                                            $approvals = $saq_approvels_obj->getAll();
+
+                                                            foreach ($approvals as $approval) {
+                                                                $checkAvailable = $site_obj->getApprovalsPresentSite($approval->id);
+                                                                print "<tr " . (($approval->requirement == 'Compulsory') ? "style='background: yellow;'" : "") . ">"
+                                                                        . "<td>$approval->id</td>"
+                                                                        . "<td>$approval->requirement</td>"
+                                                                        . "<td>$approval->description</td>"
+                                                                        . "<td>$approval->code</td>"
+                                                                        . "<td align='center' width='5%' style='padding: 10px 30px'><label class='checkbox'>"
+                                                                        . "<input type='checkbox' name='approvals' id='$approval->id' value='$approval->id' " . (($checkAvailable) ? "checked=''" : "") . "/><i></iS></label></td>"
+                                                                        . "</tr>";
+                                                            }
                                                             ?>                                                       
                                                         </tbody>
                                                     </table>
                                                     <br />
                                                     <br />
                                                     <section class="col-12">
-                                                        
-                                                       <input type="hidden" name="id" value="<?php print $site_obj->id ?>" />
-                                                        <input type="hidden" name="tab" value="A" />
-                                                        <input type="hidden" name="option" value="<?php print (($site_obj->id != '') ? 'EDIT' : 'ADD') ?>"/>
+
+                                                        <input type="hidden" name="id" id='id' value="<?php print $site_obj->id ?>" />
+                                                        <input type="hidden" name="tab" id='tab' value="A" />
+                                                        <input type="hidden" name="option" id='option' value="<?php print (($site_obj->id != '') ? 'EDIT' : 'ADD') ?>"/>
                                                         <button class="btn btn-primary btn-xs" onclick="" style="float:right;">Save &nbsp;<i class="fa fa-save"></i></button>
                                                     </section>
                                                 </fieldset>
@@ -872,18 +903,55 @@ include("../inc/scripts.php");
         $("#main_tab").tabs({
             active: 0
         });
+
+        $('#on_air_date').datetimepicker({
+            timepicker: false,
+            format: 'Y-m-d',
+            useCurrent: true,
+            scrollMonth: false,
+            scrollInput: false
+        })
+        $('#agreement_expire_date').datetimepicker({
+            timepicker: false,
+            format: 'Y-m-d',
+            useCurrent: true,
+            scrollMonth: false,
+            scrollInput: false
+        });
+        $('#agreement_start_date').datetimepicker({
+            timepicker: false,
+            format: 'Y-m-d',
+            useCurrent: true,
+            scrollMonth: false,
+            scrollInput: false
+        });
     });
 
     function saveHandler(e, form) {
         e.preventDefault();
-        var formData = $(`#${form}`).serializeObject();
+        var formData;
+        if (form == 'technical_form') {
+            formData = $(`input[type='checkbox']:checked`).serializeObject();
+            formData.option = $('#technical_form #option').val();
+            formData.id = $('#technical_form #id').val();
+            formData.tab = 'T';
+        } else if(form == 'approval_form'){ 
+            formData = $(`input[type='checkbox']:checked`).serializeObject();
+            formData.option = $('#approval_form #option').val();
+            formData.id = $('#approval_form #id').val();
+            formData.tab = 'A';
+        } else {
+            formData = $(`#${form}`).serializeObject();
+        }
+//        console.log(formData);
+//        return false;
         $.ajax({
             url: '../ajax/ajx_saq_site',
             type: 'POST',
             dataType: 'JSON',
             data: formData,
             success: function (response) {
-                if(response['msg'] == 1) {
+                if (response['msg'] == 1) {
                     alert('Successfully updated');
                 } else {
                     alert('Error occured');
