@@ -3,12 +3,14 @@
 include_once 'database.php';
 include_once 'constants.php';
 
+include_once 'cls_saq_employee.php';
+
 class saq_region {
     
     public $id,$name,$status,$manager_id;
     private $table_name = 'saq_region';
 
-    public function __construct($id) {
+    public function __construct($id = '') {
         $this->id = $id;
     }
     
@@ -24,12 +26,26 @@ class saq_region {
     
     public function getAll() {
         $array = array();
-        $string = "SELECT * FROM `$this->table_name`;";
+        $string = "SELECT * FROM `$this->table_name` WHERE `status` = ".constants::$ACTIVE.";";
         $result = dbQuery($string);
         while ($row = dbFetchAssoc($result)) {
             $saq_region_obj = new saq_region($row['id']);
             $saq_region_obj->getData();
             array_push($array, $saq_region_obj);
+        }
+        return $array;
+    }
+    
+    public function getRegionEmployees() {
+        $array = array();
+        $string = "SELECT t2.saq_employee_id FROM `saq_region` AS `t1` INNER JOIN "
+                . "`saq_region_employee` AS `t2` ON t1.id = t2.saq_region_id WHERE t1.id = $this->id;";
+//        print $string;
+        $result = dbQuery($string);
+        while ($row = dbFetchAssoc($result)) {
+            $saq_emp_obj = new saq_employee($row['saq_employee_id']);
+            $saq_emp_obj->getData();
+            array_push($array, $saq_emp_obj);
         }
         return $array;
     }

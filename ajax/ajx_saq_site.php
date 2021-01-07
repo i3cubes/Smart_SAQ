@@ -8,6 +8,10 @@ $site_obj->code = $_REQUEST['site_code'];
 $site_obj->name = $_REQUEST['site_name'];
 $site_obj->district_id = $_REQUEST['district_id'];
 $site_obj->province_id = $_REQUEST['province_id'];
+$site_obj->ds_id = $_REQUEST['ds_id'];
+$site_obj->la_id = $_REQUEST['la_id'];
+$site_obj->police_station_id = $_REQUEST['police_station_id'];
+$site_obj->region_id = $_REQUEST['region_id'];
 $site_obj->divisional_secretariat = $_REQUEST['divisional_secretariat'];
 $site_obj->local_authority = $_REQUEST['local_authority'];
 $site_obj->gs_division = $_REQUEST['gs_division'];
@@ -47,18 +51,24 @@ $site_obj->other_operators = $_REQUEST['other_operators'];
 
 // tab agreement & payments
 $site_obj->agreement_data = $_REQUEST;
+$site_obj->assessment_data = array($_REQUEST['2018'],$_REQUEST['2019'],$_REQUEST['2020'],$_REQUEST['2021']);
 
 // tab approvals
 $site_obj->approvals = $_REQUEST['approvals'];
 
 switch ($_REQUEST['option']) {
     case 'ADD': 
-       
+        $result = $site_obj->add($_REQUEST['tab'], 'WEB');
+        if($result) {
+            echo json_encode(array('msg' => 1, 'site_id' => $site_obj->id, 'agreement_data_id' => $site_obj->agreement_data_id));
+        } else {
+            echo json_encode(array('msg' => 0));
+        }
         break;   
     case 'EDIT':        
         $result = $site_obj->update($_REQUEST['tab'], 'WEB');
         if($result) {
-            echo json_encode(array('msg' => 1));
+            echo json_encode(array('msg' => 1, 'site_id' => $site_obj->id, 'agreement_data_id' => $site_obj->agreement_data_id));
         } else {
             echo json_encode(array('msg' => 0));
         }

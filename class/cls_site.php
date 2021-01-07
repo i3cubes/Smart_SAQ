@@ -15,6 +15,7 @@ include_once 'database.php';
 include_once 'shared.php';
 include_once 'cls_saq_technical.php';
 include_once 'cls_saq_site_agreement_data.php';
+include_once 'cls_saq_site_assesment_info.php';
 
 class site {
 
@@ -24,7 +25,7 @@ class site {
     public $on_air_date, $category, $lat, $lon, $access_type, $manual_distance, $access_permision_type, $pg_installation_possibility;
     public $lo_name, $lo_address, $lo_nic_brc, $lo_mobile, $lo_land_number, $contact_person_number, $lo_fax, $lo_email;
     public $province_id, $peovince_name, $district_id, $district_name, $ds_id, $ds_name, $la_id, $la_name, $police_station_id, $police_station_name;
-    public $region_id, $region_name, $dns_office_id, $dns_office_name, $technical, $other_operators,$agreement_data,$approvals;    
+    public $region_id, $region_name, $dns_office_id, $dns_office_name, $technical, $other_operators, $agreement_data,$assessment_data,$agreement_data_id, $approvals;
     public $update_string;
 
     public function __construct($id = '') {
@@ -124,6 +125,7 @@ class site {
                     array_push($sql, shared::getCleanedData('access_permission_type', $this->access_permision_type, $source));
                     array_push($sql, shared::getCleanedData('PG_installation_possibility', $this->pg_installation_possibility, $source));
                     array_push($sql, shared::getCleanedData('saq_district_id', $this->district_id, $source));
+                    array_push($sql, shared::getCleanedData('saq_province_id', $this->province_id, $source));
                     array_push($sql, shared::getCleanedData('saq_ds_id', $this->ds_id, $source));
                     array_push($sql, shared::getCleanedData('saq_la_id', $this->la_id, $source));
                     array_push($sql, shared::getCleanedData('saq_police_station_id', $this->police_station_id, $source));
@@ -146,33 +148,33 @@ class site {
                     break;
                 case 'T':
                     if (count($this->technical) > 0 || $this->technical != '') {
-                        if(is_string($this->technical)) {
+                        if (is_string($this->technical)) {
                             $this->technical = array($this->technical);
                         }
                         if ($this->deleteSiteTechnical($this->id)) {
                             foreach ($this->technical as $technical_id) {
                                 $update_res = $this->updateSiteTechnical($this->id, $technical_id);
-                                if(!$update_res) {
+                                if (!$update_res) {
                                     continue;
                                 }
                             }
-                        } 
+                        }
                     } else {
                         $this->deleteSiteTechnical($this->id);
                     }
-                    
+
                     if (count($this->other_operators) > 0 || $this->other_operators != '') {
-                        if(is_string($this->other_operators)) {
+                        if (is_string($this->other_operators)) {
                             $this->other_operators = array($this->other_operators);
                         }
                         if ($this->deleteSiteOtherOperator($this->id)) {
                             foreach ($this->other_operators as $other_operator_id) {
                                 $update_res = $this->updateSiteOtherOperator($this->id, $other_operator_id);
-                                if(!$update_res) {
+                                if (!$update_res) {
                                     continue;
                                 }
                             }
-                        } 
+                        }
                     } else {
                         $this->deleteSiteOtherOperator($this->id);
                     }
@@ -196,27 +198,54 @@ class site {
                     $agreement_data_obj->account_holder_nic = $this->agreement_data['acc_holder_nic_no'];
                     $agreement_data_obj->monthly_deduction_for_adv = $this->agreement_data['mdafar'];
                     $agreement_data_obj->adv_recovery_period = $this->agreement_data['adv_recovery_period'];
-                    
+
                     $result = $agreement_data_obj->update('WEB');
-                    if($result) {
+                    if ($result) {
+                        $this->agreement_data_id = $agreement_data_obj->id;
+                        if(!empty($this->assessment_data)) {                       
+                        foreach ($this->assessment_data as $index => $tax_data) {
+                            $assessment_info_obj = new saq_site_assesment_info($tax_data[2]);
+                            if($index == 0) {
+                                $assessment_info_obj->year = '2018';
+                            } else if($index == 1) {
+                                $assessment_info_obj->year = '2019';
+                            } else if($index == 2) {
+                                $assessment_info_obj->year = '2020';
+                            } else if($index == 3) {
+                                $assessment_info_obj->year = '2021';
+                            }
+                            $assessment_info_obj->assessment_tax = $tax_data[0];
+                            $assessment_info_obj->trade_tax = $tax_data[1];
+                            $assessment_info_obj->saq_sites_id = $this->id;
+                            
+                            $ass_update_res = $assessment_info_obj->update('WEB');
+                            if(!$ass_update_res) {
+                                continue;
+                            }
+                        }
                         return true;
                     } else {
-                        return false;
+                        return true;
                     }
+                        
+                    } else {
+                        return false;
+                    }                                       
+                    
                     break;
                 case 'A':
                     if (count($this->approvals) > 0 || $this->approvals != '') {
-                        if(is_string($this->approvals)) {
+                        if (is_string($this->approvals)) {
                             $this->approvals = array($this->approvals);
                         }
                         if ($this->deleteSiteApprovals($this->id)) {
                             foreach ($this->approvals as $approval_id) {
                                 $update_res = $this->updateSiteApprovals($this->id, $approval_id);
-                                if(!$update_res) {
+                                if (!$update_res) {
                                     continue;
                                 }
                             }
-                        } 
+                        }
                     } else {
                         $this->deleteSiteApprovals($this->id);
                     }
@@ -241,20 +270,184 @@ class site {
         }
     }
 
-//    private function getCleanedData($field, $data, $source = 'API') {
-//        if ($source == 'WEB' && $data == '') {
-//            $data = "NULL"; // -----enable set null by web interface when data fiels is empty
-//        }
-//        if ($data == 'NULL') {
-//            return "$field=NULL";
-//        } else {
-//            if ($data == '') {
-//                return false;
-//            } else {
-//                return $field . "=" . getStringFormatted($data);
-//            }
-//        }
-//    }
+    public function add($tab, $source = 'API') {
+        if ($this->id == 0) {
+
+            $key = array();
+            $value = array();
+            switch ($tab) {
+                case 'D':
+                    array_push($key, 'name');
+                    array_push($value, getStringFormatted($this->name));
+                    array_push($key, 'type');
+                    array_push($value, getStringFormatted($this->type));
+                    array_push($key, 'address');
+                    array_push($value, getStringFormatted($this->address));
+                    array_push($key, 'site_ownership');
+                    array_push($value, getStringFormatted($this->site_ownership));
+                    array_push($key, 'operators_name');
+                    array_push($value, getStringFormatted($this->operators_name));
+                    array_push($key, 'tower_height');
+                    array_push($value, getStringFormatted($this->tower_height));
+                    array_push($key, 'building_height');
+                    array_push($value, getStringFormatted($this->building_height));
+                    array_push($key, 'land_area');
+                    array_push($value, getStringFormatted($this->land_area));
+                    array_push($key, 'on_air_date');
+                    array_push($value, getStringFormatted($this->on_air_date));
+                    array_push($key, 'category');
+                    array_push($value, getStringFormatted($this->category));
+                    array_push($key, 'lat');
+                    array_push($value, getStringFormatted($this->lat));
+                    array_push($key, 'lon');
+                    array_push($value, getStringFormatted($this->lon));
+                    array_push($key, 'access_type');
+                    array_push($value, getStringFormatted($this->access_type));
+                    array_push($key, 'manual_distance');
+                    array_push($value, getStringFormatted($this->manual_distance));
+                    array_push($key, 'access_permission_type');
+                    array_push($value, getStringFormatted($this->access_permission_type));
+                    array_push($key, 'PG_installation_possibility');
+                    array_push($value, getStringFormatted($this->PG_installation_possibility));
+                    array_push($key, 'saq_district_id');
+                    array_push($value, getStringFormatted($this->saq_district_id));
+                    array_push($key, 'saq_ds_id');
+                    array_push($value, getStringFormatted($this->saq_ds_id));
+                    array_push($key, 'saq_la_id');
+                    array_push($value, getStringFormatted($this->saq_la_id));
+                    array_push($key, 'saq_police_station_id');
+                    array_push($value, getStringFormatted($this->saq_police_station_id));
+                    array_push($key, 'saq_region_id');
+                    array_push($value, getStringFormatted($this->saq_region_id));
+                    array_push($key, 'saq_dns_office_id');
+                    array_push($value, getStringFormatted($this->dns_office_id));
+
+                    break;
+                //print $str;
+                case 'C':
+                    //Contact
+                    array_push($key, 'LO_name');
+                    array_push($value, getStringFormatted($this->lo_name));
+                    array_push($key, 'LO_address');
+                    array_push($value, getStringFormatted($this->lo_address));
+                    array_push($key, 'LO_nic_brc');
+                    array_push($value, getStringFormatted($this->lo_nic_brc));
+                    array_push($key, 'LO_mobile');
+                    array_push($value, getStringFormatted($this->lo_mobile));
+                    array_push($key, 'LO_land_number');
+                    array_push($value, getStringFormatted($this->lo_land_number));
+                    array_push($key, 'contact_person_number');
+                    array_push($value, getStringFormatted($this->contact_person_number));
+                    array_push($key, 'LO_fax');
+                    array_push($value, getStringFormatted($this->lo_fax));
+                    array_push($key, 'LO_email');
+                    array_push($value, getStringFormatted($this->lo_email));
+
+                    break;
+                case 'T':
+                    if (count($this->technical) > 0 || $this->technical != '') {
+                        if (is_string($this->technical)) {
+                            $this->technical = array($this->technical);
+                        }
+                        if ($this->deleteSiteTechnical($this->id)) {
+                            foreach ($this->technical as $technical_id) {
+                                $update_res = $this->updateSiteTechnical($this->id, $technical_id);
+                                if (!$update_res) {
+                                    continue;
+                                }
+                            }
+                        }
+                    } else {
+                        $this->deleteSiteTechnical($this->id);
+                    }
+
+                    if (count($this->other_operators) > 0 || $this->other_operators != '') {
+                        if (is_string($this->other_operators)) {
+                            $this->other_operators = array($this->other_operators);
+                        }
+                        if ($this->deleteSiteOtherOperator($this->id)) {
+                            foreach ($this->other_operators as $other_operator_id) {
+                                $update_res = $this->updateSiteOtherOperator($this->id, $other_operator_id);
+                                if (!$update_res) {
+                                    continue;
+                                }
+                            }
+                        }
+                    } else {
+                        $this->deleteSiteOtherOperator($this->id);
+                    }
+                    return true;
+                    break;
+                case 'P':
+                    $agreement_data_obj = new saq_site_agreement_data($this->agreement_data['agreement_data_id']);
+                    $agreement_data_obj->date_expire = $this->agreement_data['agreement_expire_date'];
+                    $agreement_data_obj->date_start = $this->agreement_data['agreement_start_date'];
+                    $agreement_data_obj->payment_mode = $this->agreement_data['payment_mode'];
+                    $agreement_data_obj->lease_period = $this->agreement_data['leas_period'];
+                    $agreement_data_obj->current_month_payment = $this->agreement_data['current_month_payment'];
+                    $agreement_data_obj->start_monthly_rental = $this->agreement_data['start_monthly_rental'];
+                    $agreement_data_obj->rate_increment = $this->agreement_data['rate_increment'];
+                    $agreement_data_obj->advance_payment = $this->agreement_data['advance_payment'];
+                    $agreement_data_obj->bank_account = $this->agreement_data['bank_account'];
+                    $agreement_data_obj->bank_name = $this->agreement_data['bank_name'];
+                    $agreement_data_obj->branch_name = $this->agreement_data['branch_name'];
+                    $agreement_data_obj->account_type = $this->agreement_data['acc_type'];
+                    $agreement_data_obj->account_holder_name = $this->agreement_data['acc_holder_name'];
+                    $agreement_data_obj->account_holder_nic = $this->agreement_data['acc_holder_nic_no'];
+                    $agreement_data_obj->monthly_deduction_for_adv = $this->agreement_data['mdafar'];
+                    $agreement_data_obj->adv_recovery_period = $this->agreement_data['adv_recovery_period'];
+
+                    $result = $agreement_data_obj->update('WEB');
+                    if ($result) {
+                        $this->agreement_data_id = $agreement_data_obj->id;
+                        return true;
+                    } else {
+                        return false;
+                    }
+                    break;
+                case 'A':
+                    if (count($this->approvals) > 0 || $this->approvals != '') {
+                        if (is_string($this->approvals)) {
+                            $this->approvals = array($this->approvals);
+                        }
+                        if ($this->deleteSiteApprovals($this->id)) {
+                            foreach ($this->approvals as $approval_id) {
+                                $update_res = $this->updateSiteApprovals($this->id, $approval_id);
+                                if (!$update_res) {
+                                    continue;
+                                }
+                            }
+                        }
+                    } else {
+                        $this->deleteSiteApprovals($this->id);
+                    }
+                    return true;
+                    break;
+                default :
+                    $sql = null;
+            }
+            if (!empty($key)) {
+                $sql_str_key = implode(",", array_filter($key));
+                $sql_str_value = implode(",", array_filter($value));
+                $this->update_string = implode("||", array_filter($key));
+                $this->update_string .= implode("||", array_filter($value));
+
+                $str = "INSERT INTO `saq_sites` ($sql_str_key) VALUES ($sql_str_value)";
+//                print $str;
+                $result = dbQuery($str);
+                if ($result) {
+                    $this->id = dbInsertId();
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 
     // delete site technical data
     public function deleteSiteTechnical($site_id) {
@@ -266,7 +459,7 @@ class site {
             return false;
         }
     }
-    
+
     // delete site other operator data
     public function deleteSiteOtherOperator($site_id) {
         $string = "DELETE FROM `saq_site_other_operator` WHERE `saq_sites_id` = $site_id;";
@@ -277,12 +470,12 @@ class site {
             return false;
         }
     }
-    
+
     // delete site approvels data
     public function deleteSiteApprovals($site_id) {
         $string = "DELETE FROM `saq_site_approvals` WHERE `saq_sites_id` = $site_id;";
         $result = dbQuery($string);
-        if($result) {
+        if ($result) {
             return true;
         } else {
             return false;
@@ -300,25 +493,25 @@ class site {
             return false;
         }
     }
-    
+
     // insert site other operator data
     public function updateSiteOtherOperator($site_id, $other_operator_id) {
         $string = "INSERT INTO `saq_site_other_operator` (`saq_other_operator_id`,`saq_sites_id`) "
                 . "VALUES ($other_operator_id,$site_id);";
         $result = dbQuery($string);
-        if($result) {
+        if ($result) {
             return true;
         } else {
             return false;
         }
     }
-    
+
     // insert site approvals 
     public function updateSiteApprovals($site_id, $approval_id) {
         $string = "INSERT INTO `saq_site_approvals` (`saq_approvals_id`,`saq_sites_id`,`available`) VALUES "
                 . "($approval_id,$site_id,'Y');";
         $result = dbQuery($string);
-        if($result) {
+        if ($result) {
             return true;
         } else {
             return false;
@@ -374,6 +567,18 @@ class site {
             $saq_s_a_d_obj = new saq_site_agreement_data();
         }
         return $saq_s_a_d_obj;
+    }
+    
+    public function getSiteAssesmentInfo() {
+        $array = array();
+        $string = "SELECT t2.id FROM `saq_sites` AS `t1` INNER JOIN `saq_site_assesment_info` AS `t2` ON t1.id = t2.saq_sites_id WHERE t1.id = $this->id;";
+        $result = dbQuery($string);
+        while ($row = dbFetchAssoc($result)) {
+            $assessment_info_obj = new saq_site_assesment_info($row['id']);
+            $assessment_info_obj->getData();
+            array_push($array, $assessment_info_obj);
+        }
+        return $array;
     }
 
     public function getApprovalsPresentSite($approval_id) {

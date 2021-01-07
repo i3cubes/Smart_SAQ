@@ -8,7 +8,7 @@ class saq_police_station {
     public $id,$name;
     private $table_name = 'saq_police_station';
 
-    public function __construct($id) {
+    public function __construct($id = '') {
         $this->id = $id;
     }
     

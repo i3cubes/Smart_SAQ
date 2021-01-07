@@ -62,7 +62,7 @@ include("inc/nav.php");
         background-image: url("img/saq_home.jpg") !important;
         background-repeat: no-repeat;
         background-size:cover;
-        height: 100vh;
+        height: 97vh;
         width: 100vw;
         overflow-x: hidden;
     }
