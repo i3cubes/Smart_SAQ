@@ -142,7 +142,18 @@ include_once '../class/cls_saq_region.php';
                                                             <input type="text" name="site_name" id="site_name" value="<?php print $site_obj->name; ?>"/>
                                                         </label>
                                                     </section> 
-
+                                                    
+                                                    <div class="row">
+                                                        <section class="col-sm-5">
+                                                        <label class="ngs_form_label">
+                                                            Site Address
+                                                        </label>
+                                                        <label class="input">
+                                                            <input type="text" name="site_address" id="site_address" value="<?php print $site_obj->address; ?>"/>
+                                                        </label>
+                                                    </section>
+                                                    </div>                                                                                                        
+                                                    
                                                     <section class="col-sm-5">
                                                         <label class="ngs_form_label">
                                                             District
@@ -417,9 +428,18 @@ include_once '../class/cls_saq_region.php';
                                                     <section class="col-sm-5">
                                                         <label class="ngs_form_label">
                                                             Site Status
-                                                        </label>
+                                                        </label>                                                        
+<!--                                                        <label class="select"><i class="icon-append fa fa-user"></i>
+                                                            <select name="site_status" id="site_status">
+                                                                <?php 
+                                                                    foreach (constants::$siteStatus as $index => $status) {
+                                                                        print "<option value='$index' ".(($site_obj->status == $index) ? "selected=''":"").">$status</option>";
+                                                                    }
+                                                                ?>
+                                                            </select>                                                            
+                                                        </label>-->
                                                         <label class="input">
-                                                            <input type="text" name="site_status" id="site_status"/>
+                                                            <input type="text" name="site_status" id="site_status" value="<?php print $site_obj->status; ?>"/>
                                                         </label>
                                                     </section>
                                                     <section class="col-sm-2">
@@ -434,6 +454,17 @@ include_once '../class/cls_saq_region.php';
                                                         </label>
                                                     </section>
 
+                                                     <section class="col-sm-5">
+                                                        <label class="ngs_form_label">
+                                                            Longitude
+                                                        </label>
+                                                        <label class="input">
+                                                            <input type="text" name="longitude" id="longitude" value="<?php print $site_obj->lon; ?>"/>
+                                                        </label>
+                                                    </section>                                                   
+                                                    <section class="col-sm-2">
+                                                        &nbsp;
+                                                    </section>
                                                     <section class="col-sm-5">
                                                         <label class="ngs_form_label">
                                                             Site Category
@@ -442,17 +473,7 @@ include_once '../class/cls_saq_region.php';
                                                             <input type="text" name="site_category" id="site_status" value="<?php print $site_obj->category; ?>"/>
                                                         </label>
                                                     </section>
-                                                    <section class="col-sm-2">
-                                                        &nbsp;
-                                                    </section>
-                                                    <section class="col-sm-5">
-                                                        <label class="ngs_form_label">
-                                                            Longitude
-                                                        </label>
-                                                        <label class="input">
-                                                            <input type="text" name="longitude" id="longitude" value="<?php print $site_obj->lon; ?>"/>
-                                                        </label>
-                                                    </section>
+                                                   
 
                                                     <section class="col-sm-5">
                                                         <label class="ngs_form_label">
@@ -476,7 +497,7 @@ include_once '../class/cls_saq_region.php';
 
                                                     <section class="col-sm-5">
                                                         <label class="ngs_form_label">
-                                                            Manual Distance
+                                                            Manual Distance (KM)
                                                         </label>
                                                         <label class="input">
                                                             <input type="text" name="manual_distance" id="manual_distance" value="<?php print $site_obj->manual_distance; ?>"/>
@@ -497,9 +518,12 @@ include_once '../class/cls_saq_region.php';
                                                     <section class="col-sm-5">
                                                         <label class="ngs_form_label">
                                                             PG installation Possibility
-                                                        </label>
-                                                        <label class="input">
-                                                            <input type="text" name="pg_installation_possibility" id="pg_installation_possibility"/>
+                                                        </label>                                                        
+                                                        <label class="select"><i class="icon-append fa fa-user"></i>
+                                                            <select name="pg_installation_possibility" id="pg_installation_possibility">
+                                                                <option value="yes" <?php print (($site_obj->pg_installation_possibility == 'yes')?"selected=''":"") ?>>Yes</option>
+                                                                <option value="no" <?php print (($site_obj->pg_installation_possibility == 'no')?"selected=''":"") ?>>No</option>
+                                                            </select>                                                            
                                                         </label>
                                                     </section>   
                                                     <section class="col-sm-12">                                                         
@@ -1057,7 +1081,7 @@ include("../inc/scripts.php");
             data: formData,
             success: function (response) {
                 if (response['msg'] == 1) {
-                    alert('Successfully updated');
+                    $.notify('Successfully updated','success');
                     if (id == '') {
                         location.href = 'view';
                     } else {

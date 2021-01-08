@@ -112,7 +112,7 @@ echo implode(' ', array_map(function($prop, $value) {
     echo implode(' ', array_map(function($prop, $value) {
                 return $prop . '="' . $value . '"';
             }, array_keys($page_body_prop), $page_body_prop));
-    ?>>
+    ?> style="overflow-x: hidden;">
 <!--        <div class="col-2">
             $nbsp;
         </div>

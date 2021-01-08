@@ -141,7 +141,7 @@ echo implode(' ', array_map(function($prop, $value) {
 
                     <!-- projects dropdown -->
                     <div class="" style="text-align: center;">
-                        <h4 style="font-size: 28px; font-weight: bolder; color: white;padding-top: 25px;">Admin Portal</h4> 
+                        <h4 style="font-size: 28px; font-weight: bolder; color: white;padding-top: 25px;">SMART SAQ</h4> 
                     </div>
                 </section>
                 <!-- end projects dropdown -->
