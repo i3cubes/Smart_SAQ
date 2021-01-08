@@ -28,7 +28,7 @@ class site_manager {
             $where= implode(" AND ", $ary_sql);
         }
         else{
-            $where="t1.id>0";
+            $where="t1.id>0 ORDER BY t1.id DESC";
         }
         $str="SELECT t1.*,t2.name as district_name,t3.name as ds_name,t4.name as la_name,t5.name as police_station_name,"
                 . "t6.name as region_name FROM saq_sites as t1 left join saq_district as t2 on t1.saq_district_id=t2.id "

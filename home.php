@@ -32,6 +32,9 @@ include("inc/nav.php");
 ?>
 <style>
     /* Style the Image Used to Trigger the Modal */
+     body {
+        overflow: hidden !important;
+    }
     .myImg {
         border-radius: 5px;
         cursor: pointer;
@@ -53,19 +56,22 @@ include("inc/nav.php");
         font-size: 15px;
         color: #4858ae;
     }
+      
     
-    .flex-container {
-        display: flex;
-        flex-flow: row nowrap;       
-        justify-content: space-around;
-        align-items: stretch;
+     #main_id {
+        background-image: url("img/saq_home.jpg") !important;
+        background-repeat: no-repeat;
+        background-size:cover;
+        height: 97vh;
+        width: 100vw;
+        overflow-x: hidden;
     }
 
 
 </style>
 <!-- ==========================CONTENT STARTS HERE ========================== -->
 <!-- MAIN PANEL -->
-<div id="" role="main" style="padding-bottom: 0px;">  
+<div id="main_id" role="main" style="padding-bottom: 0px;">  
     <!-- MAIN CONTENT -->
     <div id="content">
         <div class="row" id="div_db">

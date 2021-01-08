@@ -119,7 +119,7 @@ echo implode(' ', array_map(function($prop, $value) {
     echo implode(' ', array_map(function($prop, $value) {
                 return $prop . '="' . $value . '"';
             }, array_keys($page_body_prop), $page_body_prop));
-    ?>>
+    ?> style="overflow-x: hidden;">
         <!--        <div id="preloader" style="display:  none;">
                     <div id="status1"><h3 id="text">Please Wait</h3></div>
                 </div>-->
