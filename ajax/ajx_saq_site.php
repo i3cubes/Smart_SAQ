@@ -6,6 +6,7 @@ $site_obj = new site($_REQUEST['id']);
 // tab general
 $site_obj->code = $_REQUEST['site_code'];
 $site_obj->name = $_REQUEST['site_name'];
+$site_obj->address = $_REQUEST['site_address'];
 $site_obj->district_id = $_REQUEST['district_id'];
 $site_obj->province_id = $_REQUEST['province_id'];
 $site_obj->ds_id = $_REQUEST['ds_id'];

@@ -21,7 +21,7 @@ class site {
 
     //put your code here
     public $id;
-    public $name, $code, $type, $address, $site_ownership, $operator_name, $tower_height, $building_height, $land_area;
+    public $name, $code, $type,$status, $address, $site_ownership, $operator_name, $tower_height, $building_height, $land_area;
     public $on_air_date, $category, $lat, $lon, $access_type, $manual_distance, $access_permision_type, $pg_installation_possibility;
     public $lo_name, $lo_address, $lo_nic_brc, $lo_mobile, $lo_land_number, $contact_person_number, $lo_fax, $lo_email;
     public $province_id, $peovince_name, $district_id, $district_name, $ds_id, $ds_name, $la_id, $la_name, $police_station_id, $police_station_name;
@@ -45,6 +45,7 @@ class site {
         $this->id = $row['id'];
         $this->name = $row['name'];
         $this->code = $row['code'];
+        $this->status = $row['status'];
         $this->type = $row['type'];
         $this->address = $row['address'];
         $this->site_ownership = $row['site_ownership'];
@@ -54,6 +55,7 @@ class site {
         $this->land_area = $row['land_area'];
         $this->on_air_date = $row['on_air_date'];
         $this->category = $row['category'];
+        $this->pg_installation_possibility = $row['PG_installation_possibility'];
         $this->lat = $row['lat'];
         $this->lon = $row['lon'];
         $this->access_type = $row['access_type'];
@@ -110,6 +112,7 @@ class site {
                 case 'D':
                     array_push($sql, shared::getCleanedData('name', $this->name, $source));
                     array_push($sql, shared::getCleanedData('type', $this->type, $source));
+                    array_push($sql, shared::getCleanedData('status', $this->status, $source));
                     array_push($sql, shared::getCleanedData('address', $this->address, $source));
                     array_push($sql, shared::getCleanedData('site_ownership', $this->site_ownership, $source));
                     array_push($sql, shared::getCleanedData('operators_name', $this->operator_name, $source));
@@ -284,6 +287,8 @@ class site {
                     array_push($value, getStringFormatted($this->name));
                     array_push($key, 'type');
                     array_push($value, getStringFormatted($this->type));
+                     array_push($key, 'status');
+                    array_push($value, getStringFormatted($this->status));
                     array_push($key, 'address');
                     array_push($value, getStringFormatted($this->address));
                     array_push($key, 'site_ownership');
