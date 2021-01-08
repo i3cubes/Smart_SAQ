@@ -147,7 +147,7 @@ if ($_REQUEST['id'] != 0) {
                                                                                                                     
                                         <section class="col col-4">
                                             <label class="ngs_form_lable">
-                                                Upload File 
+                                                Upload File <span style="color:red;">(You can upload PDF files only)</span>
                                             </label>
                                         </section>
                                         <section class="col col-4">
@@ -283,6 +283,9 @@ include("../inc/scripts.php");
                 data: form_data,
                 success: function (response) {
                     if (response['msg'] == 1) {
+                        if(response['error'] != null) {
+                            alert(response['error']);
+                        }
                         window.parent.location.reload();
                         window.parent.$.jeegoopopup.close();
                     } else {

@@ -25,7 +25,7 @@ class site {
     public $on_air_date, $category, $lat, $lon, $access_type, $manual_distance, $access_permision_type, $pg_installation_possibility;
     public $lo_name, $lo_address, $lo_nic_brc, $lo_mobile, $lo_land_number, $contact_person_number, $lo_fax, $lo_email;
     public $province_id, $peovince_name, $district_id, $district_name, $ds_id, $ds_name, $la_id, $la_name, $police_station_id, $police_station_name;
-    public $region_id, $region_name, $dns_office_id, $dns_office_name, $technical, $other_operators, $agreement_data,$assessment_data,$agreement_data_id, $approvals;
+    public $region_id, $region_name, $dns_office_id, $dns_office_name, $technical, $other_operators, $agreement_data, $assessment_data, $agreement_data_id, $approvals;
     public $update_string;
 
     public function __construct($id = '') {
@@ -198,40 +198,43 @@ class site {
                     $agreement_data_obj->account_holder_nic = $this->agreement_data['acc_holder_nic_no'];
                     $agreement_data_obj->monthly_deduction_for_adv = $this->agreement_data['mdafar'];
                     $agreement_data_obj->adv_recovery_period = $this->agreement_data['adv_recovery_period'];
+                    $agreement_data_obj->saq_sites_id = $this->id;
 
                     $result = $agreement_data_obj->update('WEB');
                     if ($result) {
                         $this->agreement_data_id = $agreement_data_obj->id;
-                        if(!empty($this->assessment_data)) {                       
-                        foreach ($this->assessment_data as $index => $tax_data) {
-                            $assessment_info_obj = new saq_site_assesment_info($tax_data[2]);
-                            if($index == 0) {
-                                $assessment_info_obj->year = '2018';
-                            } else if($index == 1) {
-                                $assessment_info_obj->year = '2019';
-                            } else if($index == 2) {
-                                $assessment_info_obj->year = '2020';
-                            } else if($index == 3) {
-                                $assessment_info_obj->year = '2021';
+                        if (!empty($this->assessment_data)) {
+                            if ($this->deleteSiteAssessmentInfo()) {
+                                foreach ($this->assessment_data as $index => $tax_data) {
+                                    $assessment_info_obj = new saq_site_assesment_info($tax_data[2]);
+                                    if ($index == 0) {
+                                        $assessment_info_obj->year = '2018';
+                                    } else if ($index == 1) {
+                                        $assessment_info_obj->year = '2019';
+                                    } else if ($index == 2) {
+                                        $assessment_info_obj->year = '2020';
+                                    } else if ($index == 3) {
+                                        $assessment_info_obj->year = '2021';
+                                    }
+                                    $assessment_info_obj->assessment_tax = $tax_data[0];
+                                    $assessment_info_obj->trade_tax = $tax_data[1];
+                                    $assessment_info_obj->saq_sites_id = $this->id;
+
+                                    $ass_update_res = $assessment_info_obj->add();
+                                    if (!$ass_update_res) {
+                                        continue;
+                                    }
+                                }
                             }
-                            $assessment_info_obj->assessment_tax = $tax_data[0];
-                            $assessment_info_obj->trade_tax = $tax_data[1];
-                            $assessment_info_obj->saq_sites_id = $this->id;
-                            
-                            $ass_update_res = $assessment_info_obj->update('WEB');
-                            if(!$ass_update_res) {
-                                continue;
-                            }
+
+                            return true;
+                        } else {
+                            return true;
                         }
-                        return true;
-                    } else {
-                        return true;
-                    }
-                        
                     } else {
                         return false;
-                    }                                       
-                    
+                    }
+
                     break;
                 case 'A':
                     if (count($this->approvals) > 0 || $this->approvals != '') {
@@ -449,6 +452,17 @@ class site {
         }
     }
 
+    // delete site assessment info
+    public function deleteSiteAssessmentInfo() {
+        $string = "DELETE FROM `saq_site_assesment_info` WHERE `saq_sites_id` = $this->id;";
+        $result = dbQuery($string);
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     // delete site technical data
     public function deleteSiteTechnical($site_id) {
         $string = "DELETE FROM `saq_site_technical` WHERE `saq_sites_id` = $site_id;";
@@ -568,7 +582,7 @@ class site {
         }
         return $saq_s_a_d_obj;
     }
-    
+
     public function getSiteAssesmentInfo() {
         $array = array();
         $string = "SELECT t2.id FROM `saq_sites` AS `t1` INNER JOIN `saq_site_assesment_info` AS `t2` ON t1.id = t2.saq_sites_id WHERE t1.id = $this->id;";

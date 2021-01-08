@@ -983,7 +983,9 @@ include("../inc/scripts.php");
         $("#main_tab").tabs({
             active: 0
         });
-
+        if(id == 0) {            
+            $( "#main_tab" ). tabs( "option", "disabled", [ 1, 2, 3 , 4]);
+        }
         $('#on_air_date').datetimepicker({
             timepicker: false,
             format: 'Y-m-d',

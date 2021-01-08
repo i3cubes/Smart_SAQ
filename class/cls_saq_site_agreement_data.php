@@ -94,6 +94,8 @@ class saq_site_agreement_data {
         array_push($value, getStringFormatted($this->monthly_deduction_for_adv));
         array_push($key, 'adv_recovery_period');
         array_push($value, getStringFormatted($this->adv_recovery_period));
+        array_push($key, 'saq_sites_id');
+        array_push($value, getStringFormatted($this->saq_sites_id));
 
         if (!empty($key)) {
             $sql_str_key = implode(",", array_filter($key));
