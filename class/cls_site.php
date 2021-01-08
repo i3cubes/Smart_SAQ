@@ -20,8 +20,8 @@ include_once 'cls_saq_site_assesment_info.php';
 class site {
 
     //put your code here
-    public $id;
-    public $name, $code, $type,$status, $address, $site_ownership, $operator_name, $tower_height, $building_height, $land_area;
+    public $id,$status;
+    public $name, $code, $type, $address, $site_ownership, $operator_name, $tower_height, $building_height, $land_area;
     public $on_air_date, $category, $lat, $lon, $access_type, $manual_distance, $access_permision_type, $pg_installation_possibility;
     public $lo_name, $lo_address, $lo_nic_brc, $lo_mobile, $lo_land_number, $contact_person_number, $lo_fax, $lo_email;
     public $province_id, $peovince_name, $district_id, $district_name, $ds_id, $ds_name, $la_id, $la_name, $police_station_id, $police_station_name;
@@ -43,6 +43,7 @@ class site {
         $res = dbQuery($str);
         $row = dbFetchAssoc($res);
         $this->id = $row['id'];
+        $this->status=$row['status'];
         $this->name = $row['name'];
         $this->code = $row['code'];
         $this->status = $row['status'];
@@ -616,13 +617,14 @@ class site {
 //        return $approvals;
     }
 
-    public function getTechnologyPresent() {
-        $tecnologies = array();
-        $str = "SELECT * FROM saq_site_technical as t1 left join saq_technical as t2 on t1.saq_technical_id=t2.id "
-                . "WHERE t1.saq_sites_id='$this->id'";
-        $res = dbQuery($str);
+    public function getTechnologyPresent(){
+        $tecnologies=array();
+        $str="SELECT * FROM saq_site_technical as t1 left join saq_technical as t2 on t1.saq_technical_id=t2.id "
+                . "WHERE t1.saq_sites_id='$this->id' AND t1.available='Y'";
+        //print $str;
+        $res= dbQuery($str);
         while ($row = dbFetchAssoc($res)) {
-            array_push($tecnologies, array($row['technology'] => $row['availability']));
+            array_push($tecnologies,$row['technology']);
         }
         return $tecnologies;
     }

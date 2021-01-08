@@ -91,7 +91,7 @@ if ($key == "2ea3490b80dd2bd77d1a") {
         $data=array();
         $data['saq']=array();
         foreach ($ary_sites as $site){
-            $ary_s=array("site_id"=>$site->id,"site_name"=>$site->name,"site_code"=>$site->code,"lat"=>$site->lat,"lon"=>$site->lon);
+            $ary_s=array("site_id"=>$site->id,"site_name"=>$site->name,"site_code"=>$site->code,"lat"=>$site->lat,"lon"=>$site->lon,"status"=>$site->status);
             array_push($data['saq'], $ary_s);
         }
         $response[1] = $data;
