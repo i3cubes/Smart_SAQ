@@ -7,6 +7,9 @@ include_once '../class/cls_saq_guideline.php';
 include_once '../class/cls_site_model.php';
 include_once '../class/cls_site_model_manager.php';
 
+include_once '../class/cls_agreement_model.php';
+include_once '../class/cls_agreement_model_manager.php';
+
 
 $system_url="http://203.94.66.253/dialogsaq/";
 $key = $_REQUEST['KEY'];
@@ -67,6 +70,37 @@ if ($key == "2ea3490b80dd2bd77d1a") {
             $site_model->getImages();
             foreach ($site_model->files as $file){
                 $data[]=array("image_id"=>$file['id'],"image_name"=>$file['name'],"url"=>$system_url."".$file['base_path']);
+                $count++;
+            }
+        }
+        $response[0]["result"] = '1';
+        $response[0]["count"] = $count;
+        $response[0]["type"] = $type;
+        $response[1]["data"] = $data;
+        break;
+    case '111':
+        if($parent_id==""){
+            $agreement_model_mgr=new agreement_model_manager();
+            $ary_nodes=$agreement_model_mgr->getParentNodes();
+        }
+        else{
+            $agreement_model=new agreement_model($parent_id);
+            $ary_nodes=$agreement_model->getChild();
+        }
+        //DATA
+        $count=0;
+        if(count($ary_nodes)>0){
+            $type='node';
+            foreach ($ary_nodes as $agreement_model){
+                $data[]=array("node_id"=>$agreement_model->id,"node_name"=>$agreement_model->name);
+                $count++;
+            }
+        }
+        else{
+            $type='file';
+            $agreement_model->getFiles();
+            foreach ($agreement_model->file_type as $file){
+                $data[]=array("file_id"=>$file['id'],"file_name"=>$file['name'],"url"=>$system_url."".$file['base_path']);
                 $count++;
             }
         }
