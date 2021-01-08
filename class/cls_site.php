@@ -201,7 +201,7 @@ class site {
                     $agreement_data_obj->saq_sites_id = $this->id;
 
                     $result = $agreement_data_obj->update('WEB');
-                    if ($result) {
+                    if ($result) {                        
                         $this->agreement_data_id = $agreement_data_obj->id;
                         if (!empty($this->assessment_data)) {
                             if ($this->deleteSiteAssessmentInfo()) {
@@ -231,7 +231,7 @@ class site {
                         } else {
                             return true;
                         }
-                    } else {
+                    } else {                       
                         return false;
                     }
 

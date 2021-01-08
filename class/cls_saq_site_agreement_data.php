@@ -150,7 +150,8 @@ class saq_site_agreement_data {
                 return false;
             }
         } else {
-            $this->add();
+            $result = $this->add();
+            return $result;
         }
     }
 
