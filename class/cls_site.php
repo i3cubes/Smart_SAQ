@@ -20,7 +20,7 @@ include_once 'cls_saq_site_assesment_info.php';
 class site {
 
     //put your code here
-    public $id;
+    public $id,$status;
     public $name, $code, $type, $address, $site_ownership, $operator_name, $tower_height, $building_height, $land_area;
     public $on_air_date, $category, $lat, $lon, $access_type, $manual_distance, $access_permision_type, $pg_installation_possibility;
     public $lo_name, $lo_address, $lo_nic_brc, $lo_mobile, $lo_land_number, $contact_person_number, $lo_fax, $lo_email;
@@ -43,6 +43,7 @@ class site {
         $res = dbQuery($str);
         $row = dbFetchAssoc($res);
         $this->id = $row['id'];
+        $this->status=$row['status'];
         $this->name = $row['name'];
         $this->code = $row['code'];
         $this->type = $row['type'];
