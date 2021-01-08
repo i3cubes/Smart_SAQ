@@ -615,9 +615,10 @@ class site {
         $tecnologies=array();
         $str="SELECT * FROM saq_site_technical as t1 left join saq_technical as t2 on t1.saq_technical_id=t2.id "
                 . "WHERE t1.saq_sites_id='$this->id' AND t1.available='Y'";
+        print $str;
         $res= dbQuery($str);
         while ($row = dbFetchAssoc($res)) {
-            array_push($tecnologies, array($row['technology'] => $row['availability']));
+            array_push($tecnologies,$row['technology']);
         }
         return $tecnologies;
     }
