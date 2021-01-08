@@ -99,7 +99,7 @@ if ($key == "2ea3490b80dd2bd77d1a") {
         else{
             $type='file';
             $agreement_model->getFiles();
-            foreach ($agreement_model->file_type as $file){
+            foreach ($agreement_model->files as $file){
                 $data[]=array("file_id"=>$file['id'],"file_name"=>$file['name'],"url"=>$system_url."".$file['base_path']);
                 $count++;
             }
