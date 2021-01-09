@@ -43,10 +43,10 @@ class site {
         $res = dbQuery($str);
         $row = dbFetchAssoc($res);
         $this->id = $row['id'];
-        $this->status = $row['status'];
+        $this->status = $row['saq_sites_status_id'];
         $this->name = $row['name'];
         $this->code = $row['code'];
-        $this->status = $row['status'];
+//        $this->status = $row['status_id'];
         $this->type = $row['type'];
         $this->address = $row['address'];
         $this->site_ownership = $row['site_ownership'];
@@ -115,7 +115,7 @@ class site {
                     array_push($sql, shared::getCleanedData('code', $this->code, $source));
                     array_push($sql, shared::getCleanedData('name', $this->name, $source));
                     array_push($sql, shared::getCleanedData('type', $this->type, $source));
-                    array_push($sql, shared::getCleanedData('status', $this->status, $source));
+                    array_push($sql, shared::getCleanedData('saq_sites_status_id', $this->status, $source));
                     array_push($sql, shared::getCleanedData('address', $this->address, $source));
                     array_push($sql, shared::getCleanedData('site_ownership', $this->site_ownership, $source));
                     array_push($sql, shared::getCleanedData('operators_name', $this->operator_name, $source));
@@ -292,7 +292,7 @@ class site {
                     array_push($value, getStringFormatted($this->name));
                     array_push($key, 'type');
                     array_push($value, getStringFormatted($this->type));
-                    array_push($key, 'status');
+                    array_push($key, 'saq_sites_status_id');
                     array_push($value, getStringFormatted($this->status));
                     array_push($key, 'address');
                     array_push($value, getStringFormatted($this->address));
@@ -678,7 +678,7 @@ class site {
         $t['tower_height'] = $this->tower_height;
         $t['building_height'] = $this->building_height;
         $t['land_area'] = $this->land_area;
-        $t['site_status'] = "";
+        $t['site_status'] = $this->status;
         $t['on_air_date'] = $this->on_air_date;
         $t['category'] = $this->category;
         $t['lat'] = $this->lat;

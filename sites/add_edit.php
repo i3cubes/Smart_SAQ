@@ -53,6 +53,7 @@ include_once '../class/cls_saq_local_authority.php';
 include_once '../class/cls_police_station.php';
 include_once '../class/cls_saq_region.php';
 include_once '../class/cls_saq_employee.php';
+include_once '../class/cls_saq_sites_status.php';
 ?>
 <style>
     .customFiled {
@@ -456,18 +457,21 @@ include_once '../class/cls_saq_employee.php';
                                                         <label class="ngs_form_label">
                                                             Site Status
                                                         </label>                                                        
-<!--                                                        <label class="select"><i class="icon-append fa fa-user"></i>
+                                                        <label class="select"><i class="icon-append fa fa-user"></i>
                                                             <select name="site_status" id="site_status">
                                                         <?php
-                                                        foreach (constants::$siteStatus as $index => $status) {
-                                                            print "<option value='$index' " . (($site_obj->status == $index) ? "selected=''" : "") . ">$status</option>";
+                                                        $saq_sites_status_obj = new saq_sites_status();
+                                                        $site_statuses = $saq_sites_status_obj->getAll();
+                                                        var_dump($site_obj->status);
+                                                        foreach ($site_statuses as $status) {
+                                                            print "<option value='$status->id' " . (($site_obj->status == $status->id) ? "selected=''" : "") . ">$status->name</option>";
                                                         }
                                                         ?>
                                                             </select>                                                            
-                                                        </label>-->
-                                                        <label class="input">
-                                                            <input type="text" name="site_status" id="site_status" value="<?php print $site_obj->status; ?>"/>
                                                         </label>
+<!--                                                        <label class="input">
+                                                            <input type="text" name="site_status" id="site_status" value="<?php print $site_obj->status; ?>"/>
+                                                        </label>-->
                                                     </section>
                                                     <section class="col-sm-2">
                                                         &nbsp;
