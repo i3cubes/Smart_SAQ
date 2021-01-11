@@ -106,7 +106,7 @@ include("inc/header.php");
 <!-- ==========================CONTENT ENDS HERE ========================== -->
 <!-- PAGE FOOTER -->
 <?php
-	include("inc/footer.php");
+//	include("inc/footer.php");
 ?>
 <!-- END PAGE FOOTER -->
 <?php 
