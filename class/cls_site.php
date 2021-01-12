@@ -111,7 +111,7 @@ class site {
 
             $sql = array();
             switch ($tab) {
-                case 'D':
+                case 'G':
                     array_push($sql, shared::getCleanedData('code', $this->code, $source));
                     array_push($sql, shared::getCleanedData('name', $this->name, $source));
                     array_push($sql, shared::getCleanedData('type', $this->type, $source));
@@ -268,7 +268,7 @@ class site {
                 $this->update_string = implode("||", array_filter($sql));
 
                 $str = "UPDATE saq_sites SET " . $sql_str . " WHERE id='$this->id';";
-//                print $str;
+                //print $str;
                 $result = dbQuery($str);
                 return $result;
             } else {

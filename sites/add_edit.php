@@ -558,7 +558,7 @@ include_once '../class/cls_saq_sites_status.php';
                                                         </label>
                                                     </section>   
                                                     <section class="col-sm-12">                                                         
-                                                        <input type="hidden" name="tab" value="D" />                                                        
+                                                        <input type="hidden" name="tab" value="G" />                                                        
                                                         <button class="btn btn-primary btn-xs" onclick="" style="float:right;">Save &nbsp;<i class="fa fa-save"></i></button>
                                                     </section>
                                                 </fieldset>

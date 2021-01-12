@@ -36,7 +36,7 @@ include_once '../class/cls_site_manager.php';
 
 $site_mgr=new site_manager();
 
-//print_r($_POST);
+print_r($_POST);
 //print $_FILES['file']['tmp_name'];
 if($_POST['but']=='update'){	
     if(isset($_FILES)){
@@ -100,7 +100,7 @@ if($_POST['but']=='update'){
                             $site->dns_office_id=cleanCSVData($data[24]);
                             
                             //var_dump($site);
-                            if($site->update("")){
+                            if($site->update("G","API")){
                                 $msg.="site data updated";
                             }
                             else{
