@@ -59,7 +59,7 @@ include("inc/nav.php");
       
     
      #main_id {
-        background-image: url("img/saq_home.jpg") !important;
+        background-image: url("img/dialogkkk.jpg.png") !important;
         background-repeat: no-repeat;
         background-size:cover;
         height: 97vh;
