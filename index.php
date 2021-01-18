@@ -63,13 +63,13 @@ include("inc/header.php");
 
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
-				<div class="well no-padding" style="margin-top: 50%;">
+				<div class="" style="margin-top: 40%;">
                                     <form id="login-form" class="smart-form client-form" onsubmit="loginHandler(event)">
-						<header style="background-color: #c9005dd1 !important;color:white;">
-							Sign In
+						<header style="background:rgb(255,255,255,0.1);border:none;">
+                                                    <img src="img/LOGO with border1.png" height="100" width="100" style="display: block;margin-left: auto;margin-right: auto;"/>                                                    
 						</header>
 
-						<fieldset>
+                                        <fieldset style="background:none;">
 							
 							<section>
 								<label class="label">User Name</label>
@@ -88,7 +88,7 @@ include("inc/header.php");
 							<section>								
 							</section>
 						</fieldset>
-						<footer style="">
+						<footer style="border:none;">
                                                          <input type="hidden" name="option" value="LOGIN" />
                                                          <button type="submit" class="btn btn-primary" style="background:#c9005dd1;" name="but" id="but" value="signin">
 								Sign in
