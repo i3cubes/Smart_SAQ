@@ -32,5 +32,12 @@ class saq_technical {
         }
         return $array;
     }
+    function getId($technology){
+        $str = "SELECT * FROM $this->table_name WHERE  technology = '$technology'";
+        $res = dbQuery($str);
+        $row = dbFetchAssoc($res);
+        return $row['id'];
+        
+    }
 }
 
