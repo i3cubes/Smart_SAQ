@@ -32,9 +32,10 @@ $page_nav["forms"]["sub"]["smart_layout"]["active"] = true;
 include_once '../class/cls_site.php';
 include_once '../class/cls_site_manager.php';
 include_once '../class/cls_saq_technical.php';
-
+include_once '../class/cls_saq_site_agreement_data.php';
 $site_mgr = new site_manager();
 $saq_technical = new saq_technical();
+$saq_site_agreement_data = new saq_site_agreement_data();
 //print_r($_POST);
 //$site_mgr=new site_manager();
 
@@ -118,7 +119,7 @@ if ($_POST['but'] == 'update') {
                                 $site->lo_fax = cleanCSVData($data[7]);
                                 $site->lo_email = cleanCSVData($data[8]);
 
-                                if ($site->update($tab)) {
+                                if ($site->update($tab,"API")) {
                                     $msg .= "Contact data updated";
                                 } else {
                                     $msg .= "<font color='red'>site data update failed.</font>";
@@ -165,12 +166,60 @@ if ($_POST['but'] == 'update') {
                                     array_push($ary_technical, "7");
                                 }
                                 $site->technical = $ary_technical;
-                                if ($site->update($tab)) {
+                                if ($site->update($tab,"API")) {
                                     $msg .= "Technical data updated";
                                 } else {
                                     $msg .= "<font color='red'>site data update failed.</font>";
                                 }
                             } else if ($tab == "P") {
+                                
+                                $agreement_status =$data['1']; 
+                                $date_expire=$data['2']; 
+                                $date_start=$data['3']; 
+                                $payment_mode=$data['4']; 
+                                $lease_period=$data['5']; 
+                                $current_month_payment=$data['6']; 
+                                $start_monthly_rental=$data['7']; 
+                                $rate_increment=$data['8']; 
+                                $advance_payment=$data['9']; 
+                                $bank_account=$data['10']; 
+                                $bank_name=$data['11']; 
+                                $branch_name=$data['12']; 
+                                $account_type=$data['13']; 
+                                $account_holder_name=$data['14']; 
+                                $account_holder_nic=$data['15']; 
+                                $monthly_deduction_for_adv=$data['16']; 
+                                $adv_recovery_period=$data['17']; 
+                                
+                                $saq_site_agreement_data->agreement_status = $agreement_status;
+                                $saq_site_agreement_data->date_expire = $date_expire;
+                                $saq_site_agreement_data->date_start = $date_start;
+                                $saq_site_agreement_data->payment_mode = $payment_mode;
+                                $saq_site_agreement_data->lease_period = $lease_period;
+                                $saq_site_agreement_data->current_month_payment = $current_month_payment;
+                                $saq_site_agreement_data->start_monthly_rental = $start_monthly_rental;
+                                $saq_site_agreement_data->rate_increment = $rate_increment;
+                                $saq_site_agreement_data->advance_payment = $advance_payment;
+                                $saq_site_agreement_data->bank_account = $bank_account;
+                                $saq_site_agreement_data->bank_name = $bank_name;
+                                $saq_site_agreement_data->branch_name = $branch_name;
+                                $saq_site_agreement_data->account_type = $account_type;
+                                $saq_site_agreement_data->account_holder_name = $account_holder_name;
+                                $saq_site_agreement_data->account_holder_nic = $account_holder_nic;
+                                $saq_site_agreement_data->monthly_deduction_for_adv = $monthly_deduction_for_adv;
+                                $saq_site_agreement_data->adv_recovery_period = $adv_recovery_period;
+                                $saq_site_agreement_data->saq_sites_id = $site_id;
+                                
+                                if ($site->update($tab,"API")) {
+                                    $msg .= "Payment data updated";
+                                } else {
+                                    $msg .= "<font color='red'>Payment data update failed.</font>";
+                                }
+                                
+                                
+                                
+                                
+                                
                                 
                             } else if ($tab == "A") {
                                 $ary_approval = array();
@@ -279,7 +328,7 @@ if ($_POST['but'] == 'update') {
                                     array_push($ary_approval, "26");
                                 }
                                 $site->approvals = $ary_approval;
-                                if ($site->update($tab)) {
+                                if ($site->update($tab,"API")) {
                                     $msg .= "Approval data updated";
                                 } else {
                                     $msg .= "<font color='red'>approval data update failed.</font>";
