@@ -4,6 +4,12 @@ include_once '../class/cls_site.php';
 include_once '../class/cls_saq_guideline_manager.php';
 include_once '../class/cls_saq_guideline.php';
 
+include_once '../class/cls_site_model.php';
+include_once '../class/cls_site_model_manager.php';
+
+include_once '../class/cls_agreement_model.php';
+include_once '../class/cls_agreement_model_manager.php';
+
 
 $system_url="http://203.94.66.253/dialogsaq/";
 $key = $_REQUEST['KEY'];
@@ -39,26 +45,68 @@ $response = array();
 if ($key == "2ea3490b80dd2bd77d1a") {
     switch ($sid){
     case '110':
-        $parent_id==""?$parent_id=0:$parent_id=$parent_id;
-        $ary_nodes=$node[$parent_id];
+        $site_model=new \site_model();
+        if($parent_id==''){
+            $site_model_mgr=new site_model_manager();
+            $ary_nodes=$site_model_mgr->getParentNodes();
+        }
+        else{
+            $site_model=new site_model($parent_id);
+            $ary_nodes=$site_model->getChild();
+        }
+        //$parent_id==""?$parent_id=0:$parent_id=$parent_id;
+        //$ary_nodes=$node[$parent_id];
         //DATA
-        if($ary_nodes[0]=='node'){
-            foreach ($ary_nodes as $k=>$val){
-                if($k!=0){
-                    $data[]=array("node_id"=>$k,"node_name"=>$val);
-                }
+        $count=0;
+        if(count($ary_nodes)>0){
+            $type='node';
+            foreach ($ary_nodes as $site_model){
+                $data[]=array("node_id"=>$site_model->id,"node_name"=>$site_model->name);
+                $count++;
             }
         }
         else{
-            foreach ($ary_nodes as $k=>$val){
-                if($k!=0){
-                    $data[]=array("image_id"=>$k,"image_name"=>$val,"url"=>$system_url."images/".$val);
-                }
+            $type='image';
+            $site_model->getImages();
+            foreach ($site_model->files as $file){
+                $data[]=array("image_id"=>$file['id'],"image_name"=>$file['name'],"url"=>$system_url."".$file['base_path']);
+                $count++;
             }
         }
         $response[0]["result"] = '1';
-        $response[0]["count"] = count($ary_nodes);
-        $response[0]["type"] = $ary_nodes[0];
+        $response[0]["count"] = $count;
+        $response[0]["type"] = $type;
+        $response[1]["data"] = $data;
+        break;
+    case '111':
+        if($parent_id==""){
+            $agreement_model_mgr=new agreement_model_manager();
+            $ary_nodes=$agreement_model_mgr->getParentNodes();
+        }
+        else{
+            $agreement_model=new agreement_model($parent_id);
+            $ary_nodes=$agreement_model->getChild();
+        }
+        //DATA
+        $count=0;
+        if(count($ary_nodes)>0){
+            $type='node';
+            foreach ($ary_nodes as $agreement_model){
+                $data[]=array("node_id"=>$agreement_model->id,"node_name"=>$agreement_model->name);
+                $count++;
+            }
+        }
+        else{
+            $type='file';
+            $agreement_model->getFiles();
+            foreach ($agreement_model->files as $file){
+                $data[]=array("file_id"=>$file['id'],"file_name"=>$file['name'],"url"=>$system_url."".$file['base_path']);
+                $count++;
+            }
+        }
+        $response[0]["result"] = '1';
+        $response[0]["count"] = $count;
+        $response[0]["type"] = $type;
         $response[1]["data"] = $data;
         break;
     case '112':
@@ -91,7 +139,7 @@ if ($key == "2ea3490b80dd2bd77d1a") {
         $data=array();
         $data['saq']=array();
         foreach ($ary_sites as $site){
-            $ary_s=array("site_id"=>$site->id,"site_name"=>$site->name,"site_code"=>$site->code,"lat"=>$site->lat,"lon"=>$site->lon);
+            $ary_s=array("site_id"=>$site->id,"site_name"=>$site->name,"site_code"=>$site->code,"lat"=>$site->lat,"lon"=>$site->lon,"status"=>$site->status);
             array_push($data['saq'], $ary_s);
         }
         $response[1] = $data;

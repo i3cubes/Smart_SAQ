@@ -3,7 +3,7 @@ include_once 'class/database.php';
 //error_reporting(E_ALL);
 //ini_set("display_errors", 1);
 session_start();
-    
+
 //initilize the page
 require_once("inc/init.php");
 
@@ -34,12 +34,12 @@ include("inc/header.php");
     body {
         overflow: hidden !important;
     }
-    
+
     #main_id {
-        background-image: url("img/dialog.jpg") !important;
+        background-image: url("img/dialogkkk.jpg.png") !important;
         background-repeat: no-repeat;
         background-size:cover;
-        height: 97vh;
+        height: 100vh;
         width: 100vw;
         overflow-x: hidden;
     }
@@ -47,113 +47,110 @@ include("inc/header.php");
 
 <div id="main_id" role="main" style="margin-left:0px;">
 
-	<!-- MAIN CONTENT -->
-	<div id="content" class="container">
+    <!-- MAIN CONTENT -->
+    <div id="content" class="container">
 
-		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 hidden-xs hidden-sm" style="margin-top: 90px;">
-				<div class="hero">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 hidden-xs hidden-sm" style="margin-top: 90px;">
+                <div class="hero">
 
-					<div class="pull-left login-desc-box-l">
-                                            <!--<img alt="" src="img/tower_logo.png" height="200" width="200">-->
-                                            <!--<h3 style="text-align: center;">SAQ</h3>-->
-					</div>
+                    <div class="pull-left login-desc-box-l">
+                        <!--<img alt="" src="img/tower_logo.png" height="200" width="200">-->
+                        <!--<h3 style="text-align: center;">SAQ</h3>-->
+                    </div>
 
-				</div>
+                </div>
 
-			</div>
-			<div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
-				<div class="well no-padding" style="margin-top: 32%;">
-                                    <form id="login-form" class="smart-form client-form" onsubmit="loginHandler(event)">
-						<header style="background-color: #c9005dd1 !important;color:white;">
-							Sign In
-						</header>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+                <div class="" style="margin-top: 40%;">
+                    <form id="login-form" class="smart-form client-form" onsubmit="loginHandler(event)">
+                        <header style="background:rgb(255,255,255,0.1);border:none;">
+                            <img src="img/LOGO with border1.png" height="150" width="150" style="display: block;margin-left: auto;margin-right: auto;"/>                                                    
+                        </header>
 
-						<fieldset>
-							
-							<section>
-								<label class="label">User Name</label>
-								<label class="input"> <i class="icon-append fa fa-user"></i>
-									<input type="text" name="username">
-								</label>
-							</section>
+                        <fieldset style="margin:10px;background:none;padding:0px 14px 5px;">
 
-							<section>
-								<label class="label">Password</label>
-								<label class="input"> <i class="icon-append fa fa-lock"></i>
-									<input type="password" name="password">
-								</label>
-							</section>
+                            <section>
+                                <label class="label" style="font-weight:bolder;">User Name</label>
+                                <label class="input"> <i class="icon-append fa fa-user"></i>
+                                    <input type="text" name="username">
+                                </label>
+                            </section>
 
-							<section>								
-							</section>
-						</fieldset>
-						<footer style="">
-                                                         <input type="hidden" name="option" value="LOGIN" />
-                                                         <button type="submit" class="btn btn-primary" style="background:#c9005dd1;" name="but" id="but" value="signin">
-								Sign in
-							</button>
-						</footer>
-					</form>
+                            <section>
+                                <label class="label" style="font-weight:bolder;">Password</label>
+                                <label class="input"> <i class="icon-append fa fa-lock"></i>
+                                    <input type="password" name="password">
+                                </label>
+                            </section>                                                  
+                        </fieldset>	
+                        <footer style="border:none;">
+                            <input type="hidden" name="option" value="LOGIN" />
+                            <button type="submit" class="btn btn-primary" style="background:#c9005dd1;margin-right:10px;margin-bottom:18px;" name="but" id="but" value="signin">
+                                Sign in
+                            </button>
+                        </footer>
+                    </form>
 
-				</div>													
-			</div>
-		</div>
-	</div>
+                </div>													
+            </div>
+        </div>
+    </div>
 
 </div>
 <!-- END MAIN PANEL -->
 <!-- ==========================CONTENT ENDS HERE ========================== -->
 <!-- PAGE FOOTER -->
 <?php
-	include("inc/footer.php");
+//	include("inc/footer.php");
 ?>
 <!-- END PAGE FOOTER -->
-<?php 
-	//include required scripts
-	include("inc/scripts.php"); 
+<?php
+//include required scripts
+include("inc/scripts.php");
 ?>
 
 <!-- PAGE RELATED PLUGIN(S) 
 <script src="..."></script>-->
 
 <script type="text/javascript">
-	runAllForms();
+    runAllForms();
 
-	$('#main').height($(document).height());
-	$(function() {
-		// Validation
-		$("#login-form").validate({
-			// Rules for form validation
-			rules : {
-				username : {
-					required : true
-				},
-				password : {
-					required : true,
-					minlength : 3,
-					maxlength : 20
-				}
-			},
+    $('#main').height($(document).height());
+    $(function () {
+        // Validation
+        $("#login-form").validate({
+            // Rules for form validation
+            rules: {
+                username: {
+                    required: true
+                },
+                password: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20
+                }
+            },
 
-			// Messages for form validation
-			messages : {
-				username : {
-					required : 'Please enter your user name'
-				},
-				password : {
-					required : 'Please enter your password'
-				}
-			},
+            // Messages for form validation
+            messages: {
+                username: {
+                    required: 'Please enter your user name'
+                },
+                password: {
+                    required: 'Please enter your password'
+                }
+            },
 
-			// Do not change code below
-			errorPlacement : function(error, element) {
-				error.insertAfter(element.parent());
-			}
-		});
-	});
-        
-        function loginHandler(e) {
+            // Do not change code below
+            errorPlacement: function (error, element) {
+                error.insertAfter(element.parent());
+            }
+        });
+    });
+
+    function loginHandler(e) {
         e.preventDefault();
         var form = $("#login-form").serialize();
 //        console.log(form);
@@ -164,8 +161,8 @@ include("inc/header.php");
                 dataType: 'JSON',
                 data: form,
                 success: function (response) {
-                    if (response['msg'] == 1) {                        
-                            location.href = 'home';                        
+                    if (response['msg'] == 1) {
+                        location.href = 'home';
                     } else {
                         $("#errorMsg").css("display", "block");
                     }

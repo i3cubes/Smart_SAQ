@@ -20,12 +20,12 @@ include_once 'cls_saq_site_assesment_info.php';
 class site {
 
     //put your code here
-    public $id;
+    public $id, $status;
     public $name, $code, $type, $address, $site_ownership, $operator_name, $tower_height, $building_height, $land_area;
     public $on_air_date, $category, $lat, $lon, $access_type, $manual_distance, $access_permision_type, $pg_installation_possibility;
     public $lo_name, $lo_address, $lo_nic_brc, $lo_mobile, $lo_land_number, $contact_person_number, $lo_fax, $lo_email;
     public $province_id, $peovince_name, $district_id, $district_name, $ds_id, $ds_name, $la_id, $la_name, $police_station_id, $police_station_name;
-    public $region_id, $region_name, $dns_office_id, $dns_office_name, $technical, $other_operators, $agreement_data,$assessment_data,$agreement_data_id, $approvals;
+    public $region_id, $region_name, $dns_office_id, $dns_office_name, $technical, $other_operators, $agreement_data, $assessment_data, $agreement_data_id, $approvals;
     public $update_string;
 
     public function __construct($id = '') {
@@ -43,8 +43,10 @@ class site {
         $res = dbQuery($str);
         $row = dbFetchAssoc($res);
         $this->id = $row['id'];
+        $this->status = $row['saq_sites_status_id'];
         $this->name = $row['name'];
         $this->code = $row['code'];
+//        $this->status = $row['status_id'];
         $this->type = $row['type'];
         $this->address = $row['address'];
         $this->site_ownership = $row['site_ownership'];
@@ -54,10 +56,12 @@ class site {
         $this->land_area = $row['land_area'];
         $this->on_air_date = $row['on_air_date'];
         $this->category = $row['category'];
+        $this->pg_installation_possibility = $row['PG_installation_possibility'];
         $this->lat = $row['lat'];
         $this->lon = $row['lon'];
         $this->access_type = $row['access_type'];
         $this->manual_distance = $row['manual_distance'];
+        $this->access_permision_type = $row['access_permission_type'];
         //
         $this->lo_name = $row['LO_name'];
         $this->lo_address = $row['LO_address'];
@@ -107,9 +111,11 @@ class site {
 
             $sql = array();
             switch ($tab) {
-                case 'D':
+                case 'G':
+                    array_push($sql, shared::getCleanedData('code', $this->code, $source));
                     array_push($sql, shared::getCleanedData('name', $this->name, $source));
                     array_push($sql, shared::getCleanedData('type', $this->type, $source));
+                    array_push($sql, shared::getCleanedData('saq_sites_status_id', $this->status, $source));
                     array_push($sql, shared::getCleanedData('address', $this->address, $source));
                     array_push($sql, shared::getCleanedData('site_ownership', $this->site_ownership, $source));
                     array_push($sql, shared::getCleanedData('operators_name', $this->operator_name, $source));
@@ -198,40 +204,43 @@ class site {
                     $agreement_data_obj->account_holder_nic = $this->agreement_data['acc_holder_nic_no'];
                     $agreement_data_obj->monthly_deduction_for_adv = $this->agreement_data['mdafar'];
                     $agreement_data_obj->adv_recovery_period = $this->agreement_data['adv_recovery_period'];
+                    $agreement_data_obj->saq_sites_id = $this->id;
 
                     $result = $agreement_data_obj->update('WEB');
                     if ($result) {
                         $this->agreement_data_id = $agreement_data_obj->id;
-                        if(!empty($this->assessment_data)) {                       
-                        foreach ($this->assessment_data as $index => $tax_data) {
-                            $assessment_info_obj = new saq_site_assesment_info($tax_data[2]);
-                            if($index == 0) {
-                                $assessment_info_obj->year = '2018';
-                            } else if($index == 1) {
-                                $assessment_info_obj->year = '2019';
-                            } else if($index == 2) {
-                                $assessment_info_obj->year = '2020';
-                            } else if($index == 3) {
-                                $assessment_info_obj->year = '2021';
+                        if (!empty($this->assessment_data)) {
+                            if ($this->deleteSiteAssessmentInfo()) {
+                                foreach ($this->assessment_data as $index => $tax_data) {
+                                    $assessment_info_obj = new saq_site_assesment_info($tax_data[2]);
+                                    if ($index == 0) {
+                                        $assessment_info_obj->year = '2018';
+                                    } else if ($index == 1) {
+                                        $assessment_info_obj->year = '2019';
+                                    } else if ($index == 2) {
+                                        $assessment_info_obj->year = '2020';
+                                    } else if ($index == 3) {
+                                        $assessment_info_obj->year = '2021';
+                                    }
+                                    $assessment_info_obj->assessment_tax = $tax_data[0];
+                                    $assessment_info_obj->trade_tax = $tax_data[1];
+                                    $assessment_info_obj->saq_sites_id = $this->id;
+
+                                    $ass_update_res = $assessment_info_obj->add();
+                                    if (!$ass_update_res) {
+                                        continue;
+                                    }
+                                }
                             }
-                            $assessment_info_obj->assessment_tax = $tax_data[0];
-                            $assessment_info_obj->trade_tax = $tax_data[1];
-                            $assessment_info_obj->saq_sites_id = $this->id;
-                            
-                            $ass_update_res = $assessment_info_obj->update('WEB');
-                            if(!$ass_update_res) {
-                                continue;
-                            }
+
+                            return true;
+                        } else {
+                            return true;
                         }
-                        return true;
-                    } else {
-                        return true;
-                    }
-                        
                     } else {
                         return false;
-                    }                                       
-                    
+                    }
+
                     break;
                 case 'A':
                     if (count($this->approvals) > 0 || $this->approvals != '') {
@@ -259,7 +268,7 @@ class site {
                 $this->update_string = implode("||", array_filter($sql));
 
                 $str = "UPDATE saq_sites SET " . $sql_str . " WHERE id='$this->id';";
-//                print $str;
+                //print $str;
                 $result = dbQuery($str);
                 return $result;
             } else {
@@ -277,10 +286,14 @@ class site {
             $value = array();
             switch ($tab) {
                 case 'D':
+                    array_push($key, 'code');
+                    array_push($value, getStringFormatted($this->code));
                     array_push($key, 'name');
                     array_push($value, getStringFormatted($this->name));
                     array_push($key, 'type');
                     array_push($value, getStringFormatted($this->type));
+                    array_push($key, 'saq_sites_status_id');
+                    array_push($value, getStringFormatted($this->status));
                     array_push($key, 'address');
                     array_push($value, getStringFormatted($this->address));
                     array_push($key, 'site_ownership');
@@ -449,6 +462,17 @@ class site {
         }
     }
 
+    // delete site assessment info
+    public function deleteSiteAssessmentInfo() {
+        $string = "DELETE FROM `saq_site_assesment_info` WHERE `saq_sites_id` = $this->id;";
+        $result = dbQuery($string);
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     // delete site technical data
     public function deleteSiteTechnical($site_id) {
         $string = "DELETE FROM `saq_site_technical` WHERE `saq_sites_id` = $site_id;";
@@ -568,7 +592,7 @@ class site {
         }
         return $saq_s_a_d_obj;
     }
-    
+
     public function getSiteAssesmentInfo() {
         $array = array();
         $string = "SELECT t2.id FROM `saq_sites` AS `t1` INNER JOIN `saq_site_assesment_info` AS `t2` ON t1.id = t2.saq_sites_id WHERE t1.id = $this->id;";
@@ -600,10 +624,11 @@ class site {
     public function getTechnologyPresent() {
         $tecnologies = array();
         $str = "SELECT * FROM saq_site_technical as t1 left join saq_technical as t2 on t1.saq_technical_id=t2.id "
-                . "WHERE t1.saq_sites_id='$this->id'";
+                . "WHERE t1.saq_sites_id='$this->id' AND t1.available='Y'";
+        //print $str;
         $res = dbQuery($str);
         while ($row = dbFetchAssoc($res)) {
-            array_push($tecnologies, array($row['technology'] => $row['availability']));
+            array_push($tecnologies, $row['technology']);
         }
         return $tecnologies;
     }
@@ -653,7 +678,7 @@ class site {
         $t['tower_height'] = $this->tower_height;
         $t['building_height'] = $this->building_height;
         $t['land_area'] = $this->land_area;
-        $t['site_status'] = "";
+        $t['site_status'] = $this->status;
         $t['on_air_date'] = $this->on_air_date;
         $t['category'] = $this->category;
         $t['lat'] = $this->lat;

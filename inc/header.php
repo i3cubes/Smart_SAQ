@@ -119,7 +119,7 @@ echo implode(' ', array_map(function($prop, $value) {
     echo implode(' ', array_map(function($prop, $value) {
                 return $prop . '="' . $value . '"';
             }, array_keys($page_body_prop), $page_body_prop));
-    ?>>
+    ?> style="overflow-x: hidden;">
         <!--        <div id="preloader" style="display:  none;">
                     <div id="status1"><h3 id="text">Please Wait</h3></div>
                 </div>-->
@@ -141,7 +141,7 @@ echo implode(' ', array_map(function($prop, $value) {
 
                     <!-- projects dropdown -->
                     <div class="" style="text-align: center;">
-                        <h4 style="font-size: 28px; font-weight: bolder; color: white;padding-top: 25px;">Admin Portal</h4> 
+                        <h4 style="font-size: 28px; font-weight: bolder; color: white;padding-top: 25px;">SMART SAQ</h4> 
                     </div>
                 </section>
                 <!-- end projects dropdown -->

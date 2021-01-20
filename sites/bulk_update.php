@@ -36,6 +36,9 @@ include_once '../class/cls_saq_technical.php';
 $site_mgr = new site_manager();
 $saq_technical = new saq_technical();
 //print_r($_POST);
+//$site_mgr=new site_manager();
+
+print_r($_POST);
 //print $_FILES['file']['tmp_name'];
 if ($_POST['but'] == 'update') {
     if (isset($_FILES)) {
@@ -100,7 +103,7 @@ if ($_POST['but'] == 'update') {
                                 $site->police_station_id = cleanCSVData($data[23]);
                                 $site->dns_office_id = cleanCSVData($data[24]);
 
-                                if ($site->update($tab)) {
+                                if ($site->update($tab,"API")) {
                                     $msg .= "site data updated";
                                 } else {
                                     $msg .= "<font color='red'>site data update failed.</font>";
@@ -287,10 +290,16 @@ if ($_POST['but'] == 'update') {
 
                             //var_dump($site);
 
-                            $log .= "<tr>
-                                        <td>" . $data[0] . "</td>
-                                        <td>" . $msg . "</td>
-                                        <td>" . $site->update_string . "</td>
+                            /*if($site->update("G","API")){
+                                $msg.="site data updated";
+                            }
+                            else{
+                                $msg.="<font color='red'>site data update failed.</font>";
+                            }*/
+                            $log.="<tr>
+                                        <td>".$data[0]."</td>
+                                        <td>". $msg."</td>
+                                        <td>".$site->update_string."</td>
                                     </tr>";
                         } else {
                             //Error

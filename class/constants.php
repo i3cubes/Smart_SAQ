@@ -22,6 +22,16 @@ class constants {
     public static $PAID=2;
     public static $UNPAID=1;
     
+    // site status 
+    public static $onAir = 1;
+    public static $hold = 2;
+    public static $removed =3;
+    public static $workInProgress = 4;
+    
+    // site status array
+    public static $siteStatus = array('On air', 'Hold', 'Removed', 'Work in progress');
+
+
     // sms status
     public static $sent = 1;
     public static $notsent = 0;
