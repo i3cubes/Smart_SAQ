@@ -208,31 +208,33 @@ class site {
 
                     $result = $agreement_data_obj->update('WEB');
                     if ($result) {
+
                         $this->agreement_data_id = $agreement_data_obj->id;
                         if (!empty($this->assessment_data)) {
-                            if ($this->deleteSiteAssessmentInfo()) {
-                                foreach ($this->assessment_data as $index => $tax_data) {
-                                    $assessment_info_obj = new saq_site_assesment_info($tax_data[2]);
-                                    if ($index == 0) {
-                                        $assessment_info_obj->year = '2018';
-                                    } else if ($index == 1) {
-                                        $assessment_info_obj->year = '2019';
-                                    } else if ($index == 2) {
-                                        $assessment_info_obj->year = '2020';
-                                    } else if ($index == 3) {
-                                        $assessment_info_obj->year = '2021';
-                                    }
-                                    $assessment_info_obj->assessment_tax = $tax_data[0];
-                                    $assessment_info_obj->trade_tax = $tax_data[1];
-                                    $assessment_info_obj->saq_sites_id = $this->id;
+                            if ($source != "API") {
+                                if ($this->deleteSiteAssessmentInfo()) {
+                                    foreach ($this->assessment_data as $index => $tax_data) {
+                                        $assessment_info_obj = new saq_site_assesment_info($tax_data[2]);
+                                        if ($index == 0) {
+                                            $assessment_info_obj->year = '2018';
+                                        } else if ($index == 1) {
+                                            $assessment_info_obj->year = '2019';
+                                        } else if ($index == 2) {
+                                            $assessment_info_obj->year = '2020';
+                                        } else if ($index == 3) {
+                                            $assessment_info_obj->year = '2021';
+                                        }
+                                        $assessment_info_obj->assessment_tax = $tax_data[0];
+                                        $assessment_info_obj->trade_tax = $tax_data[1];
+                                        $assessment_info_obj->saq_sites_id = $this->id;
 
-                                    $ass_update_res = $assessment_info_obj->add();
-                                    if (!$ass_update_res) {
-                                        continue;
+                                        $ass_update_res = $assessment_info_obj->add();
+                                        if (!$ass_update_res) {
+                                            continue;
+                                        }
                                     }
                                 }
                             }
-
                             return true;
                         } else {
                             return true;
