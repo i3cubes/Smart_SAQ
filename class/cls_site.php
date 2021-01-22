@@ -709,8 +709,12 @@ class site {
 
         $t_data['technical']['technology'] = $ary_tech_data;
         $t_data['technical']['other_operator'] = $ary_oth_opr;
-
-        $t_data['payments'] = array();
+        //payment data
+        $y=[];
+        $y['agreement_status']="active";
+        $y['agreement_start_date']="2021-01-01";
+        $y['lease_period']="6years";
+        $t_data['payments'] = $y;
 
         $ary_apr = $this->getApprovalsPresent();
         $t_data['approvals'] = $ary_apr;
