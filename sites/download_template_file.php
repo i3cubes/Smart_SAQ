@@ -8,7 +8,7 @@ switch ($_REQUEST['file']){
         $file_name="template_contact.xlsx";
         break;
     case 'T':
-        $file_name="template_technicla.xlsx";
+        $file_name="template_technical.xlsx";
         break;
     case 'P':
         $file_name="template_agreement.xlsx";
