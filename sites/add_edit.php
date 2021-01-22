@@ -820,7 +820,7 @@ include_once '../class/cls_saq_sites_status.php';
                                                                     <input type="number" name="rate_increment" id="rate_increment" value="<?php print $agreement_data_obj->rate_increment ?>"/>
                                                                 </label>
                                                             </td>
-                                                            <td>ADV Recovery Period</td>
+                                                            <td>Advance Recovery Period (Months)</td>
                                                             <td>
                                                                 <label class="input">
                                                                     <input type="text" name="adv_recovery_period" id="adv_recovery_period" value="<?php print $agreement_data_obj->adv_recovery_period ?>"/>
