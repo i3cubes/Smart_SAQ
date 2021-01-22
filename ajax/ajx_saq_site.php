@@ -7,6 +7,8 @@ $site_obj = new site($_REQUEST['id']);
 $site_obj->code = $_REQUEST['site_code'];
 $site_obj->name = $_REQUEST['site_name'];
 $site_obj->address = $_REQUEST['site_address'];
+$site_obj->dns_deport = $_REQUEST['dns_deport'];
+$site_obj->other_operator_id = $_REQUEST['other_operator_id'];
 $site_obj->district_id = $_REQUEST['district_id'];
 $site_obj->province_id = $_REQUEST['province_id'];
 $site_obj->ds_id = $_REQUEST['ds_id'];
@@ -21,7 +23,7 @@ $site_obj->dns_office_id = $_REQUEST['dns_region'];
 //$site_obj->
 $site_obj->site_ownership = $_REQUEST['site_ownership'];
 $site_obj->operator_name = $_REQUEST['operator_name'];
-$site_obj->other_operator_id = $_REQUEST[''];
+//$site_obj->other_operator_id = $_REQUEST[''];
 $site_obj->type = $_REQUEST['site_type'];
 $site_obj->tower_height = $_REQUEST['tower_height'];
 $site_obj->building_height = $_REQUEST['building_height'];

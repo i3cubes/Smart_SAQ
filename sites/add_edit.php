@@ -330,7 +330,7 @@ include_once '../class/cls_saq_sites_status.php';
                                                             DNS Deport
                                                         </label>
                                                         <label class="input">
-                                                            <input type="text" name="dns_deport" id="dns_deport"/>
+                                                            <input type="text" name="dns_deport" id="dns_deport" value="<?php print $site_obj->dns_deport ?>"/>
                                                         </label>
                                                     </section> 
 
@@ -409,7 +409,7 @@ include_once '../class/cls_saq_sites_status.php';
                                                             Other Operator ID
                                                         </label>
                                                         <label class="input">
-                                                            <input type="text" name="other_operator_id" id="other_operator_id"/>
+                                                            <input type="text" name="other_operator_id" id="other_operator_id" value="<?php print $site_obj->other_operator_id; ?>"/>
                                                         </label>
                                                     </section>
 
@@ -779,8 +779,8 @@ include_once '../class/cls_saq_sites_status.php';
                                                             <td>
                                                                 <label class="select"><i class="icon-append fa fa-user"></i>
                                                                     <select name="payment_mode" id="payment_mode">
-                                                                        <option value="month" <?php print (($agreement_data_obj->payment_mode == 'month') ? "selected=''":'') ?>>Monthely</option>
-                                                                        <option value="year" <?php print (($agreement_data_obj->payment_mode == 'year') ? "selected=''":'') ?>>Annualy</option>
+                                                                        <option value="month" <?php print (($agreement_data_obj->payment_mode == 'month') ? "selected=''":'') ?>>Monthly</option>
+                                                                        <option value="year" <?php print (($agreement_data_obj->payment_mode == 'year') ? "selected=''":'') ?>>Annually</option>
                                                                     </select>                                                                    
                                                                 </label>
                                                             </td>
