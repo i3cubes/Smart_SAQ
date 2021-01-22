@@ -590,7 +590,7 @@ class site {
     }
 
     public function getSiteAgreementData() {
-        $string = "SELECT t2.id FROM `saq_sites` AS `t1` INNER JOIN `saq_site_agreement_data` AS `t2` ON t2.saq_sites_id = t1.id WHERE t1.id = $this->id;";
+        $string = "SELECT t2.id FROM `saq_sites` AS `t1` INNER JOIN `saq_site_agreement_data` AS `t2` ON t2.saq_sites_id = t1.id WHERE t1.id = $this->id ORDER BY t2.id DESC LIMIT 1;";
 //        print $string;
         $result = dbQuery($string);
         if (dbNumRows($result) > 0) {

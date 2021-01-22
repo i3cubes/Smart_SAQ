@@ -732,8 +732,8 @@ include_once '../class/cls_saq_sites_status.php';
                                                 if ($site_obj->id != '') {
                                                     $agreement_data_obj = $site_obj->getSiteAgreementData();
                                                 }
-
-//                                                    var_dump($agreement_data_obj);
+//                                                var_dump($agreement_data_obj);
+    //                                                    
                                                 ?>
                                                 <fieldset>
                                                     <table class="table table-bordered">
