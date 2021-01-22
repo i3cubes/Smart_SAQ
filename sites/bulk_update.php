@@ -39,7 +39,7 @@ $saq_site_agreement_data = new saq_site_agreement_data();
 //print_r($_POST);
 //$site_mgr=new site_manager();
 
-print_r($_POST);
+//print_r($_POST);
 //print $_FILES['file']['tmp_name'];
 if ($_POST['but'] == 'update') {
     if (isset($_FILES)) {
@@ -190,8 +190,45 @@ if ($_POST['but'] == 'update') {
                                 $account_holder_nic=$data['15']; 
                                 $monthly_deduction_for_adv=$data['16']; 
                                 $adv_recovery_period=$data['17']; 
+                                $site_aggreement_obj = $site->getSiteAgreementData();
                                 
-                                $saq_site_agreement_data->agreement_status = $agreement_status;
+                                //print "SITE AGGREEMENT  DATA ID ".$site_aggreement_obj->id."<br>";
+                                $agreement_id =$site_aggreement_obj->id;
+                                if($agreement_id !=""){
+                                   /// $saq_site_agreement_data = new saq_site_agreement_data($agreement_id);
+                                   $agreement_id = $agreement_id;
+                                }else {
+                                    //insert new aggreement 
+                                    $saq_site_agreement_data->saq_sites_id = $site_id;
+                                    $saq_site_agreement_data->add();
+                                    $agreement_id= $saq_site_agreement_data->id;
+                                }
+                                $agreement_data_array = array(
+                                    "agreement_data_id"=>$agreement_id,
+                                    "agreement_status"=>$agreement_status,
+                                    "agreement_expire_date" => $date_expire,
+                                    "agreement_start_date" => $date_start,
+                                    "payment_mode"=>$payment_mode,
+                                    "leas_period"=>$lease_period,
+                                    "current_month_payment"=>$current_month_payment,
+                                    "start_monthly_rental"=>$start_monthly_rental,
+                                    "rate_increment"=>$rate_increment,
+                                    "advance_payment"=>$advance_payment,
+                                    "bank_account"=>$bank_account,
+                                    "bank_name"=>$bank_name,
+                                    "branch_name"=>$branch_name,
+                                    "acc_type"=>$account_type,
+                                    "acc_holder_name"=>$account_holder_name,
+                                    "acc_holder_nic_no"=>$account_holder_nic,
+                                    "mdafar"=>$monthly_deduction_for_adv,
+                                    "adv_recovery_period"=>$adv_recovery_period
+                                    
+                                    
+                                    
+                                );
+                                
+                                $site->agreement_data = $agreement_data_array;
+                                /*$saq_site_agreement_data->agreement_status = $agreement_status;
                                 $saq_site_agreement_data->date_expire = $date_expire;
                                 $saq_site_agreement_data->date_start = $date_start;
                                 $saq_site_agreement_data->payment_mode = $payment_mode;
@@ -208,7 +245,7 @@ if ($_POST['but'] == 'update') {
                                 $saq_site_agreement_data->account_holder_nic = $account_holder_nic;
                                 $saq_site_agreement_data->monthly_deduction_for_adv = $monthly_deduction_for_adv;
                                 $saq_site_agreement_data->adv_recovery_period = $adv_recovery_period;
-                                $saq_site_agreement_data->saq_sites_id = $site_id;
+                                $saq_site_agreement_data->saq_sites_id = $site_id;*/
                                 
                                 if ($site->update($tab,"API")) {
                                     $msg .= "Payment data updated";

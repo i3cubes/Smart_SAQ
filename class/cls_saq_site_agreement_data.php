@@ -143,7 +143,7 @@ class saq_site_agreement_data {
                 $this->update_string = implode("||", array_filter($sql));
 
                 $str = "UPDATE `$this->table_name` SET " . $sql_str . " WHERE id='$this->id';";
-//                print $str;
+                //print $str;
                 $result = dbQuery($str);
                 return $result;
             } else {
