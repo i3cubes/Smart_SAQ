@@ -188,6 +188,7 @@ class site {
                     break;
                 case 'P':
                     $agreement_data_obj = new saq_site_agreement_data($this->agreement_data['agreement_data_id']);
+                    $agreement_data_obj->agreement_status = $this->agreement_data['agreement_status'];
                     $agreement_data_obj->date_expire = $this->agreement_data['agreement_expire_date'];
                     $agreement_data_obj->date_start = $this->agreement_data['agreement_start_date'];
                     $agreement_data_obj->payment_mode = $this->agreement_data['payment_mode'];
@@ -584,9 +585,8 @@ class site {
         $string = "SELECT t2.id FROM `saq_sites` AS `t1` INNER JOIN `saq_site_agreement_data` AS `t2` ON t2.saq_sites_id = t1.id WHERE t1.id = $this->id;";
 //        print $string;
         $result = dbQuery($string);
-        if (dbNumRows($result) == 1) {
+        if (dbNumRows($result) > 0) {
             $row = dbFetchAssoc($result);
-//            print 'id'. $row['id'];
             $saq_s_a_d_obj = new saq_site_agreement_data($row['id']);
             $saq_s_a_d_obj->getData();
         } else {

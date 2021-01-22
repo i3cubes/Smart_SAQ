@@ -357,7 +357,7 @@ include_once '../class/cls_saq_sites_status.php';
                                                     </section>
                                                     <section class="col-sm-5">
                                                         <label class="ngs_form_label">
-                                                            SAQ officer Name
+                                                            SAQ Officer Name
                                                         </label>
                                                         <label class="input">
                                                             <?php
@@ -386,7 +386,7 @@ include_once '../class/cls_saq_sites_status.php';
                                                     </section>
                                                     <section class="col-sm-5">
                                                         <label class="ngs_form_label">
-                                                            Site Owner ship
+                                                            Site Ownership
                                                         </label>
                                                         <label class="input">
                                                             <input type="text" name="site_ownership" id="site_ownership" value="<?php print $site_obj->site_ownership; ?>"/>
@@ -548,7 +548,7 @@ include_once '../class/cls_saq_sites_status.php';
 
                                                     <section class="col-sm-5">
                                                         <label class="ngs_form_label">
-                                                            PG installation Possibility
+                                                            PG Installation Possibility
                                                         </label>                                                        
                                                         <label class="select"><i class="icon-append fa fa-user"></i>
                                                             <select name="pg_installation_possibility" id="pg_installation_possibility">
@@ -569,7 +569,7 @@ include_once '../class/cls_saq_sites_status.php';
                                                 <fieldset>                                                
                                                     <section class="col-sm-5">
                                                         <label class="ngs_form_label">
-                                                            Land owner Name
+                                                            Land Owner Name
                                                         </label>
                                                         <label class="input">
                                                             <input type="text" name="land_owner_name" id="land_owner_name" value="<?php print $site_obj->lo_name; ?>"/>
@@ -580,7 +580,7 @@ include_once '../class/cls_saq_sites_status.php';
                                                     </section>
                                                     <section class="col-sm-5">
                                                         <label class="ngs_form_label">
-                                                            Land owner address
+                                                            Land Owner address
                                                         </label>
                                                         <label class="input">
                                                             <input type="text" name="land_owner_address" id="land_owner_address" value="<?php print $site_obj->lo_address; ?>"/>
@@ -589,7 +589,7 @@ include_once '../class/cls_saq_sites_status.php';
 
                                                     <section class="col-sm-5">
                                                         <label class="ngs_form_label">
-                                                            Land owner NIC/BRC
+                                                            Land Owner NIC/BRC
                                                         </label>
                                                         <label class="input">
                                                             <input type="text" name="land_owner_nic" id="land_owner_nic" value="<?php print $site_obj->lo_nic_brc; ?>"/>
@@ -600,7 +600,7 @@ include_once '../class/cls_saq_sites_status.php';
                                                     </section>
                                                     <section class="col-sm-5">
                                                         <label class="ngs_form_label">
-                                                            Land owner Mobile number
+                                                            Land Owner Mobile Number
                                                         </label>
                                                         <label class="input">
                                                             <input type="text" name="land_owner_mobile_number" id="land_owner_mobile_number" value="<?php print $site_obj->lo_mobile; ?>"/>
@@ -609,7 +609,7 @@ include_once '../class/cls_saq_sites_status.php';
 
                                                     <section class="col-sm-5">
                                                         <label class="ngs_form_label">
-                                                            Land owner Land number
+                                                            Land Owner Land Number
                                                         </label>
                                                         <label class="input">
                                                             <input type="text" name="land_owner_land_number" id="land_owner_nic" value="<?php print $site_obj->lo_land_number; ?>"/>
@@ -620,7 +620,7 @@ include_once '../class/cls_saq_sites_status.php';
                                                     </section>
                                                     <section class="col-sm-5">
                                                         <label class="ngs_form_label">
-                                                            Contact person and number
+                                                            Contact Person and Number
                                                         </label>
                                                         <label class="input">
                                                             <input type="text" name="contact_person_and_number" id="contact_person_and_number" value="<?php print $site_obj->contact_person_number; ?>"/>
@@ -754,8 +754,11 @@ include_once '../class/cls_saq_sites_status.php';
                                                         <tr>
                                                             <td>Agreement Status</td>
                                                             <td>
-                                                                <label class="input">
-                                                                    <input type="text" name="agreement_status" id="agreement_status" value="<?php print $agreement_data_obj->agreement_status ?>"/>
+                                                                <label class="select"><i class="icon-append fa fa-user"></i>
+                                                                    <select name="agreement_status" id="agreement_status">
+                                                                        <option value="active" <?php print (($agreement_data_obj->agreement_status == 'active') ? "selected=''" : '') ?>>ACTIVE</option>
+                                                                        <option value="inactive" <?php print (($agreement_data_obj->agreement_status == 'inactive') ? "selected=''" : '') ?>>INACTIVE</option>
+                                                                    </select>                                                                    
                                                                 </label>
                                                             </td>
                                                             <td>Agreement Expire Date</td>
@@ -772,35 +775,38 @@ include_once '../class/cls_saq_sites_status.php';
                                                                     <input type="text" name="agreement_start_date" id="agreement_start_date" value="<?php print $agreement_data_obj->date_start ?>"/>
                                                                 </label>
                                                             </td>
-                                                            <td>payment MODE</td>
+                                                            <td>Payment Mode</td>
                                                             <td>
-                                                                <label class="input">
-                                                                    <input type="text" name="payment_mode" id="payment_mode" value="<?php print $agreement_data_obj->payment_mode ?>"/>
+                                                                <label class="select"><i class="icon-append fa fa-user"></i>
+                                                                    <select name="payment_mode" id="payment_mode">
+                                                                        <option value="month" <?php print (($agreement_data_obj->payment_mode == 'month') ? "selected=''":'') ?>>Monthely</option>
+                                                                        <option value="year" <?php print (($agreement_data_obj->payment_mode == 'year') ? "selected=''":'') ?>>Annualy</option>
+                                                                    </select>                                                                    
                                                                 </label>
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Lease Period</td>
+                                                            <td>Lease Period (Months)</td>
                                                             <td>
                                                                 <label class="input">
-                                                                    <input type="text" name="leas_period" id="leas_period" value="<?php print $agreement_data_obj->lease_period ?>"/>
+                                                                    <input type="number" name="leas_period" id="leas_period" value="<?php print $agreement_data_obj->lease_period ?>"/>
                                                                 </label>
                                                             </td>
-                                                            <td>Current Month payment</td>
+                                                            <td>Current Month Payment (LKR / RS)</td>
                                                             <td>
                                                                 <label class="input">
-                                                                    <input type="text" name="current_month_payment" id="current_month_payment" value="<?php print $agreement_data_obj->current_month_payment ?>"/>
+                                                                    <input type="number" name="current_month_payment" id="current_month_payment" value="<?php print $agreement_data_obj->current_month_payment ?>"/>
                                                                 </label>
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Start Monthly Rental</td>
+                                                            <td>Start Monthly Rental (LKR / RS)</td>
                                                             <td>
                                                                 <label class="input">
-                                                                    <input type="text" name="start_monthly_rental" id="start_monthly_rental" value="<?php print $agreement_data_obj->start_monthly_rental ?>"/>
+                                                                    <input type="number" name="start_monthly_rental" id="start_monthly_rental" value="<?php print $agreement_data_obj->start_monthly_rental ?>"/>
                                                                 </label>
                                                             </td>
-                                                            <td>Monthly deducting amount for ADV recovery</td>
+                                                            <td>Monthly Deducting Amount for ADV Recovery</td>
                                                             <td>
                                                                 <label class="input">
                                                                     <input type="text" name="mdafar" id="mdafar" value="<?php print $agreement_data_obj->monthly_deduction_for_adv ?>"/>
@@ -808,13 +814,13 @@ include_once '../class/cls_saq_sites_status.php';
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td>RATE Increment</td>
+                                                            <td>RATE Increment (%)</td>
                                                             <td>
                                                                 <label class="input">
-                                                                    <input type="text" name="rate_increment" id="rate_increment" value="<?php print $agreement_data_obj->rate_increment ?>"/>
+                                                                    <input type="number" name="rate_increment" id="rate_increment" value="<?php print $agreement_data_obj->rate_increment ?>"/>
                                                                 </label>
                                                             </td>
-                                                            <td>ADV recovery period</td>
+                                                            <td>ADV Recovery Period</td>
                                                             <td>
                                                                 <label class="input">
                                                                     <input type="text" name="adv_recovery_period" id="adv_recovery_period" value="<?php print $agreement_data_obj->adv_recovery_period ?>"/>
@@ -822,13 +828,13 @@ include_once '../class/cls_saq_sites_status.php';
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Advance payment</td>
+                                                            <td>Advance Payment (LKR / RS)</td>
                                                             <td>
                                                                 <label class="input">
-                                                                    <input type="text" name="advance_payment" id="advance_payment" value="<?php print $agreement_data_obj->advance_payment ?>"/>
+                                                                    <input type="number" name="advance_payment" id="advance_payment" value="<?php print $agreement_data_obj->advance_payment ?>"/>
                                                                 </label>
                                                             </td>
-                                                            <td>Account holder name</td>
+                                                            <td>Account Holder Name</td>
                                                             <td>
                                                                 <label class="input">
                                                                     <input type="text" name="acc_holder_name" id="acc_holder_name" value="<?php print $agreement_data_obj->account_holder_name ?>"/>
@@ -862,7 +868,7 @@ include_once '../class/cls_saq_sites_status.php';
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Account type</td>
+                                                            <td>Account Type</td>
                                                             <td>
                                                                 <label class="input">
                                                                     <input type="text" name="acc_type" id="acc_type" value="<?php print $agreement_data_obj->account_type ?>"/>
@@ -874,7 +880,7 @@ include_once '../class/cls_saq_sites_status.php';
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Account holder NIC Number</td>
+                                                            <td>Account Holder NIC Number</td>
                                                             <td>
                                                                 <label class="input">
                                                                     <input type="text" name="acc_holder_nic_no" id="acc_holder_nic_no" value="<?php print $agreement_data_obj->account_holder_nic ?>"/>
