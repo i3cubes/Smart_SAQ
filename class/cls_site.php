@@ -714,6 +714,7 @@ class site {
         $y['agreement_status']="active";
         $y['agreement_start_date']="2021-01-01";
         $y['lease_period']="6years";
+        $y['assesment']=array("2018"=>"2394","2019"=>"2765","2020"=>"2774");
         $t_data['payments'] = $y;
 
         $ary_apr = $this->getApprovalsPresent();
