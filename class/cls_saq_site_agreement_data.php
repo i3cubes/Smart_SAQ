@@ -59,7 +59,7 @@ class saq_site_agreement_data {
     }
     public function getDataFromSiteID($s_id){
         $str="SELECT id from `$this->table_name` WHERE saq_sites_id='$s_id';";
-        $result = dbQuery($string);
+        $result = dbQuery($str);
         $row = dbFetchAssoc($result);
         $this->id=$row['id'];
         $this->getData();
