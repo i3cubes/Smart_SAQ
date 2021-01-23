@@ -127,7 +127,7 @@ class saq_site_agreement_data {
     public function update($source = 'API') {
         if ($this->id != '') {
             $sql = array();
-
+            array_push($sql, shared::getCleanedData('agreement_status', $this->agreement_status, $source));
             array_push($sql, shared::getCleanedData('date_expire', $this->date_expire, $source));
             array_push($sql, shared::getCleanedData('date_start', $this->date_start, $source));
             array_push($sql, shared::getCleanedData('payment_mode', $this->payment_mode, $source));
@@ -150,7 +150,7 @@ class saq_site_agreement_data {
                 $this->update_string = implode("||", array_filter($sql));
 
                 $str = "UPDATE `$this->table_name` SET " . $sql_str . " WHERE id='$this->id';";
-//                print $str;
+                //print $str;
                 $result = dbQuery($str);
                 return $result;
             } else {

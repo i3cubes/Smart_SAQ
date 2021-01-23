@@ -22,7 +22,7 @@ class site {
     //put your code here
     public $id, $status;
     public $name, $code, $type, $address, $site_ownership, $operator_name, $tower_height, $building_height, $land_area;
-    public $on_air_date, $category, $lat, $lon, $access_type, $manual_distance, $access_permision_type, $pg_installation_possibility;
+    public $on_air_date, $category, $lat, $lon, $access_type, $manual_distance, $access_permision_type, $pg_installation_possibility,$dns_deport,$other_operator_id;
     public $lo_name, $lo_address, $lo_nic_brc, $lo_mobile, $lo_land_number, $contact_person_number, $lo_fax, $lo_email;
     public $province_id, $peovince_name, $district_id, $district_name, $ds_id, $ds_name, $la_id, $la_name, $police_station_id, $police_station_name;
     public $region_id, $region_name, $dns_office_id, $dns_office_name, $technical, $other_operators, $agreement_data, $assessment_data, $agreement_data_id, $approvals;
@@ -60,6 +60,8 @@ class site {
         $this->pg_installation_possibility = $row['PG_installation_possibility'];
         $this->lat = $row['lat'];
         $this->lon = $row['lon'];
+        $this->dns_deport = $row['dns_deport'];
+        $this->other_operator_id = $row['other_operator_id'];
         $this->access_type = $row['access_type'];
         $this->manual_distance = $row['manual_distance'];
         $this->access_permision_type = $row['access_permission_type'];
@@ -124,6 +126,8 @@ class site {
                     array_push($sql, shared::getCleanedData('address', $this->address, $source));
                     array_push($sql, shared::getCleanedData('site_ownership', $this->site_ownership, $source));
                     array_push($sql, shared::getCleanedData('operators_name', $this->operator_name, $source));
+                    array_push($sql, shared::getCleanedData('dns_deport', $this->dns_deport, $source));
+                    array_push($sql, shared::getCleanedData('other_operator_id', $this->other_operator_id, $source));
                     array_push($sql, shared::getCleanedData('tower_height', $this->tower_height, $source));
                     array_push($sql, shared::getCleanedData('building_height', $this->building_height, $source));
                     array_push($sql, shared::getCleanedData('land_area', $this->land_area, $source));
@@ -193,6 +197,7 @@ class site {
                     break;
                 case 'P':
                     $agreement_data_obj = new saq_site_agreement_data($this->agreement_data['agreement_data_id']);
+                    $agreement_data_obj->agreement_status = $this->agreement_data['agreement_status'];
                     $agreement_data_obj->date_expire = $this->agreement_data['agreement_expire_date'];
                     $agreement_data_obj->date_start = $this->agreement_data['agreement_start_date'];
                     $agreement_data_obj->payment_mode = $this->agreement_data['payment_mode'];
@@ -303,6 +308,10 @@ class site {
                     array_push($value, getStringFormatted($this->status));
                     array_push($key, 'address');
                     array_push($value, getStringFormatted($this->address));
+                    array_push($key, 'dns_deport');
+                    array_push($value, getStringFormatted($this->dns_deport));
+                    array_push($key, 'other_operator_id');
+                    array_push($value, getStringFormatted($this->other_operator_id));
                     array_push($key, 'site_ownership');
                     array_push($value, getStringFormatted($this->site_ownership));
                     array_push($key, 'operators_name');
@@ -586,12 +595,11 @@ class site {
     }
 
     public function getSiteAgreementData() {
-        $string = "SELECT t2.id FROM `saq_sites` AS `t1` INNER JOIN `saq_site_agreement_data` AS `t2` ON t2.saq_sites_id = t1.id WHERE t1.id = $this->id;";
-//        print $string;
+        $string = "SELECT t2.id FROM `saq_sites` AS `t1` INNER JOIN `saq_site_agreement_data` AS `t2` ON t2.saq_sites_id = t1.id WHERE t1.id = $this->id ORDER BY t2.id DESC LIMIT 1;";
+        //print $string;
         $result = dbQuery($string);
-        if (dbNumRows($result) == 1) {
+        if (dbNumRows($result) > 0) {
             $row = dbFetchAssoc($result);
-//            print 'id'. $row['id'];
             $saq_s_a_d_obj = new saq_site_agreement_data($row['id']);
             $saq_s_a_d_obj->getData();
         } else {
