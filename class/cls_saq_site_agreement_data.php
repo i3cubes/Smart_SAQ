@@ -57,6 +57,13 @@ class saq_site_agreement_data {
         $this->adv_recovery_period = $row['adv_recovery_period'];
         $this->saq_sites_id = $row['saq_sites_id'];
     }
+    public function getDataFromSiteID($s_id){
+        $str="SELECT id from `$this->table_name` WHERE saq_sites_id='$s_id';";
+        $result = dbQuery($str);
+        $row = dbFetchAssoc($result);
+        $this->id=$row['id'];
+        $this->getData();
+    }
 
     public function add() {
         $key = array();

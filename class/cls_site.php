@@ -27,6 +27,7 @@ class site {
     public $province_id, $peovince_name, $district_id, $district_name, $ds_id, $ds_name, $la_id, $la_name, $police_station_id, $police_station_name;
     public $region_id, $region_name, $dns_office_id, $dns_office_name, $technical, $other_operators, $agreement_data, $assessment_data, $agreement_data_id, $approvals;
     public $update_string;
+    public $site_agreement_data;
 
     public function __construct($id = '') {
         $this->id = $id;
@@ -82,6 +83,10 @@ class site {
         $this->police_station_name = $row['police_station_name'];
         $this->region_id = $row['saq_region_id'];
         $this->region_name = $row['region_name'];
+        
+        //Payment Data
+        $this->site_agreement_data=new saq_site_agreement_data();
+        $this->site_agreement_data->getDataFromSiteID($this->id);
     }
 
     public function addSite() {
@@ -719,10 +724,33 @@ class site {
         $t_data['technical']['other_operator'] = $ary_oth_opr;
         //payment data
         $y=[];
-        $y['agreement_status']="active";
-        $y['agreement_start_date']="2021-01-01";
-        $y['lease_period']="6years";
-        $y['assesment']=array("2018"=>"2394","2019"=>"2765","2020"=>"2774");
+        $payment=new \saq_site_agreement_data();
+        $payment= $this->site_agreement_data;
+        $y['agreement_status']= "$payment->agreement_status";
+        $y['agreement_start_date']="$payment->date_start";
+        $y['lease_period']="$payment->lease_period";
+        $y['start_monthly_rental']="$payment->start_monthly_rental";
+        $y['rate_increment']="$payment->rate_increment";
+        $y['adv_payment']="$payment->advance_payment";
+        $y['bank_account']="$payment->bank_account";
+        $y['bank_name']="$payment->bank_name";
+        $y['account_type']="$payment->account_type";
+        $y['account_holder_nic_number']="$payment->account_holder_nic";
+        $y['agreement_expire_date']="$payment->date_expire";
+        $y['payment_mode']="$payment->payment_mode";
+        $y['current_month+payment']="$payment->current_month_payment";
+        $y['monthly_deducting_amount_for_adv_recovery']="$payment->monthly_deduction_for_adv";
+        $y['adv_recovery_period']="$payment->adv_recovery_period";
+        $y['account_holder_name']="$payment->account_holder_name";
+        $y['branch_name']="$payment->branch_name";
+        //Assesment info
+        $asmt_arr=array();
+        $ary_asmt= $this->getSiteAssesmentInfo();
+        $asmt=new \saq_site_assesment_info();
+        foreach ($ary_asmt as $asmt){
+            $asmt_arr[$asmt->year]=array("assessment_tax"=>$asmt->assessment_tax,"trade_tax"=>$asmt->trade_tax);
+        }
+        $y['assesment']=$asmt_arr;
         $t_data['payments'] = $y;
 
         $ary_apr = $this->getApprovalsPresent();
