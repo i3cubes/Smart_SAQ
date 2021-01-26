@@ -18,7 +18,7 @@ include_once '../class/cls_agreement_model.php';
 
                                 print "<ul>"
                                         . "<li>"
-                                        . "<span class=''>" . $parent_node['name'] . " &nbsp;<i class='fa fa-plus' style='font-size:15px;color:green;cursor:pointer;' onclick='addHandlerNode(".$parent_node['id'].")'></i>$icon</span>"                                        
+                                        . "<span class=''>" . $parent_node['name'] . " &nbsp;<i class='fa fa-cog' style='font-size:15px;color:green;cursor:pointer;' onclick='editHandler(".$parent_node['id'].")'></i>$icon</span>"                                        
                                         . "$sub_child_html_main"                                     
                                         . "</li>"
                                         . "</ul>";
