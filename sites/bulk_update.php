@@ -89,7 +89,11 @@ if ($_POST['but'] == 'update') {
                                 $site->tower_height = $data[6];
                                 $site->building_height = $data[7];
                                 $site->land_area = $data[8];
-                                $site->on_air_date = $date->transform_date($data[9]);
+                                if($data[9]!=""){
+                                    $site->on_air_date = $data[9] =="NULL" ? "NULL" : $date->transform_date($data[9]);
+                                            
+                                }
+                                //$site->on_air_date = $data[9] =="" ? "NULL" : $date->transform_date($data[9]) /**/;
                                 $site->category = $data[10];
                                 $site->lat = $data[11];
                                 $site->lon = $data[12];
@@ -193,6 +197,7 @@ if ($_POST['but'] == 'update') {
                                 $adv_recovery_period=$data['17']; 
                                 $site_aggreement_obj = $site->getSiteAgreementData();
                                 
+                                
                                 //print "SITE AGGREEMENT  DATA ID ".$site_aggreement_obj->id."<br>";
                                 $agreement_id =$site_aggreement_obj->id;
                                 if($agreement_id !=""){
@@ -204,8 +209,21 @@ if ($_POST['but'] == 'update') {
                                     $saq_site_agreement_data->add();
                                     $agreement_id= $saq_site_agreement_data->id;
                                 }
-                                $date_expire = $date->transform_date($date_expire);
-                                $date_start = $date->transform_date($date_start);
+                               // print $date_expire."<br>";
+                                //$date_expire = $date_expire=="" ? "" : $date->transform_date($date_expire);
+                                //$date_start = $date_start =="" ? "" : $date->transform_date($date_start);
+                                //print $date_expire."<br>";
+                                
+                                /*if($date_expire ==""){
+                                    $date_expire = "NULL";
+                                }else {
+                                    $date_expire =  $date->transform_date($date_expire);
+                                }
+                                if($date_start ==""){
+                                    $date_start = "NULL";
+                                }else {
+                                    $date_start =  $date->transform_date($date_start);
+                                }*/
                                 $agreement_data_array = array(
                                     "agreement_data_id"=>$agreement_id,
                                     "agreement_status"=>$agreement_status,
