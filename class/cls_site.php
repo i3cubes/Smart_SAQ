@@ -16,6 +16,7 @@ include_once 'shared.php';
 include_once 'cls_saq_technical.php';
 include_once 'cls_saq_site_agreement_data.php';
 include_once 'cls_saq_site_assesment_info.php';
+include_once '../class/ngs_date.php';
 
 class site {
 
@@ -114,6 +115,7 @@ class site {
     }
 
     public function update($tab, $source = 'API') {
+        $ngs_date = new ngs_date();
         if ($this->id != "") {
 
             $sql = array();
@@ -198,8 +200,8 @@ class site {
                 case 'P':
                     $agreement_data_obj = new saq_site_agreement_data($this->agreement_data['agreement_data_id']);
                     $agreement_data_obj->agreement_status = $this->agreement_data['agreement_status'];
-                    $agreement_data_obj->date_expire = $this->agreement_data['agreement_expire_date'];
-                    $agreement_data_obj->date_start = $this->agreement_data['agreement_start_date'];
+                    $agreement_data_obj->date_expire = $this->agreement_data['agreement_expire_date'] =="" ? "" : $ngs_date->transform_date($this->agreement_data['agreement_expire_date']);
+                    $agreement_data_obj->date_start = $this->agreement_data['agreement_start_date']=="" ? "" : $ngs_date->transform_date($this->agreement_data['agreement_start_date']);
                     $agreement_data_obj->payment_mode = $this->agreement_data['payment_mode'];
                     $agreement_data_obj->lease_period = $this->agreement_data['leas_period'];
                     $agreement_data_obj->current_month_payment = $this->agreement_data['current_month_payment'];
