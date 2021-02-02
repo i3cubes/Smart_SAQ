@@ -22,7 +22,8 @@ $page_title = "Sites-Bulk Update";
 //Note: all css files are inside css/ folder
 $page_css[] = "your_style.css";
 include("../ngs/header_ngspopup.php");
-
+include_once '../class/ngs_date.php';
+$date = new ngs_date();
 //include left panel (navigation)
 //follow the tree in inc/config.ui.php
 $page_nav["forms"]["sub"]["smart_layout"]["active"] = true;
@@ -203,6 +204,8 @@ if ($_POST['but'] == 'update') {
                                     $saq_site_agreement_data->add();
                                     $agreement_id= $saq_site_agreement_data->id;
                                 }
+                                $date_expire = $date->transform_date($date_expire);
+                                $date_start = $date->transform_date($date_start);
                                 $agreement_data_array = array(
                                     "agreement_data_id"=>$agreement_id,
                                     "agreement_status"=>$agreement_status,
@@ -246,7 +249,7 @@ if ($_POST['but'] == 'update') {
                                 $saq_site_agreement_data->monthly_deduction_for_adv = $monthly_deduction_for_adv;
                                 $saq_site_agreement_data->adv_recovery_period = $adv_recovery_period;
                                 $saq_site_agreement_data->saq_sites_id = $site_id;*/
-                                
+                               // echo $date_expire."<br>";
                                 if ($site->update($tab,"API")) {
                                     $msg .= "Payment data updated";
                                 } else {
