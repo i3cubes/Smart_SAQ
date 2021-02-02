@@ -89,7 +89,7 @@ if ($_POST['but'] == 'update') {
                                 $site->tower_height = $data[6];
                                 $site->building_height = $data[7];
                                 $site->land_area = $data[8];
-                                $site->on_air_date = $data[9];
+                                $site->on_air_date = $date->transform_date($data[9]);
                                 $site->category = $data[10];
                                 $site->lat = $data[11];
                                 $site->lon = $data[12];
