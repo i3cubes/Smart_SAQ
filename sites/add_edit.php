@@ -54,6 +54,8 @@ include_once '../class/cls_police_station.php';
 include_once '../class/cls_saq_region.php';
 include_once '../class/cls_saq_employee.php';
 include_once '../class/cls_saq_sites_status.php';
+include_once '../class/ngs_date.php';
+$ngs_date = new ngs_date();
 ?>
 <style>
     .customFiled {
@@ -481,7 +483,7 @@ include_once '../class/cls_saq_sites_status.php';
                                                             On Air Date
                                                         </label>
                                                         <label class="input">
-                                                            <input type="text" name="on_air_date" id="on_air_date" value="<?php print $site_obj->on_air_date; ?>"/>
+                                                            <input type="text" placeholder="dd/mm/yyyy" name="on_air_date" id="on_air_date" value="<?php if($site_obj->on_air_date=="" || $site_obj->on_air_date ==null){} else {print $ngs_date->transform_date_back($site_obj->on_air_date);} ?>"/>
                                                         </label>
                                                     </section>
 
@@ -764,7 +766,7 @@ include_once '../class/cls_saq_sites_status.php';
                                                             <td>Agreement Expire Date</td>
                                                             <td>
                                                                 <label class="input">
-                                                                    <input type="text" name="agreement_expire_date" id="agreement_expire_date" value="<?php print $agreement_data_obj->date_expire ?>"/>
+                                                                    <input type="text" name="agreement_expire_date" id="agreement_expire_date" value="<?php if($site_obj->on_air_date=="" || $site_obj->on_air_date ==null){} else {print $ngs_date->transform_date_back($agreement_data_obj->date_expire);}  ?>"/>
                                                                 </label>
                                                             </td>
                                                         </tr>
@@ -772,7 +774,7 @@ include_once '../class/cls_saq_sites_status.php';
                                                             <td>Agreement Start Date</td>
                                                             <td>
                                                                 <label class="input">
-                                                                    <input type="text" name="agreement_start_date" id="agreement_start_date" value="<?php print $agreement_data_obj->date_start ?>"/>
+                                                                    <input type="text" name="agreement_start_date" id="agreement_start_date" value="<?php if($site_obj->on_air_date=="" || $site_obj->on_air_date ==null){} else {print $ngs_date->transform_date_back($agreement_data_obj->date_start);}  ?>"/>
                                                                 </label>
                                                             </td>
                                                             <td>Payment Mode</td>
@@ -1050,21 +1052,21 @@ include("../inc/scripts.php");
         }
         $('#on_air_date').datetimepicker({
             timepicker: false,
-            format: 'Y-m-d',
+            format: 'd/m/Y',
             useCurrent: true,
             scrollMonth: false,
             scrollInput: false
         })
         $('#agreement_expire_date').datetimepicker({
             timepicker: false,
-            format: 'Y-m-d',
+            format: 'd/m/Y',
             useCurrent: true,
             scrollMonth: false,
             scrollInput: false
         });
         $('#agreement_start_date').datetimepicker({
             timepicker: false,
-            format: 'Y-m-d',
+            format: 'd/m/Y',
             useCurrent: true,
             scrollMonth: false,
             scrollInput: false
