@@ -1,7 +1,8 @@
 <?php
 session_start();
 include_once '../class/cls_site.php';
-
+include_once '../class/ngs_date.php';
+$ngs_date = new ngs_date();
 $site_obj = new site($_REQUEST['id']);
 // tab general
 $site_obj->code = $_REQUEST['site_code'];
@@ -29,7 +30,7 @@ $site_obj->tower_height = $_REQUEST['tower_height'];
 $site_obj->building_height = $_REQUEST['building_height'];
 $site_obj->land_area = $_REQUEST['land_area'];
 $site_obj->status = $_REQUEST['site_status'];
-$site_obj->on_air_date = $_REQUEST['on_air_date'];
+$site_obj->on_air_date = $_REQUEST['on_air_date'] ==""? "" : $ngs_date->transform_date($_REQUEST['on_air_date']);
 $site_obj->category = $_REQUEST['site_category'];
 $site_obj->lon = $_REQUEST['longitude'];
 $site_obj->lat = $_REQUEST['latitude'];
