@@ -31,10 +31,10 @@ class site_manager {
             $where="t1.id>0 ORDER BY t1.id DESC";
         }
         $str="SELECT t1.*,t2.name as district_name,t3.name as ds_name,t4.name as la_name,t5.name as police_station_name,"
-                . "t6.name as region_name FROM saq_sites as t1 left join saq_district as t2 on t1.saq_district_id=t2.id "
+                . "t6.name as region_name,t6.name as status_name FROM saq_sites as t1 left join saq_district as t2 on t1.saq_district_id=t2.id "
                 . "left join saq_ds as t3 on t1.saq_ds_id=t3.id left join saq_la as t4 on t1.saq_la_id=t4.name "
                 . "left join saq_police_station as t5 on t1.saq_police_station_id=t5.id "
-                . "left join saq_region as t6 on t1.saq_region_id=t6.id "
+                . "left join saq_region as t6 on t1.saq_region_id=t6.id left join saq_sites_status as t6 on t1.saq_sites_status_id=t6.id"
                 . "WHERE ".$where;
         //print $str;
         $res= dbQuery($str);
@@ -42,7 +42,8 @@ class site_manager {
             //print_r($row);
             $site=new site($row['id']);
             $site->id=$row['id'];
-            $site->status=$row['status'];
+            $site->status=$row['status_name'];
+            $site->status_id=$row['saq_sites_status_id'];
             $site->name=$row['name'];
             $site->code=$row['code'];
             $site->type=$row['type'];

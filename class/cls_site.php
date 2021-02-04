@@ -21,7 +21,7 @@ include_once 'ngs_date.php';
 class site {
 
     //put your code here
-    public $id, $status;
+    public $id, $status,$status_id;
     public $name, $code, $type, $address, $site_ownership, $operator_name, $tower_height, $building_height, $land_area;
     public $on_air_date, $category, $lat, $lon, $access_type, $manual_distance, $access_permision_type, $pg_installation_possibility, $dns_deport, $other_operator_id;
     public $lo_name, $lo_address, $lo_nic_brc, $lo_mobile, $lo_land_number, $contact_person_number, $lo_fax, $lo_email;
@@ -36,16 +36,17 @@ class site {
 
     public function getData() {
         $str = "SELECT t1.*,t2.name as district_name,t3.name as ds_name,t4.name as la_name,t5.name as police_station_name,"
-                . "t6.name as region_name FROM saq_sites as t1 left join saq_district as t2 on t1.saq_district_id=t2.id "
+                . "t6.name as region_name,t7.name as staus_name FROM saq_sites as t1 left join saq_district as t2 on t1.saq_district_id=t2.id "
                 . "left join saq_ds as t3 on t1.saq_ds_id=t3.id left join saq_la as t4 on t1.saq_la_id=t4.name "
                 . "left join saq_police_station as t5 on t1.saq_police_station_id=t5.id "
-                . "left join saq_region as t6 on t1.saq_region_id=t6.id "
+                . "left join saq_region as t6 on t1.saq_region_id=t6.id left join saq_sites_status as t7 on t1.saq_sites_status_id=t7.id"
                 . "WHERE t1.id='" . $this->id . "';";
         //print $str."<br>";
         $res = dbQuery($str);
         $row = dbFetchAssoc($res);
         $this->id = $row['id'];
-        $this->status = $row['saq_sites_status_id'];
+        $this->status_id = $row['saq_sites_status_id'];
+        $this->status=$row['staus_name'];
         $this->name = $row['name'];
         $this->code = $row['code'];
 //        $this->status = $row['status_id'];
