@@ -1,4 +1,5 @@
 <?php
+
 include_once '../class/cls_site_manager.php';
 include_once '../class/cls_site.php';
 include_once '../class/cls_saq_guideline_manager.php';
@@ -9,7 +10,13 @@ include_once '../class/cls_site_model_manager.php';
 
 include_once '../class/cls_agreement_model.php';
 include_once '../class/cls_agreement_model_manager.php';
+include_once '../class/cls_user.php';
 
+//session_id($_REQUEST['pid']);
+session_start();
+session_id($_REQUEST['pid']);
+
+//print "SID=".session_id();
 
 $system_url="http://203.94.66.253/dialogsaq/";
 $key = $_REQUEST['KEY'];
@@ -44,6 +51,29 @@ if ($file = fopen($log_file, "a+")) {
 $response = array();
 if ($key == "2ea3490b80dd2bd77d1a") {
     switch ($sid){
+    case '100':
+        if($_REQUEST['user_name']=="" || $_REQUEST['password']==""){
+            $response[0]["result"] = '0';
+            $response[0]["pid"] = null;
+            $response[0]["error_code"] = "1002";
+            $response[0]["error"] = "User Name or Password is empty";
+        }
+        else{
+            $us=new user();
+            $us->name=$_REQUEST['user_name'];
+            $us->password=$_REQUEST['password'];
+            if($us->loginUser()){
+                $response[0]["result"] = '1';
+                $response[0]["pid"] = session_id();
+            }
+            else{
+                $response[0]["result"] = '0';
+                $response[0]["pid"] = "";
+                $response[0]["error_code"] = "1001";
+                $response[0]["error"] = "User Name or Password is wrong";
+            }
+        }
+        break;
     case '110':
         $site_model=new \site_model();
         if($parent_id==''){

@@ -1,7 +1,5 @@
 <?php
 
-session_start();
-
 include_once 'database.php';
 include_once 'constants.php';
 
@@ -147,9 +145,9 @@ class user {
 
         $string = "SELECT * FROM `$this->table_name` WHERE user_name = $name AND "
                 . "password = $password AND status = '" . constants::$active . "';";
-//        print $string;
+        //print $string;
         $result = dbQuery($string);
-        if (dbNumRows($result) > 0) {
+        if (dbNumRows($result) == 1) {
             $row = dbFetchAssoc($result);
 //            $emp_obj = new employees($row['employees_id']);
 //            $emp_obj->getDetails();
