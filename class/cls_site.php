@@ -40,8 +40,8 @@ class site {
                 . "left join saq_ds as t3 on t1.saq_ds_id=t3.id left join saq_la as t4 on t1.saq_la_id=t4.name "
                 . "left join saq_police_station as t5 on t1.saq_police_station_id=t5.id "
                 . "left join saq_region as t6 on t1.saq_region_id=t6.id left join saq_sites_status as t7 on t1.saq_sites_status_id=t7.id"
-                . "WHERE t1.id='" . $this->id . "';";
-        //print $str."<br>";
+                . " WHERE t1.id='" . $this->id . "';";
+//        print $str."<br>";
         $res = dbQuery($str);
         $row = dbFetchAssoc($res);
         $this->id = $row['id'];
