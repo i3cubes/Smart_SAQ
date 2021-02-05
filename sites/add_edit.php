@@ -466,7 +466,7 @@ $ngs_date = new ngs_date();
                                                         $site_statuses = $saq_sites_status_obj->getAll();
                                                         var_dump($site_obj->status);
                                                         foreach ($site_statuses as $status) {
-                                                            print "<option value='$status->id' " . (($site_obj->status == $status->id) ? "selected=''" : "") . ">$status->name</option>";
+                                                            print "<option value='$status->id' " . (($site_obj->status_id == $status->id) ? "selected=''" : "") . ">$status->name</option>";
                                                         }
                                                         ?>
                                                             </select>                                                            
