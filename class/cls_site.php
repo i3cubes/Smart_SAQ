@@ -709,7 +709,7 @@ class site {
         $t['building_height'] = $this->building_height;
         $t['land_area'] = $this->land_area;
         $t['site_status'] = $this->status;
-        $t['on_air_date'] = $this->on_air_date;
+        $t['on_air_date'] = date("d/M/Y",strtotime($this->on_air_date));
         $t['category'] = $this->category;
         $t['lat'] = $this->lat;
         $t['lon'] = $this->lon;
