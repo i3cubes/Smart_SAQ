@@ -682,6 +682,14 @@ class site {
         while ($row = dbFetchAssoc($res)) {
             array_push($approvals, array('requirement' => $row['requirement'], 'description' => $row['description'], 'code' => $row['code'], 'available' => $row['available']));
         }
+        //get others having N
+        $str="SELECT * FROM smart_saq.saq_approvals where id not in ("
+                . "SELECT t1.saq_approvals_id FROM smart_saq.saq_site_approvals as t1 right join saq_approvals as t2 "
+                . "on t1.saq_approvals_id=t2.id where t1.saq_sites_id=".$this->id.");";
+        $res = dbQuery($str);
+        while ($row = dbFetchAssoc($res)) {
+            array_push($approvals, array('requirement' => $row['requirement'], 'description' => $row['description'], 'code' => $row['code'], 'available' => "N"));
+        }
         return $approvals;
     }
 
