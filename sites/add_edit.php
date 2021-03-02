@@ -76,6 +76,9 @@ $ngs_date = new ngs_date();
         z-index: 9999;
         background: url(../img/Preloader_11.gif) center no-repeat #fff;
     }
+    #site_assessment_data {
+        display: none;
+    }
 </style>
 <!-- ==========================CONTENT STARTS HERE ========================== -->
 <!-- MAIN PANEL -->
@@ -658,6 +661,7 @@ $ngs_date = new ngs_date();
                                         <div class="tab-pane fade active in" id="technical">
                                             <form class="smart-form" id="technical_form" onsubmit="saveHandler(event, 'technical_form')">
                                                 <fieldset>
+                                                    <button class="btn btn-primary" style="float:right;" type="button" onclick="addEditTechnology()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
                                                     <table class="table">
                                                         <thead>
                                                         <th>Technology</th>
@@ -666,7 +670,9 @@ $ngs_date = new ngs_date();
                                                         $technologies = $technology_obj->getAll();
 //                                                            print_r($technologies);
                                                         foreach ($technologies as $tech) {
-                                                            print "<th align='center'>$tech->technology</th>";
+                                                            print "<th align='center'>$tech->technology"
+                                                                    . "&nbsp;<button class='btn btn-success' type='button' onclick='addEditTechnology(".$tech->id.")'>Edit&nbsp;<i class='fa fa-edit'></i></button>"
+                                                                    . "</th>";
                                                         }
                                                         ?>
                                                         </thead>
@@ -693,6 +699,7 @@ $ngs_date = new ngs_date();
                                                     <br />
                                                     <h5>Other operators</h5>
                                                     <br />
+                                                    <button class="btn btn-primary" style="float:right;" type="button" onclick="addEditOtherOperator()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
                                                     <table class="table">
                                                         <thead>
                                                         <th>Operator</th>
@@ -708,7 +715,11 @@ $ngs_date = new ngs_date();
                                                                     $checkAvailable = $site_obj->getOtherOperatorPresentSite($operator->id);
                                                                 }
 
-                                                                print "<tr><td style='padding:10px;'>$operator->name</td>"
+                                                                print "<tr>"
+                                                                        . "<td style='padding:10px;'>"
+                                                                            . "$operator->name"
+                                                                            . "&nbsp;<button class='btn btn-success' type='button' onclick='addEditOtherOperator(".$operator->id.")'>Edit&nbsp;<i class='fa fa-edit'></i></button>"
+                                                                        . "</td>"
                                                                         . "<td align='center'>
                                                                     <label class='checkbox'>
                                                                         <input type='checkbox' name='other_operators' id='$operator->id' value='$operator->id' " . (($checkAvailable) ? "checked=''" : "") . ">
@@ -893,11 +904,31 @@ $ngs_date = new ngs_date();
                                                                 &nbsp;
                                                             </td>
                                                         </tr>
+                                                        <tr>
+                                                            <td>Property ID</td>
+                                                            <td>
+                                                                <label class="input">
+                                                                    <input type="text" name="property_id" id="property_id" value="<?php print $agreement_data_obj->property_id ?>"/>
+                                                                </label>
+                                                            </td>
+                                                            <td>&nbsp;</td>
+                                                            <td>
+                                                                &nbsp;
+                                                            </td>
+                                                        </tr>
                                                     </table>
                                                     <br />
-                                                    <table class="table table-bordered">
+                                                    <button class="btn btn-primary btn-xs" type="button" id="toggleAssessmentData">Show Site Assessment Data</button>
+                                                    <table class="table table-bordered" id="site_assessment_data">
                                                         <tr>
-                                                            <td colspan="5"><b>Assessment NO</b></td>
+                                                            <td>
+                                                                <b>Assessment NO</b>                                                                
+                                                            </td>
+                                                            <td>
+                                                                <label class="input">
+                                                                    <input type="text" name="assessment_no" id="assessment_no" value="<?php print $agreement_data_obj->assessment_no ?>"/>
+                                                                </label>
+                                                            </td>
                                                         </tr>
                                                         <tr>
                                                             <td><b>Year</b></td>
@@ -961,6 +992,7 @@ $ngs_date = new ngs_date();
                                         <div class="tab-pane fade active in" id="approvals">
                                             <form class="smart-form" id='approval_form' onsubmit="saveHandler(event, 'approval_form')">
                                                 <fieldset>
+                                                    <button class="btn btn-primary" style="float:right;" type="button" onclick="addEditApprovals()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
                                                     <table class="table table-bordered">
                                                         <thead>
                                                         <th width="5%"></th>
@@ -982,7 +1014,9 @@ $ngs_date = new ngs_date();
                                                                 print "<tr " . (($approval->requirement == 'Compulsory') ? "style='background: yellow;'" : "") . ">"
                                                                         . "<td>$approval->id</td>"
                                                                         . "<td>$approval->requirement</td>"
-                                                                        . "<td>$approval->description</td>"
+                                                                        . "<td>$approval->description"
+                                                                        . "&nbsp;<button class='btn btn-success' type='button' onclick='addEditApprovals(".$approval->id.")'>Edit&nbsp;<i class='fa fa-edit'></i></button>"
+                                                                        . "</td>"
                                                                         . "<td>$approval->code</td>"
                                                                         . "<td align='center' width='5%' style='padding: 10px 30px'><label class='checkbox'>"
                                                                         . "<input type='checkbox' name='approvals' id='$approval->id' value='$approval->id' " . (($checkAvailable) ? "checked=''" : "") . "/><i></iS></label></td>"
@@ -1037,11 +1071,12 @@ $ngs_date = new ngs_date();
 //include required scripts
 include("../inc/scripts.php");
 ?>
-
+<script type="text/javascript" src="../jeegoopopup/jquery.jeegoopopup.1.0.0.js"></script>
+        <link href="../jeegoopopup/skins/blue/style.css" rel="Stylesheet" type="text/css" />
+        <link href="../jeegoopopup/skins/round/style.css" rel="Stylesheet" type="text/css" />
 <script type="text/javascript">
     var id = <?php print (($site_obj->id != 0) ? $site_obj->id : 0) ?>;
-    var option = '<?php print (($site_obj->id != 0) ? 'EDIT' : 'ADD') ?>';
-
+    var option = '<?php print (($site_obj->id != 0) ? 'EDIT' : 'ADD') ?>';   
     $(document).ready(function () {
         $("#main_tab").tabs({
             active: 0
@@ -1071,6 +1106,16 @@ include("../inc/scripts.php");
             scrollMonth: false,
             scrollInput: false
         });
+        
+        $('#toggleAssessmentData').click(function(){
+            if($('#site_assessment_data').css('display') == 'table') {
+                $('#site_assessment_data').css('display','none');
+                $(this).text('Show Site Assessment Data');
+            } else if($('#site_assessment_data').css('display') == 'none') {
+                $('#site_assessment_data').css('display','table');
+                $(this).text('Hide Site Assessment Data');
+            }
+        });
 
         $('#region_id').on('change', function () {
             $.ajax({
@@ -1096,6 +1141,42 @@ include("../inc/scripts.php");
             });
         });
     });
+    
+    function addEditTechnology(id = '') {        
+        var options = {
+            url: 'add_edit_technology?id=' + id,
+            width: '600',
+            height: '200',
+            skinClass: 'jg_popup_round',
+            resizable: false,
+            scrolling: 'no'
+        };
+        $.jeegoopopup.open(options);
+    }
+    
+    function addEditOtherOperator(id = '') {
+        var options = {
+            url: 'add_edit_other_operator?id=' + id,
+            width: '600',
+            height: '200',
+            skinClass: 'jg_popup_round',
+            resizable: false,
+            scrolling: 'no'
+        };
+        $.jeegoopopup.open(options);
+    }
+    
+    function addEditApprovals(id = '') {
+        var options = {
+            url: 'add_edit_approvals?id=' + id,
+            width: '600',
+            height: '350',
+            skinClass: 'jg_popup_round',
+            resizable: false,
+            scrolling: 'no'
+        };
+        $.jeegoopopup.open(options);
+    }
 
     function saveHandler(e, form) {
         e.preventDefault();

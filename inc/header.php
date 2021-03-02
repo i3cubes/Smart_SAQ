@@ -159,7 +159,8 @@ echo implode(' ', array_map(function($prop, $value) {
                         <!-- logout button -->
                         <div id="logout" class="btn-header transparent pull-right">
                             <span> <a href="<?php echo ASSETS_URL; ?>" title="Sign Out" data-action="userLogout" data-logout-msg="You can improve your security further after logging out by closing this opened browser" onclick="logOut()"><i class="fa fa-sign-out"></i></a> </span>
-                        </div>        
+                        </div>  
+                        
 
                         <!-- collapse menu button -->
 

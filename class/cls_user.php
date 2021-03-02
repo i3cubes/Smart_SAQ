@@ -139,13 +139,11 @@ class user {
         }
     }
 
-    public function loginUser() {
+    public function loginUser() {         
         $name = getStringFormatted($this->name);
-        $password = getStringFormatted(sha1($this->password));
-
+        $password = getStringFormatted(sha1($this->password));        
         $string = "SELECT * FROM `$this->table_name` WHERE user_name = $name AND "
-                . "password = $password AND status = '" . constants::$active . "';";
-        //print $string;
+                . "password = $password AND status = '" . constants::$active . "';";       
         $result = dbQuery($string);
         if (dbNumRows($result) == 1) {
             $row = dbFetchAssoc($result);

@@ -228,6 +228,8 @@ class site {
                     $agreement_data_obj->account_holder_nic = $this->agreement_data['acc_holder_nic_no'];
                     $agreement_data_obj->monthly_deduction_for_adv = $this->agreement_data['mdafar'];
                     $agreement_data_obj->adv_recovery_period = $this->agreement_data['adv_recovery_period'];
+                    $agreement_data_obj->property_id = $this->agreement_data['property_id'];
+                    $agreement_data_obj->assessment_no = $this->agreement_data['assessment_no'];
                     $agreement_data_obj->saq_sites_id = $this->id;
 
 //                    $result = $agreement_data_obj->update('WEB');
@@ -312,7 +314,7 @@ class site {
             $key = array();
             $value = array();
             switch ($tab) {
-                case 'D':
+                case 'G':
                     array_push($key, 'code');
                     array_push($value, getStringFormatted($this->code));
                     array_push($key, 'name');
@@ -440,7 +442,9 @@ class site {
                     $agreement_data_obj->account_holder_nic = $this->agreement_data['acc_holder_nic_no'];
                     $agreement_data_obj->monthly_deduction_for_adv = $this->agreement_data['mdafar'];
                     $agreement_data_obj->adv_recovery_period = $this->agreement_data['adv_recovery_period'];
-
+                    $agreement_data_obj->property_id = $this->agreement_data['property_id'];
+                    $agreement_data_obj->assessment_no = $this->agreement_data['assessment_no'];
+                    
                     $result = $agreement_data_obj->update('WEB');
                     if ($result) {
                         $this->agreement_data_id = $agreement_data_obj->id;

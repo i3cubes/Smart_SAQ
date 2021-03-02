@@ -4,14 +4,13 @@ include_once 'database.php';
 include_once 'constants.php';
 
 class saq_technical {
-    
-    public $id,$technology;
+
+    public $id, $technology;
     private $table_name = 'saq_technical';
-    
+
     public function __construct($id = '') {
         $this->id = $id;
     }
-
 
     public function getData() {
         $string = "SELECT * FROM `$this->table_name` WHERE `id` = $this->id;";
@@ -20,8 +19,28 @@ class saq_technical {
         $this->id = $row['id'];
         $this->technology = $row['technology'];
     }
+    
+    public function add() {
+        $string = "INSERT INTO `$this->table_name` (`technology`) VALUES (".getStringFormatted($this->technology).");";
+        $result = dbQuery($string);
+        if($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public function edit() {
+        $string = "UPDATE `$this->table_name` SET `technology` = ".getStringFormatted($this->technology)." WHERE `id` = $this->id;";
+        $result = dbQuery($string);
+        if($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-        public function getAll() {
+    public function getAll() {
         $array = array();
         $string = "SELECT * FROM `$this->table_name`;";
         $result = dbQuery($string);
@@ -32,12 +51,12 @@ class saq_technical {
         }
         return $array;
     }
-    function getId($technology){
+
+    function getId($technology) {
         $str = "SELECT * FROM $this->table_name WHERE  technology = '$technology'";
         $res = dbQuery($str);
         $row = dbFetchAssoc($res);
         return $row['id'];
-        
     }
-}
 
+}

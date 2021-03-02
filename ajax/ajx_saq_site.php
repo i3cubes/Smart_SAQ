@@ -1,6 +1,10 @@
 <?php
+
 session_start();
 include_once '../class/cls_site.php';
+include_once '../class/cls_saq_technical.php';
+include_once '../class/cls_saq_other_operator.php';
+include_once '../class/cls_saq_approvals.php';
 include_once '../class/ngs_date.php';
 $ngs_date = new ngs_date();
 $site_obj = new site($_REQUEST['id']);
@@ -30,7 +34,7 @@ $site_obj->tower_height = $_REQUEST['tower_height'];
 $site_obj->building_height = $_REQUEST['building_height'];
 $site_obj->land_area = $_REQUEST['land_area'];
 $site_obj->status = $_REQUEST['site_status'];
-$site_obj->on_air_date = $_REQUEST['on_air_date'] ==""? "" : $ngs_date->transform_date($_REQUEST['on_air_date']);
+$site_obj->on_air_date = $_REQUEST['on_air_date'] == "" ? "" : $ngs_date->transform_date($_REQUEST['on_air_date']);
 $site_obj->category = $_REQUEST['site_category'];
 $site_obj->lon = $_REQUEST['longitude'];
 $site_obj->lat = $_REQUEST['latitude'];
@@ -55,28 +59,98 @@ $site_obj->other_operators = $_REQUEST['other_operators'];
 
 // tab agreement & payments
 $site_obj->agreement_data = $_REQUEST;
-$site_obj->assessment_data = array($_REQUEST['2018'],$_REQUEST['2019'],$_REQUEST['2020'],$_REQUEST['2021']);
+$site_obj->assessment_data = array($_REQUEST['2018'], $_REQUEST['2019'], $_REQUEST['2020'], $_REQUEST['2021']);
 
 // tab approvals
 $site_obj->approvals = $_REQUEST['approvals'];
 
 switch ($_REQUEST['option']) {
-    case 'ADD': 
+    case 'ADD':
         $result = $site_obj->add($_REQUEST['tab'], 'WEB');
-        if($result) {
+        if ($result) {
             echo json_encode(array('msg' => 1, 'site_id' => $site_obj->id, 'agreement_data_id' => $site_obj->agreement_data_id));
         } else {
             echo json_encode(array('msg' => 0));
         }
-        break;   
-    case 'EDIT':        
+        break;
+    case 'EDIT':
         $result = $site_obj->update($_REQUEST['tab'], 'WEB');
-        if($result) {
+        if ($result) {
             echo json_encode(array('msg' => 1, 'site_id' => $site_obj->id, 'agreement_data_id' => $site_obj->agreement_data_id));
         } else {
             echo json_encode(array('msg' => 0));
         }
-        break;   
+        break;
+    case 'ADDTECH':
+        $saq_technical_obj = new saq_technical();
+        $saq_technical_obj->technology = $_REQUEST['technology'];
+
+        $result = $saq_technical_obj->add();
+        if ($result) {
+            echo json_encode(array('msg' => 1));
+        } else {
+            echo json_encode(array('msg' => 0));
+        }
+        break;
+    case 'EDITTECH':
+        $saq_technical_obj = new saq_technical($_REQUEST['id']);
+        $saq_technical_obj->technology = $_REQUEST['technology'];
+
+        $result = $saq_technical_obj->edit();
+        if ($result) {
+            echo json_encode(array('msg' => 1));
+        } else {
+            echo json_encode(array('msg' => 0));
+        }
+        break;
+    case 'ADDOPERATOR':
+        $saq_other_operator_obj = new saq_other_operator();
+        $saq_other_operator_obj->name = $_REQUEST['operator'];
+
+        $result = $saq_other_operator_obj->add();
+        if ($result) {
+            echo json_encode(array('msg' => 1));
+        } else {
+            echo json_encode(array('msg' => 0));
+        }
+        break;
+    case 'EDITOPERATOR':
+        $saq_other_operator_obj = new saq_other_operator($_REQUEST['id']);
+        $saq_other_operator_obj->name = $_REQUEST['operator'];
+
+        $result = $saq_other_operator_obj->edit();
+        if ($result) {
+            echo json_encode(array('msg' => 1));
+        } else {
+            echo json_encode(array('msg' => 0));
+        }
+        break;
+     case 'ADDAPPROVAL':
+        $saq_approvals_obj = new saq_approvals();
+        $saq_approvals_obj->requirement = $_REQUEST['requirement'];
+        $saq_approvals_obj->description = $_REQUEST['approval_name'];
+        $saq_approvals_obj->code = $_REQUEST['short_name'];
+        
+        $result = $saq_approvals_obj->add();
+        if ($result) {
+            echo json_encode(array('msg' => 1));
+        } else {
+            echo json_encode(array('msg' => 0));
+        }
+        break;
+    case 'EDITAPPROVAL':
+        $saq_approvals_obj = new saq_approvals($_REQUEST['id']);
+        $saq_approvals_obj->requirement = $_REQUEST['requirement'];
+        $saq_approvals_obj->description = $_REQUEST['approval_name'];
+        $saq_approvals_obj->code = $_REQUEST['short_name'];
+
+        $result = $saq_approvals_obj->edit();
+        if ($result) {
+            echo json_encode(array('msg' => 1));
+        } else {
+            echo json_encode(array('msg' => 0));
+        }
+        break;
     default :
         header('HTTP/1.0 405 Method Not Allowed');
         break;

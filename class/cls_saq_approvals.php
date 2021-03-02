@@ -21,6 +21,32 @@ class saq_approvals {
         $this->code = $row['code'];
     }
     
+     public function add() {
+        $string = "INSERT INTO `$this->table_name` (`requirement`,`description`,`code`) VALUES ("
+                . "" . getStringFormatted($this->requirement) . ","
+                . "" . getStringFormatted($this->description) . ","
+                . "" . getStringFormatted($this->code) . ");";
+        $result = dbQuery($string);
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function edit() {
+        $string = "UPDATE `$this->table_name` SET "
+                . "`requirement` = " . getStringFormatted($this->requirement) . ","
+                . "`description` = " . getStringFormatted($this->description) . ","
+                . "`code` = " . getStringFormatted($this->code) . " WHERE `id` = $this->id;";
+        $result = dbQuery($string);
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     public function getAll() {
         $array = array();
         $string = "SELECT * FROM `$this->table_name`;";
