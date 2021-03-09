@@ -661,7 +661,7 @@ $ngs_date = new ngs_date();
                                         <div class="tab-pane fade active in" id="technical">
                                             <form class="smart-form" id="technical_form" onsubmit="saveHandler(event, 'technical_form')">
                                                 <fieldset>
-                                                    <button class="btn btn-primary" style="float:right;" type="button" onclick="addEditTechnology()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
+                                                    <!--button class="btn btn-primary" style="float:right;" type="button" onclick="addEditTechnology()">Add&nbsp;<i class="fa fa-plus-square"></i></button-->
                                                     <table class="table">
                                                         <thead>
                                                         <th>Technology</th>
@@ -671,7 +671,7 @@ $ngs_date = new ngs_date();
 //                                                            print_r($technologies);
                                                         foreach ($technologies as $tech) {
                                                             print "<th align='center'>$tech->technology"
-                                                                    . "&nbsp;<button class='btn btn-success' type='button' onclick='addEditTechnology(".$tech->id.")'>Edit&nbsp;<i class='fa fa-edit'></i></button>"
+                                                                    . "&nbsp;<!--button class='btn btn-success' type='button' onclick='addEditTechnology(".$tech->id.")'>Edit&nbsp;<i class='fa fa-edit'></i></button-->"
                                                                     . "</th>";
                                                         }
                                                         ?>
@@ -699,7 +699,7 @@ $ngs_date = new ngs_date();
                                                     <br />
                                                     <h5>Other operators</h5>
                                                     <br />
-                                                    <button class="btn btn-primary" style="float:right;" type="button" onclick="addEditOtherOperator()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
+                                                    <!--button class="btn btn-primary" style="float:right;" type="button" onclick="addEditOtherOperator()">Add&nbsp;<i class="fa fa-plus-square"></i></button-->
                                                     <table class="table">
                                                         <thead>
                                                         <th>Operator</th>
@@ -718,7 +718,7 @@ $ngs_date = new ngs_date();
                                                                 print "<tr>"
                                                                         . "<td style='padding:10px;'>"
                                                                             . "$operator->name"
-                                                                            . "&nbsp;<button class='btn btn-success' type='button' onclick='addEditOtherOperator(".$operator->id.")'>Edit&nbsp;<i class='fa fa-edit'></i></button>"
+                                                                            . "&nbsp;<!--button class='btn btn-success' type='button' onclick='addEditOtherOperator(".$operator->id.")'>Edit&nbsp;<i class='fa fa-edit'></i></button-->"
                                                                         . "</td>"
                                                                         . "<td align='center'>
                                                                     <label class='checkbox'>
