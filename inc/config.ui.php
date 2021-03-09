@@ -38,6 +38,23 @@ $ary_sites = array("view" => array(
         ));
 
 $ary_navi = array_merge($ary_navi, $ary_sites);
+$ary_sites_data = array("site_data" => array(
+        "title" => "SITES DATA",
+        "icon" => "fa fa-inbox",
+        "sub" => array(
+                    "technical" => array(
+                        "title" => "TECNOLOGIES",
+                        "url" => APP_URL . "/sites/site_data_technical"
+                    ),
+                    "operators" => array(
+                        "title" => "OPERATORS",
+                        "url" => APP_URL . "/sites/operators"
+                    )
+                ),
+       // "url" => APP_URL . "/sites/view"
+        ));
+
+$ary_navi = array_merge($ary_navi, $ary_sites_data);
 
 $ary_saq_guidelines = array("saq_guidelines" => array(
         "title" => "SAQ GUIDELINES",
