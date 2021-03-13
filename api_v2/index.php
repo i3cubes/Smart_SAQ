@@ -13,12 +13,18 @@ include_once '../class/cls_agreement_model_manager.php';
 include_once '../class/cls_user.php';
 
 //session_id($_REQUEST['pid']);
-session_start();
-if($_REQUEST['pid']!=""){
-    session_id($_REQUEST['pid']);
-}
-//print "SID=".session_id();
 
+if($_REQUEST['pid']!=""){
+    print "SID-bbbb=".session_id();
+    session_id($_REQUEST['pid']);
+    session_start();
+    print "SID-afff=".session_id();
+}
+else{
+    session_start();
+}
+print "SID=".session_id();
+print_r($_SESSION);
 $system_url="http://203.94.66.253/dialogsaq/";
 $key = $_REQUEST['KEY'];
 $sid=$_REQUEST['SID'];
