@@ -175,7 +175,7 @@ include("../inc/scripts.php");
                     $.each(response, function (index, data) {
                         $('.superbox').append(`
                             <div class="superbox-list">
-                                <img src="${data.base_path}" data-img="${data.base_path}" alt="" title="" class="superbox-img">
+                                <img src="../${data.base_path}" data-img="../${data.base_path}" alt="" title="" class="superbox-img">
                             </div>`)
                     });
                 }
