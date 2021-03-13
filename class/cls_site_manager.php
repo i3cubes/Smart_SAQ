@@ -33,16 +33,6 @@ class site_manager {
         else{
             $where="t1.id>0 ORDER BY t1.id DESC";
         }
-        if($radius!=""){
-            $str = "Select id,lat,lon acos(sin($lat)*sin(radians(Lat)) + cos($lat)*cos(radians(Lat))*cos(radians(Lon)-$lon))*$R As D
-	    		From (Select Device_ID,Lat,Lon,Time,DeviceType,ExIP1,ExIP2
-	      		From device_current_data
-	      		Where Lat>$minLat And Lat<$maxLat
-	        	And Lon>$minLon And Lon<$maxLon
-	      		) As FirstCut 
-	    		Where Time>'$date_from' AND (DeviceType='4' OR DeviceType='5') AND acos(sin($lat)*sin(radians(Lat)) + cos($lat)*cos(radians(Lat))*cos(radians(Lon)-$lon))*$R < $rad
-	    		Order by D";
-        }
         $str="SELECT t1.*,t2.name as district_name,t3.name as ds_name,t4.name as la_name,t5.name as police_station_name,"
                 . "t6.name as region_name,t7.name as status_name FROM saq_sites as t1 left join saq_district as t2 on t1.saq_district_id=t2.id "
                 . "left join saq_ds as t3 on t1.saq_ds_id=t3.id left join saq_la as t4 on t1.saq_la_id=t4.name "
