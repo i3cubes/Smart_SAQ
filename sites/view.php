@@ -72,7 +72,7 @@ include_once '../class/cls_site_manager.php';
                         <tbody>                                    
                             <?php
                                 $site_mgr_obj = new site_manager();
-                                $sites = $site_mgr_obj->serchSite('', '', '');
+                                $sites = $site_mgr_obj->serchSite('', '', '',"");
                                 
                                 if(count($sites)>0) {
                                     foreach ($sites as $site) {

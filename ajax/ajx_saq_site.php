@@ -42,6 +42,9 @@ $site_obj->access_type = $_REQUEST['access_type'];
 $site_obj->manual_distance = $_REQUEST['manual_distance'];
 $site_obj->access_permision_type = $_REQUEST['access_permission_type'];
 $site_obj->pg_installation_possibility = $_REQUEST['pg_installation_possibility'];
+$site_obj->regional_manager_id = $_REQUEST['rm_id']; //add by thara
+$site_obj->saq_region_employee_id = $_REQUEST['select_saq_officer_id']; //add by thara
+$site_obj->saq_dns_employee_id = $_REQUEST['dns_officer_id']; //add by thara
 
 // tab contact
 $site_obj->lo_name = $_REQUEST['land_owner_name'];

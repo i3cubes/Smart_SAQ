@@ -78,7 +78,7 @@ include_once '../class/cls_saq_technical.php';
                                                         $technologies = $technology_obj->getAll();
                                                         //print_r($technologies);
                                 $site_mgr_obj = new site_manager();
-                                $sites = $site_mgr_obj->serchSite('', '', '');
+                                $sites = $site_mgr_obj->serchSite('', '', '','');
                                 
                                 if(count($technologies)>0) {
                                     foreach ($technologies as $tech) {
