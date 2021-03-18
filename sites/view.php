@@ -76,11 +76,14 @@ include_once '../class/cls_site_manager.php';
                                 
                                 if(count($sites)>0) {
                                     foreach ($sites as $site) {
+                                        print_r($site);
+                                        print "<br>";
+                                $site_ownership_name = $site->site_ownership_name =="" ? $site->site_ownership :  $site->site_ownership_name ;
                                         print "<tr>"
                                                 . "<td>".$site->code."</td>"
                                                 . "<td>".$site->name."</td>"
                                                 . "<td>".$site->address."</td>"
-                                                . "<td>".$site->site_ownership."</td>"
+                                                . "<td>".$site_ownership_name."</td>"
                                                 . "<td align='center'><button class='btn btn-primary btn-xs' onclick='add_edit_site(".$site->id.")'>Edit</button></td>"
                                             . "</tr>";
                                     }
