@@ -32,15 +32,18 @@ case "POST":
     case 201://add
         $name = $_POST['emp_name'];
         $designation = $_POST['emp_designation'];
-        $reigion = $_POST['emp_designation'];
+        $reigion = $_POST['emp_region'];
+        $emp_dns_region = $_POST['emp_dns_region'];
         
         $emp = new saq_employee();
         $emp->name = $name;
         $emp->designtion_id = $designation;
-        if(isset($_POST['emp_region'])){
-            $emp_region = $_POST['emp_region'];
-            
-        }
+        $emp->region_id = $reigion;
+        $emp->dns_region_id = $emp_dns_region;
+//        if(isset($_POST['emp_region'])){
+//            $emp_region = $_POST['emp_region'];
+//            
+//        }
         $addNew = $emp->insert();
         if($addNew){
             echo json_encode(array('result'=>1,'msg'=>"Successfully Added"));
@@ -53,11 +56,14 @@ case "POST":
         $id = $_REQUEST['id'];
         $name = $_POST['emp_name'];
         $designation = $_POST['emp_designation'];
-        $reigion = $_POST['emp_designation'];
+        $reigion = $_POST['emp_region'];
+        $emp_dns_region = $_POST['emp_dns_region'];
         
         $emp = new saq_employee();
         $emp->name = $name;
         $emp->designtion_id = $designation;
+        $emp->region_id = $reigion;
+        $emp->dns_region_id = $emp_dns_region;
         if(isset($_POST['emp_region'])){
             $emp_region = $_POST['emp_region'];
             
