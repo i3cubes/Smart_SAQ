@@ -32,11 +32,15 @@ include("../inc/header_less.php");
 include_once '../class/constants.php';
 include_once '../class/cls_user.php';
 include_once '../class/functions.php';
+include_once '../class/cls_saq_employee.php';
 
 $fn = new functions();
 if($_REQUEST['id'] != '') {
-    $user_obj = new user($_REQUEST['id']);
-    $user_obj->getDetails();
+    $emp_obj = new saq_employee($_REQUEST['id']);
+    $emp_obj->getData();
+    $region_id = $emp_obj->region_id;
+    $DNS_region_id = $emp_obj->dns_region_id;
+    $designation_id = $emp_obj->designtion_id;
 }
 ?>
 <style>
@@ -145,6 +149,31 @@ if($_REQUEST['id'] != '') {
                                             </label>
                                         </section>
                                         </div>
+                                        <div class="hidden" id="select_dns_region">
+                                        <section class="col col-4 " id="">
+                                            <label class="ngs_form_lable">
+                                               DNS Region
+                                            </label>
+                                        </section>
+                                        <section class="col col-4">
+                                            <label class="select">
+                                           <select name="emp_dns_region" id="emp_dns_region">
+                                                        <option value="" selected="">SELECT</option>
+                                                        
+                                                        <?php
+                                                        
+                                                        //$ary_status = $const->getFTStatus();
+//                                                        if ($gn_district ==""){
+//                                                            $gn_district = '';
+//                                                        }else {
+//                                                            $gn_district = $gn_district;
+//                                                        }
+                                                        print $fn->CreateMenu('saq_dns_office', 'name', "", "", "", "id", "", "");
+                                                        ?>
+                                                    </select> <i></i> 
+                                            </label>
+                                        </section>
+                                        </div>
                                         
 <!--                                        <section class="col col-4">
                                             <label class="ngs_form_lable">
@@ -178,7 +207,7 @@ if($_REQUEST['id'] != '') {
                                         </section>-->
                                         <footer>
                                             <input type="hidden" name="SID" value="<?php print (($_REQUEST['id'] != '') ? '202' : '201') ?>" />
-                                            <input type="hidden" name="id" value="<?php print $user_obj->id ?>" />
+                                            <input type="hidden" name="id" value="<?php print $emp_obj->id ?>" />
                                             <button type="button" class="btn btn-primary" onclick="submitHandler()">Save&nbsp;<i class="fa fa-save"></i></button>
                                         </footer>
                                     </fieldset>                                             
@@ -219,11 +248,36 @@ include("../inc/scripts.php");
 
 <script type="text/javascript">
     $(document).ready(function () {
+<?php 
 
+if($designation_id =="1"){
+    print "$('#select_region').removeClass('hidden');";
+    print "$('#emp_designation').val('".$designation_id."');";
+    print "$('#emp_region').val('".$region_id."');";
+}if($designation_id =="2"){
+    print "$('#select_dns_region').removeClass('hidden');";
+    print "$('#emp_designation').val('".$designation_id."');";
+    print "$('#emp_dns_region').val('".$region_id."');";
+}else {
+    
+}
+
+?>
     });    
 $('#emp_designation').change(function (){
-   
-    //$('#select_region').removeClass('hidden');
+    var val = $(this).val();
+   if( val =='1'){
+       $('#select_region').removeClass('hidden');
+       $('#select_dns_region').addClass('hidden');
+   }else if(val =='2'){
+       $('#select_dns_region').removeClass('hidden');
+        $('#select_region').addClass('hidden');
+       
+   }else {
+       $('#select_dns_region').addClass('hidden');
+       $('#select_region').addClass('hidden');
+   }
+    
     
 })
     function submitHandler() {
