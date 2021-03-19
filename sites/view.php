@@ -76,8 +76,7 @@ include_once '../class/cls_site_manager.php';
                                 
                                 if(count($sites)>0) {
                                     foreach ($sites as $site) {
-                                        print_r($site);
-                                        print "<br>";
+                                       
                                 $site_ownership_name = $site->site_ownership_name =="" ? $site->site_ownership :  $site->site_ownership_name ;
                                         print "<tr>"
                                                 . "<td>".$site->code."</td>"
