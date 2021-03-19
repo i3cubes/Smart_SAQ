@@ -4,7 +4,7 @@ include_once 'database.php';
 include_once 'constants.php';
 
 class saq_employee {
-    public $id,$name,$address,$mobile,$email,$status,$saq_department_id,$designtion_id;
+    public $id,$name,$address,$mobile,$email,$status,$saq_department_id,$designtion_id,$dns_region_id,$region_id;
     public $designation,$department;
     private $table_name = 'saq_employee';
     
@@ -24,6 +24,7 @@ class saq_employee {
         $this->status = $row['status'];
         $this->saq_department_id = $row['saq_department_id'];
         $this->designtion_id = $row['saq_designation_id'];
+        $this->dns_region_id = $row['saq_dns_office_id'];
     }
     public function getAll(){
         $ary_sql = array();
@@ -69,9 +70,11 @@ class saq_employee {
         $email = getStringFormatted($this->email);
         $dept = getStringFormatted($this->saq_department_id);
         $des  = getStringFormatted($this->designtion_id);
-        //id, name, address, mobile, email, status, saq_department_id, saq_designation_id
-        $str ="INSERT INTO $this->table_name (name, address, mobile, email, status, saq_department_id, saq_designation_id) "
-                . "VALUES ($name, $address, $mobile, $email, '1', $dept, $des)";
+        $saq_region_id  = getStringFormatted($this->region_id);
+        $DNS_region_id  = getStringFormatted($this->dns_region_id);
+        //id, name, address, mobile, email, status, saq_department_id, saq_designation_id, DNS_region_id, saq_region_id
+        $str ="INSERT INTO $this->table_name (name, address, mobile, email, status, saq_department_id, saq_designation_id,saq_dns_office_id,saq_region_id) "
+                . "VALUES ($name, $address, $mobile, $email, '1', $dept, $des,$DNS_region_id,$saq_region_id)";
         
         $res = dbQuery($str);
         if($res){
@@ -88,7 +91,8 @@ class saq_employee {
         $email = ($this->email);
         $dept = ($this->saq_department_id);
         $des  = ($this->designtion_id);
-        
+        $saq_region_id  = ($this->region_id);
+        $DNS_region_id  = ($this->dns_region_id);
         if($name !=""){
             array_push($ary_sql, "name =". getStringFormatted($name));
         }
@@ -103,6 +107,12 @@ class saq_employee {
         }
         if($dept !=""){
             array_push($ary_sql, "saq_department_id =". getStringFormatted($dept));
+        }
+        if($saq_region_id !=""){
+            array_push($ary_sql, "saq_region_id =". getStringFormatted($saq_region_id));
+        }
+        if($DNS_region_id !=""){
+            array_push($ary_sql, "saq_dns_office_id =". getStringFormatted($DNS_region_id));
         }
         if($des !=""){
             array_push($ary_sql, "saq_designation_id =". getStringFormatted($name));
