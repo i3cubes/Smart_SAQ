@@ -9,7 +9,7 @@ require_once("../inc/config.ui.php");
   YOU CAN SET CONFIGURATION VARIABLES HERE BEFORE IT GOES TO NAV, RIBBON, ETC.
   E.G. $page_title = "Custom Title" */
 
-$page_title = "User Management";
+$page_title = "Employee Management";
 
 /* ---------------- END PHP Custom Scripts ------------- */
 
@@ -55,7 +55,7 @@ $emp_details = $emp_obj->getAll();
                  data-widget-colorbutton="false">
                 <header>
                     <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
-                    <h2 style=""><b>USER MANAGEMENT</b></h2> 
+                    <h2 style=""><b>EMPLOYEE MANAGEMENT</b></h2> 
                     <button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="add_edit_user('')">Add&nbsp;<i class="fa fa-plus"></i></button>
                 </header> 
                 <div class="widget-body">
