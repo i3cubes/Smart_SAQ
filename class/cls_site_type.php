@@ -7,7 +7,7 @@ include_once 'cls_saq_employee.php';
 
 class saq_site_type {
     
-    public $id,$type,$status;
+    public $id,$type,$status,$like_format;
     private $table_name = 'saq_site_types';
 
     public function __construct($id = '') {
@@ -28,7 +28,7 @@ class saq_site_type {
         $str = "INSERT INTO $this->table_name (`name`) VALUES ($type)";
         $res = dbQuery($str);
         if($res){
-            return true;
+            return dbInsertId();
         }else {
             return false;
         }
@@ -57,7 +57,18 @@ class saq_site_type {
         $ary_sql = array();
         
         if($this->type !=""){
-            array_push($ary_sql, "name LIKE '%$this->type%'");
+            if ($this->like_format =="="){
+                array_push($ary_sql, "name = '$this->type'");
+            }else if ($this->like_format =="%A%"){
+                array_push($ary_sql, "name LIKE '%$this->type%'");
+            }else if ($this->like_format =="A%"){
+                array_push($ary_sql, "name LIKE '$this->type%'");
+            }else if ($this->like_format =="%A"){
+                array_push($ary_sql, "name LIKE '%$this->type'");
+            } else {
+                array_push($ary_sql, "name LIKE '$this->type'");
+            }
+            
         }
         if($this->status !=""){
             array_push($ary_sql, "`status`='$this->status'");
@@ -72,6 +83,7 @@ class saq_site_type {
         $string = "SELECT * FROM `$this->table_name` $WHERE;";
         //print $string;
         $result = dbQuery($string);
+        $array= array();
         while ($row = dbFetchAssoc($result)) {
             $saq_site_type_obj = new saq_site_type($row['id']);
             $saq_site_type_obj->getData();
