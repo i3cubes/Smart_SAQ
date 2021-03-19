@@ -27,6 +27,7 @@ if ($_REQUEST['id'] != 0) {
     $rm_id = $site_obj->regional_manager_id;
     $gn_division_id = $site_obj->gs_division;
     $saq_officer = $site_obj->saq_region_employee_id;
+    $saq_officer_id = $site_obj->saq_officer_id;
     $dns_officer = $site_obj->saq_dns_employee_id;
     $site_ownership = $site_obj->site_ownership;
     $operator_id = $site_obj->operator_name;
@@ -1635,7 +1636,8 @@ function saqManager(region_id){
             url: '../ajax/ajx_saq_employee',
             type: 'POST',
             dataType: 'JSON',
-            data: {SID:203,region_id:region_id},
+            //data: {SID:203,region_id:region_id},
+            data:  {SID:200,designation_id:'3'},
             success: function (response) {
                 if (response.result == 1) {
                     var cmb2 ="";
@@ -1651,7 +1653,7 @@ function saqManager(region_id){
                        if( region_id === undefined  || region_id ==""){
                            var selected = ""
                        }else{
-                           if('<?php echo $saq_officer ?>' == data.id){
+                           if('<?php echo $saq_officer_id ?>' == data.id){
                                var selected="selected";
                            }else {
                                 var selected = ""
