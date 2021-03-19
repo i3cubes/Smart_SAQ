@@ -34,9 +34,13 @@ include_once '../class/cls_site.php';
 include_once '../class/cls_site_manager.php';
 include_once '../class/cls_saq_technical.php';
 include_once '../class/cls_saq_site_agreement_data.php';
+include_once '../class/cls_saq_ownership.php';
+include_once '../class/cls_site_type.php';
 $site_mgr = new site_manager();
 $saq_technical = new saq_technical();
 $saq_site_agreement_data = new saq_site_agreement_data();
+$site_ownership = new saq_site_ownership();
+$site_type = new saq_site_type();
 //print_r($_POST);
 //$site_mgr=new site_manager();
 
@@ -82,9 +86,30 @@ if ($_POST['but'] == 'update') {
                             //gctpa
                             if ($tab == "G") {
                                 $site->name = $data[1];
-                                $site->type = $data[2];
+                                //$site->type = $data[2];
+                                $type = $data[2];
+                                //$site_type->like_format= "=";
+                                $site_type->type= $type;
+                                $hastype = $site_type->getAll();
+                                if(count($hastype)>0){
+                                    $site->type =$hastype[0]->id;
+                                } else {
+                                    $site_type->type = $type;
+                                    $addnew = $site_type->addNew();
+                                    $site->type =$addnew;
+                                }
                                 $site->address = $data[3];
-                                $site->site_ownership = $data[4];
+                                //$site->site_ownership = $data[4];
+                                $ownership = $data[4];
+                                $hasOwner = $site_ownership->search($ownership, "", "1", "", "", "");
+                                if(count($hasOwner)>0){
+                                    $site->site_ownership =$hasOwner[0]->id;
+                                } else {
+                                    $site_ownership->ownership = $ownership;
+                                    $addnew = $site_ownership->add();
+                                    $site->site_ownership =$addnew;
+                                }
+                                 
                                 $site->operator_name = $data[5];
                                 $site->tower_height = $data[6];
                                 $site->building_height = $data[7];
