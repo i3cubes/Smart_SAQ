@@ -90,7 +90,7 @@ if($sid=='100'){
     else{
         $us=new user();
         $us->name=$_REQUEST['user_name'];
-        $us->password=$_REQUEST['password'];
+        $us->password= base64_decode($_REQUEST['password']);
         if($us->loginUser()){
             $us->setSID(session_id());
             $response[0]["result"] = '1';
