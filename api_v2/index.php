@@ -38,7 +38,7 @@ $module=$_REQUEST['module'];
 $seq_no=$_REQUEST['sequence_no'];
 $data=$_REQUEST['data'];
 
-
+//print_r($_SERVER);
 
 if($_REQUEST['pid']!=""){
     $us=new user($uid);
@@ -81,16 +81,10 @@ if ($file = fopen($log_file, "a+")) {
 $response = array();
 //LOGIN
 if($sid=='100'){
-    if($_REQUEST['user_name']=="" || $_REQUEST['password']==""){
-        $response[0]["result"] = '0';
-        $response[0]["pid"] = null;
-        $response[0]["error_code"] = "1002";
-        $response[0]["error"] = "User Name or Password is empty";
-    }
-    else{
+    if(isset($_SERVER['PHP_AUTH_USER'])&&isset($_SERVER['PHP_AUTH_PW'])){
         $us=new user();
-        $us->name=$_REQUEST['user_name'];
-        $us->password= base64_decode($_REQUEST['password']);
+        $us->name=$_SERVER['PHP_AUTH_USER'];
+        $us->password= base64_decode($_SERVER['PHP_AUTH_PW']);
         if($us->loginUser()){
             $us->setSID(session_id());
             $response[0]["result"] = '1';
@@ -103,6 +97,12 @@ if($sid=='100'){
             $response[0]["error_code"] = "1001";
             $response[0]["error"] = "User Name or Password is wrong";
         }
+    }
+    else{
+        $response[0]["result"] = '0';
+        $response[0]["pid"] = null;
+        $response[0]["error_code"] = "1002";
+        $response[0]["error"] = "User Name or Password is empty";
     }
 }
 else{
