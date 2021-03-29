@@ -87,7 +87,7 @@ echo implode(' ', array_map(function($prop, $value) {
                 }
         </script>
         -->
-        <script src="<?php echo ASSETS_URL; ?>/js/libs/jquery-2.0.2.min.js">
+        <script src="<?php echo ASSETS_URL; ?>/js/libs/jquery-3.6.0.min.js">
         </script>
 
 <!--<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>

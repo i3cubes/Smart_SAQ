@@ -64,7 +64,7 @@ include("inc/header.php");
             </div>
             <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
                 <div class="" style="margin-top: 40%;">
-                    <form id="login-form" class="smart-form client-form" onsubmit="loginHandler(event)">
+                    <form id="login-form" class="smart-form client-form" method="post" onsubmit="loginHandler(event)">
                         <header style="background:rgb(255,255,255,0.1);border:none;">
                             <img src="img/LOGO with border1.png" height="150" width="150" style="display: block;margin-left: auto;margin-right: auto;"/>                                                    
                         </header>
