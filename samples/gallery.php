@@ -26,8 +26,8 @@ include("../inc/header_less.php");
 //include_once 'class/reports.php';
 include_once '../class/constants.php';
 include_once '../class/cls_site_model.php';
-
-$site_model_obj = new site_model($_REQUEST['id']);
+$id = htmlspecialchars($_REQUEST['id']);
+$site_model_obj = new site_model($id);
 $site_model_obj->getData();
 ?>
 <style>
@@ -139,7 +139,7 @@ include("../inc/scripts.php");
 <script>
     $(document).ready(function () {
 
-        getImages(<?php print $_REQUEST['id'] ?>);
+        getImages(<?php print $id ?>);
 
         $("#drop").dropzone({
             url: "../ajax/ajx_saq_site_images",
@@ -148,7 +148,7 @@ include("../inc/scripts.php");
             init: function () {
                 this.on("sending", function (file, xhr, formData) {
                     formData.append("option", "ADD");
-                    formData.append("id", <?php print $_REQUEST['id'] ?>);
+                    formData.append("id", <?php print $id ?>);
 //                                                JSON.stringify(formData);
                 });
                 this.on("complete", function () {
@@ -156,7 +156,7 @@ include("../inc/scripts.php");
                         var _this = this;
                         _this.removeAllFiles();
                         $.notify("Successfully uploaded", "success");
-                        getImages(<?php print $_REQUEST['id'] ?>);
+                        getImages(<?php print $id ?>);
                     }
                 });
             }

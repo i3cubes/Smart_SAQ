@@ -30,6 +30,7 @@ include("../inc/header_less.php");
 //include("../inc/nav.php");
 // ====================== LOGIC ================== --!>
 include_once '../class/constants.php';
+$parent_model_id = htmlspecialchars($_REQUEST['id']);
 ?>
 <style>
     .customFiled {
@@ -90,7 +91,7 @@ include_once '../class/constants.php';
                                             </label>
                                         </section>                                                                                                                  
                                         <footer>
-                                            <input type="hidden" name="parent_model_id" id="parent_model_id" value="<?php print $_REQUEST['id'] ?>" />
+                                            <input type="hidden" name="parent_model_id" id="parent_model_id" value="<?php print $parent_model_id ?>" />
                                             <input type="hidden" name="option" id="option" value="ADD" />
                                             <button class="btn btn-primary">Save&nbsp;<i class="fa fa-save"></i></button>
                                         </footer>                                        

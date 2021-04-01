@@ -69,8 +69,8 @@ include("../inc/header_less.php");
 // ====================== LOGIC ================== --!>
 include_once '../class/constants.php';
 include_once '../class/cls_agreement_model.php';
-
-$agreement_model_obj = new agreement_model($_REQUEST['id']);
+$id = htmlspecialchars($_REQUEST['id']);
+$agreement_model_obj = new agreement_model($id);
 $agreement_model_obj->getData();
 ?>
 <style>
@@ -180,7 +180,7 @@ include("../inc/scripts.php");
 <script type="text/javascript">
                                     $(document).ready(function () {
                                         
-                                        getFiles(<?php print $_REQUEST['id'] ?>);
+                                        getFiles(<?php print $id ?>);
                                         
                                         $("#drop").dropzone({
                                             url: "../ajax/ajx_saq_agreement_files",
@@ -189,7 +189,7 @@ include("../inc/scripts.php");
                                             init: function () {
                                                 this.on("sending", function (file, xhr, formData) {
                                                     formData.append("option", "ADD");
-                                                    formData.append("id", <?php print $_REQUEST['id'] ?>);
+                                                    formData.append("id", <?php print $id ?>);
 //                                                JSON.stringify(formData);
                                                 });
                                                 this.on("complete", function () {
@@ -197,7 +197,7 @@ include("../inc/scripts.php");
                                                         var _this = this;
                                                         _this.removeAllFiles();
                                                         $.notify("Successfully uploaded", "success"); 
-                                                        getFiles(<?php print $_REQUEST['id'] ?>);
+                                                        getFiles(<?php print $id ?>);
                                                     }
                                                 });
                                             }
@@ -255,7 +255,7 @@ include("../inc/scripts.php");
                                                                         dataType: "json",
                                                                         success: function (res) {
                                                                             if(res['msg'] == 1) {
-                                                                                getFiles(<?php print $_REQUEST['id'] ?>);
+                                                                                getFiles(<?php print $id ?>);
                                                                             } else {
                                                                                 alert('Error');
                                                                             }

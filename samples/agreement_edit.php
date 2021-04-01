@@ -31,8 +31,8 @@ include("../inc/header_less.php");
 // ====================== LOGIC ================== --!>
 include_once '../class/constants.php';
 include_once '../class/cls_agreement_model.php';
-
-$agreement_model_obj = new agreement_model($_REQUEST['id']);
+$id = htmlspecialchars($_REQUEST['id']);
+$agreement_model_obj = new agreement_model($id);
 $agreement_model_obj->getData();
 ?>
 <style>
@@ -96,7 +96,7 @@ $agreement_model_obj->getData();
                                         <!--<footer>-->
                                         <section class="col col-12">
                                             <div style="float: right;">
-                                                <input type="hidden" name="id" id="id" value="<?php print $_REQUEST['id'] ?>" />                                           
+                                                <input type="hidden" name="id" id="id" value="<?php print $id ?>" />                                           
                                             <button class="btn btn-primary btn-sm" id="add">Add Node&nbsp;<i class="fa fa-plus"></i></button>
                                             <button class="btn btn-danger btn-sm" id="delete" type="button">Delete&nbsp;<i class="fa fa-trash"></i></button>                                            
                                             <button class="btn btn-primary btn-sm">Save&nbsp;<i class="fa fa-save"></i></button>
