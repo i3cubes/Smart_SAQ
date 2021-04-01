@@ -11,13 +11,11 @@ include_once '../class/cls_site_model_manager.php';
 include_once '../class/cls_agreement_model.php';
 include_once '../class/cls_agreement_model_manager.php';
 include_once '../class/cls_user.php';
+include_once '../class/cls_user_backup.php';
+include_once '../class/cls_backup_image.php';
+include_once '../class/cls_user_backup_image.php';
 
 //session_id($_REQUEST['pid']);
-session_start();
-if($_REQUEST['pid']!=""){
-    session_id($_REQUEST['pid']);
-}
-//print "SID=".session_id();
 
 $system_url="http://203.94.66.253/dialogsaq/";
 $key = $_REQUEST['KEY'];
@@ -35,6 +33,33 @@ $lon=$_REQUEST['lon'];
 
 $site_id=$_REQUEST['site_id'];
 $tab_id=$_REQUEST['tab_id'];
+
+$module=$_REQUEST['module'];
+$seq_no=$_REQUEST['sequence_no'];
+$data=$_REQUEST['data'];
+
+//print_r($_SERVER);
+
+if($_REQUEST['pid']!=""){
+    $us=new user($uid);
+    $us->getDetails();
+    if($us->api_sid==$_REQUEST['pid']){
+        if(strtotime($us->api_sid_time)>(time()-(7*24*60*60*100))){
+            $valid=true;
+        }
+        else{
+            $valid=false;
+        }
+    }
+    else{
+        $valid=false;
+    }
+}
+else{
+    session_start();
+}
+
+
 
 //Define tree
 $node[0]= array(0=>"node",1=>"Site",2=>"Agreements");
@@ -56,17 +81,12 @@ if ($file = fopen($log_file, "a+")) {
 $response = array();
 //LOGIN
 if($sid=='100'){
-    if($_REQUEST['user_name']=="" || $_REQUEST['password']==""){
-        $response[0]["result"] = '0';
-        $response[0]["pid"] = null;
-        $response[0]["error_code"] = "1002";
-        $response[0]["error"] = "User Name or Password is empty";
-    }
-    else{
+    if(isset($_SERVER['PHP_AUTH_USER'])&&isset($_SERVER['PHP_AUTH_PW'])){
         $us=new user();
-        $us->name=$_REQUEST['user_name'];
-        $us->password=$_REQUEST['password'];
+        $us->name=$_SERVER['PHP_AUTH_USER'];
+        $us->password= base64_decode($_SERVER['PHP_AUTH_PW']);
         if($us->loginUser()){
+            $us->setSID(session_id());
             $response[0]["result"] = '1';
             $response[0]["user_id"] = $_SESSION['UID'];
             $response[0]["pid"] = session_id();
@@ -78,9 +98,15 @@ if($sid=='100'){
             $response[0]["error"] = "User Name or Password is wrong";
         }
     }
+    else{
+        $response[0]["result"] = '0';
+        $response[0]["pid"] = null;
+        $response[0]["error_code"] = "1002";
+        $response[0]["error"] = "User Name or Password is empty";
+    }
 }
 else{
-    if ($_SESSION['UID']==$uid) {
+    if ($valid) {
         switch ($sid){
         case '110':
             $site_model=new \site_model();
@@ -242,6 +268,75 @@ else{
                 array_push($data, array("name"=>$saq_gl->name,"description"=>$saq_gl->description,"files"=>$files));
             }
             $response[1]['data']=$data;
+            break;
+        case '120':
+            if($module!=""){
+                $user_bkp=new user_backup($uid, $module);
+                $seq_no=$user_bkp->saveBackup($data);
+                if($seq_no){
+                    $response[0]["result"] = '1';
+                    $response[0]["sequence_no"] = $seq_no;
+                }
+                else{
+                    $response[0]["result"] = '0';
+                    $response[0]["error_code"] = '1202';
+                    $response[0]["error"] = 'could not save (system error)';
+                }
+            }
+            else{
+                $response[0]["result"] = '0';
+                $response[0]["error_code"] = '1201';
+                $response[0]["error"] = 'module is empty';
+            }
+            break;
+        case '121':
+            if($module!=""){
+                $bkp=new \backup();
+                $user_bkp=new user_backup($uid, $module);
+                $bkp=$user_bkp->getBackup($seq_no);
+                if($bkp){
+                    $response[0]["result"] = '1';
+                    $response[0]["next_sequence_no"] = $user_bkp->getNextAvailableSequenceNo($bkp->seq_no);
+                    $response[0]["data"] = $bkp->data;
+                }
+                else{
+                    $response[0]["result"] = '0';
+                    $response[0]["error_code"] = '1212';
+                    $response[0]["error"] = 'no data found';
+                }
+            }
+            else{
+                $response[0]["result"] = '0';
+                $response[0]["error_code"] = '1211';
+                $response[0]["error"] = 'module is empty';
+            }
+            break;
+        case '122':
+            if($module!=""){
+                $bkp_img=new \backup_image();
+                $user_bkp_img=new user_backup_image($uid, $module);
+                $ary_img=$user_bkp_img->getBackupImages();
+                if(!empty($ary_img)){
+                    $data=array();
+                    foreach ($ary_img as $bkp_img){
+                        $url=$system_url.$bkp_img->path;
+                        array_push($data, array('id'=>$bkp_img->id,'tag'=>$bkp_img->tag,'url'=>$url));
+                    }
+                    $response[0]["result"] = '1';
+                    $response[0]["count"] = count($data);
+                    $response[0]["data"] = $data;
+                }
+                else{
+                    $response[0]["result"] = '0';
+                    $response[0]["error_code"] = '1222';
+                    $response[0]["error"] = 'no data found';
+                }
+            }
+            else{
+                $response[0]["result"] = '0';
+                $response[0]["error_code"] = '1221';
+                $response[0]["error"] = 'module is empty';
+            }
             break;
         default :
             $response[0]["result"] = '0';

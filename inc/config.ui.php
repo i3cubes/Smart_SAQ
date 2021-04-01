@@ -49,6 +49,15 @@ $ary_sites_data = array("site_data" => array(
                     "operators" => array(
                         "title" => "OPERATORS",
                         "url" => APP_URL . "/sites/operators"
+                    ),
+                    
+                    "approvals" => array(
+                        "title" => "APPROVALS",
+                        "url" => APP_URL . "/sites/approvals"
+                    ),
+                    "general" => array(
+                        "title" => "GENERAL",
+                        "url" => APP_URL . "/sites/general"
                     )
                 ),
        // "url" => APP_URL . "/sites/view"
@@ -64,6 +73,13 @@ $ary_saq_guidelines = array("saq_guidelines" => array(
 
 $ary_navi = array_merge($ary_navi, $ary_saq_guidelines);
 
+$ary_emp_management = array("emp_management" => array(
+        "title" => "EMPLOYEE MANAGEMENT",
+        "icon" => "fa fa-inbox",
+        "url" => APP_URL . "/employee/employee_management"
+        ));
+
+$ary_navi = array_merge($ary_navi, $ary_emp_management);
 $ary_user_management = array("user_management" => array(
         "title" => "USER MANAGEMENT",
         "icon" => "fa fa-inbox",

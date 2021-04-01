@@ -8,6 +8,7 @@ include_once 'cls_employees.php';
 class user {
 
     public $id, $name, $password, $date_created,$contact_no, $date_lastlogin, $type, $status, $address, $email, $employees_id;
+    public $api_sid,$api_sid_time;
     private $table_name = 'saq_us';
 
     public function __construct($id = '') {
@@ -47,6 +48,8 @@ class user {
 //        $this->address = $row['address'];
 //        $this->contact_no = $row['contact_no'];
         $this->status = $row['status'];
+        $this->api_sid=$row['api_sid'];
+        $this->api_sid_time=$row['api_sid_time'];
     } 
 
     public function add() {       
@@ -147,19 +150,23 @@ class user {
         $result = dbQuery($string);
         if (dbNumRows($result) == 1) {
             $row = dbFetchAssoc($result);
-//            $emp_obj = new employees($row['employees_id']);
-//            $emp_obj->getDetails();
+            $this->id=$row['id'];
             $_SESSION['UID'] = $row['id'];
-//            $_SESSION['DESIGNATION'] = $emp_obj->designation_id;
-//            $_SESSION['EMPID'] = $emp_obj->id;
-//            $_SESSION['EMPNAME'] = $emp_obj->name;
-//            $_SESSION['BCID'] = $emp_obj->business_customer_id;
             return true;
         } else {
             return false;
         }
     }
-
+    public function setSID($sid){
+        $str="UPDATE saq_us SET api_sid='$sid',api_sid_time=NOW() WHERE id='$this->id';";
+        $result = dbQuery($str);
+        return $result;
+    }
+    public function clearSID(){
+        $str="UPDATE saq_us SET api_sid=NULL,api_sid_time=NULL WHERE id='$this->id';";
+        $result = dbQuery($str);
+        return $result;
+    }
 }
 
 ?>

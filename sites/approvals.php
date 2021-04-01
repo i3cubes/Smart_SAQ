@@ -18,7 +18,7 @@ $page_title = "Site Data";
 //Note: all css files are inside css/ folder
 $page_css[] = "ngs.css";
 include("../inc/header.php");
-$page_nav["site_data"]["sub"]["technical"]["active"] = true;
+$page_nav["site_data"]["sub"]["approvals"]["active"] = true;
 //include left panel (navigation)
 //follow the tree in inc/config.ui.php
 $page_nav["view"]["active"] = true;
@@ -27,6 +27,8 @@ include("../inc/nav.php");
 include_once '../class/constants.php';
 include_once '../class/cls_site_manager.php';
 include_once '../class/cls_saq_technical.php';
+include_once '../class/cls_saq_other_operator.php';
+include_once '../class/cls_saq_approvals.php';
 //
 ?>
 <style>
@@ -54,43 +56,42 @@ include_once '../class/cls_saq_technical.php';
                  data-widget-colorbutton="false">
                 <header>
                     <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
-                    <h2 style=""><b>TECHNOLOGY</b></h2> 
-                    <button class="btn btn-primary" style="float:right;" type="button" onclick="addEditTechnology()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
+                    <h2 style=""><b>APPROVALS</b></h2> 
+                    <button class="btn btn-primary" style="float:right;" type="button" onclick="addEditApprovals()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
                     <!--<button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="bulk_update(0)">Bulk Edit&nbsp;<i class="fa fa-cogs"></i></button>-->
                 </header> 
                 <div class="widget-body">
                     <!--<div class="row">-->
-                    <table id="table" class="table table-bordered table_style table-striped table-hover" style="width:100% !important;">
-                        <thead>
-                            <tr style="height:40px;">
-                                <!--<th>#ID</th>-->
-                                <td class="headerStyle" width="5%">Technology</td>                               
-                                                      
-                            </tr>
-                        </thead>
-                        <tbody>       
-                            
-                            <?php
-                             
-                                                            
-                                
-                                                        $technology_obj = new saq_technical();
-                                                        $technologies = $technology_obj->getAll();
-                                                        //print_r($technologies);
-                                $site_mgr_obj = new site_manager();
-                                $sites = $site_mgr_obj->serchSite('', '', '','');
-                                
-                                if(count($technologies)>0) {
-                                    foreach ($technologies as $tech) {
-                                        print "<tr class='ngs-popup' id ='$tech->id'>"
-                                                . "<td>".$tech->technology."</td>"
-                                               
-                                            . "</tr>";
-                                    }
-                                }
-                            ?>
-                        </tbody>
-                    </table>
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                        <th width="5%"></th>
+                                                        <th>Requirement</th>
+                                                        <th>Approval Name</th>
+                                                        <th>Short Name</th>
+                                                        
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php
+                                                            $saq_approvels_obj = new saq_approvals();
+                                                            $approvals = $saq_approvels_obj->getAll();
+
+                                                            foreach ($approvals as $approval) {
+                                                                if ($site_obj->id != '') {
+                                                                    $checkAvailable = $site_obj->getApprovalsPresentSite($approval->id);
+                                                                }
+
+                                                                print "<tr " . (($approval->requirement == 'Compulsory') ? "style='background: yellow;'" : "") . " class='ngs-popup' id ='$approval->id'>"
+                                                                        . "<td>$approval->id</td>"
+                                                                        . "<td>$approval->requirement</td>"
+                                                                        . "<td>$approval->description"
+                                                                        . "&nbsp;<!--button class='btn btn-success' type='button' onclick='addEditApprovals(".$approval->id.")'>Edit&nbsp;<i class='fa fa-edit'></i></button-->"
+                                                                        . "</td>"
+                                                                        . "<td>$approval->code</td>"
+                                                                        . "</tr>";
+                                                            }
+                                                            ?>                                                       
+                                                        </tbody>
+                                                    </table>
                     <!--</div>-->
                     <script> 
                      $('.ngs-popup').click(function () {
@@ -111,7 +112,7 @@ include_once '../class/cls_saq_technical.php';
                                         skinClass: 'jg_popup_round'
                                         };		
                                         $.jeegoopopup.open(options);*/
-                                        addEditTechnology(id);
+                                        addEditApprovals(id);
     
                                     });
                     
@@ -182,11 +183,22 @@ include("../inc/scripts.php");
     });   
 
    
-     function addEditTechnology(id = '') {        
+        function addEditOtherOperator(id = '') {
         var options = {
-            url: 'add_edit_technology?id=' + id,
+            url: 'add_edit_other_operator?id=' + id,
             width: '600',
             height: '200',
+            skinClass: 'jg_popup_round',
+            resizable: false,
+            scrolling: 'no'
+        };
+        $.jeegoopopup.open(options);
+    }
+        function addEditApprovals(id = '') {
+        var options = {
+            url: 'add_edit_approvals?id=' + id,
+            width: '600',
+            height: '350',
             skinClass: 'jg_popup_round',
             resizable: false,
             scrolling: 'no'

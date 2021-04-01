@@ -24,6 +24,18 @@ include_once '../class/cls_site.php';
 if ($_REQUEST['id'] != 0) {
     $site_obj = new site($_REQUEST['id']);
     $site_obj->getData();
+    $rm_id = $site_obj->regional_manager_id;
+    $gn_division_id = $site_obj->gs_division;
+    $saq_officer = $site_obj->saq_region_employee_id;
+    $saq_officer_id = $site_obj->saq_officer_id;
+    $dns_officer = $site_obj->saq_dns_employee_id;
+    $site_ownership = $site_obj->site_ownership;
+    $operator_id = $site_obj->operator_name;
+    $site_type = $site_obj->type;
+    $category = $site_obj->category;
+    $access_type = $site_obj->access_type;
+    $access_permission_id = $site_obj->access_permision_type;
+    $dns_deport = $site_obj->dns_deport;
 //    print_r($site_obj);
 } else {
     $site_obj = new site('');
@@ -270,15 +282,29 @@ $ngs_date = new ngs_date();
                                                                                                                     <input type="text" name="local_authority" id="local_authority"/>
                                                                                                                 </label>-->
                                                     </section> 
-
                                                     <section class="col-sm-5">
+                                                        <label class="ngs_form_label">
+                                                            GS Division
+                                                        </label>
+                                                        <label class="select"><i class="icon-append fa fa-user"></i>
+                                                            <select name="gs_division" id="gs_division">
+                                                              
+                                                               
+                                                            </select>                                                            
+                                                        </label>
+                                                        <!--                                                        <label class="input">
+                                                                                                                    <input type="text" name="local_authority" id="local_authority"/>
+                                                                                                                </label>-->
+                                                    </section> 
+
+<!--                                                    <section class="col-sm-5">
                                                         <label class="ngs_form_label">
                                                             GS Division
                                                         </label>
                                                         <label class="input">
                                                             <input type="text" name="gs_division" id="gs_division"/>
                                                         </label>
-                                                    </section>
+                                                    </section>-->
                                                     <section class="col-sm-2">
                                                         &nbsp;
                                                     </section>
@@ -334,16 +360,27 @@ $ngs_date = new ngs_date();
                                                         <label class="ngs_form_label">
                                                             DNS Deport
                                                         </label>
-                                                        <label class="input">
-                                                            <input type="text" name="dns_deport" id="dns_deport" value="<?php print $site_obj->dns_deport ?>"/>
+                                                        <label class="select"><i class="icon-append fa fa-user"></i>
+                                                            <select name="dns_deport" id="dns_deport">
+                                                              
+                                                            </select>                                                            
                                                         </label>
+<!--                                                        <label class="input">
+                                                            <input type="text" name="dns_deport" id="dns_deport" value="<?php print $site_obj->dns_deport ?>"/>
+                                                        </label>-->
                                                     </section> 
 
                                                     <section class="col-sm-5">
                                                         <label class="ngs_form_label">
                                                             RM Name
                                                         </label>
-                                                        <label class="input">
+                                                        <label class="select"><i class="icon-append fa fa-user"></i>
+                                                            <select name="rm_id" id="rm_id">
+                                                                
+                                                                
+                                                            </select>                                                            
+                                                        </label>
+                                                        <!--label class="input">
                                                             <?php
                                                             if ($site_obj->region_id != 0 && $site_obj->region_id != '') {
                                                                 $region_obj = new saq_region($site_obj->region_id);
@@ -355,7 +392,7 @@ $ngs_date = new ngs_date();
                                                             }
                                                             ?>
                                                             <input type="text" name="rm_name" id="rm_name" value="<?php print $emp_obj->name ?>" disabled=""/>
-                                                        </label>
+                                                        </label-->
                                                     </section>
                                                     <section class="col-sm-2">
                                                         &nbsp;
@@ -364,9 +401,17 @@ $ngs_date = new ngs_date();
                                                         <label class="ngs_form_label">
                                                             SAQ Officer Name
                                                         </label>
-                                                        <label class="input">
+                                                        <?php //echo $site_obj->region_id ?>
+                                                        <label class="select"><i class="icon-append fa fa-user"></i>
+                                                            <select name="select_saq_officer_id" id="select_saq_officer_id">
+                                                                
+                                                                
+                                                            </select>                                                            
+                                                        </label>
+<!--                                                        <label class="input">
                                                             <?php
                                                             if ($site_obj->region_id != 0 && $site_obj->region_id != '') {
+                                                                $region_id = $site_obj->region_id;
                                                                 $region_obj = new saq_region($site_obj->region_id);
                                                                 $regionEmployee = $region_obj->getRegionEmployees();
                                                                 foreach ($regionEmployee as $emp) {
@@ -375,16 +420,22 @@ $ngs_date = new ngs_date();
                                                             }
                                                             ?>
                                                             <input type="text" name="saq_officer_name" id="saq_officer_name" disabled="" value="<?php print $stringRegionEmployee ?>"/>
-                                                        </label>
+                                                        </label>-->
                                                     </section>
 
                                                     <section class="col-sm-5">
                                                         <label class="ngs_form_label">
                                                             DNS Officer Name
                                                         </label>
-                                                        <label class="input">                                                            
-                                                            <input type="text" name="dns_officer_name" id="dns_officer_name" disabled="" value=""/>
+                                                        <label class="select"><i class="icon-append fa fa-user"></i>
+                                                            <select name="dns_officer_id" id="dns_officer_id">
+                                                                
+                                                                ?>
+                                                            </select>                                                            
                                                         </label>
+                                                        <!--label class="input">                                                            
+                                                            <input type="text" name="dns_officer_name" id="dns_officer_name" disabled="" value=""/>
+                                                        </label-->
                                                     </section>
                                                     <section class="col-sm-2">
                                                         &nbsp;
@@ -393,18 +444,28 @@ $ngs_date = new ngs_date();
                                                         <label class="ngs_form_label">
                                                             Site Ownership
                                                         </label>
-                                                        <label class="input">
-                                                            <input type="text" name="site_ownership" id="site_ownership" value="<?php print $site_obj->site_ownership; ?>"/>
+                                                        <label class="select"><i class="icon-append fa fa-user"></i>
+                                                            <select name="site_ownership" id="site_ownership">
+                                                             
+                                                            </select>                                                            
                                                         </label>
+<!--                                                        <label class="input">
+                                                            <input type="text" name="site_ownership" id="site_ownership" value="<?php print $site_obj->site_ownership; ?>"/>
+                                                        </label>-->
                                                     </section>
 
                                                     <section class="col-sm-5">
                                                         <label class="ngs_form_label">
                                                             Operator's Name
                                                         </label>
-                                                        <label class="input">
-                                                            <input type="text" name="operator_name" id="operator_name" value="<?php print $site_obj->operator_name; ?>"/>
+                                                        <label class="select"><i class="icon-append fa fa-user"></i>
+                                                            <select name="operator_name" id="operator_name">
+                                                             
+                                                            </select>                                                            
                                                         </label>
+<!--                                                        <label class="input">
+                                                            <input type="text" name="operator_name" id="operator_name" value="<?php print $site_obj->operator_name; ?>"/>
+                                                        </label>-->
                                                     </section>
                                                     <section class="col-sm-2">
                                                         &nbsp;
@@ -422,9 +483,12 @@ $ngs_date = new ngs_date();
                                                         <label class="ngs_form_label">
                                                             Site Type
                                                         </label>
-                                                        <label class="input">
-                                                            <input type="text" name="site_type" id="site_type" value="<?php print $site_obj->type; ?>"/>
+                                                        <label class="select"><i class="icon-append fa fa-user"></i>
+                                                            <select name="site_type" id="site_type">
+                                                             
+                                                            </select>                                                            
                                                         </label>
+
                                                     </section>
                                                     <section class="col-sm-2">
                                                         &nbsp;
@@ -475,7 +539,7 @@ $ngs_date = new ngs_date();
                                                             </select>                                                            
                                                         </label>
 <!--                                                        <label class="input">
-                                                            <input type="text" name="site_status" id="site_status" value="<?php print $site_obj->status; ?>"/>
+                                                            <input type="text" name="site_status" id="site_status" value="<?php // print $site_obj->status; ?>"/>
                                                         </label>-->
                                                     </section>
                                                     <section class="col-sm-2">
@@ -505,9 +569,14 @@ $ngs_date = new ngs_date();
                                                         <label class="ngs_form_label">
                                                             Site Category
                                                         </label>
-                                                        <label class="input">
-                                                            <input type="text" name="site_category" id="site_category" value="<?php print $site_obj->category; ?>"/>
+                                                        <label class="select"><i class="icon-append fa fa-user"></i>
+                                                         <select name="site_category" id="site_category">
+                                                             
+                                                            </select> 
                                                         </label>
+<!--                                                        <label class="input">
+                                                            <input type="text" name="site_category" id="site_category" value="<?php print $site_obj->category; ?>"/>
+                                                        </label>-->
                                                     </section>
 
 
@@ -526,9 +595,14 @@ $ngs_date = new ngs_date();
                                                         <label class="ngs_form_label">
                                                             Access Type
                                                         </label>
-                                                        <label class="input">
-                                                            <input type="text" name="access_type" id="access_type" value="<?php print $site_obj->access_type; ?>"/>
+                                                        <label class="select"><i class="icon-append fa fa-user"></i>
+                                                         <select name="access_type" id="access_type">
+                                                             
+                                                            </select> 
                                                         </label>
+<!--                                                        <label class="input">
+                                                            <input type="text" name="access_type" id="access_type" value="<?php print $site_obj->access_type; ?>"/>
+                                                        </label>-->
                                                     </section>
 
                                                     <section class="col-sm-5">
@@ -546,9 +620,14 @@ $ngs_date = new ngs_date();
                                                         <label class="ngs_form_label">
                                                             Access Permission Type
                                                         </label>
-                                                        <label class="input">
-                                                            <input type="text" name="access_permission_type" id="access_permission_type" value="<?php print $site_obj->access_permision_type; ?>"/>
+                                                        <label class="select"><i class="icon-append fa fa-user"></i>
+                                                         <select name="access_permission_type" id="access_permission_type">
+                                                             
+                                                            </select> 
                                                         </label>
+<!--                                                        <label class="input">
+                                                            <input type="text" name="access_permission_type" id="access_permission_type" value="<?php print $site_obj->access_permision_type; ?>"/>
+                                                        </label>-->
                                                     </section>
 
                                                     <section class="col-sm-5">
@@ -992,7 +1071,6 @@ $ngs_date = new ngs_date();
                                         <div class="tab-pane fade active in" id="approvals">
                                             <form class="smart-form" id='approval_form' onsubmit="saveHandler(event, 'approval_form')">
                                                 <fieldset>
-                                                    <button class="btn btn-primary" style="float:right;" type="button" onclick="addEditApprovals()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
                                                     <table class="table table-bordered">
                                                         <thead>
                                                         <th width="5%"></th>
@@ -1015,7 +1093,7 @@ $ngs_date = new ngs_date();
                                                                         . "<td>$approval->id</td>"
                                                                         . "<td>$approval->requirement</td>"
                                                                         . "<td>$approval->description"
-                                                                        . "&nbsp;<button class='btn btn-success' type='button' onclick='addEditApprovals(".$approval->id.")'>Edit&nbsp;<i class='fa fa-edit'></i></button>"
+                                                                        . "&nbsp;<!--button class='btn btn-success' type='button' onclick='addEditApprovals(".$approval->id.")'>Edit&nbsp;<i class='fa fa-edit'></i></button-->"
                                                                         . "</td>"
                                                                         . "<td>$approval->code</td>"
                                                                         . "<td align='center' width='5%' style='padding: 10px 30px'><label class='checkbox'>"
@@ -1076,7 +1154,8 @@ include("../inc/scripts.php");
         <link href="../jeegoopopup/skins/round/style.css" rel="Stylesheet" type="text/css" />
 <script type="text/javascript">
     var id = <?php print (($site_obj->id != 0) ? $site_obj->id : 0) ?>;
-    var option = '<?php print (($site_obj->id != 0) ? 'EDIT' : 'ADD') ?>';   
+    var option = '<?php print (($site_obj->id != 0) ? 'EDIT' : 'ADD') ?>';
+    console.log(option);
     $(document).ready(function () {
         $("#main_tab").tabs({
             active: 0
@@ -1140,6 +1219,31 @@ include("../inc/scripts.php");
                 }
             });
         });
+        
+        getGSDivition('<?php echo $gn_division_id?>');
+        getsite_type('<?php echo $site_type?>');
+        getRm('<?php echo $rm_id?>');
+        dnsofficer('<?php echo $dns_officer?>');
+        getdepot('<?php echo $dns_deport?>');
+        saqManager('<?php echo $site_obj->region_id?>');
+        site_category('<?php echo $category?>');
+        site_access_type('<?php echo $access_type?>');
+        site_permission_type('<?php echo $access_permission_id?>');
+        site_ownership('<?php echo $site_ownership?>');
+        site_operator('<?php echo $operator_id?>');
+        
+        
+        
+        //$rm_id = $site_obj->regional_manager_id;
+    //$gn_division_id = $site_obj->gs_division;
+    //$saq_officer = $site_obj->saq_region_employee_id;
+    //$dns_officer = $site_obj->saq_dns_employee_id;
+    //$site_ownership = $site_obj->site_ownership;
+   // $operator_id = $site_obj->operator_name;
+    //$site_type = $site_obj->type;
+    //$category = $site_obj->category;
+    //$access_type = $site_obj->access_type;
+    //$access_permission_id = $site_obj->access_permision_type;
     });
     
     function addEditTechnology(id = '') {        
@@ -1222,4 +1326,601 @@ include("../inc/scripts.php");
             }
         });
     }
+  /*  function selectGNDivision(data) {
+             $("#gs_division").select2({
+                  //tags: true,
+  data: data,
+  allowClear: true,
+  placeholder: "Product Name",
+  query: function(q) {
+      var pageSize,
+        results,
+        that = this;
+      pageSize = 20; // or whatever pagesize
+      results = [];
+      if (q.term && q.term !== '') {
+        // HEADS UP; for the _.filter function i use underscore (actually lo-dash) here
+        results = _.filter(that.data, function(e) {
+          return e.text.toUpperCase().indexOf(q.term.toUpperCase()) >= 0;
+        });
+      } else if (q.term === '') {
+        results = that.data;
+      }
+      q.callback({
+        results: results.slice((q.page - 1) * pageSize, q.page * pageSize),
+        more: results.length >= q.page * pageSize,
+      });
+    },
+})
+ 
+}*/
+function getGSDivition(id){
+    var district_id = $('#district_id').val();
+    $.ajax({
+            url: '../ajax/ajx_saq_gndivision',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {SID:200,district_id:district_id},
+            success: function (response) {
+                if (response.result == 1) {
+                    var cmb ="";
+                    var data  = response.data;
+                          
+
+                if(data === undefined || data===null || data.lenght ===0){
+                   cmb += "<opton>--NO DATA --</option>"
+                }else {
+                    cmb +="<option value=''>--SELECT--</option>"
+                   $.each(data,function(index,data){
+                        if( id === undefined  || id ==""){
+                           var selected = ""
+                       }else{
+                           if(id == data.id){
+                               var selected="selected";
+                           }else {
+                                var selected = ""
+                           }
+                           
+                       }
+                       
+                       cmb +="<option value='"+data.id+"' "+selected+">"+data.gn_division+"</option>"
+                   })
+                   
+               }
+               $('#gs_division').html('').append(cmb);
+                } else {
+                    //alert('Error occured');
+                }
+            },
+            error: function (xhr, resp, text) {
+                alert("error :" + xhr.responseText);
+            }
+        });
+}
+function getsite_type(id){
+    console.log(id);
+    //var district_id = $('#district_id').val();
+    $.ajax({
+            url: '../ajax/ajx_saq_site_types',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {SID:200},
+            success: function (response) {
+                if (response.result == 1) {
+                    var cmb2 ="";
+                    var data  = response.data;
+                         
+
+                if(data === undefined || data===null || data.lenght ===0){
+                   cmb2 += "<opton>--NO DATA --</option>"
+                }else {
+                    cmb2 +="<option value=''>--SELECT--</option>"
+                   $.each(data,function(index,data){
+                       if( id === undefined  || id ==""){
+                           var selected = ""
+                       }else{
+                            if(id == data.id){
+                               var selected="selected";
+                           }else {
+                                var selected = ""
+                           }
+                           
+                       }
+                       cmb2 +="<option value='"+data.id+"' "+selected+">"+data.type+"</option>"
+                   })
+                   
+               }
+              $('#site_type').html('').append(cmb2);
+                } else {
+                    
+                   cmb2 +="<option value=''>--NO DATA--</option>"
+                   $('#site_type').html(cmb2);
+                }
+                 
+            },
+            error: function (xhr, resp, text) {
+                alert("error :" + xhr.responseText);
+            }
+        });
+}
+function getRm(id){
+    //var district_id = $('#district_id').val();
+    $.ajax({
+            url: '../ajax/ajx_saq_employee',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {SID:200,designation_id:'1'},
+            success: function (response) {
+                if (response.result == 1) {
+                    var cmb2 ="";
+                    var data  = response.data;
+                         
+
+                if(data === undefined || data===null || data.lenght ===0){
+                   cmb2 += "<opton>--NO DATA --</option>"
+                }else {
+                    cmb2 +="<option value=''>--SELECT--</option>"
+                   $.each(data,function(index,data){
+                       if( id === undefined  || id ==""){
+                           var selected = ""
+                       }else{
+                           if(id == data.id){
+                               var selected="selected";
+                           }else {
+                                var selected = ""
+                           }
+                       }
+                       cmb2 +="<option value='"+data.id+"' "+selected+">"+data.name+"</option>"
+                   })
+                   
+               }
+              $('#rm_id').html('').append(cmb2);
+                } else {
+                    
+                   cmb2 +="<option value=''>--NO DATA--</option>"
+                   $('#rm_id').html(cmb2);
+                }
+                 
+            },
+            error: function (xhr, resp, text) {
+                alert("error :" + xhr.responseText);
+            }
+        });
+}
+function dnsofficer(id){
+    //var district_id = $('#district_id').val();
+    $.ajax({
+            url: '../ajax/ajx_saq_employee',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {SID:200,designation_id:'2'},
+            success: function (response) {
+                if (response.result == 1) {
+                    var cmb2 ="";
+                    var data  = response.data;
+                         
+
+                if(data === undefined || data===null || data.lenght ===0){
+                   cmb2 += "<opton>--NO DATA --</option>"
+                }else {
+                    cmb2 +="<option value=''>--SELECT--</option>"
+                   $.each(data,function(index,data){
+                       if( id === undefined  || id ==""){
+                           var selected = ""
+                       }else{
+                           if(id == data.id){
+                               var selected="selected";
+                           }else {
+                                var selected = ""
+                           }
+                       }
+                       cmb2 +="<option value='"+data.id+"' "+selected+">"+data.name+"</option>"
+                   })
+                   
+               }
+              $('#dns_officer_id').html('').append(cmb2);
+                } else {
+                    
+                   cmb2 +="<option value=''>--NO DATA--</option>"
+                   $('#dns_officer_id').html(cmb2);
+                }
+                 
+            },
+            error: function (xhr, resp, text) {
+                alert("error :" + xhr.responseText);
+            }
+        });
+}
+function operator(id){
+    //var district_id = $('#district_id').val();
+    $.ajax({
+            url: '../ajax/ajx_saq_employee',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {SID:200,designation_id:'2'},
+            success: function (response) {
+                if (response.result == 1) {
+                    var cmb2 ="";
+                    var data  = response.data;
+                         
+
+                if(data === undefined || data===null || data.lenght ===0){
+                   cmb2 += "<opton>--NO DATA --</option>"
+                }else {
+                    cmb2 +="<option value=''>--SELECT--</option>"
+                   $.each(data,function(index,data){
+                       if( id === undefined  || id ==""){
+                           var selected = ""
+                       }else{
+                            if(id == data.id){
+                               var selected="selected";
+                           }else {
+                                var selected = ""
+                           }
+                       }
+                       cmb2 +="<option value='"+data.id+"' "+selected+">"+data.name+"</option>"
+                   })
+                   
+               }
+              $('#dns_officer_id').html('').append(cmb2);
+                } else {
+                    
+                   cmb2 +="<option value=''>--NO DATA--</option>"
+                   $('#dns_officer_id').html(cmb2);
+                }
+                 
+            },
+            error: function (xhr, resp, text) {
+                alert("error :" + xhr.responseText);
+            }
+        });
+}
+function getdepot(id){
+    //var district_id = $('#district_id').val();
+    $.ajax({
+            url: '../ajax/ajx_site_customize',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {SID:200,designation_id:'2'},
+            success: function (response) {
+                if (response.result == 1) {
+                    var cmb2 ="";
+                    var data  = response.data;
+                         
+
+                if(data === undefined || data===null || data.lenght ===0){
+                   cmb2 += "<opton>--NO DATA --</option>"
+                }else {
+                    cmb2 +="<option value=''>--SELECT--</option>"
+                   $.each(data,function(index,data){
+                       if( id === undefined  || id ==""){
+                           var selected = ""
+                       }else{
+                           if(data.id == id){
+                                var selected="selected";
+                           }else {
+                                 if(id == data.id){
+                               var selected="selected";
+                           }else {
+                                var selected = ""
+                           }
+                           }
+                          
+                       }
+                       cmb2 +="<option value='"+data.id+"' "+selected+">"+data.depot_name+"</option>"
+                   })
+                   
+               }
+              $('#dns_deport').html('').append(cmb2);
+                } else {
+                    
+                   cmb2 +="<option value=''>--NO DATA--</option>"
+                   $('#dns_deport').html(cmb2);
+                }
+                 
+            },
+            error: function (xhr, resp, text) {
+                alert("error :" + xhr.responseText);
+            }
+        });
+}
+function saqManager(region_id){
+    //var district_id = $('#district_id').val();
+    console.log('<?php echo 'saqMananger'.$saq_officer; ?>');
+    var cmb2 = "";
+    if(region_id === undefined  || region_id =="" ){
+         cmb2 +="<option value=''>--NO DATA2--</option>"
+         $('#select_saq_officer_id').html(cmb2);
+    }else {
+    $.ajax({
+            url: '../ajax/ajx_saq_employee',
+            type: 'POST',
+            dataType: 'JSON',
+            //data: {SID:203,region_id:region_id},
+            data:  {SID:200,designation_id:'3'},
+            success: function (response) {
+                if (response.result == 1) {
+                    var cmb2 ="";
+                    var data  = response.data;
+                         
+
+                if(data === undefined || data===null || data.lenght ===0){
+                   cmb2 += "<opton>--NO DATA1 --</option>"
+                }else {
+                    cmb2 +="<option value=''>--SELECT--</option>"
+                    //should pass 
+                   $.each(data,function(index,data){
+                       if( region_id === undefined  || region_id ==""){
+                           var selected = ""
+                       }else{
+                           if('<?php echo $saq_officer_id ?>' == data.id){
+                               var selected="selected";
+                           }else {
+                                var selected = ""
+                           }
+                       }
+                       cmb2 +="<option value='"+data.id+"' "+selected+">"+data.name+"</option>"
+                   })
+                   
+               }
+              $('#select_saq_officer_id').html('').append(cmb2);
+                } else {
+                    
+                   cmb2 +="<option value=''>--NO DATA3--</option>"
+                   $('#select_saq_officer_id').html(cmb2);
+                }
+                 
+            },
+            error: function (xhr, resp, text) {
+                alert("error :" + xhr.responseText);
+            }
+        });
+    }
+}
+function site_category(category_id){
+    //var district_id = $('#district_id').val();
+    /*if(region_id === undefined  || region_id =="" ){
+         cmb2 +="<option value=''>--NO DATA2--</option>"
+         $('#site_category').html(cmb2);
+    }else {*/
+    $.ajax({
+            url: '../ajax/ajx_site_customize',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {SID:203,category_id:category_id},
+            success: function (response) {
+                if (response.result == 1) {
+                    var cmb2 ="";
+                    var data  = response.data;
+                         
+
+                if(data === undefined || data===null || data.lenght ===0){
+                   cmb2 += "<opton>--NO DATA1 --</option>"
+                }else {
+                    cmb2 +="<option value=''>--SELECT--</option>"
+                   $.each(data,function(index,data){
+                       if( category_id === undefined  || category_id ==""){
+                           var selected = ""
+                       }else{
+                            if(category_id == data.id){
+                               var selected="selected";
+                           }else {
+                                var selected = ""
+                           }
+                       }
+                       cmb2 +="<option value='"+data.id+"' "+selected+">"+data.category+"</option>"
+                   })
+                   
+               }
+              $('#site_category').html('').append(cmb2);
+                } else {
+                    
+                   cmb2 +="<option value=''>--NO DATA3--</option>"
+                   $('#site_category').html(cmb2);
+                }
+                 
+            },
+            error: function (xhr, resp, text) {
+                alert("error :" + xhr.responseText);
+            }
+        });
+    //}
+}
+function site_access_type(access_id){
+    //var district_id = $('#district_id').val();
+   /* if(category_id === undefined  || category_id =="" ){
+         cmb2 +="<option value=''>--NO DATA2--</option>"
+         $('#site_category').html(cmb2);
+    }else {*/
+    $.ajax({
+            url: '../ajax/ajx_site_customize',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {SID:206,access_id:access_id},
+            success: function (response) {
+                if (response.result == 1) {
+                    var cmb2 ="";
+                    var data  = response.data;
+                         
+
+                if(data === undefined || data===null || data.lenght ===0){
+                   cmb2 += "<opton>--NO DATA1 --</option>"
+                }else {
+                    cmb2 +="<option value=''>--SELECT--</option>"
+                   $.each(data,function(index,data){
+                       if( access_id === undefined  || access_id ==""){
+                           var selected = ""
+                       }else{
+                            if(access_id == data.id){
+                               var selected="selected";
+                           }else {
+                                var selected = ""
+                           }
+                       }
+                       cmb2 +="<option value='"+data.id+"' "+selected+">"+data.access_type+"</option>"
+                   })
+                   
+               }
+              $('#access_type').html('').append(cmb2);
+                } else {
+                    
+                   cmb2 +="<option value=''>--NO DATA3--</option>"
+                   $('#access_type').html(cmb2);
+                }
+                 
+            },
+            error: function (xhr, resp, text) {
+                alert("error :" + xhr.responseText);
+            }
+        });
+   // }
+}
+function site_permission_type(permission_id){
+    //var district_id = $('#district_id').val();
+   /* if(category_id === undefined  || category_id =="" ){
+         cmb2 +="<option value=''>--NO DATA2--</option>"
+         $('#site_category').html(cmb2);
+    }else {*/
+    $.ajax({
+            url: '../ajax/ajx_site_customize',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {SID:209,permission_id:permission_id},
+            success: function (response) {
+                if (response.result == 1) {
+                    var cmb2 ="";
+                    var data  = response.data;
+                         
+
+                if(data === undefined || data===null || data.lenght ===0){
+                   cmb2 += "<opton>--NO DATA1 --</option>"
+                }else {
+                    cmb2 +="<option value=''>--SELECT--</option>"
+                   $.each(data,function(index,data){
+                       if( permission_id === undefined  || permission_id ==""){
+                           var selected = ""
+                       }else{
+                           if(permission_id == data.id){
+                               var selected="selected";
+                           }else {
+                                var selected = ""
+                           }
+                       }
+                       cmb2 +="<option value='"+data.id+"' "+selected+">"+data.permission_type+"</option>"
+                   })
+                   
+               }
+              $('#access_permission_type').html('').append(cmb2);
+                } else {
+                    
+                   cmb2 +="<option value=''>--NO DATA3--</option>"
+                   $('#access_permission_type').html(cmb2);
+                }
+                 
+            },
+            error: function (xhr, resp, text) {
+                alert("error :" + xhr.responseText);
+            }
+        });
+   // }
+}
+function site_ownership(ownwership_id){
+    //var district_id = $('#district_id').val();
+   /* if(category_id === undefined  || category_id =="" ){
+         cmb2 +="<option value=''>--NO DATA2--</option>"
+         $('#site_category').html(cmb2);
+    }else {*/
+        console.log(ownwership_id);
+    $.ajax({
+            url: '../ajax/ajx_site_customize',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {SID:212,ownwership_id:ownwership_id},
+            success: function (response) {
+                if (response.result == 1) {
+                    var cmb2 ="";
+                    var data  = response.data;
+                         
+
+                if(data === undefined || data===null || data.lenght ===0){
+                   cmb2 += "<opton>--NO DATA1 --</option>"
+                }else {
+                    cmb2 +="<option value=''>--SELECT--</option>"
+                   $.each(data,function(index,data){
+                       if( ownwership_id === undefined  || ownwership_id ==""){
+                           var selected = ""
+                       }else{
+                           if(ownwership_id == data.id){
+                               var selected="selected";
+                           }else {
+                                var selected = ""
+                           }
+                       }
+                       cmb2 +="<option value='"+data.id+"' "+selected+">"+data.ownership+"</option>"
+                   })
+                   
+               }
+              $('#site_ownership').html('').append(cmb2);
+                } else {
+                    
+                   cmb2 +="<option value=''>--NO DATA3--</option>"
+                   $('#site_ownership').html(cmb2);
+                }
+                 
+            },
+            error: function (xhr, resp, text) {
+                alert("error :" + xhr.responseText);
+            }
+        });
+   // }
+}
+function site_operator(operator_id){
+    //var district_id = $('#district_id').val();
+   /* if(category_id === undefined  || category_id =="" ){
+         cmb2 +="<option value=''>--NO DATA2--</option>"
+         $('#site_category').html(cmb2);
+    }else {*/
+    $.ajax({
+            url: '../ajax/ajx_site_customize',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {SID:215,operator_id:operator_id},
+            success: function (response) {
+                if (response.result == 1) {
+                    var cmb2 ="";
+                    var data  = response.data;
+                         
+
+                if(data === undefined || data===null || data.lenght ===0){
+                   cmb2 += "<opton>--NO DATA1 --</option>"
+                }else {
+                    cmb2 +="<option value=''>--SELECT--</option>"
+                   $.each(data,function(index,data){
+                       if( operator_id === undefined  || operator_id ==""){
+                           var selected = ""
+                       }else{
+                            if(operator_id == data.id){
+                               var selected="selected";
+                           }else {
+                                var selected = ""
+                           }
+                       }
+                       cmb2 +="<option value='"+data.id+"' "+selected+">"+data.name+"</option>"
+                   })
+                   
+               }
+              $('#operator_name').html('').append(cmb2);
+                } else {
+                    
+                   cmb2 +="<option value=''>--NO DATA3--</option>"
+                   $('#operator_name').html(cmb2);
+                }
+                 
+            },
+            error: function (xhr, resp, text) {
+                alert("error :" + xhr.responseText);
+            }
+        });
+   // }
+}
 </script>

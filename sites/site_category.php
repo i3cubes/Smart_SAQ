@@ -1,6 +1,4 @@
 <?php
-//error_reporting(E_ALL);
-//ini_set("display_errors", 1);
 require_once("../lib/config.php");
 
 //require UI configuration (nav, ribbon, etc.)
@@ -20,7 +18,7 @@ $page_title = "Site Data";
 //Note: all css files are inside css/ folder
 $page_css[] = "ngs.css";
 include("../inc/header.php");
-
+$page_nav["site_data"]["sub"]["operators"]["active"] = true;
 //include left panel (navigation)
 //follow the tree in inc/config.ui.php
 $page_nav["view"]["active"] = true;
@@ -28,6 +26,9 @@ include("../inc/nav.php");
 //include_once 'class/reports.php';
 include_once '../class/constants.php';
 include_once '../class/cls_site_manager.php';
+include_once '../class/cls_saq_technical.php';
+include_once '../class/cls_saq_site_category.php';
+//
 ?>
 <style>
 
@@ -54,9 +55,9 @@ include_once '../class/cls_site_manager.php';
                  data-widget-colorbutton="false">
                 <header>
                     <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
-                    <h2 style=""><b>SITES</b></h2> 
-                    <button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="add_edit_site(0)">Add&nbsp;<i class="fa fa-plus"></i></button>
-                    <button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="bulk_update(0)">Bulk Edit&nbsp;<i class="fa fa-cogs"></i></button>
+                    <h2 style=""><b>OTHER OPERATORS</b></h2> 
+                    <button class="btn btn-primary" style="float:right;" type="button" onclick="addEditOtherOperator()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
+                    <!--<button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="bulk_update(0)">Bulk Edit&nbsp;<i class="fa fa-cogs"></i></button>-->
                 </header> 
                 <div class="widget-body">
                     <!--<div class="row">-->
@@ -64,28 +65,25 @@ include_once '../class/cls_site_manager.php';
                         <thead>
                             <tr style="height:40px;">
                                 <!--<th>#ID</th>-->
-                                <td class="headerStyle" width="5%">CODE</td>                               
-                                <td class="headerStyle">NAME</td>
-                                <td class="headerStyle">ADDRESS</td>
-                                <td class="headerStyle" width="10%">SITE OWNERSHIP</td>                                
-                                <td style="text-align:center;" class="headerStyle" width="5%">EDIT</td>                                
+                                <td class="headerStyle" width="5%" style="">Operators</td>                               
+                                                      
                             </tr>
                         </thead>
-                        <tbody>                                    
+                        <tbody>       
+                            
                             <?php
-                                $site_mgr_obj = new site_manager();
-                                $sites = $site_mgr_obj->serchSite('', '', '',"");
+                             
+                                                            
                                 
-                                if(count($sites)>0) {
-                                    foreach ($sites as $site) {
-                                       
-                                $site_ownership_name = $site->site_ownership_name =="" ? $site->site_ownership :  $site->site_ownership_name ;
-                                        print "<tr>"
-                                                . "<td>".$site->code."</td>"
-                                                . "<td>".$site->name."</td>"
-                                                . "<td>".$site->address."</td>"
-                                                . "<td>".$site_ownership_name."</td>"
-                                                . "<td align='center'><button class='btn btn-primary btn-xs' onclick='add_edit_site(".$site->id.")'>Edit</button></td>"
+                                $saq_other_operator_obj = new saq_other_operator();
+                                      $other_operators = $saq_other_operator_obj->getAll();
+                                
+                                
+                                if(count($other_operators)>0) {
+                                    foreach ($other_operators as $tech) {
+                                        print "<tr class='ngs-popup' id ='$tech->id'>"
+                                                . "<td>".$tech->name."</td>"
+                                               
                                             . "</tr>";
                                     }
                                 }
@@ -93,7 +91,31 @@ include_once '../class/cls_site_manager.php';
                         </tbody>
                     </table>
                     <!--</div>-->
+                    <script> 
+                     $('.ngs-popup').click(function () {
+                                        
+                                       /* var url = 'product_add?id=' + this.id+"&v=<?php echo strtotime(date('Y-m-d H:i:s'))?>";
+                                        var NWin = window.open(url, '_blank');
+                                        if (window.focus)
+                                        {
+                                            NWin.focus();
+                                        }*/
+                                        var id = this.id;
+                                        /*var section = $(this).attr('data-section');
 
+                                        var options = {
+                                        url: 'Edit?<?php //print SID."&"?>id='+id,
+                                        width: '600',
+                                        height: '450',
+                                        skinClass: 'jg_popup_round'
+                                        };		
+                                        $.jeegoopopup.open(options);*/
+                                        addEditOtherOperator(id);
+    
+                                    });
+                    
+                    
+                    </script>
                 </div>
             </div>
 
@@ -158,23 +180,18 @@ include("../inc/scripts.php");
         });
     });   
 
-    function add_edit_site(id) {
-        //location.href = 'view?id=' + id;
-        
-        var url='add_edit?<?php print SID."&id="?>'+id;
-        var NWin = window.open(url,'_blank');
-        if (window.focus)
-        {
-          NWin.focus();
-        }
+   
+        function addEditOtherOperator(id = '') {
+        var options = {
+            url: 'add_edit_other_operator?id=' + id,
+            width: '600',
+            height: '200',
+            skinClass: 'jg_popup_round',
+            resizable: false,
+            scrolling: 'no'
+        };
+        $.jeegoopopup.open(options);
     }
-    function bulk_update(){
-        var url='bulk_update?<?php print SID?>';
-        var NWin = window.open(url,'_blank');
-        if (window.focus)
-        {
-          NWin.focus();
-        }
-    }
+    
 </script>
 

@@ -29,6 +29,7 @@ class site {
     public $region_id, $region_name, $dns_office_id, $dns_office_name, $technical, $other_operators, $agreement_data, $assessment_data, $agreement_data_id, $approvals;
     public $update_string;
     public $site_agreement_data;
+    public $gs_division,$regional_manager_id,$saq_region_employee_id,$saq_dns_employee_id,$site_ownership_name,$saq_officer_id;
 
     public function __construct($id = '') {
         $this->id = $id;
@@ -41,7 +42,7 @@ class site {
                 . "left join saq_police_station as t5 on t1.saq_police_station_id=t5.id "
                 . "left join saq_region as t6 on t1.saq_region_id=t6.id left join saq_sites_status as t7 on t1.saq_sites_status_id=t7.id"
                 . " WHERE t1.id='" . $this->id . "';";
-//        print $str."<br>";
+        //print $str."<br>";
         $res = dbQuery($str);
         $row = dbFetchAssoc($res);
         $this->id = $row['id'];
@@ -50,23 +51,35 @@ class site {
         $this->name = $row['name'];
         $this->code = $row['code'];
 //        $this->status = $row['status_id'];
-        $this->type = $row['type'];
+        //$this->type = $row['type'];
+        $this->type = $row['saq_site_types_id'];//added by thara
         $this->address = $row['address'];
-        $this->site_ownership = $row['site_ownership'];
-        $this->operator_name = $row['operators_name'];
+        //$this->site_ownership = $row['site_ownership'];
+        $this->site_ownership = $row['saq_site_ownership_id'];//added by thara
+        $this->saq_officer_id = $row['saq_officer_id'];//added by thara
+        //$this->operator_name = $row['operators_name'];
+        $this->operator_name = $row['saq_other_operator_id'];
         $this->tower_height = $row['tower_height'];
         $this->building_height = $row['building_height'];
         $this->land_area = $row['land_area'];
         $this->on_air_date = $row['on_air_date'];
-        $this->category = $row['category'];
+        //$this->category = $row['category'];
+        $this->category = $row['saq_site_category_id']; //added by thara
         $this->pg_installation_possibility = $row['PG_installation_possibility'];
         $this->lat = $row['lat'];
         $this->lon = $row['lon'];
-        $this->dns_deport = $row['dns_deport'];
+        //$this->dns_deport = $row['dns_deport'];
+        $this->dns_deport = $row['dns_depot_id'];// added by thara
         $this->other_operator_id = $row['other_operator_id'];
-        $this->access_type = $row['access_type'];
+        //$this->access_type = $row['access_type'];
+        $this->access_type = $row['saq_access_type_id'];//added by thara
         $this->manual_distance = $row['manual_distance'];
-        $this->access_permision_type = $row['access_permission_type'];
+        //$this->access_permision_type = $row['access_permission_type'];
+        $this->access_permision_type = $row['saq_access_permission_type_id']; //added by thara
+        $this->gs_division = $row['saq_gn_division_id']; //added by thara
+        $this->regional_manager_id = $row['saq_rm_employee_id']; //added by thara
+        $this->saq_region_employee_id = $row['saq_region_employee_id']; //added by thara saq_dns_employee_id
+        $this->saq_dns_employee_id = $row['saq_dns_employee_id']; //added by thara saq_dns_employee_id
         //
         $this->lo_name = $row['LO_name'];
         $this->lo_address = $row['LO_address'];
@@ -122,25 +135,39 @@ class site {
             $sql = array();
             switch ($tab) {
                 case 'G':
+//id, code, name, status, type, address, site_ownership, operators_name, tower_height, building_height, land_area, on_air_date, category, lat, lon, access_type, manual_distance, access_permission_type, PG_installation_possibility, LO_name, LO_address, LO_nic_brc, LO_mobile, LO_land_number, contact_person_number, LO_fax, LO_email, dns_deport, other_operator_id, saq_district_id, saq_province_id, saq_ds_id, saq_la_id, saq_police_station_id, saq_region_id, saq_dns_office_id, saq_sites_status_id, saq_gn_division_id, saq_rm_employee_id, saq_dns_employee_id, saq_other_operator_id, saq_site_types_id, dns_depot_id, saq_region_employee_id, saq_site_ownership_id, saq_site_category_id, saq_access_type_id, saq_access_permission_type_id                    
                     array_push($sql, shared::getCleanedData('code', $this->code, $source));
                     array_push($sql, shared::getCleanedData('name', $this->name, $source));
-                    array_push($sql, shared::getCleanedData('type', $this->type, $source));
+                    //array_push($sql, shared::getCleanedData('type', $this->type, $source));
+                    array_push($sql, shared::getCleanedData('saq_site_types_id', $this->type, $source));
+                    array_push($sql, shared::getCleanedData('saq_gn_division_id', $this->gs_division, $source)); //new add thara
                     array_push($sql, shared::getCleanedData('saq_sites_status_id', $this->status, $source));
                     array_push($sql, shared::getCleanedData('address', $this->address, $source));
-                    array_push($sql, shared::getCleanedData('site_ownership', $this->site_ownership, $source));
-                    array_push($sql, shared::getCleanedData('operators_name', $this->operator_name, $source));
-                    array_push($sql, shared::getCleanedData('dns_deport', $this->dns_deport, $source));
+                    //array_push($sql, shared::getCleanedData('site_ownership', $this->site_ownership, $source));
+                    //array_push($sql, shared::getCleanedData('saq_site_ownership_id', $this->site_ownership, $source));//added by thara
+                    //array_push($sql, shared::getCleanedData('operators_name', $this->operator_name, $source));
+                    array_push($sql, shared::getCleanedData('saq_other_operator_id', $this->operator_name, $source));// ad by thara
+                    //array_push($sql, shared::getCleanedData('dns_deport', $this->dns_deport, $source));
+                    array_push($sql, shared::getCleanedData('dns_depot_id', $this->dns_deport, $source)); //new add by thara
+                    array_push($sql, shared::getCleanedData('saq_rm_employee_id', $this->regional_manager_id, $source)); //new add by thara
+                    array_push($sql, shared::getCleanedData('saq_officer_id', $this->saq_officer_id, $source)); //new add by thara
+                    array_push($sql, shared::getCleanedData('saq_region_employee_id', $this->saq_region_employee_id, $source)); //new add by thara
+                    array_push($sql, shared::getCleanedData('saq_dns_employee_id', $this->saq_dns_employee_id, $source)); //new add by thara
+                    array_push($sql, shared::getCleanedData('saq_site_ownership_id', $this->site_ownership, $source)); //new add by thara
                     array_push($sql, shared::getCleanedData('other_operator_id', $this->other_operator_id, $source));
                     array_push($sql, shared::getCleanedData('tower_height', $this->tower_height, $source));
                     array_push($sql, shared::getCleanedData('building_height', $this->building_height, $source));
                     array_push($sql, shared::getCleanedData('land_area', $this->land_area, $source));
                     array_push($sql, shared::getCleanedData('on_air_date', $this->on_air_date, $source));
-                    array_push($sql, shared::getCleanedData('category', $this->category, $source));
+                    //array_push($sql, shared::getCleanedData('category', $this->category, $source));
+                    array_push($sql, shared::getCleanedData('saq_site_category_id', $this->category, $source)); //add by thara
                     array_push($sql, shared::getCleanedData('lat', $this->lat, $source));
                     array_push($sql, shared::getCleanedData('lon', $this->lon, $source));
-                    array_push($sql, shared::getCleanedData('access_type', $this->access_type, $source));
+                    //array_push($sql, shared::getCleanedData('access_type', $this->access_type, $source));
+                    array_push($sql, shared::getCleanedData('saq_access_type_id', $this->access_type, $source));//add by thara
                     array_push($sql, shared::getCleanedData('manual_distance', $this->manual_distance, $source));
-                    array_push($sql, shared::getCleanedData('access_permission_type', $this->access_permision_type, $source));
+                    //array_push($sql, shared::getCleanedData('access_permission_type', $this->access_permision_type, $source));
+                    array_push($sql, shared::getCleanedData('saq_access_permission_type_id', $this->access_permision_type, $source));//added by thara
                     array_push($sql, shared::getCleanedData('PG_installation_possibility', $this->pg_installation_possibility, $source));
                     array_push($sql, shared::getCleanedData('saq_district_id', $this->district_id, $source));
                     array_push($sql, shared::getCleanedData('saq_province_id', $this->province_id, $source));
