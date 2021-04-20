@@ -74,18 +74,18 @@ $users = $user_obj->getAllUsers();
                         </thead>
                         <tbody>                                    
                             <?php
-                                if(count($users)>0) {
-                                    foreach ($users as $user) {
-                                        print "<tr>"
-                                        . "<td>".$user['name']."</td>"
-                                        . "<td>".$user['address']."</td>"
-                                        . "<td>".$user['email']."</td>"
-                                        . "<td>".$user['contact_no']."</td>"
-                                        . "<td align='center' width='5%'><button class='btn btn-primary btn-xs' onclick='add_edit_user(".$user['id'].")'>Edit</button></td>"
-                                        . "<td align='center' width='5%'><i class='fa fa-check-circle' style='color:green;font-size:21px;'></i></td>"        
-                                                . "</tr>";
-                                    }
+                            if (count($users) > 0) {
+                                foreach ($users as $user) {
+                                    print "<tr>"
+                                            . "<td>" . $user['name'] . "</td>"
+                                            . "<td>" . $user['address'] . "</td>"
+                                            . "<td>" . $user['email'] . "</td>"
+                                            . "<td>" . $user['contact_no'] . "</td>"
+                                            . "<td align='center' width='5%'><button class='btn btn-primary btn-xs' onclick='add_edit_user(" . $user['id'] . ")'>Edit</button></td>"
+                                            . "<td align='center' width='5%'>" . (($user['status'] == constants::$active) ? "<button onclick=changeStatus(" . $user['id'] . ",'D') title='LOCK'><i class='fa fa-check-circle' style='color:green;font-size:21px;'></i></button>" : "<button onclick=changeStatus(" . $user['id'] . ",'E') title='UNLOCK'><i class='fa fa-times-circle'  style='color:red;font-size:21px;'></i></button>") . "</td>"
+                                            . "</tr>";
                                 }
+                            }
                             ?>
                         </tbody>
                     </table>
@@ -147,24 +147,61 @@ include("../inc/scripts.php");
 <script src="<?php echo ASSETS_URL; ?>/js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
 
 <script>
-                            $(document).ready(function () {
-                                $("#table").DataTable({
-                                    "paging": true,
-                                    "ordering": false,
-                                    "info": true
-                                });
-                            });   
-                            
-                            function add_edit_user(id) {
-                                 var options = {
-                                    url: 'add_edit_user?id=' + id,
-                                    width: '500',
-                                    height: '430',
-                                    skinClass: 'jg_popup_round',
-                                    resizable: false,
-                                    scrolling: 'no'
-                                };
-                                $.jeegoopopup.open(options);
-                            }
+                        $(document).ready(function () {
+                            $("#table").DataTable({
+                                "paging": true,
+                                "ordering": false,
+                                "info": true
+                            });
+                        });
+
+                        function changeStatus(user_id, status) {
+                            var newDiv = $(document.createElement('div'));
+                            $(newDiv).html(`Are you sure?`);
+                            $(newDiv).attr('title', `${((status == 'E') ? 'UNLOCK' : 'LOCK')} USER`);                           
+                            $(newDiv).dialog({
+                                resizable: false,
+                                height: 200,
+                                modal: true,
+                                buttons: {
+                                    "YES": function () {
+                                        $.ajax({
+                                            url: '../ajax/ajx_user',
+                                            type: 'POST',
+                                            data: {option: 'CHANGESTATUS', id: user_id, status: status},
+                                            dataType: "json",
+                                            success: function (res) {
+                                               if(res['msg'] == 1) {
+                                                   location.reload();
+                                               } else {
+                                                   $.notify('Error occured','error');
+                                               }
+                                            },
+                                            error: function (xhr, status, error) {
+                                                alert("error :" + xhr.responseText);
+                                            }
+                                        });
+                                        $(this).dialog("close");
+                                        $(newDiv).remove();
+                                    },
+                                    NO: function () {
+                                        $(this).dialog("close");
+                                        $(newDiv).remove();
+                                    }
+                                }
+                            });                          
+                        }
+
+                        function add_edit_user(id) {
+                            var options = {
+                                url: 'add_edit_user?id=' + id,
+                                width: '500',
+                                height: '430',
+                                skinClass: 'jg_popup_round',
+                                resizable: false,
+                                scrolling: 'no'
+                            };
+                            $.jeegoopopup.open(options);
+                        }
 </script>
 
