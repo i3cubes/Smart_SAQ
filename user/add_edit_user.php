@@ -257,6 +257,8 @@ include("../inc/scripts.php");
                     if (response['msg'] == 1) {
                         window.parent.location.reload();
                         window.parent.$.jeegoopopup.close();
+                    } else if(response['msg'] == 2){
+                        alert('User already exist');
                     } else {
                         alert('Failure');
                     }

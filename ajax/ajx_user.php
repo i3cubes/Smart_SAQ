@@ -19,9 +19,11 @@ switch ($_POST['option']) {
         }
         break;
     case 'ADDUSER':
-        $result = $u_obj->add();
-        if ($result) {
+        $result = $u_obj->add();       
+        if ($result === true) {
             echo json_encode(array('msg' => 1));
+        } else if($result == 100){
+            echo json_encode(array('msg' => 2));
         } else {
             echo json_encode(array('msg' => 0));
         }
