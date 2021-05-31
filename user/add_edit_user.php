@@ -199,7 +199,7 @@ include("../inc/scripts.php");
             return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) // consists of only these
                     && /[a-z]/.test(value) // has a lowercase letter
                     && /\d/.test(value) // has a digit
-        }, "Password must consist atleast one upper letter, one lower letter and one digit.");
+        }, "Password must consist atleast one uppercase letter, one lowercase letter and one digit.");
         
         $(function () {
             // Validation
