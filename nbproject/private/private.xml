@@ -2,6 +2,28 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/xampp/htdocs/dialog_admin_portal/Smart_SAQ/ajax/ajx_saq_site.php</file>
+            <file>file:/C:/xampp/htdocs/dialog_admin_portal/Smart_SAQ/class/cls_user.php</file>
+            <file>file:/C:/xampp/htdocs/dialog_admin_portal/Smart_SAQ/class/cls_site.php</file>
+            <file>file:/C:/xampp/htdocs/dialog_admin_portal/Smart_SAQ/sites/add_edit_other_operator.php</file>
+            <file>file:/C:/xampp/htdocs/dialog_admin_portal/Smart_SAQ/class/cls_saq_site_agreement_data.php</file>
+            <file>file:/C:/xampp/htdocs/dialog_admin_portal/Smart_SAQ/class/cls_site_model.php</file>
+            <file>file:/C:/xampp/htdocs/dialog_admin_portal/Smart_SAQ/ajax/ajx_saq_site_images.php</file>
+            <file>file:/C:/xampp/htdocs/dialog_admin_portal/Smart_SAQ/ajax/ajx_user.php</file>
+            <file>file:/C:/xampp/htdocs/dialog_admin_portal/Smart_SAQ/class/cls_saq_other_operator.php</file>
+            <file>file:/C:/xampp/htdocs/dialog_admin_portal/Smart_SAQ/class/cls_agreement_model.php</file>
+            <file>file:/C:/xampp/htdocs/dialog_admin_portal/Smart_SAQ/sites/add_edit_technology.php</file>
+            <file>file:/C:/xampp/htdocs/dialog_admin_portal/Smart_SAQ/sites/add_edit.php</file>
+            <file>file:/C:/xampp/htdocs/dialog_admin_portal/Smart_SAQ/samples/agreement_view.php</file>
+            <file>file:/C:/xampp/htdocs/dialog_admin_portal/Smart_SAQ/.gitignore</file>
+            <file>file:/C:/xampp/htdocs/dialog_admin_portal/Smart_SAQ/class/cls_saq_technical.php</file>
+            <file>file:/C:/xampp/htdocs/dialog_admin_portal/Smart_SAQ/samples/agreements.php</file>
+            <file>file:/C:/xampp/htdocs/dialog_admin_portal/Smart_SAQ/samples/site_model_add.php</file>
+            <file>file:/C:/xampp/htdocs/dialog_admin_portal/Smart_SAQ/sites/add_edit_approvals.php</file>
+            <file>file:/C:/xampp/htdocs/dialog_admin_portal/Smart_SAQ/samples/gallery.php</file>
+            <file>file:/C:/xampp/htdocs/dialog_admin_portal/Smart_SAQ/class/database.php</file>
+            <file>file:/C:/xampp/htdocs/dialog_admin_portal/Smart_SAQ/class/cls_saq_approvals.php</file>
+        </group>
     </open-files>
 </project-private>

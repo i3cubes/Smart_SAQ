@@ -32,7 +32,7 @@ include("../inc/header_less.php");
 include_once '../class/constants.php';
 include_once '../class/cls_user.php';
 
-if($_REQUEST['id'] != '') {
+if ($_REQUEST['id'] != '') {
     $user_obj = new user($_REQUEST['id']);
     $user_obj->getDetails();
 }
@@ -40,6 +40,10 @@ if($_REQUEST['id'] != '') {
 <style>
     .customFiled {
         margin-bottom: 10px;
+    }
+    
+    .smart-form .state-error+em {
+        color: #c31616;
     }
 </style>
 <!-- ==========================CONTENT STARTS HERE ========================== -->
@@ -105,17 +109,17 @@ if($_REQUEST['id'] != '') {
                                                 <input type="password" name="password" id="password"/>
                                             </label>
                                         </section>
-                                        <?php if($_REQUEST['id'] == '') {?>
-                                        <section class="col col-4">
-                                            <label class="ngs_form_lable">
-                                                Re-enter password
-                                            </label>
-                                        </section>
-                                        <section class="col col-4">
-                                            <label class="input">
-                                                <input type="password" id="re-password" />
-                                            </label>
-                                        </section>   
+                                        <?php if ($_REQUEST['id'] == '') { ?>
+                                            <section class="col col-4">
+                                                <label class="ngs_form_lable">
+                                                    Re-enter password
+                                                </label>
+                                            </section>
+                                            <section class="col col-4">
+                                                <label class="input">
+                                                    <input type="password" name="rePassword" id="rePassword"/>
+                                                </label>
+                                            </section>   
                                         <?php } ?>
 <!--                                        <section class="col col-4">
                                             <label class="ngs_form_lable">
@@ -190,27 +194,79 @@ include("../inc/scripts.php");
 
 <script type="text/javascript">
     $(document).ready(function () {
+        
+        $.validator.addMethod("pwcheck", function (value) {
+            return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) // consists of only these
+                    && /[a-z]/.test(value) // has a lowercase letter
+                    && /\d/.test(value) // has a digit
+        }, "Password must consist atleast one uppercase letter, one lowercase letter and one digit.");
+        
+        $(function () {
+            // Validation
+            $("#user_form").validate({
+                // Rules for form validation
+                rules: {
+                    username: {
+                        required: true
+                    },
+                    password: {
+                        required: true,
+                        minlength: 8,
+                        maxlength: 8,
+                        pwcheck: true
+                    },
+                    rePassword: {
+                        required: true,
+                        minlength: 8,
+                        maxlength: 8,
+                        pwcheck: true
+                    }
+                },
 
-    });    
+                // Messages for form validation
+                messages: {
+                    username: {
+                        required: 'Please enter your user name'
+                    },
+                    password: {
+                        required: 'Please enter your password'
+                    }
+                },
+
+                // Do not change code below
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element.parent());
+                }
+            });
+        });
+    });
+
+    function passwordCheck(value) {
+        alert(value);
+    }
 
     function submitHandler() {
         var form = $('#user_form').serialize();
-        $.ajax({
-            url: '../ajax/ajx_user',
-            type: 'POST',
-            dataType: 'JSON',
-            data: form,
-            success: function (response) {
-                if (response['msg'] == 1) {
-                    window.parent.location.reload();
-                    window.parent.$.jeegoopopup.close();
-                } else {
-                    alert('Failure');
+        if ($("#user_form").valid()) {
+            $.ajax({
+                url: '../ajax/ajx_user',
+                type: 'POST',
+                dataType: 'JSON',
+                data: form,
+                success: function (response) {
+                    if (response['msg'] == 1) {
+                        window.parent.location.reload();
+                        window.parent.$.jeegoopopup.close();
+                    } else if(response['msg'] == 2){
+                        alert('User already exist');
+                    } else {
+                        alert('Failure');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert(status);
                 }
-            },
-            error: function (xhr, status, error) {
-                alert(status);
-            }
-        });
+            });
+        }
     }
 </script>

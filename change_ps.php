@@ -29,7 +29,7 @@ include("ngs/header_ngspopup.php");
 //follow the tree in inc/config.ui.php
 //$page_nav["forms"]["sub"]["smart_layout"]["active"] = true;
 //include("../inc/nav.php");
-
+$UID = htmlspecialchars($_REQUEST['id']);
 ?>
 <!-- ==========================CONTENT STARTS HERE ========================== -->
 <!-- MAIN PANEL -->
@@ -106,7 +106,7 @@ include("ngs/header_ngspopup.php");
                                                                         </div>
                                                                         </fieldset>
                                                                     <footer>	
-                                                                            <input type="hidden" name="UID" value="<?php print $_GET['id'] ?>">
+                                                                            <input type="hidden" name="UID" value="<?php print $UID ?>">
                                                                             <input type="hidden" name="option" value="PASSWORDRESET">
                                                                             <button type="submit" class="btn btn-primary" id="" name="but" value="save">
                                                                                     Save

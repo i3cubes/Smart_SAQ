@@ -51,9 +51,9 @@ if ($_POST['but'] == 'update') {
 
         $tab = $_REQUEST['tab'];
 
-        $f_name = $_FILES['file']['name'];
-        $source = $_FILES['file']['tmp_name'];
-        $save_to = "../files/sitedata/" . time() . "_" . $f_name;
+        $f_name = (string) $_FILES['file']['name'];
+        $source = (string) $_FILES['file']['tmp_name'];
+        $save_to = (string) "../files/sitedata/" . time() . "_" . $f_name;
         //print $save_to;
         if (move_uploaded_file($source, $save_to)) {
             chmod($saveloc, 644);

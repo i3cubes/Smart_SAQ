@@ -32,7 +32,7 @@ include_once '/class/cls_customer.php';
 include_once 'class/cls_employee.php';
 include_once 'cl';
 
-$cid=$_REQUEST['id'];
+$cid=htmlspecialchars($_REQUEST['id']);
 $cus=new customer();
 if($_POST['but']=='save'){	
 	$res=
