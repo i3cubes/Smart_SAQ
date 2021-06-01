@@ -66,7 +66,7 @@ class user {
 
     public function add() {
         $this->password = sha1($this->password);
-        if (!$this->checkUser($this->name, $this->password)) {
+        if (!$this->checkUserPassword($this->password)) {
             $string = "INSERT INTO `$this->table_name` (`user_name`,`password`,`date_create`,`date_last_login`,"
                     . "`status`"
                     . ") VALUES ("
@@ -98,7 +98,12 @@ class user {
 //            }
         }
         if ($this->password != '') {
-            array_push($update_array, "`password`='" . sha1($this->password) . "'");
+            $password = sha1($this->password);
+            if (!$this->checkUserPassword($password)) {
+                array_push($update_array, "`password`='" . $password . "'");
+            } else {
+                return 100;
+            }
         }
         if ($this->date_created != '') {
             array_push($update_array, "`date_create`=" . getStringFormatted($this->date_created) . "");
@@ -108,9 +113,9 @@ class user {
         }
         if ($this->wrong_attempt != '') {
             array_push($update_array, "`wrong_attempts`=$this->wrong_attempt");
-        }        
+        }
 //        var_dump($this->status);
-        if ($this->status != '') {            
+        if ($this->status != '') {
             array_push($update_array, "`status`='$this->status'");
         }
 //        if ($this->email != '') {
@@ -148,8 +153,8 @@ class user {
         }
     }
 
-    public function checkUser($username, $password) {
-        $string = "SELECT `id` FROM `$this->table_name` WHERE `user_name` = '$username' OR `password` = '$password';";
+    public function checkUserPassword($password) {
+        $string = "SELECT `id` FROM `$this->table_name` WHERE `password` = '$password';";
 //        print $string;
         $result = dbQuery($string);
         if (dbNumRows($result) > 0) {
@@ -169,7 +174,7 @@ class user {
             $row = dbFetchAssoc($result);
             $this->id = $row['id'];
             $_SESSION['UID'] = $row['id'];
-            $user_obj = new user($row['id']);           
+            $user_obj = new user($row['id']);
             $user_obj->getDetails();
             $user_obj->name = '';
             $user_obj->password = '';
@@ -194,12 +199,12 @@ class user {
                 $user_obj->getDetails();
                 $user_obj->name = '';
                 $user_obj->password = '';
-                if ($user_obj->wrong_attempt < 5) {                    
+                if ($user_obj->wrong_attempt < 5) {
                     $user_obj->wrong_attempt = (int) ($user_obj->wrong_attempt + 1);
                     $user_obj->edit();
-                    
+
                     return false;
-                } else {          
+                } else {
                     $user_obj = new user($row_get_user['id']);
                     $user_obj->status = constants::$DELETED;
                     $user_obj->edit();
@@ -208,7 +213,7 @@ class user {
                 }
             } else {
                 return false;
-            }            
+            }
         }
     }
 

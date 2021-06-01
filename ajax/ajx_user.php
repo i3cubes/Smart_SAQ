@@ -30,8 +30,10 @@ switch ($_POST['option']) {
         break;
     case 'EDITUSER':
         $result = $u_obj->edit();
-        if ($result) {
+        if ($result === true) {
             echo json_encode(array('msg' => 1));
+        } else if($result == 100){
+            echo json_encode(array('msg' => 2));
         } else {
             echo json_encode(array('msg' => 0));
         }

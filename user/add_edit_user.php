@@ -230,6 +230,9 @@ include("../inc/scripts.php");
                     },
                     password: {
                         required: 'Please enter your password'
+                    },
+                    rePassword: {
+                        required: 'Please enter your password'
                     }
                 },
 
@@ -258,7 +261,7 @@ include("../inc/scripts.php");
                         window.parent.location.reload();
                         window.parent.$.jeegoopopup.close();
                     } else if(response['msg'] == 2){
-                        alert('User already exist');
+                        alert('Password already taken');
                     } else {
                         alert('Failure');
                     }
