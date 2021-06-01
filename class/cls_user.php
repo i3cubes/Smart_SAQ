@@ -174,6 +174,7 @@ class user {
             $row = dbFetchAssoc($result);
             $this->id = $row['id'];
             $_SESSION['UID'] = $row['id'];
+//            if($name != 'admin') 
             $user_obj = new user($row['id']);
             $user_obj->getDetails();
             $user_obj->name = '';
