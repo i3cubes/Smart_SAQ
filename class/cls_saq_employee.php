@@ -14,6 +14,7 @@ class saq_employee {
     
     public function getData() {
         $string = "SELECT * FROM `$this->table_name` WHERE `id` = $this->id;";
+//        print $string;
         $result = dbQuery($string);
         $row = dbFetchAssoc($result);
         $this->id = $row['id'];

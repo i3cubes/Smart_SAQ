@@ -24,6 +24,7 @@ class saq_district {
     public function getAll() {
         $array = array();
         $string = "SELECT * FROM `$this->table_name`;";
+//        print $string;
         $result = dbQuery($string);
         while ($row = dbFetchAssoc($result)) {
             $saq_district_obj = new saq_district($row['id']);

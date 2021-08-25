@@ -130,11 +130,11 @@ include("inc/scripts.php");
 
     $('#main').height($(document).height());
 
-//    $.validator.addMethod("pwcheck", function (value) {
-//        return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) // consists of only these
-//                && /[a-z]/.test(value) // has a lowercase letter
-//                && /\d/.test(value) // has a digit
-//    }, "Password must consist atleast one uppercase letter, one lowercase letter and one digit.");
+    $.validator.addMethod("pwcheck", function (value) {
+        return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) // consists of only these
+                && /[a-z]/.test(value) // has a lowercase letter
+                && /\d/.test(value) // has a digit
+    }, "Password must consist atleast one uppercase letter, one lowercase letter and one digit.");
 
     $(function () {
         // Validation
@@ -144,12 +144,12 @@ include("inc/scripts.php");
                 username: {
                     required: true
                 },
-//                password: {
-//                    required: true,
-//                    minlength: 8,
-//                    maxlength: 8,
-//                    pwcheck: true
-//                }
+                password: {
+                    required: true,
+                    minlength: 8,
+                    maxlength: 8,
+                    pwcheck: true
+                }
             },
 
             // Messages for form validation
@@ -157,9 +157,9 @@ include("inc/scripts.php");
                 username: {
                     required: 'Please enter your user name'
                 },
-//                password: {
-//                    required: 'Please enter your password'
-//                }
+                password: {
+                    required: 'Please enter your password'
+                }
             },
 
             // Do not change code below

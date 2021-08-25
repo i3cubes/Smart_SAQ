@@ -35,37 +35,41 @@ class saq_site_agreement_data {
     }
 
     public function getData() {
-        $string = "SELECT * FROM `$this->table_name` WHERE `id` = $this->id;";
+        if ($this->id != '') {
+            $string = "SELECT * FROM `$this->table_name` WHERE `id` = $this->id;";
 //        print $string;
-        $result = dbQuery($string);
-        $row = dbFetchAssoc($result);
-        $this->id = $row['id'];
-        $this->agreement_status = $row['agreement_status'];
-        $this->date_expire = $row['date_expire'];
-        $this->date_start = $row['date_start'];
-        $this->payment_mode = $row['payment_mode'];
-        $this->lease_period = $row['lease_period'];
-        $this->current_month_payment = $row['current_month_payment'];
-        $this->start_monthly_rental = $row['start_monthly_rental'];
-        $this->rate_increment = $row['rate_increment'];
-        $this->advance_payment = $row['advance_payment'];
-        $this->bank_account = $row['bank_account'];
-        $this->bank_name = $row['bank_name'];
-        $this->branch_name = $row['branch_name'];
-        $this->account_type = $row['account_type'];
-        $this->account_holder_name = $row['account_holder_name'];
-        $this->account_holder_nic = $row['account_holder_nic'];
-        $this->monthly_deduction_for_adv = $row['monthly_deduction_for_adv'];
-        $this->adv_recovery_period = $row['adv_recovery_period'];
-        $this->property_id = $row['property_id'];
-        $this->assessment_no = $row['assessment_no'];
-        $this->saq_sites_id = $row['saq_sites_id'];
+            $result = dbQuery($string);
+            $row = dbFetchAssoc($result);
+            $this->id = $row['id'];
+            $this->agreement_status = $row['agreement_status'];
+            $this->date_expire = $row['date_expire'];
+            $this->date_start = $row['date_start'];
+            $this->payment_mode = $row['payment_mode'];
+            $this->lease_period = $row['lease_period'];
+            $this->current_month_payment = $row['current_month_payment'];
+            $this->start_monthly_rental = $row['start_monthly_rental'];
+            $this->rate_increment = $row['rate_increment'];
+            $this->advance_payment = $row['advance_payment'];
+            $this->bank_account = $row['bank_account'];
+            $this->bank_name = $row['bank_name'];
+            $this->branch_name = $row['branch_name'];
+            $this->account_type = $row['account_type'];
+            $this->account_holder_name = $row['account_holder_name'];
+            $this->account_holder_nic = $row['account_holder_nic'];
+            $this->monthly_deduction_for_adv = $row['monthly_deduction_for_adv'];
+            $this->adv_recovery_period = $row['adv_recovery_period'];
+            $this->property_id = $row['property_id'];
+            $this->assessment_no = $row['assessment_no'];
+            $this->saq_sites_id = $row['saq_sites_id'];
+        }
     }
-    public function getDataFromSiteID($s_id){
-        $str="SELECT id from `$this->table_name` WHERE saq_sites_id='$s_id';";
+
+    public function getDataFromSiteID($s_id) {
+        $str = "SELECT id from `$this->table_name` WHERE saq_sites_id='$s_id';";
+//        print $str;
         $result = dbQuery($str);
         $row = dbFetchAssoc($result);
-        $this->id=$row['id'];
+        $this->id = $row['id'];
         $this->getData();
     }
 
@@ -107,7 +111,7 @@ class saq_site_agreement_data {
         array_push($value, getStringFormatted($this->adv_recovery_period));
         array_push($key, 'property_id');
         array_push($value, getStringFormatted($this->property_id));
-         array_push($key, 'assessment_no');
+        array_push($key, 'assessment_no');
         array_push($value, getStringFormatted($this->assessment_no));
         array_push($key, 'saq_sites_id');
         array_push($value, getStringFormatted($this->saq_sites_id));

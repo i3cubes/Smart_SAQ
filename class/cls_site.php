@@ -42,7 +42,7 @@ class site {
                 . "left join saq_police_station as t5 on t1.saq_police_station_id=t5.id "
                 . "left join saq_region as t6 on t1.saq_region_id=t6.id left join saq_sites_status as t7 on t1.saq_sites_status_id=t7.id"
                 . " WHERE t1.id='" . $this->id . "';";
-        //print $str."<br>";
+//        print $str."<br>";
         $res = dbQuery($str);
         $row = dbFetchAssoc($res);
         $this->id = $row['id'];
@@ -101,7 +101,7 @@ class site {
 
         //Payment Data
         $this->site_agreement_data = new saq_site_agreement_data();
-        $this->site_agreement_data->getDataFromSiteID($this->id);
+        $this->site_agreement_data->getDataFromSiteID($this->id);       
     }
 
     public function addSite() {
@@ -628,6 +628,7 @@ class site {
         $operators = array();
         $str = "SELECT t1.* FROM saq_site_other_operator as t1 left join saq_other_operator as t2 on t1.saq_other_operator_id=t2.id "
                 . "WHERE t1.saq_sites_id='$this->id' AND t1.saq_other_operator_id = $other_operator_id;";
+//        print $str;
         $res = dbQuery($str);
         if (dbNumRows($res) > 0) {
             return true;
@@ -642,7 +643,7 @@ class site {
 
     public function getSiteAgreementData() {
         $string = "SELECT t2.id FROM `saq_sites` AS `t1` INNER JOIN `saq_site_agreement_data` AS `t2` ON t2.saq_sites_id = t1.id WHERE t1.id = $this->id ORDER BY t2.id DESC LIMIT 1;";
-        //print $string;
+//        print $string;
         $result = dbQuery($string);
         if (dbNumRows($result) > 0) {
             $row = dbFetchAssoc($result);
@@ -657,6 +658,7 @@ class site {
     public function getSiteAssesmentInfo() {
         $array = array();
         $string = "SELECT t2.id FROM `saq_sites` AS `t1` INNER JOIN `saq_site_assesment_info` AS `t2` ON t1.id = t2.saq_sites_id WHERE t1.id = $this->id;";
+//        print $string;
         $result = dbQuery($string);
         while ($row = dbFetchAssoc($result)) {
             $assessment_info_obj = new saq_site_assesment_info($row['id']);
@@ -670,6 +672,7 @@ class site {
         $approvals = array();
         $str = "SELECT * FROM saq_site_approvals as t1 left join saq_approvals as t2 on t1.saq_approvals_id=t2.id "
                 . "WHERE t1.saq_sites_id='$this->id' AND t1.saq_approvals_id = $approval_id;";
+//        print $str;
         $res = dbQuery($str);
         if (dbNumRows($res) > 0) {
             return true;
