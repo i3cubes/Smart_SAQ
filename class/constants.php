@@ -11,9 +11,9 @@ class constants {
     public static $ACTIVE = 1;
     public static $CANCELLED = 2;
     // designations
-    public static $admin = 1;
-    public static $business_customer = 2;
-    public static $employee = 3;
+    public static $system_admin = 1;
+    public static $admin = 2;
+    public static $engineer = 3;
     public static $nurse = 4;
     public static $Receptionest = 5;
     public static $doctor = 6;

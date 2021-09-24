@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-//error_reporting();
-//ini_set("display_errors", 1);
+// error_reporting();
+// ini_set("display_errors", 1);
 //print_r($_SESSION);
 //initilize the page
 require_once("../lib/config.php");
@@ -31,11 +31,17 @@ include("../inc/header_less.php");
 // ====================== LOGIC ================== --!>
 include_once '../class/constants.php';
 include_once '../class/cls_user.php';
+include_once '../class/saq_user_role.php';
 
 if ($_REQUEST['id'] != '') {
     $user_obj = new user($_REQUEST['id']);
     $user_obj->getDetails();
+
+    // var_dump($user_obj);
 }
+
+$user_role_obj = new user_role();
+$user_roles = $user_role_obj->getAll();
 ?>
 <style>
     .customFiled {
@@ -121,36 +127,23 @@ if ($_REQUEST['id'] != '') {
                                                 </label>
                                             </section>   
                                         <?php } ?>
-<!--                                        <section class="col col-4">
-                                            <label class="ngs_form_lable">
-                                                Email
-                                            </label>
-                                        </section>
-                                        <section class="col col-4">
-                                            <label class="input">
-                                                <input type="email" name="email" id="email"/>
-                                            </label>
-                                        </section>
                                         <section class="col col-4">
                                             <label class="ngs_form_lable">
-                                                Contact no
+                                                User Role
                                             </label>
                                         </section>
                                         <section class="col col-4">
-                                            <label class="input">
-                                                <input type="text" name="contact_no" id="contact_no"/>
+                                            <label class="select">
+                                                <select name='role'>
+                                                    <?php                                                    
+                                                        foreach($user_roles as $role) {
+                                                            print "<option value='".$role['id']."' ".(($user_obj->saq_us_role_id == $role['id']) ? "selected=''" : "").">".$role['role_name']."</option>";
+                                                        }
+                                                    ?>
+                                                </select>
                                             </label>
                                         </section>
-                                        <section class="col col-4">
-                                            <label class="ngs_form_lable">
-                                                Address
-                                            </label>
-                                        </section>
-                                        <section class="col col-4">
-                                            <label class="input">
-                                                <input type="text" name="address" id="address"/>
-                                            </label>
-                                        </section>-->
+
                                         <footer>
                                             <input type="hidden" name="option" value="<?php print (($_REQUEST['id'] != '') ? 'EDITUSER' : 'ADDUSER') ?>" />
                                             <input type="hidden" name="id" value="<?php print $user_obj->id ?>" />

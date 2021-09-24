@@ -18,7 +18,8 @@ class user {
             $status,
             $address,
             $email,
-            $employees_id;
+            $employees_id,
+            $saq_us_role_id;
     public $api_sid, $api_sid_time;
     private $table_name = 'saq_us';
 
@@ -62,20 +63,25 @@ class user {
         $this->status = $row['status'];
         $this->api_sid = $row['api_sid'];
         $this->api_sid_time = $row['api_sid_time'];
+        $this->saq_us_role_id = $row['saq_us_role_id'];
     }
 
     public function add() {
         $this->password = sha1($this->password);
         if (!$this->checkUserPassword($this->password)) {
-            $string = "INSERT INTO `$this->table_name` (`user_name`,`password`,`date_create`,`date_last_login`,"
-                    . "`status`"
+            $string = "INSERT INTO `$this->table_name` (
+                `user_name`,
+                `password`,
+                `date_create`,
+                `date_last_login`,"
+                    . "`status`,`saq_us_role_id`"
                     . ") VALUES ("
                     . "" . getStringFormatted($this->name) . ","
                     . "'$this->password',"
                     . "NOW(),"
                     . "NOW(),"
-                    . "" . constants::$active . ""
-                    . ");";
+                    . "" . constants::$active . ","
+                    . "$this->saq_us_role_id);";
 //        print $string;
             $result = dbQuery($string);
             if ($result) {
@@ -118,15 +124,9 @@ class user {
         if ($this->status != '') {
             array_push($update_array, "`status`='$this->status'");
         }
-//        if ($this->email != '') {
-//            array_push($update_array, "`email`=". getStringFormatted($this->email)."");
-//        }
-//        if ($this->address != '') {
-//            array_push($update_array, "`address`=". getStringFormatted($this->address)."");
-//        }
-//        if ($this->contact_no != '') {
-//            array_push($update_array, "`contact_no`=". getStringFormatted($this->contact_no)."");
-//        }
+        if ($this->saq_us_role_id != '') {
+            array_push($update_array, "`saq_us_role_id`='$this->saq_us_role_id'");
+        }
 
         if (count($update_array) > 0) {
             $update_string = implode(',', $update_array);
@@ -180,6 +180,7 @@ class user {
             $row = dbFetchAssoc($result);
             $this->id = $row['id'];
             $_SESSION['UID'] = $row['id'];
+            $_SESSION['UROLE'] = $row['saq_us_role_id'];
 //            if($name != 'admin') 
             $user_obj = new user($row['id']);
             $user_obj->getDetails();

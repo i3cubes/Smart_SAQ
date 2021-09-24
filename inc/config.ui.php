@@ -38,6 +38,7 @@ $ary_sites = array("view" => array(
         ));
 
 $ary_navi = array_merge($ary_navi, $ary_sites);
+if($_SESSION['UROLE'] == 1 || $_SESSION['UROLE'] == 2) {
 $ary_sites_data = array("site_data" => array(
         "title" => "SITES DATA",
         "icon" => "fa fa-inbox",
@@ -64,6 +65,7 @@ $ary_sites_data = array("site_data" => array(
         ));
 
 $ary_navi = array_merge($ary_navi, $ary_sites_data);
+    }
 
 $ary_saq_guidelines = array("saq_guidelines" => array(
         "title" => "SAQ GUIDELINES",
@@ -73,7 +75,8 @@ $ary_saq_guidelines = array("saq_guidelines" => array(
 
 $ary_navi = array_merge($ary_navi, $ary_saq_guidelines);
 
-$ary_emp_management = array("emp_management" => array(
+if($_SESSION['UROLE'] == 1 || $_SESSION['UROLE'] == 2) {
+    $ary_emp_management = array("emp_management" => array(
         "title" => "EMPLOYEE MANAGEMENT",
         "icon" => "fa fa-inbox",
         "url" => APP_URL . "/employee/employee_management"
@@ -87,6 +90,8 @@ $ary_user_management = array("user_management" => array(
         ));
 
 $ary_navi = array_merge($ary_navi, $ary_user_management);
+}
+
 
 ///"url_target"=> "_blank"
 

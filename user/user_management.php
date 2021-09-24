@@ -196,7 +196,7 @@ include("../inc/scripts.php");
                             var options = {
                                 url: 'add_edit_user?id=' + id,
                                 width: '500',
-                                height: '430',
+                                height: '470',
                                 skinClass: 'jg_popup_round',
                                 resizable: false,
                                 scrolling: 'no'

@@ -54,8 +54,12 @@ include_once '../class/constants.php';
                  data-widget-colorbutton="false">
                 <header>
                     <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
-                    <h2 style=""><b>SITES</b></h2>       
+                    <h2 style=""><b>SITES</b></h2>      
+                    <?php 
+                        if($_SESSION['UROLE'] == constants::$system_admin || $_SESSION['UROLE'] == constants::$admin) { 
+                    ?> 
                     <button class="btn btn-default" onclick="addHandlerNode('')" style="margin-bottom: 10px;float:right;">Add Parent Node &nbsp; <i class="fa fa-plus"></i></button>
+                    <?php } ?>
                 </header> 
                 <div class="widget-body">
                     <div class="tree">

@@ -1,6 +1,7 @@
 <?php
-//error_reporting(E_ALL);
-//ini_set("display_errors", 1);
+// session_start();
+// error_reporting(E_ALL);
+ini_set("display_errors", 1);
 require_once("../lib/config.php");
 
 //require UI configuration (nav, ribbon, etc.)
@@ -58,7 +59,12 @@ include_once '../class/cls_saq_guideline_manager.php';
                 <header>
                     <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
                     <h2 style=""><b>SAQ GUIDELINES</b></h2> 
-                    <button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="saq_guideline_add_edit(0,'a')">Add&nbsp;<i class="fa fa-plus"></i></button>
+                    <?php
+                        if($_SESSION['UROLE'] == constants::$system_admin || $_SESSION['UROLE'] == constants::$admin) { ?>
+                            <button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="saq_guideline_add_edit(0,'a')">Add&nbsp;<i class="fa fa-plus"></i></button>
+                    <?php    }
+                    ?>
+                    
                 </header> 
                 <div class="widget-body">
                     <!--<div class="row">-->
@@ -68,7 +74,12 @@ include_once '../class/cls_saq_guideline_manager.php';
                                 <td class="headerStyle">NAME</td>
                                 <td class="headerStyle">DESCRIPTION</td>
                                 <td class="headerStyle" width="15%">ADDED DATE</td>
-                                <td class="headerStyle" width="5%" align="center">..</td>
+                                <?php
+                        if($_SESSION['UROLE'] == constants::$system_admin || $_SESSION['UROLE'] == constants::$admin) { ?>
+                             <td class="headerStyle" width="5%" align="center">..</td>
+                    <?php    }
+                    ?>
+                               
                             </tr>
                         </thead>
                         <tbody>       
@@ -82,7 +93,7 @@ include_once '../class/cls_saq_guideline_manager.php';
                                             . "<td>".$saq_gl->name."</td>"
                                             . "<td>".$saq_gl->description."</td>"
                                             . "<td>".date("d/m/Y", strtotime($saq_gl->date))."</td>"
-                                            . '<td align="center" width="5%"><i class="fa fa-cog fa-lg" style="cursor:pointer;" id="'.$saq_gl->id.'" onclick=saq_guideline_add_edit("'.$saq_gl->id.'","e") aria-hidden="true"></i></td>'
+                                            . (($_SESSION['UROLE'] == constants::$system_admin || $_SESSION['UROLE'] == constants::$admin) ? '<td align="center" width="5%"><i class="fa fa-cog fa-lg" style="cursor:pointer;" id="'.$saq_gl->id.'" onclick=saq_guideline_add_edit("'.$saq_gl->id.'","e") aria-hidden="true"></i></td>' : '')
                                         . "</tr>";
                                 }
                             ?>

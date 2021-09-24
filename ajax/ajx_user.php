@@ -6,6 +6,8 @@ $u_obj = new user($_POST['id']);
 
 $u_obj->name = $_POST['username'];
 $u_obj->password = $_POST['password'];
+$u_obj->saq_us_role_id = $_POST['role'];
+
 
 switch ($_POST['option']) {
     case 'LOGIN':
