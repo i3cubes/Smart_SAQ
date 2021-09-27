@@ -1,8 +1,8 @@
 <?php
 // session_start();
 
-// error_reporting();
-// ini_set("display_errors", 1);
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 //print_r($_SESSION);
 //initilize the page
 require_once("../lib/config.php");
