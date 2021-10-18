@@ -23,6 +23,7 @@ $sid=$_REQUEST['SID'];
 $device_id=$_REQUEST['device_id'];
 $uid=$_REQUEST['uid'];
 $pid=$_REQUEST['pid'];
+$did=$_REQUEST['did'];
 $parent_id=(int)$_REQUEST['parent_id'];
 
 $site_name=$_REQUEST['name'];
@@ -43,8 +44,8 @@ $data=$_REQUEST['data'];
 
 if($_REQUEST['pid']!=""){
     $us=new user();    
-    if($pid!=""){
-        $us->getDetailsFromPID($pid);
+    if($did!=""){
+        $us->getDetailsFromDID($did);
         if(strtotime($us->api_sid_time)>(time()-(7*24*60*60*100))){
             $valid=true;
         }
@@ -353,5 +354,5 @@ else{
     }
 }
 header('Content-Type: application/json');
-echo json_encode($response);
+echo base64_encode(json_encode($response));
 ?>

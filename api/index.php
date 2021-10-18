@@ -13,8 +13,12 @@ include_once '../class/cls_agreement_model_manager.php';
 include_once '../class/cls_user.php';
 
 //session_id($_REQUEST['pid']);
+$us=new user();
+$did=$_REQUEST['pid'];
+
+$pid=$us->getPID($did);
 session_start();
-session_id($_REQUEST['pid']);
+session_id($pid);
 
 //print "SID=".session_id();
 

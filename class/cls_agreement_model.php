@@ -90,6 +90,7 @@ class agreement_model extends tree_node {
     }
     public function getChild(){
         $str="SELECT * FROM saq_sample_agreement WHERE parent_agreement_id='$this->id' AND status = ".constants::$ACTIVE.";";
+        //print $str;
         $result= dbQuery($str);
         while ($row= dbFetchAssoc($result)){
             $agr=new agreement_model($row['id']);
