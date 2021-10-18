@@ -42,12 +42,17 @@ $data=$_REQUEST['data'];
 
 //print_r($_SERVER);
 
-if($_REQUEST['pid']!=""){
+if($_REQUEST['did']!=""){
     $us=new user();    
     if($did!=""){
         $us->getDetailsFromDID($did);
-        if(strtotime($us->api_sid_time)>(time()-(7*24*60*60*100))){
-            $valid=true;
+        if($us->id!=""){
+            if(strtotime($us->api_sid_time)>(time()-(7*24*60*60*100))){
+                $valid=true;
+            }
+            else{
+                $valid=false;
+            }
         }
         else{
             $valid=false;
@@ -58,7 +63,8 @@ if($_REQUEST['pid']!=""){
     }
 }
 else{
-    session_start();
+    $valid=false;
+    //session_start();
 }
 
 
@@ -88,7 +94,7 @@ if($sid=='100'){
         $us->name=$_SERVER['PHP_AUTH_USER'];
         $us->password= base64_decode($_SERVER['PHP_AUTH_PW']);
         if($us->loginUser()){
-            $us->setSID(session_id());
+            $us->setSID(session_id(),$did);
             $response[0]["result"] = '1';
             //$response[0]["user_id"] = $_SESSION['UID'];
             $response[0]["pid"] = session_id();

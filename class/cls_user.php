@@ -243,8 +243,8 @@ class user {
         }
     }
 
-    public function setSID($sid) {
-        $str = "UPDATE saq_us SET api_sid='$sid',api_sid_time=NOW() WHERE id='$this->id';";
+    public function setSID($sid,$did) {
+        $str = "UPDATE saq_us SET api_sid='$sid',api_sid_time=NOW(),device_id='$did' WHERE id='$this->id';";
         $result = dbQuery($str);
         return $result;
     }
