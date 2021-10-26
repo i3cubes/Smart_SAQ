@@ -200,23 +200,24 @@ class user {
             $this->id = $row['id'];
             $_SESSION['UID'] = $row['id'];
             $_SESSION['UROLE'] = $row['saq_us_role_id'];
-//            if($name != 'admin') 
-            $user_obj = new user($row['id']);
-            $user_obj->getDetails();
-            //var_dump($user_obj);
-            $user_obj->name = '';
-            $user_obj->password = '';
-            //print "XXX=".$user_obj->wrong_attempt;
-            if ($user_obj->wrong_attempt < 5) {
-                $user_obj->wrong_attempt = 0;
-                $user_obj->edit();
-                //print "YYYY";
-                return true;
-            } else {
-                $user_obj->status = constants::$DELETED;
-                $user_obj->edit();
-                return 100;
-            }
+                if ($this->name !== "admin") {               
+                $user_obj = new user($row['id']);
+                $user_obj->getDetails();
+                $user_obj->name = '';
+                $user_obj->password = '';
+                if ($user_obj->wrong_attempt < 5) {
+                    $user_obj->wrong_attempt = 0;
+                    $user_obj->edit();
+
+                    return true;
+                } else {
+                    $user_obj->status = constants::$DELETED;
+                    $user_obj->edit();
+
+                    return 100;
+                }
+            } 
+            return true;
         } else {
             $get_user_by_user_name = "SELECT `id` FROM `$this->table_name` WHERE `user_name` = $name"
                     . " OR `password` = $password;";
