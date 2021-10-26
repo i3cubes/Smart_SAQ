@@ -193,13 +193,14 @@ class user {
                     . "password = $password AND status = '" . constants::$active . "';";
         }
 
+//        print $string;
         $result = dbQuery($string);
         if (dbNumRows($result) == 1) {
             $row = dbFetchAssoc($result);
             $this->id = $row['id'];
             $_SESSION['UID'] = $row['id'];
             $_SESSION['UROLE'] = $row['saq_us_role_id'];
-            if ($name != 'admin') {
+            if ($this->name !== "admin") {               
                 $user_obj = new user($row['id']);
                 $user_obj->getDetails();
                 $user_obj->name = '';
@@ -215,13 +216,14 @@ class user {
 
                     return 100;
                 }
-            }
+            } 
+            return true;
         } else {
             $get_user_by_user_name = "SELECT `id` FROM `$this->table_name` WHERE `user_name` = $name"
                     . " OR `password` = $password;";
             $get_user_result = dbQuery($get_user_by_user_name);
             if (dbNumRows($get_user_result) > 0) {
-                if ($name != 'admin') {
+                if ($this->name !== "admin") {                        
                     $row_get_user = dbFetchAssoc($get_user_result);
                     $user_obj = new user($row_get_user['id']);
                     $user_obj->getDetails();
