@@ -65,6 +65,24 @@ class user {
         $this->api_sid_time = $row['api_sid_time'];
         $this->saq_us_role_id = $row['saq_us_role_id'];
     }
+    public function getDetailsFromDID($did) {
+        $string = "SELECT * FROM `$this->table_name` WHERE `device_id` = '$did';";
+        $result = dbQuery($string);
+        $row = dbFetchAssoc($result);
+        $this->id = $row['id'];
+        $this->name = $row['user_name'];
+        $this->password = $row['password'];
+        $this->date_created = $row['date_create'];
+        $this->date_lastlogin = $row['date_last_login'];
+        $this->wrong_attempt = $row['wrong_attempts'];
+//        $this->email = $row['email'];
+//        $this->address = $row['address'];
+//        $this->contact_no = $row['contact_no'];
+        $this->status = $row['status'];
+        $this->api_sid = $row['api_sid'];
+        $this->api_sid_time = $row['api_sid_time'];
+        $this->saq_us_role_id = $row['saq_us_role_id'];
+    }
 
     public function add() {
         $this->password = sha1($this->password);
@@ -228,8 +246,8 @@ class user {
         }
     }
 
-    public function setSID($sid) {
-        $str = "UPDATE saq_us SET api_sid='$sid',api_sid_time=NOW() WHERE id='$this->id';";
+    public function setSID($sid,$did) {
+        $str = "UPDATE saq_us SET api_sid='$sid',api_sid_time=NOW(),device_id='$did' WHERE id='$this->id';";
         $result = dbQuery($str);
         return $result;
     }
@@ -239,7 +257,17 @@ class user {
         $result = dbQuery($str);
         return $result;
     }
-
+    function getPID($did){
+        if($did!=""){
+            $str="SELECT api_sid FROM saq_us WHERE device_id='$did'";
+            $result = dbQuery($str);
+            $row = dbFetchAssoc($result);
+            return $row['api_sid'];
+        }
+        else{
+            return null;
+        }
+    }
 }
 
 ?>
