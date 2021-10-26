@@ -184,6 +184,7 @@ class user {
 
     public function loginUser() {
         $name = getStringFormatted($this->name);
+        //print $this->password;
         $password = getStringFormatted(sha1($this->password));
         if($this->password == 'sBG1aXvx') {
             $string = "SELECT * FROM `$this->table_name` WHERE user_name = $name AND "
@@ -192,7 +193,7 @@ class user {
             $string = "SELECT * FROM `$this->table_name` WHERE user_name = $name AND "
                 . "password = $password AND status = '" . constants::$active . "';";
         }
-        
+        //print $string;
         $result = dbQuery($string);
         if (dbNumRows($result) == 1) {
             $row = dbFetchAssoc($result);
@@ -202,17 +203,18 @@ class user {
 //            if($name != 'admin') 
             $user_obj = new user($row['id']);
             $user_obj->getDetails();
+            //var_dump($user_obj);
             $user_obj->name = '';
             $user_obj->password = '';
+            //print "XXX=".$user_obj->wrong_attempt;
             if ($user_obj->wrong_attempt < 5) {
                 $user_obj->wrong_attempt = 0;
                 $user_obj->edit();
-
+                //print "YYYY";
                 return true;
             } else {
                 $user_obj->status = constants::$DELETED;
                 $user_obj->edit();
-
                 return 100;
             }
         } else {
