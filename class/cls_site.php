@@ -115,7 +115,7 @@ class site {
 
     public function addTemplate() {
         if ($this->code != "") {
-            $str = "INSERT INTO saq_sites (code) VALUES('$this->code');";
+            $str = "INSERT INTO saq_sites (code) VALUES('$this->code');";            
             $res = dbQuery($str);
             if ($res) {
                 $this->id = dbInsertId();
@@ -324,7 +324,7 @@ class site {
                 $this->update_string = implode("||", array_filter($sql));
 
                 $str = "UPDATE saq_sites SET " . $sql_str . " WHERE id='$this->id';";
-                //print $str;
+//                print $str;
                 $result = dbQuery($str);
                 return $result;
             } else {

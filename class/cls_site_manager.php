@@ -174,6 +174,7 @@ class site_manager {
     }
     public function getSiteIDFromCode($code){
         $str="SELECT id from saq_sites WHERE code='$code';";
+//        print $str;
         $result= dbQuery($str);
         if(dbNumRows($result)>0){
             $row= dbFetchArray($result);

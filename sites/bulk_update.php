@@ -62,7 +62,8 @@ if ($_POST['but'] == 'update') {
             $col_count = 0;
             if (($handle = fopen($save_to, "r")) !== FALSE) {
                 while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-                    //print $data;
+//                    var_dump($data);
+//                    return false;
                     $msg = "";
                     if ($row == 1) {
                         $col_count = count($data);
@@ -71,6 +72,8 @@ if ($_POST['but'] == 'update') {
                         //print "N=".$num;
                         if ($col_count == $num) {
                             //Update
+//                            var_dump($data[0]);
+                            
                             $site_id = $site_mgr->getSiteIDFromCode(trim($data[0]));
                             if ($site_id != '') {
                                 $site = new site($site_id);
@@ -84,7 +87,7 @@ if ($_POST['but'] == 'update') {
                                 }
                             }
                             //gctpa
-                            if ($tab == "G") {
+                            if ($tab == "G") {                                
                                 $site->name = $data[1];
                                 //$site->type = $data[2];
                                 $type = $data[2];
@@ -98,6 +101,7 @@ if ($_POST['but'] == 'update') {
                                     $addnew = $site_type->addNew();
                                     $site->type =$addnew;
                                 }
+//                                return false;
                                 $site->address = $data[3];
                                 //$site->site_ownership = $data[4];
                                 $ownership = $data[4];
@@ -639,7 +643,7 @@ include("../inc/scripts.php");
 // DO NOT REMOVE : GLOBAL FUNCTIONS!
 
 
-    $(document).ready(function () {
+    $(document).ready(function () { 
         $('#template_file_url').html("<a href='<?php echo ASSETS_URL ?>/sites/download_template_file?file=G' target='_blank'>template-general</a>");
         $('#tab').change(function () {
             switch ($(this).children("option:selected").val()) {

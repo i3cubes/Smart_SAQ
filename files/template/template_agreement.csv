@@ -1,0 +1,6 @@
+Site Code,agreement_status,date_expire,date_start,payment_mode,lease_period,current_month_payment,start_monthly_rental,rate_increment,advance_payment,bank_account,bank_name,branch_name,account_type,account_holder_name,account_holder_nic,monthly_deduction_for_adv,adv_recovery_period
+AM0007,,15/03/2030,15/03/2020,Monthly Basis,10,,14000,10,84000,75273402,Bank of Ceylon,Horowpathana,Saving,Ukkunaidage Somawathi, 526875125V,7000,12Months
+AN0002,,15/03/2032,15/04/2020,Monthly Basis,10,,35000,10,420000,113053019,Hatton National Bank,Kalmunei,Saving,A.Shanas, 818174543v,7000,60Months
+BD0056,,15/03/2034,15/05/2020,Annual in Advance,10,,96631,10,,1100207401,Commercial Bank,Wellawatte,Current,CHRISTIAN REFORMED CHURCH OF SRILANKA,,,
+BA0098,,15/03/2036,15/06/2020,tst,,,10000,9,10,55556204452,Commercial Bank,awissawella,Current,HKidal,454212122,222,1112
+CM0123,,15/03/2038,15/07/2020,tst,,,10000,55,15,55556204452,Commercial Bank,kalkllja,Current,HKlklal,454212122,222,1112

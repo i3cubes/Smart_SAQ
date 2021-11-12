@@ -26,6 +26,7 @@ class saq_site_type {
     function addNew (){
         $type = getStringFormatted($this->type);
         $str = "INSERT INTO $this->table_name (`name`) VALUES ($type)";
+//        print $str;
         $res = dbQuery($str);
         if($res){
             return dbInsertId();
