@@ -93,17 +93,27 @@ if($sid=='100'){
         $us=new user();
         $us->name=$_SERVER['PHP_AUTH_USER'];
         $us->password= base64_decode($_SERVER['PHP_AUTH_PW']);
-        if($us->loginUser()){
+        $login_res=$us->loginUser();
+        
+        if($login_res===true){
             $us->setSID(session_id(),$did);
             $response[0]["result"] = '1';
             //$response[0]["user_id"] = $_SESSION['UID'];
-            $response[0]["pid"] = session_id();
+            $response[0]["pid"] = "";
         }
         else{
-            $response[0]["result"] = '0';
-            $response[0]["pid"] = "";
-            $response[0]["error_code"] = "1001";
-            $response[0]["error"] = "User Name or Password is wrong";
+            if($login_res===false){
+                $response[0]["result"] = '0';
+                $response[0]["pid"] = "";
+                $response[0]["error_code"] = "1001";
+                $response[0]["error"] = "User Name or Password is wrong";
+            }
+            else{
+                $response[0]["result"] = '0';
+                $response[0]["pid"] = "";
+                $response[0]["error_code"] = "1003";
+                $response[0]["error"] = "User Account is locked";
+            }
         }
     }
     else{
@@ -361,4 +371,5 @@ else{
 }
 header('Content-Type: application/json');
 echo base64_encode(json_encode($response));
+//echo json_encode($response);
 ?>
