@@ -48,7 +48,10 @@ $site_type = new saq_site_type();
 //print $_FILES['file']['tmp_name'];
 if ($_POST['but'] == 'update') {
     if (isset($_FILES)) {
-
+        
+        $test = explode(".", $_FILES['file']['name']);
+        $extension = end($test);         
+        if($extension == 'csv') {                     
         $tab = $_REQUEST['tab'];
 
         $f_name = (string) $_FILES['file']['name'];
@@ -450,7 +453,10 @@ if ($_POST['but'] == 'update') {
         } else {
             $err_msg = "Could not upload the file.";
         }
+    } else {
+        $errorMsg = "Please upload CSV file format";
     }
+}
 }
 
 function cleanCSVData($d) {
@@ -568,7 +574,7 @@ function uploadContact() {
                                                 <td>
                                                     <label class="input"> <i class="icon-append fa fa-file"></i>
                                                         <input type="file" name="file" id="file" placeholder="">
-                                                    </label>
+                                                    </label>                                                    
                                                 </td>
                                                 <td>
                                                     <button type="submit" class="btn btn-primary" id="but" name="but" value="update" style="padding: 6px 12px;">Update</button>
@@ -590,7 +596,9 @@ function uploadContact() {
                                                 <td>Note</td>
                                             </tr>
                                             <?php print $log ?>
+                                            
                                         </table>
+                                        <p style="color:red;font-size:15px;text-align:center;"><?php print $errorMsg; ?></p>
                                     </div>
 
 
