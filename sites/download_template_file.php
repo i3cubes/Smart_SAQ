@@ -2,19 +2,19 @@
 
 switch ($_REQUEST['file']){
     case 'G':
-        $file_name="template_general.csv";
+        $file_name="template_general.xlsx";
         break;
     case 'C':
-        $file_name="template_contact.csv";
+        $file_name="template_contact.xlsx";
         break;
     case 'T':
-        $file_name="template_technical.csv";
+        $file_name="template_technical.xlsx";
         break;
     case 'P':
-        $file_name="template_agreement.csv";
+        $file_name="template_agreement.xlsx";
         break;
     case 'A':
-        $file_name="template_approvals.csv";
+        $file_name="template_approvals.xlsx";
         break;
 }
 
