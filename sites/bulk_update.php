@@ -129,10 +129,10 @@ if ($_POST['but'] == 'update') {
                                 $site->category = $data[10];
                                 $site->lat = $data[11];
                                 $site->lon = $data[12];
-                                $site->access_type = $data[13];
-                                $site->manual_distance = $data[14];
-                                $site->access_permision_type = $data[15];
-                                $site->pg_installation_possibility = $data[16];
+                                $site->access_type = cleanCSVData($data[13]);
+                                $site->manual_distance = cleanCSVData($data[14]);
+                                $site->access_permision_type = cleanCSVData($data[15]);
+                                $site->pg_installation_possibility = cleanCSVData($data[16]);
                                 $site->region_id = cleanCSVData($data[18]);
                                 //$site->province_id=cleanData($data[21]);
                                 $site->district_id = cleanCSVData($data[20]);
