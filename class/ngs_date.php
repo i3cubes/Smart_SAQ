@@ -212,12 +212,13 @@ function shiftTime($time,$tz_from,$tz_to){ //UTC  2015-08-21 00:00:00
 function transform_date($datetime) {//Date format 21/10/2020 ---> 2020-10-21
         if ($datetime != "") {
             //$ary_dd= preg_split("///", $datetime);
+            $date = explode('/', $datetime);
             $Y = substr($datetime, 6, 4);
             $M = substr($datetime, 0, 2);
             $D = substr($datetime, 3, 2);
             //print $Y . "-" . $M . "-" . $D . "---";
             //$ary_date=array($Y,$M,$D);
-            return $Y . "-" . $M . "-" . $D;
+            return $date[2] . "-" . $date[0] . "-" . $date[1];
         } else {
             return "";
         }
