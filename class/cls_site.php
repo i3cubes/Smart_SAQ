@@ -163,11 +163,11 @@ class site {
                     array_push($sql, shared::getCleanedData('saq_site_category_id', $this->category, $source)); //add by thara
                     array_push($sql, shared::getCleanedData('lat', $this->lat, $source));
                     array_push($sql, shared::getCleanedData('lon', $this->lon, $source));
-                    //array_push($sql, shared::getCleanedData('access_type', $this->access_type, $source));
-                    array_push($sql, shared::getCleanedData('saq_access_type_id', $this->access_type, $source));//add by thara
+                    array_push($sql, shared::getCleanedData('access_type', $this->access_type, $source));
+//                    array_push($sql, shared::getCleanedData('saq_access_type_id', $this->access_type, $source));//add by thara
                     array_push($sql, shared::getCleanedData('manual_distance', $this->manual_distance, $source));
-                    //array_push($sql, shared::getCleanedData('access_permission_type', $this->access_permision_type, $source));
-                    array_push($sql, shared::getCleanedData('saq_access_permission_type_id', $this->access_permision_type, $source));//added by thara
+                    array_push($sql, shared::getCleanedData('access_permission_type', $this->access_permision_type, $source));
+//                    array_push($sql, shared::getCleanedData('saq_access_permission_type_id', $this->access_permision_type, $source));//added by thara
                     array_push($sql, shared::getCleanedData('PG_installation_possibility', $this->pg_installation_possibility, $source));
                     array_push($sql, shared::getCleanedData('saq_district_id', $this->district_id, $source));
                     array_push($sql, shared::getCleanedData('saq_province_id', $this->province_id, $source));
