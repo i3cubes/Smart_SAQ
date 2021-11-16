@@ -213,8 +213,8 @@ function transform_date($datetime) {//Date format 21/10/2020 ---> 2020-10-21
         if ($datetime != "") {
             //$ary_dd= preg_split("///", $datetime);
             $Y = substr($datetime, 6, 4);
-            $M = substr($datetime, 3, 2);
-            $D = substr($datetime, 0, 2);
+            $M = substr($datetime, 0, 2);
+            $D = substr($datetime, 3, 2);
             //print $Y . "-" . $M . "-" . $D . "---";
             //$ary_date=array($Y,$M,$D);
             return $Y . "-" . $M . "-" . $D;
