@@ -146,7 +146,7 @@ class site {
                     //array_push($sql, shared::getCleanedData('site_ownership', $this->site_ownership, $source));
                     //array_push($sql, shared::getCleanedData('saq_site_ownership_id', $this->site_ownership, $source));//added by thara
                     //array_push($sql, shared::getCleanedData('operators_name', $this->operator_name, $source));
-                    array_push($sql, shared::getCleanedData('saq_other_operator_id', $this->operator_name, $source));// ad by thara
+                    array_push($sql, shared::getCleanedData('operators_name', $this->operator_name, $source));// ad by thara
                     //array_push($sql, shared::getCleanedData('dns_deport', $this->dns_deport, $source));
                     array_push($sql, shared::getCleanedData('dns_depot_id', $this->dns_deport, $source)); //new add by thara
                     array_push($sql, shared::getCleanedData('saq_rm_employee_id', $this->regional_manager_id, $source)); //new add by thara
