@@ -20,6 +20,36 @@ class saq_sites_status {
         $this->name = $row['name'];        
     }
     
+    public function add($name) {
+        if ($name != '') {
+            $string = "INSERT INTO `$this->table_name` (`name`) VALUES (" . getStringFormatted($name) . ");";
+            $result = dbQuery($string);
+            if ($result) {
+                return dbInsertId();
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public function getIdByName($name) {
+        $id = 0;
+        if ($name != '') {
+            $string = "SELECT `id` FROM `$this->table_name` WHERE `name` = " . getStringFormatted($name) . ";";
+            $result = dbQuery($string);
+            if (dbNumRows($result) > 0) {
+                $row = dbFetchAssoc($result);
+                $id = $row['id'];
+            } else {
+                $id = $this->add($name);
+            }
+        }
+
+        return $id;
+    }
+    
     public function getAll() {
         $array = array();
         $string = "SELECT * FROM `$this->table_name`;";

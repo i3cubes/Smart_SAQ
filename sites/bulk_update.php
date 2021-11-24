@@ -36,11 +36,17 @@ include_once '../class/cls_saq_technical.php';
 include_once '../class/cls_saq_site_agreement_data.php';
 include_once '../class/cls_saq_ownership.php';
 include_once '../class/cls_site_type.php';
+include_once '../class/cls_saq_region.php';
+include_once '../class/cls_saq_district.php';
+include_once '../class/cls_saq_sites_status.php';
 $site_mgr = new site_manager();
 $saq_technical = new saq_technical();
 $saq_site_agreement_data = new saq_site_agreement_data();
 $site_ownership = new saq_site_ownership();
 $site_type = new saq_site_type();
+$site_region = new saq_region();
+$site_district = new saq_district();
+$site_status = new saq_sites_status();
 //print_r($_POST);
 //$site_mgr=new site_manager();
 
@@ -117,6 +123,7 @@ if ($_POST['but'] == 'update') {
                                     $site->site_ownership =$addnew;
                                 }
                                  
+                                $site->status = $site_status->getIdByName(cleanCSVData($data[25]));
                                 $site->operator_name = $data[5];
                                 $site->tower_height = $data[6];
                                 $site->building_height = $data[7];
@@ -127,15 +134,15 @@ if ($_POST['but'] == 'update') {
                                 }
                                 //$site->on_air_date = $data[9] =="" ? "NULL" : $date->transform_date($data[9]) /**/;
                                 $site->category = $data[10];
-                                $site->lat = $data[11];
-                                $site->lon = $data[12];
+                                $site->lat = $data[12];
+                                $site->lon = $data[11];
                                 $site->access_type = cleanCSVData($data[13]);
                                 $site->manual_distance = cleanCSVData($data[14]);
                                 $site->access_permision_type = cleanCSVData($data[15]);
-                                $site->pg_installation_possibility = cleanCSVData($data[16]);
-                                $site->region_id = cleanCSVData($data[18]);
+                                $site->pg_installation_possibility = ((trim($data[16]) == 'PG Possible') ? 'yes' : 'no');
+                                $site->region_id = $site_region->getIdByName(cleanCSVData($data[17]));
                                 //$site->province_id=cleanData($data[21]);
-                                $site->district_id = cleanCSVData($data[20]);
+                                $site->district_id = $site_district->getIdByName(cleanCSVData($data[19]));
                                 $site->ds_id = cleanCSVData($data[21]);
                                 $site->la_id = cleanCSVData($data[22]);
                                 $site->police_station_id = cleanCSVData($data[23]);
@@ -460,7 +467,7 @@ if ($_POST['but'] == 'update') {
 }
 
 function cleanCSVData($d) {
-    if ($d == '#N/A') {
+    if ($d == '#N/A' || $d == 'N/A') {
         return "";
     } else {
         return $d;
