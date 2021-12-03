@@ -8,7 +8,7 @@ if ($file_id != "") {
     $file = new file($file_id);
     
     $row_file = $file->get_file_infomation("saq_sample_agreement_files");   
-    $file_path = $file->base_path;
+    $file_path = '../' . $file->base_path;
     $file_name = $file->name;
 
     if ($file_path != "") {
