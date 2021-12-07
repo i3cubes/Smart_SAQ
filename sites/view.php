@@ -76,7 +76,7 @@ include_once '../class/cls_site_manager.php';
                                 <?php 
                         if($_SESSION['UROLE'] == constants::$system_admin || $_SESSION['UROLE'] == constants::$admin) { 
                     ?>                            
-                                <td style="text-align:center;" class="headerStyle" width="5%">EDIT</td>   
+                                <td style="text-align:center;" class="headerStyle" width="7%">EDIT / VIEW</td>   
                                 <?php } ?>                             
                             </tr>
                         </thead>
@@ -94,7 +94,7 @@ include_once '../class/cls_site_manager.php';
                                                 . "<td>".$site->name."</td>"
                                                 . "<td>".$site->address."</td>"
                                                 . "<td>".$site_ownership_name."</td>"
-                                                . (($_SESSION['UROLE'] == constants::$system_admin || $_SESSION['UROLE'] == constants::$admin) ? "<td align='center'><button class='btn btn-primary btn-xs' onclick='add_edit_site(".$site->id.")'>Edit</button></td>" : "")
+                                                . (($_SESSION['UROLE'] == constants::$system_admin || $_SESSION['UROLE'] == constants::$admin) ? "<td align='center'><button class='btn btn-primary btn-xs' onclick='add_edit_site(".$site->id.")'><i class='fa fa-edit'></i> / <i class='fa fa-eye'></i></button></td>" : "")
                                             . "</tr>";
                                     }
                                 }
