@@ -32,7 +32,7 @@ $ary_samples = array("samples" => array(
 $ary_navi = array_merge($ary_navi, $ary_samples);
 
 $ary_sites = array("view" => array(
-        "title" => "SITES",
+        "title" => "SITES DATA",
         "icon" => "fa fa-inbox",
         "url" => APP_URL . "/sites/view"
         ));
@@ -40,7 +40,7 @@ $ary_sites = array("view" => array(
 $ary_navi = array_merge($ary_navi, $ary_sites);
 if($_SESSION['UROLE'] == 1 || $_SESSION['UROLE'] == 2) {
 $ary_sites_data = array("site_data" => array(
-        "title" => "SITES DATA",
+        "title" => "SITES DATA VARIABLES",
         "icon" => "fa fa-inbox",
         "sub" => array(
                     "technical" => array(

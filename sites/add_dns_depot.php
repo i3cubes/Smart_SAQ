@@ -79,7 +79,7 @@ if($_REQUEST['id'] != '') {
                          data-widget-colorbutton="false">
 
                         <header style="margin:0px;">
-                            <span class="widget-icon" style="width: auto"><?php print (($saq_division_obj->id != '') ? '<i class="fa fa-edit"></i>' : '<i class="fa fa-plus"></i>') ?><?php echo $heading;?></span>                            			                           
+                            <span class="widget-icon"><?php print (($saq_depot_obj->id != '') ? '<i class="fa fa-edit"></i>' : '<i class="fa fa-plus"></i>') ?>&nbsp;<?php echo $heading;?></span>                            			                           
                         </header>
 
                         <!-- widget div-->
@@ -106,6 +106,9 @@ if($_REQUEST['id'] != '') {
                                         <input type="hidden" name="id" id="id" value="<?php print $saq_depot_obj->id ?>"/>
                                         <input type="hidden" name="option" id="option" value="<?php print (($saq_depot_obj->id != '') ? '202' : '201') ?>"/>
                                         <button class="btn btn-primary">Save &nbsp;<i class="fa fa-save"></i></button>
+                                        <?php if ($saq_depot_obj->id != '') { ?>
+                                            <button type="button" class="btn btn-danger" onclick="deleteHandler(<?php print $saq_depot_obj->id ?>)">Delete &nbsp;<i class="fa fa-trash"></i></button> 
+                                            <?php } ?>
                                     </footer>
                                 </form>
                                                                 
@@ -171,6 +174,44 @@ include("../inc/scripts.php");
         } else {
             $.notify('All Fields are required');
         }
+    }
+    
+    function deleteHandler(id) {
+        var newDiv = $(document.createElement('div'));
+        $(newDiv).html('Are you sure?');
+        $(newDiv).attr('title', 'Delete');
+        $(newDiv).dialog({
+            resizable: false,
+            height: 200,
+            modal: true,
+            buttons: {
+                "Delete": function () {
+                    $.ajax({
+                        url: '../ajax/ajx_site_customize',
+                        type: 'POST',
+                        data: {SID: '301', id: id},
+                        dataType: "json",
+                        success: function (response) {
+                            if (response.result == '1') {
+                                $.notify(response.msg, 'success');
+                                window.parent.location.reload();
+                            } else {
+                                $.notify(response.msg, 'error');
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            alert("error :" + xhr.responseText);
+                        }
+                    });
+                    $(this).dialog("close");
+                    $(newDiv).remove();
+                },
+                cancel: function () {
+                    $(this).dialog("close");
+                    $(newDiv).remove();
+                }
+            }
+        });
     }
                                                                          
 </script>

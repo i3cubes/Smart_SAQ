@@ -107,6 +107,18 @@ switch ($_REQUEST['option']) {
             echo json_encode(array('msg' => 0));
         }
         break;
+    case 'DELETETECH':
+        $id = $_REQUEST['id'];
+        $saq_technical_obj = new saq_technical($id);
+//        $saq_technical_obj->technology = $_REQUEST['technology'];
+
+        $result = $saq_technical_obj->delete();
+        if ($result) {
+            echo json_encode(array('msg' => 1));
+        } else {
+            echo json_encode(array('msg' => 0));
+        }
+        break;
     case 'ADDOPERATOR':
         $saq_other_operator_obj = new saq_other_operator();
         $saq_other_operator_obj->name = $_REQUEST['operator'];
@@ -123,6 +135,18 @@ switch ($_REQUEST['option']) {
         $saq_other_operator_obj->name = $_REQUEST['operator'];
 
         $result = $saq_other_operator_obj->edit();
+        if ($result) {
+            echo json_encode(array('msg' => 1));
+        } else {
+            echo json_encode(array('msg' => 0));
+        }
+        break;
+    case 'DELETEOPERATOR':
+        $id = $_REQUEST['id'];
+        $saq_other_operator_obj = new saq_other_operator($id);
+//        $saq_technical_obj->technology = $_REQUEST['technology'];
+
+        $result = $saq_other_operator_obj->delete();
         if ($result) {
             echo json_encode(array('msg' => 1));
         } else {
@@ -149,6 +173,18 @@ switch ($_REQUEST['option']) {
         $saq_approvals_obj->code = $_REQUEST['short_name'];
 
         $result = $saq_approvals_obj->edit();
+        if ($result) {
+            echo json_encode(array('msg' => 1));
+        } else {
+            echo json_encode(array('msg' => 0));
+        }
+        break;
+    case 'DELETEAPPROVAL':
+        $id = $_REQUEST['id'];
+        $saq_approvals_obj = new saq_approvals($id);
+//        $saq_technical_obj->technology = $_REQUEST['technology'];
+
+        $result = $saq_approvals_obj->delete();
         if ($result) {
             echo json_encode(array('msg' => 1));
         } else {

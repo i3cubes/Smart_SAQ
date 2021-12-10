@@ -5,7 +5,7 @@ include_once 'constants.php';
 
 class saq_permission_type {
 
-    public $id, $permission_type;
+    public $id, $permission_type, $status;
     private $table_name = 'saq_access_permission_type';
 
     public function __construct($id = '') {
@@ -40,9 +40,20 @@ class saq_permission_type {
         }
     }
 
+    public function delete() {
+        $string = "UPDATE `$this->table_name` SET `status` = " . constants::$inactive . " WHERE `id` = $this->id;";
+//        print $string;
+        $result = dbQuery($string);
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function getAll() {
         $array = array();
-        $string = "SELECT * FROM `$this->table_name`;";
+        $string = "SELECT * FROM `$this->table_name` WHERE `status` = " . constants::$active . ";";
         $result = dbQuery($string);
         while ($row = dbFetchAssoc($result)) {
             $saq_permission_type_obj = new saq_permission_type($row['id']);

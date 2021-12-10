@@ -38,6 +38,9 @@ class saq_dns_depot {
         if($this->depot_name !=""){
             array_push($ary_sql, "`name`='$this->depot_name'");
         }
+        if($this->status==constants::$inactive) {
+            array_push($ary_sql, "`status`=".constants::$inactive."");
+        }
         
         if(count($ary_sql)>0){
             $string = implode(", ", $ary_sql);

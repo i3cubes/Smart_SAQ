@@ -32,7 +32,7 @@ include("../inc/header_less.php");
 include_once '../class/constants.php';
 include_once '../class/cls_saq_access_type.php';
 
-if($_REQUEST['id'] != '') {
+if ($_REQUEST['id'] != '') {
     $saq_access_type_obj = new saq_access_type($_REQUEST['id']);
     $saq_access_type_obj->getData();
 }
@@ -74,7 +74,7 @@ if($_REQUEST['id'] != '') {
                          data-widget-colorbutton="false">
 
                         <header style="margin:0px;">
-                            <span class="widget-icon"><?php print (($saq_other_operator_obj->id != '') ? '<i class="fa fa-edit"></i>' : '<i class="fa fa-plus"></i>') ?></span>                            			                           
+                            <span class="widget-icon"><?php print (($saq_access_type_obj->id != '') ? '<i class="fa fa-edit"></i>' : '<i class="fa fa-plus"></i>') ?></span>                            			                           
                         </header>
 
                         <!-- widget div-->
@@ -92,9 +92,12 @@ if($_REQUEST['id'] != '') {
                                         <input type="hidden" name="id" id="id" value="<?php print $saq_access_type_obj->id ?>"/>
                                         <input type="hidden" name="option" id="option" value="<?php print (($saq_access_type_obj->id != '') ? '208' : '207') ?>"/>
                                         <button class="btn btn-primary">Save &nbsp;<i class="fa fa-save"></i></button>
+                                        <?php if ($saq_access_type_obj->id != '') { ?>
+                                            <button type="button" class="btn btn-danger" onclick="deleteHandler(<?php print $saq_access_type_obj->id ?>)">Delete &nbsp;<i class="fa fa-trash"></i></button> 
+                                            <?php } ?>
                                     </footer>
                                 </form>
-                                                                
+
                             </div>
                             <!-- end widget content -->
 
@@ -128,29 +131,67 @@ include("../inc/scripts.php");
 ?>
 <script type="text/javascript">
     $(document).ready(function () {
-                                        
-                                       
-    });                          
-    
+
+
+    });
+
     function saveHandler(e) {
-        e.preventDefault();     
-        if($('#technology').val() != '') {
+        e.preventDefault();
+        if ($('#technology').val() != '') {
             $.ajax({
                 url: '../ajax/ajx_site_customize',
                 type: 'POST',
                 dataType: 'JSON',
                 data: {SID: $('#option').val(), id: $('#id').val(), type: $('#category').val()},
-                success: function(response) {
+                success: function (response) {
                     $.notify('Successfully saved', 'success');
                     window.parent.location.reload();
                 },
                 error: function (xhr, status, error) {
                     $.notify('Error occured', 'error');
-                } 
+                }
             });
         } else {
             $.notify('please fill technology field');
         }
     }
-                                                                         
+    
+    function deleteHandler(id) {
+        var newDiv = $(document.createElement('div'));
+        $(newDiv).html('Are you sure?');
+        $(newDiv).attr('title', 'Delete');
+        $(newDiv).dialog({
+            resizable: false,
+            height: 200,
+            modal: true,
+            buttons: {
+                "Delete": function () {
+                    $.ajax({
+                        url: '../ajax/ajx_site_customize',
+                        type: 'POST',
+                        data: {SID: '304', id: id},
+                        dataType: "json",
+                        success: function (response) {
+                            if (response.result == '1') {
+                                $.notify(response.msg, 'success');
+                                window.parent.location.reload();
+                            } else {
+                                $.notify(response.msg, 'error');
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            alert("error :" + xhr.responseText);
+                        }
+                    });
+                    $(this).dialog("close");
+                    $(newDiv).remove();
+                },
+                cancel: function () {
+                    $(this).dialog("close");
+                    $(newDiv).remove();
+                }
+            }
+        });
+    }
+
 </script>

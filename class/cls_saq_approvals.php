@@ -4,13 +4,14 @@ include_once 'database.php';
 include_once 'constants.php';
 
 class saq_approvals {
-    public $id,$requirement,$description,$code;
+
+    public $id, $requirement, $description, $code;
     private $table_name = 'saq_approvals';
-    
+
     public function __construct($id = '') {
         $this->id = $id;
     }
-    
+
     public function getData() {
         $string = "SELECT * FROM `$this->table_name` WHERE `id` = $this->id;";
         $result = dbQuery($string);
@@ -20,8 +21,8 @@ class saq_approvals {
         $this->description = $row['description'];
         $this->code = $row['code'];
     }
-    
-     public function add() {
+
+    public function add() {
         $string = "INSERT INTO `$this->table_name` (`requirement`,`description`,`code`) VALUES ("
                 . "" . getStringFormatted($this->requirement) . ","
                 . "" . getStringFormatted($this->description) . ","
@@ -46,10 +47,21 @@ class saq_approvals {
             return false;
         }
     }
-    
+
+    public function delete() {
+        $string = "UPDATE `$this->table_name` SET `status` = " . constants::$inactive . " WHERE `id` = $this->id;";
+//        print $string;
+        $result = dbQuery($string);
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function getAll() {
         $array = array();
-        $string = "SELECT * FROM `$this->table_name`;";
+        $string = "SELECT * FROM `$this->table_name` WHERE `status` = ".constants::$active.";";
         $result = dbQuery($string);
         while ($row = dbFetchAssoc($result)) {
             $saq_approvels_obj = new saq_approvals($row['id']);
@@ -58,6 +70,7 @@ class saq_approvals {
         }
         return $array;
     }
+
 }
 ?>
 

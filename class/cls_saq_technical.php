@@ -5,7 +5,7 @@ include_once 'constants.php';
 
 class saq_technical {
 
-    public $id, $technology;
+    public $id, $technology, $status;
     private $table_name = 'saq_technical';
 
     public function __construct($id = '') {
@@ -19,21 +19,32 @@ class saq_technical {
         $this->id = $row['id'];
         $this->technology = $row['technology'];
     }
-    
+
     public function add() {
-        $string = "INSERT INTO `$this->table_name` (`technology`) VALUES (".getStringFormatted($this->technology).");";
+        $string = "INSERT INTO `$this->table_name` (`technology`) VALUES (" . getStringFormatted($this->technology) . ");";
         $result = dbQuery($string);
-        if($result) {
+        if ($result) {
             return true;
         } else {
             return false;
         }
     }
-    
+
     public function edit() {
-        $string = "UPDATE `$this->table_name` SET `technology` = ".getStringFormatted($this->technology)." WHERE `id` = $this->id;";
+        $string = "UPDATE `$this->table_name` SET `technology` = " . getStringFormatted($this->technology) . " WHERE `id` = $this->id;";
         $result = dbQuery($string);
-        if($result) {
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function delete() {
+        $string = "UPDATE `$this->table_name` SET `status` = " . constants::$inactive . " WHERE `id` = $this->id;";
+//        print $string;
+        $result = dbQuery($string);
+        if ($result) {
             return true;
         } else {
             return false;
@@ -42,7 +53,7 @@ class saq_technical {
 
     public function getAll() {
         $array = array();
-        $string = "SELECT * FROM `$this->table_name`;";
+        $string = "SELECT * FROM `$this->table_name` WHERE `status` = ".constants::$active.";";
         $result = dbQuery($string);
         while ($row = dbFetchAssoc($result)) {
             $technology_obj = new saq_technical($row['id']);

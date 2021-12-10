@@ -7,7 +7,7 @@ include_once 'constants.php';
 
 class saq_site_ownership {
 
-    public $id, $ownership;
+    public $id, $ownership, $status;
     private $table_name = 'saq_site_ownership';
 
     public function __construct($id = '') {
@@ -42,9 +42,20 @@ class saq_site_ownership {
         }
     }
 
+    public function delete() {
+        $string = "UPDATE `$this->table_name` SET `status` = " . constants::$inactive . " WHERE `id` = $this->id;";
+//        print $string;
+        $result = dbQuery($string);
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function getAll() {
         $array = array();
-        $string = "SELECT * FROM `$this->table_name`;";
+        $string = "SELECT * FROM `$this->table_name` WHERE `status` = ".constants::$active.";";
         $result = dbQuery($string);
         while ($row = dbFetchAssoc($result)) {
             $saq_ownership_obj = new saq_site_ownership($row['id']);
@@ -53,55 +64,53 @@ class saq_site_ownership {
         }
         return $array;
     }
-    function search($ownership,$status,$limitcount,$orderby,$order,$likeType){
+
+    function search($ownership, $status, $limitcount, $orderby, $order, $likeType) {
         //liketype =,%A%, A%,%B
         $array_sql = array();
-        if($ownership !=""){
-            if($likeType=="="){
+        if ($ownership != "") {
+            if ($likeType == "=") {
                 array_push($array_sql, "ownership = '$ownership'");
-            }else if($likeType =="%A%"){
+            } else if ($likeType == "%A%") {
                 array_push($array_sql, "ownership LIKE '%$ownership%'");
-            }else if($likeType =="A%"){
+            } else if ($likeType == "A%") {
                 array_push($array_sql, "ownership LIKE '$ownership%'");
-            }else if($likeType=="%A"){
+            } else if ($likeType == "%A") {
                 array_push($array_sql, "ownership LIKE '%$ownership'");
-            }else {
+            } else {
                 array_push($array_sql, "ownership LIKE '$ownership'");
             }
-            
         }
-        if($status !=""){
+        if ($status != "") {
             
         }
         $LIMIT = "";
-        if($limitcount !=""){
-            $LIMIT = "LIMIT ".$limitcount;
+        if ($limitcount != "") {
+            $LIMIT = "LIMIT " . $limitcount;
         }
-        $ORDERBY="";
-        if($orderby !=""){
-            if($order =="DESC"){
+        $ORDERBY = "";
+        if ($orderby != "") {
+            if ($order == "DESC") {
                 $order = "DESC";
-            }else {
+            } else {
                 $order = "ASC";
             }
-            $ORDERBY = " ORDER BY ".$orderby." ".$order;
-            
+            $ORDERBY = " ORDER BY " . $orderby . " " . $order;
         }
-        
-        if(count($array_sql)>0){
-            $WHERE = " WHERE ". implode(" AND ", $array_sql);
+
+        if (count($array_sql) > 0) {
+            $WHERE = " WHERE " . implode(" AND ", $array_sql);
         }
         $str = "SELECT * FROM $this->table_name $WHERE $ORDERBY $LIMIT";
         //print $str;
         $result = dbQuery($str);
-        $array= array();
+        $array = array();
         while ($row = dbFetchAssoc($result)) {
             $saq_ownership_obj = new saq_site_ownership($row['id']);
             $saq_ownership_obj->getData();
             array_push($array, $saq_ownership_obj);
         }
         return $array;
-        
     }
 
 }

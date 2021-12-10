@@ -56,8 +56,8 @@ include_once '../class/cls_saq_approvals.php';
                  data-widget-colorbutton="false">
                 <header>
                     <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
-                    <h2 style=""><b>APPROVALS</b></h2> 
-                    <button class="btn btn-primary" style="float:right;" type="button" onclick="addEditApprovals()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
+                    <h2 style=""><b>Approvals</b></h2> 
+                    <button class="btn btn-default btn-xs" style="float:right;margin:5px;" type="button" onclick="addEditApprovals()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
                     <!--<button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="bulk_update(0)">Bulk Edit&nbsp;<i class="fa fa-cogs"></i></button>-->
                 </header> 
                 <div class="widget-body">

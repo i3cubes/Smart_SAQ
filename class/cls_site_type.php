@@ -42,10 +42,13 @@ class saq_site_type {
         if($this->type !=""){
             array_push($ary_sql, "`name`='$this->type'");
         }
+        if($this->status==constants::$inactive) {
+            array_push($ary_sql, "`status`=".constants::$inactive."");
+        }
         if(count($ary_sql)>0){
             $string = implode(", ", $ary_sql);
             $str = "UPDATE $this->table_name SET $string WHERE id ='$this->id'";
-            //print $str;
+//            print $str;
             $res = dbQuery($str);
             if($res){
                 return true;
@@ -91,7 +94,7 @@ class saq_site_type {
             array_push($array, $saq_site_type_obj);
         }
         return $array;
-    }
+    }       
     
 
 }

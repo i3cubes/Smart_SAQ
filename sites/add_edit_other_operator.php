@@ -92,6 +92,9 @@ if($_REQUEST['id'] != '') {
                                         <input type="hidden" name="id" id="id" value="<?php print $saq_other_operator_obj->id ?>"/>
                                         <input type="hidden" name="option" id="option" value="<?php print (($saq_other_operator_obj->id != '') ? 'EDITOPERATOR' : 'ADDOPERATOR') ?>"/>
                                         <button class="btn btn-primary">Save &nbsp;<i class="fa fa-save"></i></button>
+                                         <?php if ($saq_other_operator_obj->id != '') { ?>
+                                            <button type="button" class="btn btn-danger" onclick="deleteHandler(<?php print $saq_other_operator_obj->id ?>)">Delete &nbsp;<i class="fa fa-trash"></i></button> 
+                                            <?php } ?>
                                     </footer>
                                 </form>
                                                                 
@@ -151,6 +154,44 @@ include("../inc/scripts.php");
         } else {
             $.notify('please fill technology field');
         }
+    }
+    
+    function deleteHandler(id) {
+        var newDiv = $(document.createElement('div'));
+        $(newDiv).html('Are you sure?');
+        $(newDiv).attr('title', 'Delete');
+        $(newDiv).dialog({
+            resizable: false,
+            height: 200,
+            modal: true,
+            buttons: {
+                "Delete": function () {
+                    $.ajax({
+                        url: '../ajax/ajx_saq_site',
+                        type: 'POST',
+                        data: {option: 'DELETEOPERATOR', id: id},
+                        dataType: "json",
+                        success: function (response) {
+                            if (response.msg == '1') {
+                                $.notify('Successfully deleted', 'success');
+                                window.parent.location.reload();
+                            } else {
+                                $.notify('Deletion error', 'error');
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            alert("error :" + xhr.responseText);
+                        }
+                    });
+                    $(this).dialog("close");
+                    $(newDiv).remove();
+                },
+                cancel: function () {
+                    $(this).dialog("close");
+                    $(newDiv).remove();
+                }
+            }
+        });
     }
                                                                          
 </script>

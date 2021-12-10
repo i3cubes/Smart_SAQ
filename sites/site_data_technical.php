@@ -54,20 +54,20 @@ include_once '../class/cls_saq_technical.php';
                  data-widget-colorbutton="false">
                 <header>
                     <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
-                    <h2 style=""><b>TECHNOLOGY</b></h2> 
-                    <button class="btn btn-primary" style="float:right;" type="button" onclick="addEditTechnology()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
+                    <h2 style=""><b>Technology</b></h2> 
+                    <button class="btn btn-default btn-xs" style="float:right;margin:5px;" type="button" onclick="addEditTechnology()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
                     <!--<button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="bulk_update(0)">Bulk Edit&nbsp;<i class="fa fa-cogs"></i></button>-->
                 </header> 
                 <div class="widget-body">
                     <!--<div class="row">-->
                     <table id="table" class="table table-bordered table_style table-striped table-hover" style="width:100% !important;">
-                        <thead>
+<!--                        <thead>
                             <tr style="height:40px;">
-                                <!--<th>#ID</th>-->
+                                <th>#ID</th>
                                 <td class="headerStyle" width="5%">Technology</td>                               
                                                       
                             </tr>
-                        </thead>
+                        </thead>-->
                         <tbody>       
                             
                             <?php

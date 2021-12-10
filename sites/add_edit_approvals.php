@@ -32,7 +32,7 @@ include("../inc/header_less.php");
 include_once '../class/constants.php';
 include_once '../class/cls_saq_approvals.php';
 
-if($_REQUEST['id'] != '') {
+if ($_REQUEST['id'] != '') {
     $saq_approvals_obj = new saq_approvals($_REQUEST['id']);
     $saq_approvals_obj->getData();
 }
@@ -105,9 +105,12 @@ if($_REQUEST['id'] != '') {
                                         <input type="hidden" name="id" id="id" value="<?php print $saq_approvals_obj->id ?>"/>
                                         <input type="hidden" name="option" id="option" value="<?php print (($saq_approvals_obj->id != '') ? 'EDITAPPROVAL' : 'ADDAPPROVAL') ?>"/>
                                         <button class="btn btn-primary">Save &nbsp;<i class="fa fa-save"></i></button>
+                                        <?php if ($saq_approvals_obj->id != '') { ?>
+                                            <button type="button" class="btn btn-danger" onclick="deleteHandler(<?php print $saq_approvals_obj->id ?>)">Delete &nbsp;<i class="fa fa-trash"></i></button> 
+                                            <?php } ?>
                                     </footer>
                                 </form>
-                                                                
+
                             </div>
                             <!-- end widget content -->
 
@@ -141,13 +144,13 @@ include("../inc/scripts.php");
 ?>
 <script type="text/javascript">
     $(document).ready(function () {
-                                        
-                                       
-    });                          
-    
+
+
+    });
+
     function saveHandler(e) {
-        e.preventDefault();     
-        if($('#technology').val() != '') {
+        e.preventDefault();
+        if ($('#technology').val() != '') {
             $.ajax({
                 url: '../ajax/ajx_saq_site',
                 type: 'POST',
@@ -158,18 +161,56 @@ include("../inc/scripts.php");
                     requirement: $('#requirement').val(),
                     approval_name: $('#approval_name').val(),
                     short_name: $('#short_name').val(),
-                    },
-                success: function(response) {
+                },
+                success: function (response) {
                     $.notify('Successfully saved', 'success');
                     window.parent.location.reload();
                 },
                 error: function (xhr, status, error) {
                     $.notify('Error occured', 'error');
-                } 
+                }
             });
         } else {
             $.notify('please fill technology field');
         }
     }
-                                                                         
+
+    function deleteHandler(id) {
+        var newDiv = $(document.createElement('div'));
+        $(newDiv).html('Are you sure?');
+        $(newDiv).attr('title', 'Delete');
+        $(newDiv).dialog({
+            resizable: false,
+            height: 200,
+            modal: true,
+            buttons: {
+                "Delete": function () {
+                    $.ajax({
+                        url: '../ajax/ajx_saq_site',
+                        type: 'POST',
+                        data: {option: 'DELETEAPPROVAL', id: id},
+                        dataType: "json",
+                        success: function (response) {
+                            if (response.msg == '1') {
+                                $.notify('Successfully deleted', 'success');
+                                window.parent.location.reload();
+                            } else {
+                                $.notify('Deletion error', 'error');
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            alert("error :" + xhr.responseText);
+                        }
+                    });
+                    $(this).dialog("close");
+                    $(newDiv).remove();
+                },
+                cancel: function () {
+                    $(this).dialog("close");
+                    $(newDiv).remove();
+                }
+            }
+        });
+    }
+
 </script>

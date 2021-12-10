@@ -39,10 +39,21 @@ class saq_site_category {
             return false;
         }
     }
+    
+    public function delete() {
+        $string = "UPDATE `$this->table_name` SET `status` = " . constants::$inactive . " WHERE `id` = $this->id;";
+//        print $string;
+        $result = dbQuery($string);
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public function getAll() {
         $array = array();
-        $string = "SELECT * FROM `$this->table_name`;";
+        $string = "SELECT * FROM `$this->table_name` WHERE `status` = ".constants::$active.";";
         $result = dbQuery($string);
         while ($row = dbFetchAssoc($result)) {
             $saq_site_category_obj = new saq_site_category($row['id']);

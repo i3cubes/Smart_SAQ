@@ -30,16 +30,16 @@ include("../inc/header_less.php");
 //include("../inc/nav.php");
 // ====================== LOGIC ================== --!>
 include_once '../class/constants.php';
-include_once '../class/cls_saq_gndivision.php';
- $heading = "Site Type";
- include_once '../class/functions.php';
+include_once '../class/cls_site_type.php';
+$heading = "Site Type";
+include_once '../class/functions.php';
 
 $fn = new functions();
-if($_REQUEST['id'] != '') {
-    $saq_division_obj = new saq_gn_division($_REQUEST['id']);
-    $saq_division_obj->getData();
-   $gn_district = $saq_division_obj->saq_district_id;
-    $heading = "Site Type";
+if ($_REQUEST['id'] != '') {
+    $saq_type_obj = new saq_site_type($_REQUEST['id']);
+    $saq_type_obj->getData();
+//   $gn_district = $saq_division_obj->saq_district_id;
+//    $heading = "Site Type";
 }
 ?>
 <style>
@@ -79,7 +79,7 @@ if($_REQUEST['id'] != '') {
                          data-widget-colorbutton="false">
 
                         <header style="margin:0px;">
-                            <span class="widget-icon" style="width: auto"><?php print (($saq_division_obj->id != '') ? '<i class="fa fa-edit"></i>' : '<i class="fa fa-plus"></i>') ?><?php echo $heading;?></span>                            			                           
+                            <span class="widget-icon"><?php print (($saq_type_obj->id != '') ? '<i class="fa fa-edit"></i>' : '<i class="fa fa-plus"></i>') ?>&nbsp;<?php echo $heading; ?></span>                            			                           
                         </header>
 
                         <!-- widget div-->
@@ -89,26 +89,29 @@ if($_REQUEST['id'] != '') {
                             <div class="widget-body">
                                 <form class="smart-form" onsubmit="saveHandler(event)">
                                     <fieldset>
-                                        
-                                        
+
+
                                         <div class="row">
                                             <section class="col col-3 ">
                                                 <label class="input">
-                                            <input type="text" id="site_type" name="site_type" value="<?php print $saq_division_obj->gn_division ?>"/>
-                                        </label>
-                                                
+                                                    <input type="text" id="site_type" name="site_type" value="<?php print $saq_type_obj->type ?>"/>
+                                                </label>
+
                                             </section>
                                         </div>
-                                        
-                                        
+
+
                                     </fieldset>
                                     <footer>
-                                        <input type="hidden" name="id" id="id" value="<?php print $saq_division_obj->id ?>"/>
-                                        <input type="hidden" name="option" id="option" value="<?php print (($saq_division_obj->id != '') ? '202' : '201') ?>"/>
+                                        <input type="hidden" name="id" id="id" value="<?php print $saq_type_obj->id ?>"/>
+                                        <input type="hidden" name="option" id="option" value="<?php print (($saq_type_obj->id != '') ? '202' : '201') ?>"/>
                                         <button class="btn btn-primary">Save &nbsp;<i class="fa fa-save"></i></button>
+                                        <?php if ($saq_type_obj->id != '') { ?>
+                                            <button type="button" class="btn btn-danger" onclick="deleteHandler(<?php print $saq_type_obj->id ?>)">Delete &nbsp;<i class="fa fa-trash"></i></button> 
+                                            <?php } ?>
                                     </footer>
                                 </form>
-                                                                
+
                             </div>
                             <!-- end widget content -->
 
@@ -142,35 +145,73 @@ include("../inc/scripts.php");
 ?>
 <script type="text/javascript">
     $(document).ready(function () {
-                                        
-                                       
-    });                          
-    
+
+
+    });
+
     function saveHandler(e) {
-        e.preventDefault();     
-        if( $('#site_type').val() != '' ) {
+        e.preventDefault();
+        if ($('#site_type').val() != '') {
             $.ajax({
                 url: '../ajax/ajx_saq_site_types',
                 type: 'POST',
                 dataType: 'JSON',
-                data: {SID: $('#option').val(),id: $('#id').val(), site_type: $('#site_type').val()},
-                success: function(response) {
-                    if(response.result == '1'){
-                         $.notify(response.msg, 'success');
-                          window.parent.location.reload();
-                    }else {
-                         $.notify(response.msg, 'error');
+                data: {SID: $('#option').val(), id: $('#id').val(), site_type: $('#site_type').val()},
+                success: function (response) {
+                    if (response.result == '1') {
+                        $.notify(response.msg, 'success');
+                        window.parent.location.reload();
+                    } else {
+                        $.notify(response.msg, 'error');
                     }
-                   
-                   
+
+
                 },
                 error: function (xhr, status, error) {
                     $.notify('Error occured', 'error');
-                } 
+                }
             });
         } else {
             $.notify('All Fields are required');
         }
     }
-                                                                         
+
+    function deleteHandler(id) {
+        var newDiv = $(document.createElement('div'));
+        $(newDiv).html('Are you sure?');
+        $(newDiv).attr('title', 'Delete');
+        $(newDiv).dialog({
+            resizable: false,
+            height: 200,
+            modal: true,
+            buttons: {
+                "Delete": function () {
+                    $.ajax({
+                        url: '../ajax/ajx_saq_site_types',
+                        type: 'POST',
+                        data: {SID: '203', id: id},
+                        dataType: "json",
+                        success: function (response) {
+                            if (response.result == '1') {
+                                $.notify(response.msg, 'success');
+                                window.parent.location.reload();
+                            } else {
+                                $.notify(response.msg, 'error');
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            alert("error :" + xhr.responseText);
+                        }
+                    });
+                    $(this).dialog("close");
+                    $(newDiv).remove();
+                },
+                cancel: function () {
+                    $(this).dialog("close");
+                    $(newDiv).remove();
+                }
+            }
+        });
+    }
+
 </script>

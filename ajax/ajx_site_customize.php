@@ -12,6 +12,8 @@ include_once '../class/cls_saq_permission_type.php';
 include_once '../class/cls_saq_ownership.php';
 include_once '../class/cls_saq_other_operator.php';
 
+include_once '../class/constants.php';
+
 $REQUEST_METHOD = $_SERVER["REQUEST_METHOD"];
 $SID = $_REQUEST['SID'];
 
@@ -57,6 +59,19 @@ switch ($REQUEST_METHOD) {
                     echo json_encode(array('result' => 0, 'msg' => "Update Failed"));
                 }
                 break;
+            case 301://delete depot                
+                $id = $_POST['id'];
+                $depot = new saq_dns_depot($id);
+
+                $depot->status = constants::$inactive;
+                $edit = $depot->edit();
+                //print $edit;
+                if ($edit) {
+                    echo json_encode(array('result' => 1, 'msg' => "Successfully Deleted"));
+                } else {
+                    echo json_encode(array('result' => 0, 'msg' => "Deletion Failed"));
+                }
+                break;
             case 203://get category
                 $name = $_POST['category'];
                 $category = new saq_site_category();
@@ -96,6 +111,18 @@ switch ($REQUEST_METHOD) {
                     echo json_encode(array('result' => 0, 'msg' => "Update Failed"));
                 }
                 break;
+            case 303://delete category                
+                $id = $_POST['id'];
+                $site_category = new saq_site_category($id);
+
+                $delete = $site_category->delete();
+                //print $edit;
+                if ($delete) {
+                    echo json_encode(array('result' => 1, 'msg' => "Successfully Deleted"));
+                } else {
+                    echo json_encode(array('result' => 0, 'msg' => "Deletion Failed"));
+                }
+                break;
             case 206://get access type
                 $name = $_POST['type'];
                 $access_type = new saq_access_type();
@@ -127,7 +154,7 @@ switch ($REQUEST_METHOD) {
                 $access_type = new saq_access_type();
                 $access_type->id = $id;
                 $access_type->access_type = $name;
-                $edit= $access_type->edit();
+                $edit = $access_type->edit();
                 //print $edit;
                 if ($edit) {
                     echo json_encode(array('result' => 1, 'msg' => "Successfully Updated"));
@@ -135,10 +162,18 @@ switch ($REQUEST_METHOD) {
                     echo json_encode(array('result' => 0, 'msg' => "Update Failed"));
                 }
                 break;
-                
-                
-                
-                
+            case 304://delete access type                
+                $id = $_POST['id'];
+                $access_type = new saq_access_type($id);
+
+                $delete = $access_type->delete();
+                //print $edit;
+                if ($delete) {
+                    echo json_encode(array('result' => 1, 'msg' => "Successfully Deleted"));
+                } else {
+                    echo json_encode(array('result' => 0, 'msg' => "Deletion Failed"));
+                }
+                break;
             case 209://get permission type
                 $name = $_POST['type'];
                 $permission_type = new saq_permission_type();
@@ -170,7 +205,7 @@ switch ($REQUEST_METHOD) {
                 $permission_type = new saq_permission_type();
                 $permission_type->id = $id;
                 $permission_type->permission_type = $name;
-                $edit= $permission_type->edit();
+                $edit = $permission_type->edit();
                 //print $edit;
                 if ($edit) {
                     echo json_encode(array('result' => 1, 'msg' => "Successfully Updated"));
@@ -178,9 +213,18 @@ switch ($REQUEST_METHOD) {
                     echo json_encode(array('result' => 0, 'msg' => "Update Failed"));
                 }
                 break;
-                
-                
-                
+            case 305://delete permission type                
+                $id = $_POST['id'];
+                $permission_type = new saq_permission_type($id);
+
+                $delete = $permission_type->delete();
+                //print $edit;
+                if ($delete) {
+                    echo json_encode(array('result' => 1, 'msg' => "Successfully Deleted"));
+                } else {
+                    echo json_encode(array('result' => 0, 'msg' => "Deletion Failed"));
+                }
+                break;
             case 212://get ownership type
                 $name = $_POST['type'];
                 $ownership = new saq_site_ownership();
@@ -212,7 +256,7 @@ switch ($REQUEST_METHOD) {
                 $ownership = new saq_site_ownership();
                 $permission_type->id = $id;
                 $ownership->ownership = $name;
-                $edit= $ownership->edit();
+                $edit = $ownership->edit();
                 //print $edit;
                 if ($edit) {
                     echo json_encode(array('result' => 1, 'msg' => "Successfully Updated"));
@@ -220,7 +264,18 @@ switch ($REQUEST_METHOD) {
                     echo json_encode(array('result' => 0, 'msg' => "Update Failed"));
                 }
                 break;
- case 215://get operator type
+            case 302://delete ownership                
+                $id = $_POST['id'];
+                $ownership = new saq_site_ownership($id);
+                $delete = $ownership->delete();
+                //print $edit;
+                if ($delete) {
+                    echo json_encode(array('result' => 1, 'msg' => "Successfully Deleted"));
+                } else {
+                    echo json_encode(array('result' => 0, 'msg' => "Deletion Failed"));
+                }
+                break;
+            case 215://get operator type
                 $name = $_POST['type'];
                 $other_operators = new saq_other_operator();
                 $other_operators->ownership = $name;
@@ -236,7 +291,6 @@ switch ($REQUEST_METHOD) {
                 break;
         }
         break;
-
 
     default :
         break;
