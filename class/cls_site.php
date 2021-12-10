@@ -815,5 +815,21 @@ class site {
 
         return $t_data;
     }
+    
+     public function bulkDelete($array = []) {
+//        var_dump($array);
+        if(count($array) > 0) {
+            foreach ($array as $a) {
+                $string = "UPDATE `saq_sites` SET `status_delete` = ".constants::$inactive." WHERE `id` = $a;";
+                $result = dbQuery($string);
+                if(!$result) {
+                    continue;
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }

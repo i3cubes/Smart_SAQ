@@ -56,11 +56,12 @@ include_once '../class/cls_site_manager.php';
                 <header>
                     <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
                     <h2 style=""><b>SITES</b></h2> 
-                    <?php 
-                        if($_SESSION['UROLE'] == constants::$system_admin || $_SESSION['UROLE'] == constants::$admin) { 
-                    ?>
-                    <button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="add_edit_site(0)">Add&nbsp;<i class="fa fa-plus"></i></button>
-                    <button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="bulk_update(0)">Bulk Edit&nbsp;<i class="fa fa-cogs"></i></button>
+                    <?php
+                    if ($_SESSION['UROLE'] == constants::$system_admin || $_SESSION['UROLE'] == constants::$admin) {
+                        ?>
+                        <button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="add_edit_site(0)">Add&nbsp;<i class="fa fa-plus"></i></button>
+                        <button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="bulk_update(0)">Bulk Edit&nbsp;<i class="fa fa-cogs"></i></button>
+                        <button class="btn btn-danger btn-xs" style="float: right;margin: 5px;" onclick="bulk_delete()">Bulk Delete&nbsp;<i class="fa fa-trash"></i></button>
                     <?php } ?>
                 </header> 
                 <div class="widget-body">
@@ -68,36 +69,37 @@ include_once '../class/cls_site_manager.php';
                     <table id="table" class="table table-bordered table_style table-striped table-hover" style="width:100% !important;">
                         <thead>
                             <tr style="height:40px;">
-                                <!--<th>#ID</th>-->
+                                <th class="headerStyle">...</th>
                                 <td class="headerStyle" width="5%">CODE</td>                               
                                 <td class="headerStyle">NAME</td>
                                 <td class="headerStyle">ADDRESS</td>
                                 <td class="headerStyle" width="10%">SITE OWNERSHIP</td>    
-                                <?php 
-                        if($_SESSION['UROLE'] == constants::$system_admin || $_SESSION['UROLE'] == constants::$admin) { 
-                    ?>                            
-                                <td style="text-align:center;" class="headerStyle" width="7%">EDIT / VIEW</td>   
+                                <?php
+                                if ($_SESSION['UROLE'] == constants::$system_admin || $_SESSION['UROLE'] == constants::$admin) {
+                                    ?>                            
+                                    <td style="text-align:center;" class="headerStyle" width="7%">EDIT / VIEW</td>   
                                 <?php } ?>                             
                             </tr>
                         </thead>
                         <tbody>                                    
                             <?php
-                                $site_mgr_obj = new site_manager();
-                                $sites = $site_mgr_obj->serchSite('', '', '',"");
-                                
-                                if(count($sites)>0) {
-                                    foreach ($sites as $site) {
-                                       
-                                $site_ownership_name = $site->site_ownership_name =="" ? $site->site_ownership :  $site->site_ownership_name ;
-                                        print "<tr>"
-                                                . "<td>".$site->code."</td>"
-                                                . "<td>".$site->name."</td>"
-                                                . "<td>".$site->address."</td>"
-                                                . "<td>".$site_ownership_name."</td>"
-                                                . (($_SESSION['UROLE'] == constants::$system_admin || $_SESSION['UROLE'] == constants::$admin) ? "<td align='center'><button class='btn btn-primary btn-xs' onclick='add_edit_site(".$site->id.")'><i class='fa fa-edit'></i> / <i class='fa fa-eye'></i></button></td>" : "")
+                            $site_mgr_obj = new site_manager();
+                            $sites = $site_mgr_obj->serchSite('', '', '', "");
+
+                            if (count($sites) > 0) {
+                                foreach ($sites as $site) {
+
+                                    $site_ownership_name = $site->site_ownership_name == "" ? $site->site_ownership : $site->site_ownership_name;
+                                    print "<tr>"
+                                            . "<td><label class='input' style='margin:5px;'><input type='checkbox' class='getValueCheck' name='deleteCheck[]' value='$site->id' /></label></td>"
+                                            . "<td>" . $site->code . "</td>"
+                                            . "<td>" . $site->name . "</td>"
+                                            . "<td>" . $site->address . "</td>"
+                                            . "<td>" . $site_ownership_name . "</td>"
+                                            . (($_SESSION['UROLE'] == constants::$system_admin || $_SESSION['UROLE'] == constants::$admin) ? "<td align='center'><button class='btn btn-primary btn-xs' onclick='add_edit_site(" . $site->id . ")'><i class='fa fa-edit'></i> / <i class='fa fa-eye'></i></button></td>" : "")
                                             . "</tr>";
-                                    }
                                 }
+                            }
                             ?>
                         </tbody>
                     </table>
@@ -159,31 +161,85 @@ include("../inc/scripts.php");
 <script src="<?php echo ASSETS_URL; ?>/js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
 
 <script>
-    $(document).ready(function () {
-        $("#table").DataTable({
-            "paging": true,
-            "ordering": false,
-            "info": true
-        });
-    });   
+                            var table = $("#table").DataTable({
+                                "paging": true,
+                                "ordering": false,
+                                "info": true,
+                                select: true
 
-    function add_edit_site(id) {
-        //location.href = 'view?id=' + id;
-        
-        var url='add_edit?<?php print SID."&id="?>'+id;
-        var NWin = window.open(url,'_blank');
-        if (window.focus)
-        {
-          NWin.focus();
-        }
-    }
-    function bulk_update(){
-        var url='bulk_update?<?php print SID?>';
-        var NWin = window.open(url,'_blank');
-        if (window.focus)
-        {
-          NWin.focus();
-        }
-    }
+                            });
+
+
+
+                            $(document).ready(function () {
+
+                            });
+
+                            function bulk_delete() {
+                                var array = [];
+                                var checkboxes = table.$(".getValueCheck:checked", {"page": "all"});
+                                if (checkboxes.length > 0) {
+                                    var newDiv = $(document.createElement('div'));
+                                    $(newDiv).html('Are you sure?');
+                                    $(newDiv).attr('title', 'Delete');
+                                    $(newDiv).dialog({
+                                        resizable: false,
+                                        height: 200,
+                                        modal: true,
+                                        buttons: {
+                                            "Delete": function () {
+                                                checkboxes.each(function (index, value) {
+                                                    array.push($(value).val());
+                                                });
+                                                $.ajax({
+                                                    url: '../ajax/ajx_saq_site',
+                                                    type: 'POST',
+                                                    data: {option: 'BULKDELETE', values: array},
+                                                    dataType: "json",
+                                                    success: function (response) {
+                                                        if (response.result == '1') {
+                                                            $.notify(response.msg, 'success');
+                                                            window.parent.location.reload();
+                                                        } else {
+                                                            $.notify(response.msg, 'error');
+                                                        }
+                                                    },
+                                                    error: function (xhr, status, error) {
+                                                        alert("error :" + xhr.responseText);
+                                                    }
+                                                });
+                                                $(this).dialog("close");
+                                                $(newDiv).remove();
+                                            },
+                                            cancel: function () {
+                                                $(this).dialog("close");
+                                                $(newDiv).remove();
+                                            }
+                                        }
+                                    });
+
+                                } else {
+                                    $.notify('Please select rows to be delete', 'error');
+                                }                                
+                            }
+
+                            function add_edit_site(id) {
+                                //location.href = 'view?id=' + id;
+
+                                var url = 'add_edit?<?php print SID . "&id=" ?>' + id;
+                                var NWin = window.open(url, '_blank');
+                                if (window.focus)
+                                {
+                                    NWin.focus();
+                                }
+                            }
+                            function bulk_update() {
+                                var url = 'bulk_update?<?php print SID ?>';
+                                var NWin = window.open(url, '_blank');
+                                if (window.focus)
+                                {
+                                    NWin.focus();
+                                }
+                            }
 </script>
 

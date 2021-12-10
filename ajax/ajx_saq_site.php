@@ -1,5 +1,6 @@
 <?php
-
+//error_reporting(E_ALL);
+//ini_set("display_errors", 1);
 session_start();
 include_once '../class/cls_site.php';
 include_once '../class/cls_saq_technical.php';
@@ -189,6 +190,18 @@ switch ($_REQUEST['option']) {
             echo json_encode(array('msg' => 1));
         } else {
             echo json_encode(array('msg' => 0));
+        }
+        break;
+    case 'BULKDELETE':
+//        var_dump($_REQUEST['values']);
+        $array = $_REQUEST['values'];
+//        var_dump($array);
+        $saq_site = new site();
+        $result = $saq_site->bulkDelete($array);
+        if($result) {
+            echo json_encode(array('result' => 1, 'msg' => 'Successfully Deleted'));
+        } else {
+            echo json_encode(array('result' => 0, 'msg' => 'Failure in Deletion'));
         }
         break;
     default :

@@ -1,6 +1,8 @@
 <?php
 include_once 'cls_site.php';
 include_once 'database.php';
+
+include_once 'constants.php';
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -31,7 +33,7 @@ class site_manager {
             $where= implode(" AND ", $ary_sql);
         }
         else{
-            $where="t1.id>0 ORDER BY t1.id DESC";
+            $where="t1.status_delete = ".constants::$active." AND t1.id>0 ORDER BY t1.id DESC";
         }
         $str="SELECT t1.*,t2.name as district_name,t3.name as ds_name,t4.name as la_name,t5.name as police_station_name,"
                 . "t6.name as region_name,t7.name as status_name,t8.ownership FROM saq_sites as t1 left join saq_district as t2 on t1.saq_district_id=t2.id "
@@ -184,6 +186,8 @@ class site_manager {
             return false;
         }
     }
+    
+   
 
 
     // check site have sample agreements
