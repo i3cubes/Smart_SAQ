@@ -10,7 +10,7 @@ if ($file_id != "") {
     $file = new file($file_id);
     
     $row_file = $file->get_file_infomation("saq_guideline_files");   
-    $file_path = $file->location;
+    $file_path = '../' . $file->location;
     $file_name = $file->name;
 
     if ($file_path != "") {
