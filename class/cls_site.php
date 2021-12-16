@@ -12,6 +12,7 @@
  * @author kumar
  */
 include_once 'database.php';
+include_once 'constants.php';
 include_once 'shared.php';
 include_once 'cls_saq_technical.php';
 include_once 'cls_saq_site_agreement_data.php';
@@ -21,7 +22,7 @@ include_once 'ngs_date.php';
 class site {
 
     //put your code here
-    public $id, $status,$status_id;
+    public $id, $status,$status_id,$status_delete;
     public $name, $code, $type, $address, $site_ownership, $operator_name, $tower_height, $building_height, $land_area;
     public $on_air_date, $category, $lat, $lon, $access_type, $manual_distance, $access_permision_type, $pg_installation_possibility, $dns_deport, $other_operator_id;
     public $lo_name, $lo_address, $lo_nic_brc, $lo_mobile, $lo_land_number, $contact_person_number, $lo_fax, $lo_email;
@@ -176,7 +177,7 @@ class site {
                     array_push($sql, shared::getCleanedData('saq_police_station_id', $this->police_station_id, $source));
                     array_push($sql, shared::getCleanedData('saq_region_id', $this->region_id, $source));
                     array_push($sql, shared::getCleanedData('saq_dns_office_id', $this->dns_office_id, $source));
-
+                    array_push($sql, shared::getCleanedData('status_delete', constants::$active, $source));
                     break;
                 //print $str;
                 case 'C':
@@ -394,7 +395,8 @@ class site {
                     array_push($value, getStringFormatted($this->saq_region_id));
                     array_push($key, 'saq_dns_office_id');
                     array_push($value, getStringFormatted($this->dns_office_id));
-
+                    array_push($key, 'status_delete');
+                    array_push($value, constants::$active);
                     break;
                 //print $str;
                 case 'C':

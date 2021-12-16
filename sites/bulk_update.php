@@ -139,7 +139,7 @@ if ($_POST['but'] == 'update') {
                                 $site->access_type = cleanCSVData($data[13]);
                                 $site->manual_distance = cleanCSVData($data[14]);
                                 $site->access_permision_type = cleanCSVData($data[15]);
-                                $site->pg_installation_possibility = ((trim($data[16]) == 'PG Possible') ? 'yes' : 'no');
+                                $site->pg_installation_possibility = ((trim($data[16]) == 'PG Possible' || trim($data[16]) == 'Y') ? 'yes' : 'no');
                                 $site->region_id = $site_region->getIdByName(cleanCSVData($data[17]));
                                 //$site->province_id=cleanData($data[21]);
                                 $site->district_id = $site_district->getIdByName(cleanCSVData($data[19]));
@@ -161,7 +161,7 @@ if ($_POST['but'] == 'update') {
                                 $site->lo_land_number = cleanCSVData($data[5]);
                                 $site->contact_person_number = cleanCSVData($data[6]);
                                 $site->lo_fax = cleanCSVData($data[7]);
-                                $site->lo_email = cleanCSVData($data[8]);
+                                $site->lo_email = cleanCSVData($data[8]);                                
 
                                 if ($site->update($tab,"API")) {
                                     $msg .= "Contact data updated";

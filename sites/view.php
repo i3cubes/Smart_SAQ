@@ -69,7 +69,7 @@ include_once '../class/cls_site_manager.php';
                     <table id="table" class="table table-bordered table_style table-striped table-hover" style="width:100% !important;">
                         <thead>
                             <tr style="height:40px;">
-                                <th class="headerStyle">...</th>
+                                <th class="headerStyle" width="3%" style=""><input type='checkbox' id='selectAllCheckBox' style='margin-left:0.5px;' name='' value='' /></th>
                                 <td class="headerStyle" width="5%">CODE</td>                               
                                 <td class="headerStyle">NAME</td>
                                 <td class="headerStyle">ADDRESS</td>
@@ -172,7 +172,13 @@ include("../inc/scripts.php");
 
 
                             $(document).ready(function () {
-
+                                $('#selectAllCheckBox').click(function(){
+                                    if($(this).prop('checked')) {
+                                        $("input[type='checkbox']").prop('checked',true);
+                                    } else {
+                                        $("input[type='checkbox']").prop('checked',false);
+                                    }
+                                });
                             });
 
                             function bulk_delete() {
