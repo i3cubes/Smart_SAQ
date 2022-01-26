@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once 'cls_site.php';
 include_once 'database.php';
 
@@ -33,7 +34,16 @@ class site_manager {
             $where= implode(" AND ", $ary_sql);
         }
         else{
-            $where="t1.status_delete = ".constants::$active." AND t1.id>0 ORDER BY t1.id DESC";
+            if($_SESSION['UROLE'] == constants::$system_admin || $_SESSION['UROLE'] == constants::$admin) {
+                 $where="t1.status_delete = ".constants::$active." AND t1.id>0 ORDER BY t1.id DESC";
+            } else {
+                if(isset($_SESSION['SAQDID'])) {
+                    $where="t1.status_delete = ".constants::$active." AND t1.id>0 AND t1.saq_district_id = ".$_SESSION['SAQDID']." ORDER BY t1.id DESC";
+                } else {
+                    $where="t1.status_delete = ".constants::$active." AND t1.id>0 ORDER BY t1.id DESC";
+                }                
+            }
+            
         }
         $str="SELECT t1.*,t2.name as district_name,t3.name as ds_name,t4.name as la_name,t5.name as police_station_name,"
                 . "t6.name as region_name,t7.name as status_name,t8.ownership FROM saq_sites as t1 left join saq_district as t2 on t1.saq_district_id=t2.id "

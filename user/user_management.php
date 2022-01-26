@@ -65,9 +65,9 @@ $users = $user_obj->getAllUsers();
                             <tr style="height:40px;">
                                 <!--<th>#ID</th>-->
                                 <td class="headerStyle">NAME</td>                               
-                                <td class="headerStyle">ADDRESS</td>
-                                <td class="headerStyle">EMAIL</td>
-                                <td class="headerStyle">CONTACT NO</td>                                
+                                <td class="headerStyle">ROLE</td>
+<!--                                <td class="headerStyle">EMAIL</td>
+                                <td class="headerStyle">CONTACT NO</td>                                -->
                                 <td style="text-align:center;" class="headerStyle" width="5%">EDIT</td>
                                 <td style="text-align:center;" class="headerStyle" width="5%">STATUS</td>
                             </tr>
@@ -78,9 +78,9 @@ $users = $user_obj->getAllUsers();
                                 foreach ($users as $user) {
                                     print "<tr>"
                                             . "<td>" . $user['name'] . "</td>"
-                                            . "<td>" . $user['address'] . "</td>"
-                                            . "<td>" . $user['email'] . "</td>"
-                                            . "<td>" . $user['contact_no'] . "</td>"
+                                            . "<td>" . $user['user_role'] . "</td>"
+//                                            . "<td>" . $user['email'] . "</td>"
+//                                            . "<td>" . $user['contact_no'] . "</td>"
                                             . "<td align='center' width='5%'><button class='btn btn-primary btn-xs' onclick='add_edit_user(" . $user['id'] . ")'>Edit</button></td>"
                                             . "<td align='center' width='5%'>" . (($user['status'] == constants::$active) ? "<button onclick=changeStatus(" . $user['id'] . ",'D') title='LOCK'><i class='fa fa-check-circle' style='color:green;font-size:21px;'></i></button>" : "<button onclick=changeStatus(" . $user['id'] . ",'E') title='UNLOCK'><i class='fa fa-times-circle'  style='color:red;font-size:21px;'></i></button>") . "</td>"
                                             . "</tr>";

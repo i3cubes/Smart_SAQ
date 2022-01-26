@@ -41,6 +41,7 @@ if($_REQUEST['id'] != '') {
     $region_id = $emp_obj->region_id;
     $DNS_region_id = $emp_obj->dns_region_id;
     $designation_id = $emp_obj->designtion_id;
+    $district_id = $emp_obj->saq_district_id;
 }
 ?>
 <style>
@@ -93,12 +94,12 @@ if($_REQUEST['id'] != '') {
                                     <fieldset>  
                                         <section class="col col-4">
                                             <label class="ngs_form_lable">
-                                               Eployee Name
+                                               Employee Name
                                             </label>
                                         </section>
                                         <section class="col col-4">
                                             <label class="input">
-                                                <input type="text" name="emp_name" id="emp_name" value="<?php print $user_obj->name ?>"/> 
+                                                <input type="text" name="emp_name" id="emp_name" value="<?php print $emp_obj->name ?>"/> 
                                             </label>
                                         </section>
                                         <section class="col col-4">
@@ -109,7 +110,7 @@ if($_REQUEST['id'] != '') {
                                         <section class="col col-4">
                                             <label class="select">
                                            <select name="emp_designation" id="emp_designation">
-                                                        <option value="" selected="">SELECT</option>
+                                                        <option value="" selected="">SELECT DESIGNATION</option>
                                                         
                                                         <?php
                                                         
@@ -119,7 +120,30 @@ if($_REQUEST['id'] != '') {
 //                                                        }else {
 //                                                            $gn_district = $gn_district;
 //                                                        }
-                                                        print $fn->CreateMenu('saq_designation', 'designation', "", "$gn_district", "", "id", "", "");
+                                                        print $fn->CreateMenu('saq_designation', 'designation', "", "$designation_id", "", "id", "", "");
+                                                        ?>
+                                                    </select> <i></i> 
+                                            </label>
+                                        </section>
+                                        <section class="col col-4">
+                                            <label class="ngs_form_lable">
+                                               District
+                                            </label>
+                                        </section>
+                                        <section class="col col-4">
+                                            <label class="select">
+                                           <select name="saq_district_id" id="saq_district_id">
+                                                        <option value="" selected="">SELECT DISTRICT</option>
+                                                        
+                                                        <?php
+                                                        
+                                                        //$ary_status = $const->getFTStatus();
+//                                                        if ($gn_district ==""){
+//                                                            $gn_district = '';
+//                                                        }else {
+//                                                            $gn_district = $gn_district;
+//                                                        }
+                                                        print $fn->CreateMenu('saq_district', 'name', "", "$district_id", "", "id", "", "");
                                                         ?>
                                                     </select> <i></i> 
                                             </label>
@@ -250,36 +274,36 @@ include("../inc/scripts.php");
     $(document).ready(function () {
 <?php 
 
-if($designation_id =="1"){
-    print "$('#select_region').removeClass('hidden');";
-    print "$('#emp_designation').val('".$designation_id."');";
-    print "$('#emp_region').val('".$region_id."');";
-}if($designation_id =="2"){
-    print "$('#select_dns_region').removeClass('hidden');";
-    print "$('#emp_designation').val('".$designation_id."');";
-    print "$('#emp_dns_region').val('".$region_id."');";
-}else {
-    
-}
+//if($designation_id =="1"){
+//    print "$('#select_region').removeClass('hidden');";
+//    print "$('#emp_designation').val('".$designation_id."');";
+//    print "$('#emp_region').val('".$region_id."');";
+//}if($designation_id =="2"){
+//    print "$('#select_dns_region').removeClass('hidden');";
+//    print "$('#emp_designation').val('".$designation_id."');";
+//    print "$('#emp_dns_region').val('".$region_id."');";
+//}else {
+//    
+//}
 
 ?>
     });    
-$('#emp_designation').change(function (){
-    var val = $(this).val();
-   if( val =='1'){
-       $('#select_region').removeClass('hidden');
-       $('#select_dns_region').addClass('hidden');
-   }else if(val =='2'){
-       $('#select_dns_region').removeClass('hidden');
-        $('#select_region').addClass('hidden');
-       
-   }else {
-       $('#select_dns_region').addClass('hidden');
-       $('#select_region').addClass('hidden');
-   }
-    
-    
-})
+//$('#emp_designation').change(function (){
+//    var val = $(this).val();
+//   if( val =='1'){
+//       $('#select_region').removeClass('hidden');
+//       $('#select_dns_region').addClass('hidden');
+//   }else if(val =='2'){
+//       $('#select_dns_region').removeClass('hidden');
+//        $('#select_region').addClass('hidden');
+//       
+//   }else {
+//       $('#select_dns_region').addClass('hidden');
+//       $('#select_region').addClass('hidden');
+//   }
+//    
+//    
+//})
     function submitHandler() {
         var form = $('#user_form').serialize();
         $.ajax({

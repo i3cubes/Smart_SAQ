@@ -47,7 +47,7 @@ $user_roles = $user_role_obj->getAll();
     .customFiled {
         margin-bottom: 10px;
     }
-    
+
     .smart-form .state-error+em {
         color: #c31616;
     }
@@ -94,7 +94,7 @@ $user_roles = $user_role_obj->getAll();
                             <!-- widget content -->
                             <div class="widget-body">
                                 <form class="smart-form" id="user_form">  
-                                    <fieldset>  
+                                    <fieldset>                                         
                                         <section class="col col-4">
                                             <label class="ngs_form_lable">
                                                 Username
@@ -135,10 +135,10 @@ $user_roles = $user_role_obj->getAll();
                                         <section class="col col-4">
                                             <label class="select">
                                                 <select name='role'>
-                                                    <?php                                                    
-                                                        foreach($user_roles as $role) {
-                                                            print "<option value='".$role['id']."' ".(($user_obj->saq_us_role_id == $role['id']) ? "selected=''" : "").">".$role['role_name']."</option>";
-                                                        }
+                                                    <?php
+                                                    foreach ($user_roles as $role) {
+                                                        print "<option value='" . $role['id'] . "' " . (($user_obj->saq_us_role_id == $role['id']) ? "selected=''" : "") . ">" . $role['role_name'] . "</option>";
+                                                    }
                                                     ?>
                                                 </select>
                                             </label>
@@ -187,13 +187,13 @@ include("../inc/scripts.php");
 
 <script type="text/javascript">
     $(document).ready(function () {
-        
+
         $.validator.addMethod("pwcheck", function (value) {
             return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) // consists of only these
                     && /[a-z]/.test(value) // has a lowercase letter
                     && /\d/.test(value) // has a digit
         }, "Password must consist atleast one uppercase letter, one lowercase letter and one digit.");
-        
+
         $(function () {
             // Validation
             $("#user_form").validate({
@@ -253,7 +253,7 @@ include("../inc/scripts.php");
                     if (response['msg'] == 1) {
                         window.parent.location.reload();
                         window.parent.$.jeegoopopup.close();
-                    } else if(response['msg'] == 2){
+                    } else if (response['msg'] == 2) {
                         alert('Password already taken');
                     } else {
                         alert('Failure');

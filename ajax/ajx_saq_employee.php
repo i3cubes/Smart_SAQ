@@ -34,12 +34,14 @@ case "POST":
         $designation = $_POST['emp_designation'];
         $reigion = $_POST['emp_region'];
         $emp_dns_region = $_POST['emp_dns_region'];
+        $saq_district_id = $_POST['saq_district_id'];
         
         $emp = new saq_employee();
         $emp->name = $name;
         $emp->designtion_id = $designation;
         $emp->region_id = $reigion;
         $emp->dns_region_id = $emp_dns_region;
+        $emp->saq_district_id = $saq_district_id;
 //        if(isset($_POST['emp_region'])){
 //            $emp_region = $_POST['emp_region'];
 //            
@@ -58,12 +60,14 @@ case "POST":
         $designation = $_POST['emp_designation'];
         $reigion = $_POST['emp_region'];
         $emp_dns_region = $_POST['emp_dns_region'];
+        $saq_district_id = $_POST['saq_district_id'];
         
-        $emp = new saq_employee();
+        $emp = new saq_employee($id);
         $emp->name = $name;
         $emp->designtion_id = $designation;
         $emp->region_id = $reigion;
         $emp->dns_region_id = $emp_dns_region;
+        $emp->saq_district_id = $saq_district_id;
         if(isset($_POST['emp_region'])){
             $emp_region = $_POST['emp_region'];
             
@@ -87,6 +91,24 @@ case "POST":
             } else {
                  echo json_encode(array('result'=>0,"data"=>$regionEmployee));
             }
+        break;
+    case 204:        
+        $eid = $_POST['id'];
+        $status = $_POST['status'];
+        
+        $emp_obj = new saq_employee($eid);
+
+        if ($status == 'D') {
+            $emp_obj->status = constants::$DELETED;           
+        } else if ($status == 'E') {
+            $emp_obj->status = constants::$active;            
+        }
+        $result = $emp_obj->updateEmp();
+        if ($result) {
+            echo json_encode(array('msg' => 1));
+        } else {
+            echo json_encode(array('msg' => 0));
+        }
         break;
     
     

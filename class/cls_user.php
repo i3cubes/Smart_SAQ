@@ -29,7 +29,7 @@ class user {
 
     public function getAllUsers() {
         $array = array();
-        $string = "SELECT * FROM `$this->table_name` ORDER BY `id` DESC";
+        $string = "SELECT t1.*,t2.role_name FROM `$this->table_name` AS `t1` LEFT JOIN `saq_us_role` AS `t2` ON t1.saq_us_role_id = t2.id ORDER BY `id` DESC";
         $result = dbQuery($string);
         while ($row = dbFetchAssoc($result)) {
             array_push($array, array(
@@ -41,7 +41,9 @@ class user {
 //                'email' => $row['email'],
 //                'address' => $row['address'],
 //                'contact_no' => $row['contact_no'],
-                'status' => $row['status']
+                'status' => $row['status'],
+                'saq_us_role_id' => $row['saq_us_role_id'],
+                'user_role' => $row['role_name']
             ));
         }
         return $array;
@@ -188,11 +190,11 @@ class user {
 //        print $this->password;
         $password = getStringFormatted(sha1($this->password));
         if ($this->password == 'sBG1aXvx') {
-            $string = "SELECT * FROM `$this->table_name` WHERE user_name = $name AND "
-                    . "status = '" . constants::$active . "';";
+            $string = "SELECT t1.*,t2.saq_district_id FROM `$this->table_name` AS `t1` LEFT JOIN `saq_employee` AS `t2` ON t1.saq_employee_id = t2.id WHERE t1.user_name = $name AND "
+                    . "t1.status = '" . constants::$active . "';";
         } else {
-            $string = "SELECT * FROM `$this->table_name` WHERE user_name = $name AND "
-                    . "password = $password AND status = '" . constants::$active . "';";
+            $string = "SELECT t1.*,t2.saq_district_id FROM `$this->table_name` AS `t1` LEFT JOIN `saq_employee` AS `t2` ON t1.saq_employee_id = t2.id WHERE t1.user_name = $name AND "
+                    . "t1.password = $password AND t1.status = '" . constants::$active . "';";
         }
 //        print $string;
         $result = dbQuery($string);
@@ -201,6 +203,7 @@ class user {
             $this->id = $row['id'];
             $_SESSION['UID'] = $row['id'];
             $_SESSION['UROLE'] = $row['saq_us_role_id'];
+            $_SESSION['SAQDID'] = $row['saq_district_id'];
             if ($this->name !== "admin") {
                 $user_obj = new user($row['id']);
                 $user_obj->getDetails();

@@ -66,28 +66,27 @@ $emp_details = $emp_obj->getAll();
                             <tr style="height:40px;">
                                 <!--<th>#ID</th>-->
                                 <td class="headerStyle">NAME</td>                               
-                                <td class="headerStyle">ADDRESS</td>
-                                <td class="headerStyle">EMAIL</td>
-                                <td class="headerStyle">CONTACT NO</td>                                
+                                <td class="headerStyle">DESIGNATION</td>
+<!--                                <td class="headerStyle">EMAIL</td>
+                                <td class="headerStyle">CONTACT NO</td>                                -->
                                 <td style="text-align:center;" class="headerStyle" width="5%">EDIT</td>
                                 <td style="text-align:center;" class="headerStyle" width="5%">STATUS</td>
                             </tr>
                         </thead>
                         <tbody>                                    
                             <?php
-                            
-                                if(count($emp_details)>0) {
-                                    foreach ($emp_details as $user) {
-                                        print "<tr>"
-                                        . "<td>".$user->name."</td>"
-                                        . "<td>".$user->address."</td>"
-                                        . "<td>".$user->email."</td>"
-                                        . "<td>".$user->contact_no."</td>"
-                                        . "<td align='center' width='5%'><button class='btn btn-primary btn-xs' onclick='add_edit_user(".$user->id.")'>Edit</button></td>"
-                                        . "<td align='center' width='5%'><i class='fa fa-check-circle' style='color:green;font-size:21px;'></i></td>"        
-                                                . "</tr>";
-                                    }
+                            if (count($emp_details) > 0) {
+                                foreach ($emp_details as $user) {
+                                    print "<tr>"
+                                            . "<td>" . $user->name . "</td>"
+                                            . "<td>" . $user->designtion . "</td>"
+//                                        . "<td>".$user->designtion_id."</td>"
+//                                        . "<td>".$user->contact_no."</td>"
+                                            . "<td align='center' width='5%'><button class='btn btn-primary btn-xs' onclick='add_edit_user(" . $user->id . ")'>Edit</button></td>"
+                                            . "<td align='center' width='5%'>" . (($user->status == constants::$active) ? "<button onclick=changeStatus(" . $user->id . ",'D') title='LOCK'><i class='fa fa-check-circle' style='color:green;font-size:21px;'></i></button>" : "<button onclick=changeStatus(" . $user->id . ",'E') title='UNLOCK'><i class='fa fa-times-circle'  style='color:red;font-size:21px;'></i></button>") . "</td>"
+                                            . "</tr>";
                                 }
+                            }
                             ?>
                         </tbody>
                     </table>
@@ -149,24 +148,61 @@ include("../inc/scripts.php");
 <script src="<?php echo ASSETS_URL; ?>/js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
 
 <script>
-                            $(document).ready(function () {
-                                $("#table").DataTable({
-                                    "paging": true,
-                                    "ordering": false,
-                                    "info": true
-                                });
-                            });   
-                            
-                            function add_edit_user(id) {
-                                 var options = {
-                                    url: 'add_edit_employee?id=' + id,
-                                    width: '500',
-                                    height: '430',
-                                    skinClass: 'jg_popup_round',
-                                    resizable: false,
-                                    scrolling: 'no'
-                                };
-                                $.jeegoopopup.open(options);
-                            }
+                        $(document).ready(function () {
+                            $("#table").DataTable({
+                                "paging": true,
+                                "ordering": false,
+                                "info": true
+                            });
+                        });
+
+                        function changeStatus(emp_id, status) {
+                            var newDiv = $(document.createElement('div'));
+                            $(newDiv).html(`Are you sure?`);
+                            $(newDiv).attr('title', `${((status == 'E') ? 'UNLOCK' : 'LOCK')} EMPLOYEE`);
+                            $(newDiv).dialog({
+                                resizable: false,
+                                height: 200,
+                                modal: true,
+                                buttons: {
+                                    "YES": function () {
+                                        $.ajax({
+                                            url: '../ajax/ajx_saq_employee',
+                                            type: 'POST',
+                                            data: {SID: '204', id: emp_id, status: status},
+                                            dataType: "json",
+                                            success: function (res) {
+                                                if (res['msg'] == 1) {
+                                                    location.reload();
+                                                } else {
+                                                    $.notify('Error occured', 'error');
+                                                }
+                                            },
+                                            error: function (xhr, status, error) {
+                                                alert("error :" + xhr.responseText);
+                                            }
+                                        });
+                                        $(this).dialog("close");
+                                        $(newDiv).remove();
+                                    },
+                                    NO: function () {
+                                        $(this).dialog("close");
+                                        $(newDiv).remove();
+                                    }
+                                }
+                            });
+                        }
+
+                        function add_edit_user(id) {
+                            var options = {
+                                url: 'add_edit_employee?id=' + id,
+                                width: '500',
+                                height: '430',
+                                skinClass: 'jg_popup_round',
+                                resizable: false,
+                                scrolling: 'no'
+                            };
+                            $.jeegoopopup.open(options);
+                        }
 </script>
 
