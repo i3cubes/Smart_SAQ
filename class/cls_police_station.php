@@ -5,7 +5,7 @@ include_once 'constants.php';
 
 class saq_police_station {
     
-    public $id,$name;
+    public $id,$name,$status;
     private $table_name = 'saq_police_station';
 
     public function __construct($id = '') {
@@ -22,7 +22,7 @@ class saq_police_station {
     
     public function getAll() {
         $array = array();
-        $string = "SELECT * FROM `$this->table_name`;";
+        $string = "SELECT * FROM `$this->table_name` WHERE `status` = ".constants::$active.";";
         $result = dbQuery($string);
         while ($row = dbFetchAssoc($result)) {
             $saq_police_station_obj = new saq_police_station($row['id']);
@@ -30,6 +30,42 @@ class saq_police_station {
             array_push($array, $saq_police_station_obj);
         }
         return $array;
+    }
+    
+     public function add() {
+        if ($this->name != '') {            
+            $string = "INSERT INTO `$this->table_name` (`name`) VALUES (" . getStringFormatted($this->name) . ");";
+//            print $string;
+            $result = dbQuery($string);
+            if ($result) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public function edit() {
+        $string = "UPDATE `$this->table_name` SET `name` = " . getStringFormatted($this->name) . " WHERE `id` = $this->id;";
+        $result = dbQuery($string);
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function delete() {
+        $string = "UPDATE `$this->table_name` SET `status` = " . constants::$inactive . " WHERE `id` = $this->id;";
+//        print $string;
+        $result = dbQuery($string);
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 

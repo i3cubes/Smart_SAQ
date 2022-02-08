@@ -2,6 +2,29 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/employee/employee_management.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/view.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_saq_employee.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/database.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_site_manager.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/ajax/ajx_saq_employee.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/constants.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/ajax/ajx_user.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/add_edit.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_saq_region.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/inc/header.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_site.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/index.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_saq_district.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/user/add_edit_user.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/functions.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/inc/config.ui.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_saq_site_agreement_data.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/user/user_management.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_user.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_saq_site_assesment_info.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/employee/add_edit_employee.php</file>
+        </group>
     </open-files>
 </project-private>

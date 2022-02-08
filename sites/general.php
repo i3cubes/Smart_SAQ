@@ -35,6 +35,12 @@ include_once '../class/cls_saq_ownership.php';
 include_once '../class/cls_saq_site_category.php';
 include_once '../class/cls_saq_access_type.php';
 include_once '../class/cls_saq_permission_type.php';
+include_once '../class/cls_saq_district.php';
+include_once '../class/cls_divisional_secretariat.php';
+include_once '../class/cls_saq_local_authority.php';
+include_once '../class/cls_police_station.php';
+include_once '../class/cls_saq_region.php';
+//include_once '../class/cls_saq_ownership.php';
 $gn_division = new saq_gn_division();
 //
 include_once '../class/functions.php';
@@ -62,7 +68,545 @@ $gn_district = $_POST['gn_district'];
         <!-- widget grid -->
         <section id="widget-grid">
             <!-- row -->
+             <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="jarviswidget"
+                         data-widget-deletebutton="false" 
+                         data-widget-togglebutton="false"
+                         data-widget-editbutton="false"
+                         data-widget-fullscreenbutton="false"
+                         data-widget-colorbutton="false">
 
+
+                        <header>
+                            <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
+                            <h2 style=""><b>District</b></h2> 
+                            <button class="btn btn-default btn-xs" style="float:right;margin:5px;" type="button" onclick="addDistrictName()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
+                            <!--<button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="bulk_update(0)">Bulk Edit&nbsp;<i class="fa fa-cogs"></i></button>-->
+                        </header> 
+                        <div class="widget-body">
+
+                            <table id="table" class="table table-bordered table_style table-striped table-hover" style="width:100% !important;">       
+                                <tbody>       
+
+                                    <?php
+                                    //$gn_division->saq_district_id = $gn_district;
+                                    $cls_saq_district = new saq_district();
+                                    $districts = $cls_saq_district->getAll();
+
+                                    //print_r($gn_division);
+                                    if (count($districts) > 0) {
+                                        foreach ($districts as $d) {
+                                            print "<tr class='ngs-popup-dis' id ='$d->id'>"
+                                                    . "<td>" . $d->name . "</td>"
+                                                    . "</tr>";
+                                        }
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                            <!--</div>-->
+                            <script>
+                                $('.ngs-popup-dis').click(function () {
+
+
+                                    var id = this.id;
+
+                                    addDistrictName(id);
+
+                                });
+
+
+                            </script>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="jarviswidget"
+                         data-widget-deletebutton="false" 
+                         data-widget-togglebutton="false"
+                         data-widget-editbutton="false"
+                         data-widget-fullscreenbutton="false"
+                         data-widget-colorbutton="false">
+
+
+                        <header>
+                            <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
+                            <h2 style=""><b>Divisional Secretariat</b></h2> 
+                            <button class="btn btn-default btn-xs" style="float:right;margin:5px;" type="button" onclick="addDsName()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
+                            <!--<button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="bulk_update(0)">Bulk Edit&nbsp;<i class="fa fa-cogs"></i></button>-->
+                        </header> 
+                        <div class="widget-body">                    
+                            <!--<div class="row">-->
+                            <table id="table" class="table table-bordered table_style table-striped table-hover" style="width:100% !important;">        
+                                <tbody>       
+
+                                    <?php
+//$gn_division->saq_district_id = $gn_district;
+                                    $saq_ds = new saq_ds();
+                                    $saq_dss = $saq_ds->getAll();
+
+//print_r($dns_depte_details);
+                                    if (count($saq_dss) > 0) {
+                                        foreach ($saq_dss as $ds) {
+                                            print "<tr class='ngs-popup-ds' id ='$ds->id'>"
+                                                    . "<td>" . $ds->name . "</td>"
+                                                    . "</tr>";
+                                        }
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                            <!--</div>-->
+                            <script>
+                                $('.ngs-popup-ds').click(function () {
+
+
+                                    var id = this.id;
+
+                                    addDsName(id);
+
+                                });
+
+
+                            </script>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="jarviswidget"
+                         data-widget-deletebutton="false" 
+                         data-widget-togglebutton="false"
+                         data-widget-editbutton="false"
+                         data-widget-fullscreenbutton="false"
+                         data-widget-colorbutton="false">
+
+
+                        <header>
+                            <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
+                            <h2 style=""><b>Local Authority</b></h2> 
+                            <button class="btn btn-default btn-xs" style="float:right;margin:5px;" type="button" onclick="addLaName()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
+                            <!--<button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="bulk_update(0)">Bulk Edit&nbsp;<i class="fa fa-cogs"></i></button>-->
+                        </header> 
+                        <div class="widget-body">
+
+                            <table id="table" class="table table-bordered table_style table-striped table-hover" style="width:100% !important;">       
+                                <tbody>       
+
+                                    <?php
+                                    //$gn_division->saq_district_id = $gn_district;
+                                    $saq_la = new saq_la();
+                                    $las = $saq_la->getAll();
+
+                                    //print_r($gn_division);
+                                    if (count($las) > 0) {
+                                        foreach ($las as $la) {
+                                            print "<tr class='ngs-popup-la' id ='$la->id'>"
+                                                    . "<td>" . $la->name . "</td>"
+                                                    . "</tr>";
+                                        }
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                            <!--</div>-->
+                            <script>
+                                $('.ngs-popup-la').click(function () {
+
+
+                                    var id = this.id;
+
+                                    addLaName(id);
+
+                                });
+
+
+                            </script>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="jarviswidget"
+                         data-widget-deletebutton="false" 
+                         data-widget-togglebutton="false"
+                         data-widget-editbutton="false"
+                         data-widget-fullscreenbutton="false"
+                         data-widget-colorbutton="false">
+
+
+                        <header>
+                            <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
+                            <h2 style=""><b>GS Division</b></h2> 
+                            <button class="btn btn-default btn-xs" style="float:right;margin:5px;" type="button" onclick="addDnsDepotName()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
+                            <!--<button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="bulk_update(0)">Bulk Edit&nbsp;<i class="fa fa-cogs"></i></button>-->
+                        </header> 
+                        <div class="widget-body">                    
+                            <!--<div class="row">-->
+                            <table id="table" class="table table-bordered table_style table-striped table-hover" style="width:100% !important;">        
+                                <tbody>       
+
+                                    <?php
+//$gn_division->saq_district_id = $gn_district;
+//                                    $saq_ds = new saq_ds();
+//                                    $saq_dss = $saq_ds->getAll();
+//
+////print_r($dns_depte_details);
+//                                    if (count($saq_dss) > 0) {
+//                                        foreach ($saq_dss as $ds) {
+//                                            print "<tr class='ngs-popup-ds' id ='$ds->id'>"
+//                                                    . "<td>" . $ds->name . "</td>"
+//                                                    . "</tr>";
+//                                        }
+//                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                            <!--</div>-->
+                            <script>
+                                $('.ngs-popup-depot').click(function () {
+
+
+                                    var id = this.id;
+
+                                    addDnsDepotName(id);
+
+                                });
+
+
+                            </script>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+             <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="jarviswidget"
+                         data-widget-deletebutton="false" 
+                         data-widget-togglebutton="false"
+                         data-widget-editbutton="false"
+                         data-widget-fullscreenbutton="false"
+                         data-widget-colorbutton="false">
+
+
+                        <header>
+                            <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
+                            <h2 style=""><b>Police Station</b></h2> 
+                            <button class="btn btn-default btn-xs" style="float:right;margin:5px;" type="button" onclick="addPsName()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
+                            <!--<button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="bulk_update(0)">Bulk Edit&nbsp;<i class="fa fa-cogs"></i></button>-->
+                        </header> 
+                        <div class="widget-body">
+
+                            <table id="table" class="table table-bordered table_style table-striped table-hover" style="width:100% !important;">       
+                                <tbody>       
+
+                                    <?php
+                                    //$gn_division->saq_district_id = $gn_district;
+                                    $saq_police_station = new saq_police_station();
+                                    $pss = $saq_police_station->getAll();
+
+                                    //print_r($gn_division);
+                                    if (count($pss) > 0) {
+                                        foreach ($pss as $ps) {
+                                            print "<tr class='ngs-popup-ps' id ='$ps->id'>"
+                                                    . "<td>" . $ps->name . "</td>"
+                                                    . "</tr>";
+                                        }
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                            <!--</div>-->
+                            <script>
+                                $('.ngs-popup-ps').click(function () {
+
+
+                                    var id = this.id;
+
+                                    addPsName(id);
+
+                                });
+
+
+                            </script>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="jarviswidget"
+                         data-widget-deletebutton="false" 
+                         data-widget-togglebutton="false"
+                         data-widget-editbutton="false"
+                         data-widget-fullscreenbutton="false"
+                         data-widget-colorbutton="false">
+
+
+                        <header>
+                            <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
+                            <h2 style=""><b>DNS Region</b></h2> 
+                            <button class="btn btn-default btn-xs" style="float:right;margin:5px;" type="button" onclick="addRegionName()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
+                            <!--<button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="bulk_update(0)">Bulk Edit&nbsp;<i class="fa fa-cogs"></i></button>-->
+                        </header> 
+                        <div class="widget-body">                    
+                            <!--<div class="row">-->
+                            <table id="table" class="table table-bordered table_style table-striped table-hover" style="width:100% !important;">        
+                                <tbody>       
+
+                                    <?php
+                                    $saq_region = new saq_region();
+                                    $saq_regions = $saq_region->getAll();
+
+//print_r($dns_depte_details);
+                                    if (count($saq_regions) > 0) {
+                                        foreach ($saq_regions as $region) {
+                                            print "<tr class='ngs-popup-region' id ='$region->id'>"
+                                                    . "<td>" . $region->name . "</td>"
+                                                    . "</tr>";
+                                        }
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                            <!--</div>-->
+                            <script>
+                                $('.ngs-popup-region').click(function () {
+
+
+                                    var id = this.id;
+
+                                    addRegionName(id);
+
+                                });
+
+
+                            </script>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+             <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="jarviswidget"
+                         data-widget-deletebutton="false" 
+                         data-widget-togglebutton="false"
+                         data-widget-editbutton="false"
+                         data-widget-fullscreenbutton="false"
+                         data-widget-colorbutton="false">
+
+
+                        <header>
+                            <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
+                            <h2 style=""><b>RM Name</b></h2> 
+                            <button class="btn btn-default btn-xs" style="float:right;margin:5px;" type="button" onclick="addRMName()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
+                            <!--<button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="bulk_update(0)">Bulk Edit&nbsp;<i class="fa fa-cogs"></i></button>-->
+                        </header> 
+                        <div class="widget-body">
+
+                            <table id="table" class="table table-bordered table_style table-striped table-hover" style="width:100% !important;">       
+                                <tbody>       
+
+                                    <?php
+                                    //$gn_division->saq_district_id = $gn_district;
+//                                    $saq_police_station = new saq_police_station();
+//                                    $pss = $saq_police_station->getAll();
+//
+//                                    //print_r($gn_division);
+//                                    if (count($pss) > 0) {
+//                                        foreach ($pss as $ps) {
+//                                            print "<tr class='ngs-popup-dis' id ='$ps->id'>"
+//                                                    . "<td>" . $ps->name . "</td>"
+//                                                    . "</tr>";
+//                                        }
+//                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                            <!--</div>-->
+                            <script>
+                                $('.ngs-popup-rm').click(function () {
+
+
+                                    var id = this.id;
+
+                                    addRMName(id);
+
+                                });
+
+
+                            </script>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="jarviswidget"
+                         data-widget-deletebutton="false" 
+                         data-widget-togglebutton="false"
+                         data-widget-editbutton="false"
+                         data-widget-fullscreenbutton="false"
+                         data-widget-colorbutton="false">
+
+
+                        <header>
+                            <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
+                            <h2 style=""><b>SAQ Officer Name</b></h2> 
+                            <button class="btn btn-default btn-xs" style="float:right;margin:5px;" type="button" onclick="addDnsDepotName()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
+                            <!--<button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="bulk_update(0)">Bulk Edit&nbsp;<i class="fa fa-cogs"></i></button>-->
+                        </header> 
+                        <div class="widget-body">                    
+                            <!--<div class="row">-->
+                            <table id="table" class="table table-bordered table_style table-striped table-hover" style="width:100% !important;">        
+                                <tbody>       
+
+                                    <?php
+//                                    $saq_region = new saq_region();
+//                                    $saq_regions = $saq_region->getAll();
+//
+////print_r($dns_depte_details);
+//                                    if (count($saq_regions) > 0) {
+//                                        foreach ($saq_regions as $region) {
+//                                            print "<tr class='ngs-popup-ds' id ='$region->id'>"
+//                                                    . "<td>" . $region->name . "</td>"
+//                                                    . "</tr>";
+//                                        }
+//                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                            <!--</div>-->
+                            <script>
+                                $('.ngs-popup-depot').click(function () {
+
+
+                                    var id = this.id;
+
+                                    addDnsDepotName(id);
+
+                                });
+
+
+                            </script>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="jarviswidget"
+                         data-widget-deletebutton="false" 
+                         data-widget-togglebutton="false"
+                         data-widget-editbutton="false"
+                         data-widget-fullscreenbutton="false"
+                         data-widget-colorbutton="false">
+
+
+                        <header>
+                            <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
+                            <h2 style=""><b>DNS Officer Name</b></h2> 
+                            <button class="btn btn-default btn-xs" style="float:right;margin:5px;" type="button" onclick="addRMName()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
+                            <!--<button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="bulk_update(0)">Bulk Edit&nbsp;<i class="fa fa-cogs"></i></button>-->
+                        </header> 
+                        <div class="widget-body">
+
+                            <table id="table" class="table table-bordered table_style table-striped table-hover" style="width:100% !important;">       
+                                <tbody>       
+
+                                    <?php
+                                    //$gn_division->saq_district_id = $gn_district;
+//                                    $saq_police_station = new saq_police_station();
+//                                    $pss = $saq_police_station->getAll();
+//
+//                                    //print_r($gn_division);
+//                                    if (count($pss) > 0) {
+//                                        foreach ($pss as $ps) {
+//                                            print "<tr class='ngs-popup-dis' id ='$ps->id'>"
+//                                                    . "<td>" . $ps->name . "</td>"
+//                                                    . "</tr>";
+//                                        }
+//                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                            <!--</div>-->
+                            <script>
+                                $('.ngs-popup-rm').click(function () {
+
+
+                                    var id = this.id;
+
+                                    addRMName(id);
+
+                                });
+
+
+                            </script>
+                        </div>
+
+                    </div>
+                </div>
+                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="jarviswidget"
+                         data-widget-deletebutton="false" 
+                         data-widget-togglebutton="false"
+                         data-widget-editbutton="false"
+                         data-widget-fullscreenbutton="false"
+                         data-widget-colorbutton="false">
+
+
+                        <header>
+                            <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
+                            <h2 style=""><b>Site Ownership</b></h2> 
+                            <button class="btn btn-default btn-xs" style="float:right;margin:5px;" type="button" onclick="addOwnershipName()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
+                            <!--<button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="bulk_update(0)">Bulk Edit&nbsp;<i class="fa fa-cogs"></i></button>-->
+                        </header> 
+                        <div class="widget-body">                           
+                            <!--<div class="row">-->
+                            <table id="table" class="table table-bordered table_style table-striped table-hover" style="width:100% !important;">                               
+                                <tbody>       
+
+                                    <?php
+//$gn_division->saq_district_id = $gn_district;
+                                    $ownership = new saq_site_ownership();
+                                    $ownership_details = $ownership->getAll();
+
+//print_r($ownership_details);
+                                    if (count($ownership_details) > 0) {
+                                        foreach ($ownership_details as $tech) {
+                                            print "<tr class='ngs-popup-ownership' id ='$tech->id'>"
+                                                    . "<td>" . $tech->ownership . "</td>"
+                                                    . "</tr>";
+                                        }
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                            <!--</div>-->
+                            <script>
+                                $('.ngs-popup-ownership').click(function () {
+
+
+                                    var id = this.id;
+
+                                    addOwnershipName(id);
+
+                                });
+
+
+                            </script>
+                        </div>
+
+                    </div>
+                </div>
+                
+            </div>
             <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                     <div class="jarviswidget"
@@ -172,59 +716,7 @@ $gn_district = $_POST['gn_district'];
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                    <div class="jarviswidget"
-                         data-widget-deletebutton="false" 
-                         data-widget-togglebutton="false"
-                         data-widget-editbutton="false"
-                         data-widget-fullscreenbutton="false"
-                         data-widget-colorbutton="false">
-
-
-                        <header>
-                            <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
-                            <h2 style=""><b>Site Ownership</b></h2> 
-                            <button class="btn btn-default btn-xs" style="float:right;margin:5px;" type="button" onclick="addOwnershipName()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
-                            <!--<button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="bulk_update(0)">Bulk Edit&nbsp;<i class="fa fa-cogs"></i></button>-->
-                        </header> 
-                        <div class="widget-body">                           
-                            <!--<div class="row">-->
-                            <table id="table" class="table table-bordered table_style table-striped table-hover" style="width:100% !important;">                               
-                                <tbody>       
-
-                                    <?php
-//$gn_division->saq_district_id = $gn_district;
-                                    $ownership = new saq_site_ownership();
-                                    $ownership_details = $ownership->getAll();
-
-//print_r($ownership_details);
-                                    if (count($ownership_details) > 0) {
-                                        foreach ($ownership_details as $tech) {
-                                            print "<tr class='ngs-popup-ownership' id ='$tech->id'>"
-                                                    . "<td>" . $tech->ownership . "</td>"
-                                                    . "</tr>";
-                                        }
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
-                            <!--</div>-->
-                            <script>
-                                $('.ngs-popup-ownership').click(function () {
-
-
-                                    var id = this.id;
-
-                                    addOwnershipName(id);
-
-                                });
-
-
-                            </script>
-                        </div>
-
-                    </div>
-                </div>
+               
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                     <div class="jarviswidget"
                          data-widget-deletebutton="false" 
@@ -278,9 +770,7 @@ $gn_district = $_POST['gn_district'];
 
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                     <div class="jarviswidget"
                          data-widget-deletebutton="false" 
                          data-widget-togglebutton="false"
@@ -340,6 +830,9 @@ $gn_district = $_POST['gn_district'];
 
                     </div>
                 </div>
+            </div>
+            <div class="row">
+               
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                     <div class="jarviswidget"
                          data-widget-deletebutton="false" 
@@ -468,6 +961,66 @@ include("../inc/scripts.php");
                                         "info": true
                                     });
                                 });
+                                
+                                function addDistrictName(id = '') {
+                                     var options = {
+                                        url: 'add_district?id=' + id,
+                                        width: '600',
+                                        height: '300',
+                                        skinClass: 'jg_popup_round',
+                                        resizable: false,
+                                        scrolling: 'no'
+                                    };
+                                    $.jeegoopopup.open(options);
+                                }
+                                
+                                function addDsName(id = '') {
+                                    var options = {
+                                        url: 'add_ds?id=' + id,
+                                        width: '600',
+                                        height: '300',
+                                        skinClass: 'jg_popup_round',
+                                        resizable: false,
+                                        scrolling: 'no'
+                                    };
+                                    $.jeegoopopup.open(options);
+                                }
+                                
+                                function addLaName(id = '') {
+                                    var options = {
+                                        url: 'add_la?id=' + id,
+                                        width: '600',
+                                        height: '300',
+                                        skinClass: 'jg_popup_round',
+                                        resizable: false,
+                                        scrolling: 'no'
+                                    };
+                                    $.jeegoopopup.open(options);
+                                }
+                                
+                                function addPsName(id = '') {
+                                    var options = {
+                                        url: 'add_ps?id=' + id,
+                                        width: '600',
+                                        height: '300',
+                                        skinClass: 'jg_popup_round',
+                                        resizable: false,
+                                        scrolling: 'no'
+                                    };
+                                    $.jeegoopopup.open(options);
+                                }
+                                
+                                function addRegionName(id = '') {
+                                    var options = {
+                                        url: 'add_region?id=' + id,
+                                        width: '600',
+                                        height: '300',
+                                        skinClass: 'jg_popup_round',
+                                        resizable: false,
+                                        scrolling: 'no'
+                                    };
+                                    $.jeegoopopup.open(options);
+                                }
 
 
                                 function addgnName(id = '') {

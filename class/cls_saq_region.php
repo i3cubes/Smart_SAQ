@@ -29,10 +29,34 @@ class saq_region {
             $string = "INSERT INTO `$this->table_name` (`name`,`status`) VALUES (" . getStringFormatted($name) . "," . constants::$active . ");";
             $result = dbQuery($string);
             if ($result) {
-                return dbInsertId();
+                $region_id = dbInsertId();
+                return $this->addRegionEmployee($region_id,$this->manager_id);
             } else {
                 return false;
             }
+        } else {
+            return false;
+        }
+    }
+    
+    public function edit() {
+        $string = "UPDATE `$this->table_name` SET "
+                . "`name` = " . getStringFormatted($this->name) . ","
+                . "`manager_id` = " . getStringFormatted($this->manager_id) . " WHERE `id` = $this->id;";
+        $result = dbQuery($string);
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+     public function delete() {
+        $string = "UPDATE `$this->table_name` SET `status` = " . constants::$inactive . " WHERE `id` = $this->id;";
+//        print $string;
+        $result = dbQuery($string);
+        if ($result) {
+            return true;
         } else {
             return false;
         }
@@ -64,6 +88,18 @@ class saq_region {
             array_push($array, $saq_region_obj);
         }
         return $array;
+    }
+    
+    public function addRegionEmployee($saq_region_id,$saq_employee_id) {
+        $string = "INSERT INTO `saq_region_employee` (`saq_region_id`,`saq_employee_id`) "
+                . "VALUES ('$saq_region_id','$saq_employee_id');";
+//        print $string;
+        $result = dbQuery($string);
+        if($result) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function getRegionEmployees() {

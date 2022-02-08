@@ -2,7 +2,7 @@
 require_once("../lib/config.php");
 
 //require UI configuration (nav, ribbon, etc.)
-require_once("../inc/config.ui.php");
+//require_once("../inc/config.ui.php");
 
 /* ---------------- PHP Custom Scripts ---------
 
@@ -16,7 +16,7 @@ $page_title = "Site";
 //include header
 //you can add your custom css in $page_css array.
 //Note: all css files are inside css/ folder
-$page_css[] = "ngs.css";
+//$page_css[] = "ngs.css";
 include("../inc/header_less.php");
 
 //include left panel (navigation)
@@ -199,25 +199,25 @@ include("../inc/scripts.php");
 
     // pagefunction
 
-    var pagefunction = function () {
-
-        $('.superbox').SuperBox({
-            background: '#FF0000', // Full image background color. Default: #333
-            border: 'white', // Full image border color. Default: #222
-            height: 600, // Maximum full image height. Default: 400
-            view: 'landscape|square|portrait', // Sets ratio on smaller viewports. Default: landscape
-            xColor: '#CCC', // Close icon color. Default: #FFF
-            xShadow: 'embed' // Close icon shadow. Default: none
-        });
-
-    };
+//    var pagefunction = function () {
+//
+//        $('.superbox').SuperBox({
+//            background: '#FF0000', // Full image background color. Default: #333
+//            border: 'white', // Full image border color. Default: #222
+//            height: 600, // Maximum full image height. Default: 400
+//            view: 'landscape|square|portrait', // Sets ratio on smaller viewports. Default: landscape
+//            xColor: '#CCC', // Close icon color. Default: #FFF
+//            xShadow: 'embed' // Close icon shadow. Default: none
+//        });
+//
+//    };
 
     // end pagefunction
 
     // run pagefunction on load
 
     // load bootstrap-progress bar script
-    loadScript("<?php echo ASSETS_URL; ?>/js/plugin/superbox/superbox.min.js", pagefunction);
+//    loadScript("<?php echo ASSETS_URL; ?>/js/plugin/superbox/superbox.min.js", pagefunction);
 
 </script>
 

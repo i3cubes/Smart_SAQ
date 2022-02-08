@@ -23,7 +23,7 @@ $ary_samples = array("samples" => array(
                     "url" => APP_URL . "/samples/agreements"
                 ),
                 "site" => array(
-                    "title" => "SITE",
+                    "title" => "SITES",
                     "url" => APP_URL . "/samples/site"
                 )
             )

@@ -55,15 +55,15 @@ include_once '../class/constants.php';
                 <header>
                     <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
                     <h2 style=""><b>SITES</b></h2>      
-                    <?php 
-                        if($_SESSION['UROLE'] == constants::$system_admin || $_SESSION['UROLE'] == constants::$admin) { 
-                    ?> 
-                    <button class="btn btn-default" onclick="addHandlerNode('')" style="margin-bottom: 10px;float:right;">Add Parent Node &nbsp; <i class="fa fa-plus"></i></button>
+                    <?php
+                    if ($_SESSION['UROLE'] == constants::$system_admin || $_SESSION['UROLE'] == constants::$admin) {
+                        ?> 
+                        <button class="btn btn-default" onclick="addHandlerNode('')" style="margin-bottom: 10px;float:right;">Add Parent Node &nbsp; <i class="fa fa-plus"></i></button>
                     <?php } ?>
                 </header> 
                 <div class="widget-body">
                     <div class="tree">
-                       
+
                     </div>
 
                 </div>
@@ -122,58 +122,59 @@ include("../inc/scripts.php");
 <script src="<?php echo ASSETS_URL; ?>/js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
 
 <script>
-    $(document).ready(function () {
-        loadScript("<?php echo ASSETS_URL; ?>/js/plugin/bootstraptree/bootstrap-tree.min.js");
-        loadTree();
-    });
-    
-    function loadTree() {
-            $.ajax({
-                url: 'site_ajax',
-                success: function(response) {
-                    $('.tree').html(response);
-                },
-                complete: function (jqXHR, textStatus) {
-                    if (textStatus == "success") {
-                                                                                                       
-                    }
-                }
-            });
-        }
+                        $(document).ready(function () {
+                            loadScript("<?php echo ASSETS_URL; ?>/js/plugin/bootstraptree/bootstrap-tree.min.js");
+                            loadTree();
+                        });
 
-    function addHandler(id) {
-//        location.href = 'gallery?id=' + id;
+                        function loadTree() {
+                            $.ajax({
+                                url: 'site_ajax',
+                                success: function (response) {
+                                    $('.tree').html(response);
+                                },
+                                complete: function (jqXHR, textStatus) {
+                                    if (textStatus == "success") {
 
-        var url = 'gallery?<?php print SID . "&id=" ?>' + id;
-        var NWin = window.open(url, '_blank');
-        if (window.focus)
-        {
-            NWin.focus();
-        }
-    }
-    
-    function editHandler(id) {
-        var options = {
-                                    url: 'site_model_edit?id=' + id,
-                                    width: '425',
-                                    height: '200',
-                                    skinClass: 'jg_popup_round',
-                                    resizable: false,
-                                    scrolling: 'no'
-                                };
-                                $.jeegoopopup.open(options);
-    }
-    
-    function addHandlerNode(id) {
-        var options = {
-                                    url: 'site_model_add?id=' + id,
-                                    width: '400',
-                                    height: '250',
-                                    skinClass: 'jg_popup_round',
-                                    resizable: false,
-                                    scrolling: 'no'
-                                };
-                                $.jeegoopopup.open(options);
-    }
+                                    }
+                                }
+                            });
+                        }
+
+                        function addHandler(id) {
+                            var options = {
+                                url: 'gallery?<?php print SID . "&id=" ?>' + id,
+                                width: '650',
+                                height: '550',
+                                skinClass: 'jg_popup_round',
+                                resizable: false,
+                                scrolling: 'no'
+                            };
+                            $.jeegoopopup.open(options);
+                        }
+
+                        function editHandler(id) {
+                            var options = {
+                                url: 'site_model_edit?id=' + id,
+                                width: '425',
+                                height: '200',
+                                skinClass: 'jg_popup_round',
+                                resizable: false,
+                                scrolling: 'no'
+                            };
+                            $.jeegoopopup.open(options);
+                        }
+
+                        function addHandlerNode(id) {
+                            var options = {
+                                url: 'site_model_add?id=' + id,
+                                width: '400',
+                                height: '250',
+                                skinClass: 'jg_popup_round',
+                                resizable: false,
+                                scrolling: 'no'
+                            };
+                            $.jeegoopopup.open(options);
+                        }
 </script>
 
