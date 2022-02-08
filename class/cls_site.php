@@ -25,12 +25,12 @@ class site {
     public $id, $status,$status_id,$status_delete;
     public $name, $code, $type, $address, $site_ownership, $operator_name, $tower_height, $building_height, $land_area;
     public $on_air_date, $category, $lat, $lon, $access_type, $manual_distance, $access_permision_type, $pg_installation_possibility, $dns_deport, $other_operator_id;
-    public $lo_name, $lo_address, $lo_nic_brc, $lo_mobile, $lo_land_number, $contact_person_number, $lo_fax, $lo_email;
+    public $lo_name, $lo_address, $lo_nic_brc, $lo_mobile, $lo_land_number, $contact_person_number, $contact_person, $lo_fax, $lo_email;
     public $province_id, $peovince_name, $district_id, $district_name, $ds_id, $ds_name, $la_id, $la_name, $police_station_id, $police_station_name;
     public $region_id, $region_name, $dns_office_id, $dns_office_name, $technical, $other_operators, $agreement_data, $assessment_data, $agreement_data_id, $approvals;
     public $update_string;
     public $site_agreement_data;
-    public $gs_division,$regional_manager_id,$saq_region_employee_id,$saq_dns_employee_id,$site_ownership_name,$saq_officer_id;
+    public $gs_division,$regional_manager_id,$saq_region_employee_id,$saq_dns_employee_id,$site_ownership_name,$saq_officer_id,$saq_payment_mode_id;
 
     public function __construct($id = '') {
         $this->id = $id;
@@ -87,6 +87,7 @@ class site {
         $this->lo_nic_brc = $row['LO_nic_brc'];
         $this->lo_mobile = $row['LO_mobile'];
         $this->lo_land_number = $row['LO_land_number'];
+        $this->contact_person = $row['contact_person'];
         $this->contact_person_number = $row['contact_person_number'];
         $this->lo_fax = $row['LO_fax'];
         $this->lo_email = $row['LO_email'];
@@ -188,6 +189,7 @@ class site {
                     array_push($sql, shared::getCleanedData('LO_mobile', $this->lo_mobile, $source));
                     array_push($sql, shared::getCleanedData('LO_land_number', $this->lo_land_number, $source));
                     array_push($sql, shared::getCleanedData('contact_person_number', $this->contact_person_number, $source));
+                    array_push($sql, shared::getCleanedData('contact_person', $this->contact_person, $source));
                     array_push($sql, shared::getCleanedData('LO_fax', $this->lo_fax, $source));
                     array_push($sql, shared::getCleanedData('LO_email', $this->lo_email, $source));
 
@@ -258,7 +260,12 @@ class site {
                     $agreement_data_obj->adv_recovery_period = $this->agreement_data['adv_recovery_period'];
                     $agreement_data_obj->property_id = $this->agreement_data['property_id'];
                     $agreement_data_obj->assessment_no = $this->agreement_data['assessment_no'];
+                    $agreement_data_obj->ward_no = $this->agreement_data['ward_no'];
+                    $agreement_data_obj->road = $this->agreement_data['road'];
+                    $agreement_data_obj->acc_no_property_id = $this->agreement_data['acc_no_property_id'];
+                    $agreement_data_obj->assessment_owner_name = $this->agreement_data['assessment_owner_name'];
                     $agreement_data_obj->saq_sites_id = $this->id;
+                    $agreement_data_obj->saq_payment_mode_id = $this->agreement_data['payment_mode'];
 
 //                    $result = $agreement_data_obj->update('WEB');
                     $result = $agreement_data_obj->update($source);
@@ -413,6 +420,8 @@ class site {
                     array_push($value, getStringFormatted($this->lo_land_number));
                     array_push($key, 'contact_person_number');
                     array_push($value, getStringFormatted($this->contact_person_number));
+                    array_push($key, 'contact_person');
+                    array_push($value, getStringFormatted($this->contact_person));
                     array_push($key, 'LO_fax');
                     array_push($value, getStringFormatted($this->lo_fax));
                     array_push($key, 'LO_email');
@@ -473,6 +482,11 @@ class site {
                     $agreement_data_obj->adv_recovery_period = $this->agreement_data['adv_recovery_period'];
                     $agreement_data_obj->property_id = $this->agreement_data['property_id'];
                     $agreement_data_obj->assessment_no = $this->agreement_data['assessment_no'];
+                    $agreement_data_obj->ward_no = $this->agreement_data['ward_no'];
+                    $agreement_data_obj->road = $this->agreement_data['road'];
+                    $agreement_data_obj->acc_no_property_id = $this->agreement_data['acc_no_property_id'];
+                    $agreement_data_obj->assessment_owner_name = $this->agreement_data['assessment_owner_name'];
+                    $agreement_data_obj->saq_payment_mode_id = $this->agreement_data['payment_mode'];
                     
                     $result = $agreement_data_obj->update('WEB');
                     if ($result) {
@@ -772,6 +786,7 @@ class site {
         $x['LO_land_number'] = $this->lo_land_number;
         $x['contact_person'] = "";
         $x['contact_person_number'] = $this->contact_person_number;
+        $x['contact_person'] = $this->contact_person;
         $x['LO_fax'] = $this->lo_fax;
         $x['LO_email'] = $this->lo_email;
 

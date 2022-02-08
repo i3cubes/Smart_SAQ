@@ -17,6 +17,7 @@ include_once '../class/cls_divisional_secretariat.php';
 include_once '../class/cls_saq_local_authority.php';
 include_once '../class/cls_police_station.php';
 include_once '../class/cls_saq_region.php';
+include_once '../class/cls_saq_payment_mode.php';
 
 include_once '../class/constants.php';
 
@@ -278,6 +279,57 @@ switch ($REQUEST_METHOD) {
 
                 $region->status = constants::$inactive;
                 $delete = $region->delete();
+                //print $edit;
+                if ($delete) {
+                    echo json_encode(array('result' => 1, 'msg' => "Successfully Deleted"));
+                } else {
+                    echo json_encode(array('result' => 0, 'msg' => "Deletion Failed"));
+                }
+                break;
+            case 270://get payment mode
+                $name = $_POST['name'];
+                $payment_mode = new saq_payment_mode();
+                $payment_mode->name = $name;
+                $payment_mode_details = $payment_mode->getAll();
+                if (count($payment_mode_details) > 0) {
+                    echo json_encode(array('result' => 1, "data" => $payment_mode_details));
+                } else {
+                    echo json_encode(array('result' => 0, "data" => $payment_mode_details));
+                }
+                break;
+            case 271://add payment mode             
+                $name = $_POST['name'];                
+                $payment_mode = new saq_payment_mode();
+                $payment_mode->name = $name;
+                
+                $addNew = $payment_mode->add();
+                if ($addNew) {
+                    echo json_encode(array('result' => 1, 'msg' => "Successfully Added"));
+                } else {
+                    echo json_encode(array('result' => 0, 'msg' => "Save Failed"));
+                }
+                break;
+            case 272://edit payment mode
+                $name = $_POST['name'];                
+                $id = $_POST['id'];
+                $payment_mode = new saq_payment_mode($id);
+
+//                $payment_mode->id = $id;
+                $payment_mode->name = $name;                
+                $edit = $payment_mode->edit();
+                //print $edit;
+                if ($edit) {
+                    echo json_encode(array('result' => 1, 'msg' => "Successfully Updated"));
+                } else {
+                    echo json_encode(array('result' => 0, 'msg' => "Update Failed"));
+                }
+                break;
+            case 351://delete payment mode               
+                $id = $_POST['id'];
+                $payment_mode = new saq_payment_mode($id);
+
+                $payment_mode->status = constants::$inactive;
+                $delete = $payment_mode->delete();
                 //print $edit;
                 if ($delete) {
                     echo json_encode(array('result' => 1, 'msg' => "Successfully Deleted"));

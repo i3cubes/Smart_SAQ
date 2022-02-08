@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!-- Left panel : Navigation area -->
 <!-- Note: This width of the aside area can be adjusted through LESS variables -->
 <aside id="left-panel" style="background: rgb(122 56 107)">
@@ -10,7 +11,7 @@
             <!--</span>-->
             <a href="javascript:void(0);" id="show-shortcut" data-action="toggleShortcut">						
                 <span style="font-size: 13px;">
-                    <b style="color: white;">Admin</b> 	
+                    <b style="color: white;"><?php print $_SESSION['UNAME'] ?></b> 	
                 </span>
                 
             </a>

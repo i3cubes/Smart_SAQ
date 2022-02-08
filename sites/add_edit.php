@@ -20,6 +20,7 @@ require_once("../lib/config.php");
 /* ---------------- END PHP Custom Scripts ------------- */
 include_once '../class/constants.php';
 include_once '../class/cls_site.php';
+include_once '../class/cls_saq_payment_mode.php';
 
 if ($_REQUEST['id'] != 0) {
     $site_obj = new site($_REQUEST['id']);
@@ -67,6 +68,8 @@ include_once '../class/cls_saq_region.php';
 include_once '../class/cls_saq_employee.php';
 include_once '../class/cls_saq_sites_status.php';
 include_once '../class/ngs_date.php';
+
+include_once '../class/shared.php';
 $ngs_date = new ngs_date();
 ?>
 <style>
@@ -702,12 +705,23 @@ $ngs_date = new ngs_date();
                                                     <section class="col-sm-2">
                                                         &nbsp;
                                                     </section>
-                                                    <section class="col-sm-5">
+                                                    <section class="col-sm-2">
                                                         <label class="ngs_form_label">
-                                                            Contact Person and Number
+                                                            Contact Person
                                                         </label>
                                                         <label class="input">
-                                                            <input type="text" name="contact_person_and_number" id="contact_person_and_number" value="<?php print $site_obj->contact_person_number; ?>"/>
+                                                            <input type="text" name="contact_person" id="contact_person" value="<?php print $site_obj->contact_person; ?>"/>
+                                                        </label>
+                                                    </section> 
+                                                    <section class="col-sm-1">
+                                                        &nbsp;
+                                                    </section>
+                                                    <section class="col-sm-2">
+                                                        <label class="ngs_form_label">
+                                                            Contact Person Number
+                                                        </label>
+                                                        <label class="input">
+                                                            <input type="text" name="contact_person_number" id="contact_person_number" value="<?php print $site_obj->contact_person_number; ?>"/>
                                                         </label>
                                                     </section> 
 
@@ -871,8 +885,16 @@ $ngs_date = new ngs_date();
                                                             <td>
                                                                 <label class="select"><i class="icon-append fa fa-user"></i>
                                                                     <select name="payment_mode" id="payment_mode">
-                                                                        <option value="month" <?php print (($agreement_data_obj->payment_mode == 'month') ? "selected=''":'') ?>>Monthly</option>
-                                                                        <option value="year" <?php print (($agreement_data_obj->payment_mode == 'year') ? "selected=''":'') ?>>Annually</option>
+                                                                        <option value="" selected="" disabled="">Select Payment Mode</option>
+                                                                        <?php
+                                                                            $payment_mode_obj = new saq_payment_mode();
+                                                                            $payment_modes = $payment_mode_obj->getAll();
+                                                                            
+                                                                            foreach ($payment_modes as $pm) {
+                                                                                print "<option value='$pm->id' ".(($agreement_data_obj->saq_payment_mode_id == $pm->id) ? "selected=''" : "").">$pm->name</option>";
+                                                                            }
+                                                                        
+                                                                        ?>                                                                        
                                                                     </select>                                                                    
                                                                 </label>
                                                             </td>
@@ -908,8 +930,12 @@ $ngs_date = new ngs_date();
                                                         <tr>
                                                             <td>RATE Increment (%)</td>
                                                             <td>
+                                                                <?php 
+                                                                    $shared = new shared();
+                                                                    $getValue = $shared->getVariable();
+                                                                ?>
                                                                 <label class="input">
-                                                                    <input type="number" name="rate_increment" id="rate_increment" value="<?php print $agreement_data_obj->rate_increment ?>"/>
+                                                                    <input type="number" name="rate_increment" id="rate_increment" value="<?php print (($agreement_data_obj->rate_increment == '') ? $getValue : $agreement_data_obj->rate_increment) ?>"/>
                                                                 </label>
                                                             </td>
                                                             <td>Advance Recovery Period (Months)</td>
@@ -1001,11 +1027,33 @@ $ngs_date = new ngs_date();
                                                     <table class="table table-bordered" id="site_assessment_data">
                                                         <tr>
                                                             <td>
-                                                                <b>Assessment NO</b>                                                                
-                                                            </td>
-                                                            <td>
+                                                                <b>Assessment NO</b>  
                                                                 <label class="input">
                                                                     <input type="text" name="assessment_no" id="assessment_no" value="<?php print $agreement_data_obj->assessment_no ?>"/>
+                                                                </label>
+                                                            </td>
+                                                            <td>
+                                                               <b>Ward NO</b>  
+                                                                <label class="input">
+                                                                    <input type="text" name="ward_no" id="ward_no" value="<?php print $agreement_data_obj->ward_no ?>"/>
+                                                                </label>
+                                                            </td>
+                                                            <td>
+                                                               <b>Road</b>  
+                                                                <label class="input">
+                                                                    <input type="text" name="road" id="road" value="<?php print $agreement_data_obj->road ?>"/>
+                                                                </label>
+                                                            </td>                                                            
+                                                            <td>
+                                                               <b>Acc NO / Property ID</b>  
+                                                                <label class="input">
+                                                                    <input type="text" name="acc_no_property_id" id="acc_no_property_id" value="<?php print $agreement_data_obj->acc_no_property_id ?>"/>
+                                                                </label>
+                                                            </td>
+                                                            <td>
+                                                               <b>Assessment Owner Name</b>  
+                                                                <label class="input">
+                                                                    <input type="text" name="assessment_owner_name" id="assessment_owner_name" value="<?php print $agreement_data_obj->assessment_owner_name ?>"/>
                                                                 </label>
                                                             </td>
                                                         </tr>

@@ -7,26 +7,25 @@ $breadcrumbs = array(
     "Home" => APP_URL
 );
 
-    $ary_navi = array("dashboard" => array(
+$ary_navi = array("dashboard" => array(
         "title" => "HOME",
         "url" => APP_URL . "/home",
         "icon" => "fa-home"
         ));
 
-
 $ary_samples = array("samples" => array(
         "title" => "SAMPLES",
-        "icon" => "fa fa-inbox",        
+        "icon" => "fa fa-inbox",
         "sub" => array(
-                "agreements" => array(
-                    "title" => "AGREEMENTS",
-                    "url" => APP_URL . "/samples/agreements"
-                ),
-                "site" => array(
-                    "title" => "SITES",
-                    "url" => APP_URL . "/samples/site"
-                )
+            "agreements" => array(
+                "title" => "AGREEMENTS",
+                "url" => APP_URL . "/samples/agreements"
+            ),
+            "site" => array(
+                "title" => "SITES",
+                "url" => APP_URL . "/samples/site"
             )
+        )
         ));
 
 $ary_navi = array_merge($ary_navi, $ary_samples);
@@ -38,34 +37,37 @@ $ary_sites = array("view" => array(
         ));
 
 $ary_navi = array_merge($ary_navi, $ary_sites);
-if($_SESSION['UROLE'] == 1 || $_SESSION['UROLE'] == 2) {
-$ary_sites_data = array("site_data" => array(
-        "title" => "SITE DATA VARIABLES",
-        "icon" => "fa fa-inbox",
-        "sub" => array(
-                    "technical" => array(
-                        "title" => "TECNOLOGIES",
-                        "url" => APP_URL . "/sites/site_data_technical"
-                    ),
-                    "operators" => array(
-                        "title" => "OPERATORS",
-                        "url" => APP_URL . "/sites/operators"
-                    ),
-                    
-                    "approvals" => array(
-                        "title" => "APPROVALS",
-                        "url" => APP_URL . "/sites/approvals"
-                    ),
-                    "general" => array(
-                        "title" => "GENERAL",
-                        "url" => APP_URL . "/sites/general"
-                    )
+if ($_SESSION['UROLE'] == 1 || $_SESSION['UROLE'] == 2) {
+    $ary_sites_data = array("site_data" => array(
+            "title" => "SITE DATA VARIABLES",
+            "icon" => "fa fa-inbox",
+            "sub" => array(
+                "technical" => array(
+                    "title" => "TECNOLOGIES",
+                    "url" => APP_URL . "/sites/site_data_technical"
                 ),
-       // "url" => APP_URL . "/sites/view"
-        ));
+                "operators" => array(
+                    "title" => "OPERATORS",
+                    "url" => APP_URL . "/sites/operators"
+                ),
+                "approvals" => array(
+                    "title" => "APPROVALS",
+                    "url" => APP_URL . "/sites/approvals"
+                ),
+                "agreement_payments" => array(
+                    "title" => "AGREEMENTS & PAYMENTS",
+                    "url" => APP_URL . "/sites/agreements_payments"
+                ),
+                "general" => array(
+                    "title" => "GENERAL",
+                    "url" => APP_URL . "/sites/general"
+                )
+            ),
+        // "url" => APP_URL . "/sites/view"
+    ));
 
-$ary_navi = array_merge($ary_navi, $ary_sites_data);
-    }
+    $ary_navi = array_merge($ary_navi, $ary_sites_data);
+}
 
 $ary_saq_guidelines = array("saq_guidelines" => array(
         "title" => "SAQ GUIDELINES",
@@ -75,21 +77,21 @@ $ary_saq_guidelines = array("saq_guidelines" => array(
 
 $ary_navi = array_merge($ary_navi, $ary_saq_guidelines);
 
-if($_SESSION['UROLE'] == 1 || $_SESSION['UROLE'] == 2) {
+if ($_SESSION['UROLE'] == 1 || $_SESSION['UROLE'] == 2) {
     $ary_emp_management = array("emp_management" => array(
-        "title" => "EMPLOYEE MANAGEMENT",
-        "icon" => "fa fa-inbox",
-        "url" => APP_URL . "/employee/employee_management"
-        ));
+            "title" => "EMPLOYEE MANAGEMENT",
+            "icon" => "fa fa-inbox",
+            "url" => APP_URL . "/employee/employee_management"
+    ));
 
-$ary_navi = array_merge($ary_navi, $ary_emp_management);
-$ary_user_management = array("user_management" => array(
-        "title" => "USER MANAGEMENT",
-        "icon" => "fa fa-inbox",
-        "url" => APP_URL . "/user/user_management"
-        ));
+    $ary_navi = array_merge($ary_navi, $ary_emp_management);
+    $ary_user_management = array("user_management" => array(
+            "title" => "USER MANAGEMENT",
+            "icon" => "fa fa-inbox",
+            "url" => APP_URL . "/user/user_management"
+    ));
 
-$ary_navi = array_merge($ary_navi, $ary_user_management);
+    $ary_navi = array_merge($ary_navi, $ary_user_management);
 }
 
 

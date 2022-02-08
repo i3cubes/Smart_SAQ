@@ -55,7 +55,8 @@ $site_obj->lo_address = $_REQUEST['land_owner_address'];
 $site_obj->lo_nic_brc = $_REQUEST['land_owner_nic'];
 $site_obj->lo_mobile = $_REQUEST['land_owner_mobile_number'];
 $site_obj->lo_land_number = $_REQUEST['land_owner_land_number'];
-$site_obj->contact_person_number = $_REQUEST['contact_person_and_number'];
+$site_obj->contact_person_number = $_REQUEST['contact_person_number'];
+$site_obj->contact_person = $_REQUEST['contact_person'];
 $site_obj->lo_fax = $_REQUEST['fax'];
 
 // tab technical

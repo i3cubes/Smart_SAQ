@@ -26,7 +26,12 @@ class saq_site_agreement_data {
             $adv_recovery_period,
             $property_id,
             $assessment_no,
-            $saq_sites_id;
+            $ward_no,
+            $road,
+            $acc_no_property_id,
+            $assessment_owner_name,
+            $saq_sites_id,
+            $saq_payment_mode_id;
     public $update_string;
     private $table_name = 'saq_site_agreement_data';
 
@@ -60,7 +65,12 @@ class saq_site_agreement_data {
             $this->adv_recovery_period = $row['adv_recovery_period'];
             $this->property_id = $row['property_id'];
             $this->assessment_no = $row['assessment_no'];
+            $this->ward_no = $row['ward_no'];
+            $this->road = $row['road'];
+            $this->acc_no_property_id = $row['acc_no_property_id'];
+            $this->assessment_owner_name = $row['assessment_owner_name'];
             $this->saq_sites_id = $row['saq_sites_id'];
+            $this->saq_payment_mode_id = $row['saq_payment_mode_id'];
         }
     }
 
@@ -113,8 +123,18 @@ class saq_site_agreement_data {
         array_push($value, getStringFormatted($this->property_id));
         array_push($key, 'assessment_no');
         array_push($value, getStringFormatted($this->assessment_no));
+        array_push($key, 'ward_no');
+        array_push($value, getStringFormatted($this->ward_no));
+        array_push($key, 'road');
+        array_push($value, getStringFormatted($this->road));
+        array_push($key, 'acc_no_property_id');
+        array_push($value, getStringFormatted($this->acc_no_property_id));
+        array_push($key, 'assessment_owner_name');
+        array_push($value, getStringFormatted($this->assessment_owner_name));
         array_push($key, 'saq_sites_id');
         array_push($value, getStringFormatted($this->saq_sites_id));
+        array_push($key, 'saq_payment_mode_id');
+        array_push($value, getStringFormatted($this->saq_payment_mode_id));
 
         if (!empty($key)) {
             $sql_str_key = implode(",", array_filter($key));
@@ -158,6 +178,11 @@ class saq_site_agreement_data {
             array_push($sql, shared::getCleanedData('adv_recovery_period', $this->adv_recovery_period, $source));
             array_push($sql, shared::getCleanedData('property_id', $this->property_id, $source));
             array_push($sql, shared::getCleanedData('assessment_no', $this->assessment_no, $source));
+            array_push($sql, shared::getCleanedData('ward_no', $this->ward_no, $source));
+            array_push($sql, shared::getCleanedData('road', $this->road, $source));
+            array_push($sql, shared::getCleanedData('acc_no_property_id', $this->acc_no_property_id, $source));
+            array_push($sql, shared::getCleanedData('assessment_owner_name', $this->assessment_owner_name, $source));
+            array_push($sql, shared::getCleanedData('saq_payment_mode_id', $this->saq_payment_mode_id, $source));
 
             if (!empty($sql)) {
                 $sql_str = implode(",", array_filter($sql));

@@ -202,6 +202,7 @@ class user {
             $row = dbFetchAssoc($result);
             $this->id = $row['id'];
             $_SESSION['UID'] = $row['id'];
+            $_SESSION['UNAME'] = $row['user_name'];
             $_SESSION['UROLE'] = $row['saq_us_role_id'];
             $_SESSION['SAQDID'] = $row['saq_district_id'];
             if ($this->name !== "admin") {
