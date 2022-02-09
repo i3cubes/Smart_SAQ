@@ -118,19 +118,15 @@ class user {
     public function edit() {
         $update_array = array();
         if ($this->name != '') {
-//            if (!$this->checkUser($this->name)) {
-            array_push($update_array, "`user_name`=" . getStringFormatted($this->name) . "");
-//            } else {
-//                return 100;
-//            }
-        }
-        if ($this->password != '') {
-            $password = sha1($this->password);
-            if (!$this->checkUserPassword($password)) {
-                array_push($update_array, "`password`='" . $password . "'");
+            if (!$this->checkUserUsername($this->name)) {
+                array_push($update_array, "`user_name`=" . getStringFormatted($this->name) . "");
             } else {
                 return 100;
             }
+        }
+        if ($this->password != '') {
+            $password = sha1($this->password);
+            array_push($update_array, "`password`='" . $password . "'");
         }
         if ($this->date_created != '') {
             array_push($update_array, "`date_create`=" . getStringFormatted($this->date_created) . "");
@@ -178,7 +174,7 @@ class user {
         $string = "SELECT `id` FROM `$this->table_name` WHERE `user_name` = '$username';";
 //        print $string;
         $result = dbQuery($string);
-        if (dbNumRows($result) > 0) {
+        if (dbNumRows($result) > 1) {
             return true;
         } else {
             return false;
@@ -203,8 +199,8 @@ class user {
             $this->id = $row['id'];
             $_SESSION['UID'] = $row['id'];
             $_SESSION['UNAME'] = $row['user_name'];
-            $_SESSION['UROLE'] = $row['saq_us_role_id'];      
-            $_SESSION['EID'] = $row['emp_id'];      
+            $_SESSION['UROLE'] = $row['saq_us_role_id'];
+            $_SESSION['EID'] = $row['emp_id'];
             if ($this->name !== "admin") {
                 $user_obj = new user($row['id']);
                 $user_obj->getDetails();
