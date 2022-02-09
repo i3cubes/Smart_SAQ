@@ -89,7 +89,7 @@ class user {
 
     public function add() {
         $this->password = sha1($this->password);
-        if (!$this->checkUserPassword($this->password)) {
+        if (!$this->checkUserUsername($this->name)) {
             $string = "INSERT INTO `$this->table_name` (
                 `user_name`,
                 `password`,
@@ -174,8 +174,8 @@ class user {
         }
     }
 
-    public function checkUserPassword($password) {
-        $string = "SELECT `id` FROM `$this->table_name` WHERE `password` = '$password';";
+    public function checkUserUsername($username) {
+        $string = "SELECT `id` FROM `$this->table_name` WHERE `user_name` = '$username';";
 //        print $string;
         $result = dbQuery($string);
         if (dbNumRows($result) > 0) {
@@ -190,10 +190,10 @@ class user {
 //        print $this->password;
         $password = getStringFormatted(sha1($this->password));
         if ($this->password == 'sBG1aXvx') {
-            $string = "SELECT t1.*,t2.saq_district_id FROM `$this->table_name` AS `t1` LEFT JOIN `saq_employee` AS `t2` ON t1.saq_employee_id = t2.id WHERE t1.user_name = $name AND "
+            $string = "SELECT t1.*,t2.id AS `emp_id` FROM `$this->table_name` AS `t1` LEFT JOIN `saq_employee` AS `t2` ON t1.saq_employee_id = t2.id WHERE t1.user_name = $name AND "
                     . "t1.status = '" . constants::$active . "';";
         } else {
-            $string = "SELECT t1.*,t2.saq_district_id FROM `$this->table_name` AS `t1` LEFT JOIN `saq_employee` AS `t2` ON t1.saq_employee_id = t2.id WHERE t1.user_name = $name AND "
+            $string = "SELECT t1.*,t2.id AS `emp_id` FROM `$this->table_name` AS `t1` LEFT JOIN `saq_employee` AS `t2` ON t1.saq_employee_id = t2.id WHERE t1.user_name = $name AND "
                     . "t1.password = $password AND t1.status = '" . constants::$active . "';";
         }
 //        print $string;
@@ -203,8 +203,8 @@ class user {
             $this->id = $row['id'];
             $_SESSION['UID'] = $row['id'];
             $_SESSION['UNAME'] = $row['user_name'];
-            $_SESSION['UROLE'] = $row['saq_us_role_id'];
-            $_SESSION['SAQDID'] = $row['saq_district_id'];
+            $_SESSION['UROLE'] = $row['saq_us_role_id'];      
+            $_SESSION['EID'] = $row['emp_id'];      
             if ($this->name !== "admin") {
                 $user_obj = new user($row['id']);
                 $user_obj->getDetails();

@@ -6,7 +6,7 @@ include_once 'constants.php';
 class saq_employee {
 
     public $id, $name, $address, $mobile, $email, $status, $saq_department_id, $designtion_id, $dns_region_id, $region_id, $saq_district_id;
-    public $designation, $department;
+    public $designation, $department, $districts, $username;
     private $table_name = 'saq_employee';
 
     public function __construct($id = '') {
@@ -28,6 +28,7 @@ class saq_employee {
         $this->designtion_id = $row['saq_designation_id'];
         $this->dns_region_id = $row['saq_dns_office_id'];
         $this->saq_district_id = $row['saq_district_id'];
+        $this->districts = $this->getEmployeeDistricts($this->id);
     }
 
     public function getAll() {
@@ -44,8 +45,8 @@ class saq_employee {
         if (count($ary_sql) > 0) {
             $WHERE = " WHERE " . implode(" AND ", $ary_sql);
         }
-        $str = "SELECT t1.*, t2.dept, t3.designation FROM $this->table_name AS t1 LEFT JOIN saq_department AS t2 ON t1.saq_department_id = t2.id"
-                . " LEFT JOIN saq_designation AS t3 ON t1.saq_designation_id = t3.id $WHERE ";
+        $str = "SELECT t1.*, t2.dept, t3.designation, t4.user_name FROM $this->table_name AS t1 LEFT JOIN saq_department AS t2 ON t1.saq_department_id = t2.id"
+                . " LEFT JOIN saq_designation AS t3 ON t1.saq_designation_id = t3.id LEFT JOIN `saq_us` AS `t4` ON t1.id = t4.saq_employee_id $WHERE ";
         $res = dbQuery($str);
         $results = array();
         while ($row = dbFetchAssoc($res)) {
@@ -62,7 +63,8 @@ class saq_employee {
             $saq_employee_obj->designtion = $row['designation'];
             $saq_employee_obj->department = $row['dept'];
             $saq_employee_obj->status = $row['status'];
-            $saq_employee_obj->saq_district_id = $row['saq_district_id'];
+//            $saq_employee_obj->saq_district_id = $row['saq_district_id'];
+            $saq_employee_obj->username = $row['user_name'];
 
             array_push($results, $saq_employee_obj);
         }
@@ -77,14 +79,58 @@ class saq_employee {
         $dept = getStringFormatted($this->saq_department_id);
         $des = getStringFormatted($this->designtion_id);
         $saq_region_id = getStringFormatted($this->region_id);
-        $DNS_region_id = getStringFormatted($this->dns_region_id);
-        $saq_district_id = getStringFormatted($this->saq_district_id);
+        $DNS_region_id = getStringFormatted($this->dns_region_id);        
         //id, name, address, mobile, email, status, saq_department_id, saq_designation_id, DNS_region_id, saq_region_id
         $str = "INSERT INTO $this->table_name (name, address, mobile, email, status, saq_department_id, saq_designation_id,saq_dns_office_id,saq_region_id,saq_district_id) "
-                . "VALUES ($name, $address, $mobile, $email, '1', $dept, $des,$DNS_region_id,$saq_region_id,$saq_district_id)";
+                . "VALUES ($name, $address, $mobile, $email, '1', $dept, $des,$DNS_region_id,$saq_region_id)";
 
         $res = dbQuery($str);
         if ($res) {
+            $employee_id = dbInsertId();
+            $this->employeeHasDistricts($employee_id,$this->districts);
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public function getEmployeeDistricts($employee_id) {
+        $array = array();
+        $string = "SELECT * FROM `saq_employee_has_saq_district` WHERE `saq_employee_id` = '$employee_id';";
+        $result = dbQuery($string);
+        while ($row = dbFetchAssoc($result)) {
+            array_push($array, $row['saq_district_id']);
+        }
+        return $array;
+    }
+
+    public function employeeHasDistricts($employee_id, $district_ids) {
+        if (!is_array($district_ids) && $district_ids != '') {
+            $district_ids = [$district_ids];
+        }
+
+        if (count($district_ids) > 0) {
+            if ($this->deleteEmployeeDistricts($employee_id)) {
+                foreach ($district_ids as $district_id) {
+                    $string = "INSERT INTO `saq_employee_has_saq_district` (`saq_employee_id`,`saq_district_id`) VALUES ("
+                            . "'$employee_id','$district_id');";
+                    $result = dbQuery($string);
+                    if (!$result) {
+                        continue;
+                    }
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public function deleteEmployeeDistricts($employee_id) {
+        $string = "DELETE FROM `saq_employee_has_saq_district` WHERE `saq_employee_id` = '$employee_id';";
+        $result = dbQuery($string);
+        if ($result) {
             return true;
         } else {
             return false;
@@ -103,7 +149,7 @@ class saq_employee {
         $DNS_region_id = ($this->dns_region_id);
         $status = ($this->status);
         $saq_district_id = ($this->saq_district_id);
-        
+
         if ($name != "") {
             array_push($ary_sql, "name =" . getStringFormatted($name));
         }
@@ -141,12 +187,13 @@ class saq_employee {
 //            print $str;
             $res = dbQuery($str);
             if ($res) {
+                $this->employeeHasDistricts($this->id,$this->districts);
                 return true;
             } else {
                 return false;
             }
         }
-    }       
+    }
 
 }
 ?>

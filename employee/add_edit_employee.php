@@ -82,7 +82,7 @@ if($_REQUEST['id'] != '') {
 
                         <header style="margin:0px;">
                             <?php if (!isset($_REQUEST['f'])) { ?><span class="widget-icon"><i class="fa fa-edit"></i></span><?php } ?>
-                            <span><h2 style="margin-left: 10px;"><?php print (($_REQUEST['id'] != '') ? ((isset($_REQUEST['f'])) ? 'VIEW' : 'EDIT') : 'ADD') ?> USER</h2></span>				                           
+                            <span><h2 style="margin-left: 10px;"><?php print (($_REQUEST['id'] != '') ? ((isset($_REQUEST['f'])) ? 'VIEW' : 'EDIT') : 'ADD') ?> EMPLOYEE</h2></span>				                           
                         </header>
 
                         <!-- widget div-->
@@ -127,13 +127,12 @@ if($_REQUEST['id'] != '') {
                                         </section>
                                         <section class="col col-4">
                                             <label class="ngs_form_lable">
-                                               District
+                                                District &nbsp;<span style="color:red;">*Select or type district name</span>
                                             </label>
                                         </section>
                                         <section class="col col-4">
                                             <label class="select">
-                                           <select name="saq_district_id" id="saq_district_id">
-                                                        <option value="" selected="">SELECT DISTRICT</option>
+                                                <select name="saq_district_ids[]" id="saq_district_id" multiple style="width:100%;">                                                        
                                                         
                                                         <?php
                                                         
@@ -271,7 +270,12 @@ include("../inc/scripts.php");
 ?>
 
 <script type="text/javascript">
+    var district_selector = $('#saq_district_id').select2();
+    var districts = <?php print json_encode($emp_obj->districts) ?>;
     $(document).ready(function () {
+        if(districts.length > 0) {
+            district_selector.val(districts).trigger('change');
+        }
 <?php 
 
 //if($designation_id =="1"){
@@ -304,6 +308,8 @@ include("../inc/scripts.php");
 //    
 //    
 //})
+    
+    
     function submitHandler() {
         var form = $('#user_form').serialize();
         $.ajax({

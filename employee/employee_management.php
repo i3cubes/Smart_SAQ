@@ -65,7 +65,8 @@ $emp_details = $emp_obj->getAll();
                         <thead>
                             <tr style="height:40px;">
                                 <!--<th>#ID</th>-->
-                                <td class="headerStyle">NAME</td>                               
+                                <td class="headerStyle">NAME</td>   
+                                <td class="headerStyle">USERNAME</td>   
                                 <td class="headerStyle">DESIGNATION</td>
 <!--                                <td class="headerStyle">EMAIL</td>
                                 <td class="headerStyle">CONTACT NO</td>                                -->
@@ -79,6 +80,7 @@ $emp_details = $emp_obj->getAll();
                                 foreach ($emp_details as $user) {
                                     print "<tr>"
                                             . "<td>" . $user->name . "</td>"
+                                            . "<td>" . $user->username . "</td>"
                                             . "<td>" . $user->designtion . "</td>"
 //                                        . "<td>".$user->designtion_id."</td>"
 //                                        . "<td>".$user->contact_no."</td>"
