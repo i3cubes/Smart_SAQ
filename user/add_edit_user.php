@@ -32,8 +32,8 @@ include("../inc/header_less.php");
 include_once '../class/constants.php';
 include_once '../class/cls_user.php';
 include_once '../class/saq_user_role.php';
-
-if ($_REQUEST['id'] != '') {
+$id = $_REQUEST['id'];
+if ($id != '') {
     $user_obj = new user($_REQUEST['id']);
     $user_obj->getDetails();
 
@@ -85,7 +85,7 @@ $user_roles = $user_role_obj->getAll();
 
                         <header style="margin:0px;">
                             <?php if (!isset($_REQUEST['f'])) { ?><span class="widget-icon"><i class="fa fa-edit"></i></span><?php } ?>
-                            <span><h2 style="margin-left: 10px;"><?php print (($_REQUEST['id'] != '') ? ((isset($_REQUEST['f'])) ? 'VIEW' : 'EDIT') : 'ADD') ?> USER</h2></span>				                           
+                            <span><h2 style="margin-left: 10px;"><?php print (($id != '') ? ((isset($_REQUEST['f'])) ? 'VIEW' : 'EDIT') : 'ADD') ?> USER</h2></span>				                           
                         </header>
 
                         <!-- widget div-->
@@ -115,7 +115,7 @@ $user_roles = $user_role_obj->getAll();
                                                 <input type="password" name="password" id="password"/>
                                             </label>
                                         </section>
-                                        <?php if ($_REQUEST['id'] == '') { ?>
+                                        <?php if ($id == '') { ?>
                                             <section class="col col-4">
                                                 <label class="ngs_form_lable">
                                                     Re-enter password
@@ -145,7 +145,7 @@ $user_roles = $user_role_obj->getAll();
                                         </section>
 
                                         <footer>
-                                            <input type="hidden" name="option" value="<?php print (($_REQUEST['id'] != '') ? 'EDITUSER' : 'ADDUSER') ?>" />
+                                            <input type="hidden" name="option" value="<?php print (($id != '') ? 'EDITUSER' : 'ADDUSER') ?>" />
                                             <input type="hidden" name="id" value="<?php print $user_obj->id ?>" />
                                             <button type="button" class="btn btn-primary" onclick="submitHandler()">Save&nbsp;<i class="fa fa-save"></i></button>
                                         </footer>
@@ -186,8 +186,8 @@ include("../inc/scripts.php");
 ?>
 
 <script type="text/javascript">
-    $(document).ready(function () {
-
+    var passwordCheck = <?php print (($id != '') ? 'false' : 'true') ?>;
+    $(document).ready(function () {        
         $.validator.addMethod("pwcheck", function (value) {
             return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) // consists of only these
                     && /[a-z]/.test(value) // has a lowercase letter
@@ -203,10 +203,10 @@ include("../inc/scripts.php");
                         required: true
                     },
                     password: {
-                        required: true,
+                        required: passwordCheck,
                         minlength: 8,
                         maxlength: 8,
-                        pwcheck: true
+                        pwcheck: passwordCheck
                     },
                     rePassword: {
                         required: true,
@@ -254,7 +254,7 @@ include("../inc/scripts.php");
                         window.parent.location.reload();
                         window.parent.$.jeegoopopup.close();
                     } else if (response['msg'] == 2) {
-                        alert('Password already taken');
+                        alert('Username already taken');
                     } else {
                         alert('Failure');
                     }

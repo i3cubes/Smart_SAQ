@@ -89,7 +89,8 @@ class user {
 
     public function add() {
         $this->password = sha1($this->password);
-        if (!$this->checkUserUsername($this->name)) {
+        $userCheck = $this->checkUserUsername($this->name);
+        if ($userCheck == false) {
             $string = "INSERT INTO `$this->table_name` (
                 `user_name`,
                 `password`,
