@@ -31,7 +31,7 @@ class saq_district {
 //            print $string;
             $result = dbQuery($string);
             if ($result) {
-                return dbInsertId();
+                return true;
             } else {
                 return false;
             }

@@ -1,6 +1,6 @@
 <?php
-//error_reporting(E_ALL);
-//ini_set("display_errors", 1);
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -18,6 +18,7 @@ include_once '../class/cls_saq_local_authority.php';
 include_once '../class/cls_police_station.php';
 include_once '../class/cls_saq_region.php';
 include_once '../class/cls_saq_payment_mode.php';
+include_once '../class/cls_site_type.php';
 
 include_once '../class/constants.php';
 
@@ -337,6 +338,57 @@ switch ($REQUEST_METHOD) {
                     echo json_encode(array('result' => 0, 'msg' => "Deletion Failed"));
                 }
                 break;
+            case 280://get site type
+                $name = $_POST['name'];
+                $site_type = new saq_site_type();
+                $site_type->type = $name;
+                $site_type_details = $site_type->getAll();
+                if (count($site_type_details) > 0) {
+                    echo json_encode(array('result' => 1, "data" => $site_type_details));
+                } else {
+                    echo json_encode(array('result' => 0, "data" => $site_type_details));
+                }
+                break;
+            case 281://add site type           
+                $name = $_POST['site_type'];                
+                $site_type = new saq_site_type();
+                $site_type->type = $name;
+                
+                $addNew = $site_type->addNew();
+                if ($addNew) {
+                    echo json_encode(array('result' => 1, 'msg' => "Successfully Added"));
+                } else {
+                    echo json_encode(array('result' => 0, 'msg' => "Save Failed"));
+                }
+                break;
+            case 282://edit site type                  
+                $name = $_POST['site_type'];                
+                $id = $_POST['id'];
+                $site_type = new saq_site_type($id);
+
+//                $payment_mode->id = $id;
+                $site_type->type = $name;                
+                $edit = $site_type->edit();
+                //print $edit;
+                if ($edit) {
+                    echo json_encode(array('result' => 1, 'msg' => "Successfully Updated"));
+                } else {
+                    echo json_encode(array('result' => 0, 'msg' => "Update Failed"));
+                }
+                break;
+            case 361://delete site type               
+                $id = $_POST['id'];
+                $site_type = new saq_site_type($id);
+
+                $site_type->status = constants::$inactive;
+                $delete = $site_type->delete();
+                //print $edit;
+                if ($delete) {
+                    echo json_encode(array('result' => 1, 'msg' => "Successfully Deleted"));
+                } else {
+                    echo json_encode(array('result' => 0, 'msg' => "Deletion Failed"));
+                }
+                break;
             case 200://get depot
                 $name = $_POST['name'];
                 $depot = new saq_dns_depot();
@@ -381,7 +433,7 @@ switch ($REQUEST_METHOD) {
                 $depot = new saq_dns_depot($id);
 
                 $depot->status = constants::$inactive;
-                $edit = $depot->edit();
+                $edit = $depot->delete();
                 //print $edit;
                 if ($edit) {
                     echo json_encode(array('result' => 1, 'msg' => "Successfully Deleted"));
@@ -623,10 +675,10 @@ switch ($REQUEST_METHOD) {
                 break;
 
             case 214://edit ownership
-                $name = $_POST['type'];
+                $name = $_POST['ownership'];
                 $id = $_POST['id'];
-                $ownership = new saq_site_ownership();
-                $permission_type->id = $id;
+                $ownership = new saq_site_ownership($id);
+//                $permission_type->id = $id;
                 $ownership->ownership = $name;
                 $edit = $ownership->edit();
                 //print $edit;

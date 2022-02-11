@@ -4,25 +4,25 @@ include_once 'database.php';
 include_once 'constants.php';
 
 class saq_police_station {
-    
-    public $id,$name,$status;
+
+    public $id, $name, $status;
     private $table_name = 'saq_police_station';
 
     public function __construct($id = '') {
         $this->id = $id;
     }
-    
+
     public function getData() {
         $string = "SELECT * FROM `$this->table_name` WHERE `id` = $this->id;";
         $result = dbQuery($string);
         $row = dbFetchAssoc($result);
         $this->id = $row['id'];
-        $this->name = $row['name'];        
+        $this->name = $row['name'];
     }
-    
+
     public function getAll() {
         $array = array();
-        $string = "SELECT * FROM `$this->table_name` WHERE `status` = ".constants::$active.";";
+        $string = "SELECT * FROM `$this->table_name` WHERE `status` = " . constants::$active . ";";
         $result = dbQuery($string);
         while ($row = dbFetchAssoc($result)) {
             $saq_police_station_obj = new saq_police_station($row['id']);
@@ -31,10 +31,14 @@ class saq_police_station {
         }
         return $array;
     }
-    
-     public function add() {
-        if ($this->name != '') {            
-            $string = "INSERT INTO `$this->table_name` (`name`) VALUES (" . getStringFormatted($this->name) . ");";
+
+    public function add() {
+        if ($this->name != '') {
+            $count_string = "SELECT COUNT(id) AS `id` FROM `$this->table_name`;";
+            $result_count = dbQuery($count_string);
+            $row = dbFetchAssoc($result_count);
+            $id = ((int) $row['id']) + 1;
+            $string = "INSERT INTO `$this->table_name` (`id`,`name`) VALUES ('$id'," . getStringFormatted($this->name) . ");";
 //            print $string;
             $result = dbQuery($string);
             if ($result) {
@@ -67,7 +71,7 @@ class saq_police_station {
             return false;
         }
     }
-}
 
+}
 ?>
 

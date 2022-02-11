@@ -148,7 +148,7 @@ include("../inc/scripts.php");
                                 height: '550',
                                 skinClass: 'jg_popup_round',
                                 resizable: false,
-                                scrolling: 'no'
+                                scrolling: 'yes'
                             };
                             $.jeegoopopup.open(options);
                         }

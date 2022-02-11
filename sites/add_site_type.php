@@ -104,7 +104,7 @@ if ($_REQUEST['id'] != '') {
                                     </fieldset>
                                     <footer>
                                         <input type="hidden" name="id" id="id" value="<?php print $saq_type_obj->id ?>"/>
-                                        <input type="hidden" name="option" id="option" value="<?php print (($saq_type_obj->id != '') ? '202' : '201') ?>"/>
+                                        <input type="hidden" name="option" id="option" value="<?php print (($saq_type_obj->id != '') ? '282' : '281') ?>"/>
                                         <button class="btn btn-primary">Save &nbsp;<i class="fa fa-save"></i></button>
                                         <?php if ($saq_type_obj->id != '') { ?>
                                             <button type="button" class="btn btn-danger" onclick="deleteHandler(<?php print $saq_type_obj->id ?>)">Delete &nbsp;<i class="fa fa-trash"></i></button> 
@@ -153,7 +153,7 @@ include("../inc/scripts.php");
         e.preventDefault();
         if ($('#site_type').val() != '') {
             $.ajax({
-                url: '../ajax/ajx_saq_site_types',
+                url: '../ajax/ajx_site_customize',
                 type: 'POST',
                 dataType: 'JSON',
                 data: {SID: $('#option').val(), id: $('#id').val(), site_type: $('#site_type').val()},
@@ -187,9 +187,9 @@ include("../inc/scripts.php");
             buttons: {
                 "Delete": function () {
                     $.ajax({
-                        url: '../ajax/ajx_saq_site_types',
+                        url: '../ajax/ajx_site_customize',
                         type: 'POST',
-                        data: {SID: '203', id: id},
+                        data: {SID: '361', id: id},
                         dataType: "json",
                         success: function (response) {
                             if (response.result == '1') {

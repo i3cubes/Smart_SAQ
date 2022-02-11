@@ -42,9 +42,9 @@ class saq_site_type {
         if($this->type !=""){
             array_push($ary_sql, "`name`='$this->type'");
         }
-        if($this->status==constants::$inactive) {
-            array_push($ary_sql, "`status`=".constants::$inactive."");
-        }
+//        if($this->status==constants::$inactive) {
+//            array_push($ary_sql, "`status`=".constants::$inactive."");
+//        }
         if(count($ary_sql)>0){
             $string = implode(", ", $ary_sql);
             $str = "UPDATE $this->table_name SET $string WHERE id ='$this->id'";
@@ -55,6 +55,16 @@ class saq_site_type {
             }else {
                 return false;
             }
+        }
+    }
+     public function delete() {
+        $string = "UPDATE `$this->table_name` SET `status` = " . constants::$inactive . " WHERE `id` = $this->id;";
+//        print $string;
+        $result = dbQuery($string);
+        if ($result) {
+            return true;
+        } else {
+            return false;
         }
     }
     public function getAll() {

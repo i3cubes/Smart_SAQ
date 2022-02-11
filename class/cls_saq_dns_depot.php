@@ -38,9 +38,9 @@ class saq_dns_depot {
         if($this->depot_name !=""){
             array_push($ary_sql, "`name`='$this->depot_name'");
         }
-        if($this->status==constants::$inactive) {
-            array_push($ary_sql, "`status`=".constants::$inactive."");
-        }
+//        if($this->status==constants::$inactive) {
+//            array_push($ary_sql, "`status`=".constants::$inactive."");
+//        }
         
         if(count($ary_sql)>0){
             $string = implode(", ", $ary_sql);
@@ -52,6 +52,16 @@ class saq_dns_depot {
             }else {
                 return false;
             }
+        }
+    }
+    public function delete() {
+        $string = "UPDATE `$this->table_name` SET `status` = " . constants::$inactive . " WHERE `id` = $this->id;";
+//        print $string;
+        $result = dbQuery($string);
+        if ($result) {
+            return true;
+        } else {
+            return false;
         }
     }
     public function getAll() {

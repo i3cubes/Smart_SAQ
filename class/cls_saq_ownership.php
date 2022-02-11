@@ -33,7 +33,7 @@ class saq_site_ownership {
     }
 
     public function edit() {
-        $string = "UPDATE `$this->table_name` SET `category` = " . getStringFormatted($this->ownership) . " WHERE `id` = $this->id;";
+        $string = "UPDATE `$this->table_name` SET `ownership` = " . getStringFormatted($this->ownership) . " WHERE `id` = $this->id;";
         $result = dbQuery($string);
         if ($result) {
             return true;

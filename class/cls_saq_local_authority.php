@@ -33,8 +33,12 @@ class saq_la {
     }
     
      public function add() {
-        if ($this->name != '') {            
-            $string = "INSERT INTO `$this->table_name` (`name`) VALUES (" . getStringFormatted($this->name) . ");";
+        if ($this->name != '') {
+            $count_string = "SELECT COUNT(id) AS `id` FROM `$this->table_name`;";
+            $result_count = dbQuery($count_string);
+            $row = dbFetchAssoc($result_count);
+            $id = ((int) $row['id']) + 1;
+            $string = "INSERT INTO `$this->table_name` (`id`,`name`) VALUES ('$id'," . getStringFormatted($this->name) . ");";
 //            print $string;
             $result = dbQuery($string);
             if ($result) {
