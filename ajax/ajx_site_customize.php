@@ -20,6 +20,7 @@ include_once '../class/cls_saq_region.php';
 include_once '../class/cls_saq_payment_mode.php';
 include_once '../class/cls_site_type.php';
 include_once '../class/cls_saq_gs.php';
+include_once '../class/cls_saq_employee.php';
 
 include_once '../class/constants.php';
 
@@ -29,6 +30,39 @@ $SID = $_REQUEST['SID'];
 switch ($REQUEST_METHOD) {
     case "POST":
         switch ($SID) {
+            case 410://set employee as saq officer
+                $employee_id = $_POST['employee_id'];
+                $saq_employee_obj = new saq_employee($employee_id);
+                $saq_employee_obj->saq_designation_id = constants::$engineer;
+                $update = $saq_employee_obj->updateEmp();                
+                if ($update) {
+                    echo json_encode(array('result' => 1, "msg" => 'Successfully updated!!!'));
+                } else {
+                    echo json_encode(array('result' => 0, "msg" => 'Error Occured!!!'));
+                }
+                break;
+            case 420://set employee as rm officer
+                $employee_id = $_POST['employee_id'];
+                $saq_employee_obj = new saq_employee($employee_id);
+                $saq_employee_obj->saq_designation_id = constants::$system_admin;
+                $update = $saq_employee_obj->updateEmp();                
+                if ($update) {
+                    echo json_encode(array('result' => 1, "msg" => 'Successfully updated!!!'));
+                } else {
+                    echo json_encode(array('result' => 0, "msg" => 'Error Occured!!!'));
+                }
+                break;
+            case 430://set employee as dns officer
+                $employee_id = $_POST['employee_id'];
+                $saq_employee_obj = new saq_employee($employee_id);
+                $saq_employee_obj->saq_designation_id = constants::$admin;
+                $update = $saq_employee_obj->updateEmp();                
+                if ($update) {
+                    echo json_encode(array('result' => 1, "msg" => 'Successfully updated!!!'));
+                } else {
+                    echo json_encode(array('result' => 0, "msg" => 'Error Occured!!!'));
+                }
+                break;
             case 220://get district
                 $name = $_POST['name'];
                 $district = new saq_district();

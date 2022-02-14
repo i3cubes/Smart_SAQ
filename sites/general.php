@@ -43,6 +43,8 @@ include_once '../class/cls_saq_local_authority.php';
 include_once '../class/cls_police_station.php';
 include_once '../class/cls_saq_region.php';
 include_once '../class/cls_saq_gs.php';
+
+include_once '../class/cls_saq_employee.php';
 //include_once '../class/cls_saq_ownership.php';
 $gn_division = new saq_gn_division();
 //
@@ -71,7 +73,7 @@ $gn_district = $_POST['gn_district'];
         <!-- widget grid -->
         <section id="widget-grid">
             <!-- row -->
-             <div class="row">
+            <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                     <div class="jarviswidget"
                          data-widget-deletebutton="false" 
@@ -287,7 +289,7 @@ $gn_district = $_POST['gn_district'];
                     </div>
                 </div>
             </div>
-             <div class="row">
+            <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                     <div class="jarviswidget"
                          data-widget-deletebutton="false" 
@@ -394,7 +396,7 @@ $gn_district = $_POST['gn_district'];
                     </div>
                 </div>
             </div>
-             <div class="row">
+            <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                     <div class="jarviswidget"
                          data-widget-deletebutton="false" 
@@ -407,7 +409,7 @@ $gn_district = $_POST['gn_district'];
                         <header>
                             <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
                             <h2 style=""><b>RM Name</b></h2> 
-                            <button class="btn btn-default btn-xs" style="float:right;margin:5px;" type="button" onclick="addRMName()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
+                            <button class="btn btn-default btn-xs" style="float:right;margin:5px;" type="button" onclick="addRMOfficerName()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
                             <!--<button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="bulk_update(0)">Bulk Edit&nbsp;<i class="fa fa-cogs"></i></button>-->
                         </header> 
                         <div class="widget-body">
@@ -416,31 +418,31 @@ $gn_district = $_POST['gn_district'];
                                 <tbody>       
 
                                     <?php
-                                    //$gn_division->saq_district_id = $gn_district;
-//                                    $saq_police_station = new saq_police_station();
-//                                    $pss = $saq_police_station->getAll();
-//
-//                                    //print_r($gn_division);
-//                                    if (count($pss) > 0) {
-//                                        foreach ($pss as $ps) {
-//                                            print "<tr class='ngs-popup-dis' id ='$ps->id'>"
-//                                                    . "<td>" . $ps->name . "</td>"
-//                                                    . "</tr>";
-//                                        }
-//                                    }
+                                    $rm_employee_obj = new saq_employee();
+                                    $rm_employee_obj->designtion_id = constants::$system_admin;
+                                    $rms = $rm_employee_obj->getAll();
+
+//print_r($dns_depte_details);
+                                    if (count($rms) > 0) {
+                                        foreach ($rms as $rm) {
+                                            print "<tr class='ngs-popup-rm_officer' id ='$rm->id'>"
+                                                    . "<td>" . $rm->name . "</td>"
+                                                    . "</tr>";
+                                        }
+                                    }
                                     ?>
                                 </tbody>
                             </table>
                             <!--</div>-->
                             <script>
-                                $('.ngs-popup-rm').click(function () {
-
-
-                                    var id = this.id;
-
-                                    addRMName(id);
-
-                                });
+//                                $('.ngs-popup-rm').click(function () {
+//
+//
+//                                    var id = this.id;
+//
+//                                    addRMName(id);
+//
+//                                });
 
 
                             </script>
@@ -460,7 +462,7 @@ $gn_district = $_POST['gn_district'];
                         <header>
                             <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
                             <h2 style=""><b>SAQ Officer Name</b></h2> 
-                            <button class="btn btn-default btn-xs" style="float:right;margin:5px;" type="button" onclick="addDnsDepotName()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
+                            <button class="btn btn-default btn-xs" style="float:right;margin:5px;" type="button" onclick="addSaqOfficerName()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
                             <!--<button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="bulk_update(0)">Bulk Edit&nbsp;<i class="fa fa-cogs"></i></button>-->
                         </header> 
                         <div class="widget-body">                    
@@ -469,30 +471,31 @@ $gn_district = $_POST['gn_district'];
                                 <tbody>       
 
                                     <?php
-//                                    $saq_region = new saq_region();
-//                                    $saq_regions = $saq_region->getAll();
-//
-////print_r($dns_depte_details);
-//                                    if (count($saq_regions) > 0) {
-//                                        foreach ($saq_regions as $region) {
-//                                            print "<tr class='ngs-popup-ds' id ='$region->id'>"
-//                                                    . "<td>" . $region->name . "</td>"
-//                                                    . "</tr>";
-//                                        }
-//                                    }
+                                    $saq_employee_obj = new saq_employee();
+                                    $saq_employee_obj->designtion_id = constants::$engineer;
+                                    $saq_officers = $saq_employee_obj->getAll();
+
+//print_r($dns_depte_details);
+                                    if (count($saq_officers) > 0) {
+                                        foreach ($saq_officers as $saq_officer) {
+                                            print "<tr class='ngs-popup-saq_officer' id ='$saq_officer->id'>"
+                                                    . "<td>" . $saq_officer->name . "</td>"
+                                                    . "</tr>";
+                                        }
+                                    }
                                     ?>
                                 </tbody>
                             </table>
                             <!--</div>-->
                             <script>
-                                $('.ngs-popup-depot').click(function () {
-
-
-                                    var id = this.id;
-
-                                    addDnsDepotName(id);
-
-                                });
+//                                $('.ngs-popup-saq_officer').click(function () {
+//
+//
+//                                    var id = this.id;
+//
+//                                    addSaqOfficerName(id);
+//
+//                                });
 
 
                             </script>
@@ -514,7 +517,7 @@ $gn_district = $_POST['gn_district'];
                         <header>
                             <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
                             <h2 style=""><b>DNS Officer Name</b></h2> 
-                            <button class="btn btn-default btn-xs" style="float:right;margin:5px;" type="button" onclick="addRMName()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
+                            <button class="btn btn-default btn-xs" style="float:right;margin:5px;" type="button" onclick="addDNSOfficerName()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
                             <!--<button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="bulk_update(0)">Bulk Edit&nbsp;<i class="fa fa-cogs"></i></button>-->
                         </header> 
                         <div class="widget-body">
@@ -523,18 +526,18 @@ $gn_district = $_POST['gn_district'];
                                 <tbody>       
 
                                     <?php
-                                    //$gn_division->saq_district_id = $gn_district;
-//                                    $saq_police_station = new saq_police_station();
-//                                    $pss = $saq_police_station->getAll();
-//
-//                                    //print_r($gn_division);
-//                                    if (count($pss) > 0) {
-//                                        foreach ($pss as $ps) {
-//                                            print "<tr class='ngs-popup-dis' id ='$ps->id'>"
-//                                                    . "<td>" . $ps->name . "</td>"
-//                                                    . "</tr>";
-//                                        }
-//                                    }
+                                    $dns_employee_obj = new saq_employee();
+                                    $dns_employee_obj->designtion_id = constants::$admin;
+                                    $dns_officers = $dns_employee_obj->getAll();
+
+//print_r($dns_depte_details);
+                                    if (count($dns_officers) > 0) {
+                                        foreach ($dns_officers as $dns_officer) {
+                                            print "<tr class='ngs-popup-saq_officer' id ='$dns_officer->id'>"
+                                                    . "<td>" . $dns_officer->name . "</td>"
+                                                    . "</tr>";
+                                        }
+                                    }
                                     ?>
                                 </tbody>
                             </table>
@@ -555,7 +558,7 @@ $gn_district = $_POST['gn_district'];
 
                     </div>
                 </div>
-                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                     <div class="jarviswidget"
                          data-widget-deletebutton="false" 
                          data-widget-togglebutton="false"
@@ -608,7 +611,7 @@ $gn_district = $_POST['gn_district'];
 
                     </div>
                 </div>
-                
+
             </div>
             <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -719,7 +722,7 @@ $gn_district = $_POST['gn_district'];
                 </div>
             </div>
             <div class="row">
-               
+
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                     <div class="jarviswidget"
                          data-widget-deletebutton="false" 
@@ -773,7 +776,7 @@ $gn_district = $_POST['gn_district'];
 
                     </div>
                 </div>
-                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                     <div class="jarviswidget"
                          data-widget-deletebutton="false" 
                          data-widget-togglebutton="false"
@@ -835,7 +838,7 @@ $gn_district = $_POST['gn_district'];
                 </div>
             </div>
             <div class="row">
-               
+
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                     <div class="jarviswidget"
                          data-widget-deletebutton="false" 
@@ -964,10 +967,10 @@ include("../inc/scripts.php");
                                         "info": true
                                     });
                                 });
-                                
-                                function addDistrictName(id = '') {
-                                     var options = {
-                                        url: 'add_district?id=' + id,
+
+                                function addSaqOfficerName(id = '') {
+                                    var options = {
+                                        url: 'add_saq_officers?id=' + id,
                                         width: '600',
                                         height: '300',
                                         skinClass: 'jg_popup_round',
@@ -977,6 +980,42 @@ include("../inc/scripts.php");
                                     $.jeegoopopup.open(options);
                                 }
                                 
+                                function addRMOfficerName(id = '') {
+                                    var options = {
+                                        url: 'add_rm_officers?id=' + id,
+                                        width: '600',
+                                        height: '300',
+                                        skinClass: 'jg_popup_round',
+                                        resizable: false,
+                                        scrolling: 'no'
+                                    };
+                                    $.jeegoopopup.open(options);
+                                }
+                                
+                                function addDNSOfficerName(id = '') {
+                                    var options = {
+                                        url: 'add_dns_officers?id=' + id,
+                                        width: '600',
+                                        height: '300',
+                                        skinClass: 'jg_popup_round',
+                                        resizable: false,
+                                        scrolling: 'no'
+                                    };
+                                    $.jeegoopopup.open(options);
+                                }
+
+                                function addDistrictName(id = '') {
+                                    var options = {
+                                        url: 'add_district?id=' + id,
+                                        width: '600',
+                                        height: '300',
+                                        skinClass: 'jg_popup_round',
+                                        resizable: false,
+                                        scrolling: 'no'
+                                    };
+                                    $.jeegoopopup.open(options);
+                                }
+
                                 function addDsName(id = '') {
                                     var options = {
                                         url: 'add_ds?id=' + id,
@@ -988,8 +1027,8 @@ include("../inc/scripts.php");
                                     };
                                     $.jeegoopopup.open(options);
                                 }
-                                
-                                function addGsDivision(id = '') {                                    
+
+                                function addGsDivision(id = '') {
                                     var options = {
                                         url: 'add_gs?id=' + id,
                                         width: '600',
@@ -1000,7 +1039,7 @@ include("../inc/scripts.php");
                                     };
                                     $.jeegoopopup.open(options);
                                 }
-                                
+
                                 function addLaName(id = '') {
                                     var options = {
                                         url: 'add_la?id=' + id,
@@ -1012,7 +1051,7 @@ include("../inc/scripts.php");
                                     };
                                     $.jeegoopopup.open(options);
                                 }
-                                
+
                                 function addPsName(id = '') {
                                     var options = {
                                         url: 'add_ps?id=' + id,
@@ -1024,7 +1063,7 @@ include("../inc/scripts.php");
                                     };
                                     $.jeegoopopup.open(options);
                                 }
-                                
+
                                 function addRegionName(id = '') {
                                     var options = {
                                         url: 'add_region?id=' + id,

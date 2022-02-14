@@ -6,7 +6,7 @@ include_once 'constants.php';
 class saq_employee {
 
     public $id, $name, $address, $mobile, $email, $status, $saq_department_id, $designtion_id, $dns_region_id, $region_id, $saq_district_id;
-    public $designation, $department, $districts, $username, $saq_employee_id;
+    public $designation, $department, $districts, $username, $saq_employee_id, $saq_designation_id;
     private $table_name = 'saq_employee';
 
     public function __construct($id = '') {
@@ -151,6 +151,7 @@ class saq_employee {
         $DNS_region_id = ($this->dns_region_id);
         $status = ($this->status);
         $saq_district_id = ($this->saq_district_id);
+        $saq_designation_id = ($this->saq_designation_id);
 
         if ($name != "") {
             array_push($ary_sql, "name =" . getStringFormatted($name));
@@ -181,6 +182,9 @@ class saq_employee {
         }
         if ($saq_district_id != "") {
             array_push($ary_sql, "saq_district_id =" . getStringFormatted($saq_district_id));
+        }
+        if ($saq_designation_id != "") {
+            array_push($ary_sql, "saq_designation_id =" . getStringFormatted($saq_designation_id));
         }
 
         if (count($ary_sql) > 0) {
