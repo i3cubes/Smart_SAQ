@@ -19,6 +19,7 @@ include_once '../class/cls_police_station.php';
 include_once '../class/cls_saq_region.php';
 include_once '../class/cls_saq_payment_mode.php';
 include_once '../class/cls_site_type.php';
+include_once '../class/cls_saq_gs.php';
 
 include_once '../class/constants.php';
 
@@ -176,6 +177,59 @@ switch ($REQUEST_METHOD) {
 
                 $la->status = constants::$inactive;
                 $delete = $la->delete();
+                //print $edit;
+                if ($delete) {
+                    echo json_encode(array('result' => 1, 'msg' => "Successfully Deleted"));
+                } else {
+                    echo json_encode(array('result' => 0, 'msg' => "Deletion Failed"));
+                }
+                break;
+            case 290://get gs
+                $name = $_POST['gs_name'];
+                $gs = new saq_gs();
+                $gs->gs_name = $name;
+                $gs_details = $gs->getAll();
+                if (count($gs_details) > 0) {
+                    echo json_encode(array('result' => 1, "data" => $ds_details));
+                } else {
+                    echo json_encode(array('result' => 0, "data" => $ds_details));
+                }
+                break;
+            case 291://add gs                
+                $name = $_POST['gs_name'];
+                $saq_district_id = $_POST['saq_district_id'];
+                $gs = new saq_gs();
+                $gs->gs_name = $name;
+                $gs->saq_district_id = $saq_district_id;
+                $addNew = $gs->add();
+                if ($addNew) {
+                    echo json_encode(array('result' => 1, 'msg' => "Successfully Added"));
+                } else {
+                    echo json_encode(array('result' => 0, 'msg' => "Save Failed"));
+                }
+                break;
+            case 292://edit gs
+                $name = $_POST['gs_name'];
+                $saq_district_id = $_POST['saq_district_id'];
+                $id = $_POST['id'];
+                $gs = new saq_gs($id);
+                
+                $gs->gs_name = $name;
+                $gs->saq_district_id = $saq_district_id;
+                $edit = $gs->edit();
+                //print $edit;
+                if ($edit) {
+                    echo json_encode(array('result' => 1, 'msg' => "Successfully Updated"));
+                } else {
+                    echo json_encode(array('result' => 0, 'msg' => "Update Failed"));
+                }
+                break;
+            case 371://delete la                
+                $id = $_POST['id'];
+                $gs = new saq_gs($id);
+
+                $gs->status = constants::$inactive;
+                $delete = $gs->delete();
                 //print $edit;
                 if ($delete) {
                     echo json_encode(array('result' => 1, 'msg' => "Successfully Deleted"));

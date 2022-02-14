@@ -199,10 +199,10 @@ include("../inc/scripts.php");
                             var options = {
                                 url: 'add_edit_employee?id=' + id,
                                 width: '500',
-                                height: '430',
+                                height: '450',
                                 skinClass: 'jg_popup_round',
                                 resizable: false,
-                                scrolling: 'no'
+                                scrolling: 'yes'
                             };
                             $.jeegoopopup.open(options);
                         }

@@ -1,5 +1,6 @@
 <?php
-
+//error_reporting(E_ALL);
+//ini_set("display_errors", 1);
 include_once 'database.php';
 include_once 'constants.php';
 
@@ -19,7 +20,8 @@ class user {
             $address,
             $email,
             $employees_id,
-            $saq_us_role_id;
+            $saq_us_role_id,
+            $saq_employee_id;
     public $api_sid, $api_sid_time;
     private $table_name = 'saq_us';
 
@@ -144,6 +146,9 @@ class user {
         }
         if ($this->saq_us_role_id != '') {
             array_push($update_array, "`saq_us_role_id`='$this->saq_us_role_id'");
+        }
+        if ($this->saq_employee_id != '') {
+            array_push($update_array, "`saq_employee_id`='$this->saq_employee_id'");
         }
 
         if (count($update_array) > 0) {
@@ -272,6 +277,20 @@ class user {
         } else {
             return null;
         }
+    }
+    
+    function getUserNoEmployee() {
+        $array = array();
+        $string = "SELECT * FROM `$this->table_name` WHERE (`saq_us_role_id` = ".constants::$engineer." OR `saq_us_role_id` = ".constants::$admin.") AND `status` = ".constants::$active." AND `saq_employee_id` IS NULL;";
+//        print $string;
+        $result = dbQuery($string);
+        while ($row = dbFetchAssoc($result)) {
+            array_push($array, array(
+                'id' => $row['id'],
+                'user_name' => $row['user_name']
+            ));
+        }
+        return $array;
     }
 
 }

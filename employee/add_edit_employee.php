@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-//error_reporting();
+//error_reporting(E_ALL);
 //ini_set("display_errors", 1);
 //print_r($_SESSION);
 //initilize the page
@@ -35,7 +35,7 @@ include_once '../class/functions.php';
 include_once '../class/cls_saq_employee.php';
 
 $fn = new functions();
-if($_REQUEST['id'] != '') {
+if ($_REQUEST['id'] != '') {
     $emp_obj = new saq_employee($_REQUEST['id']);
     $emp_obj->getData();
     $region_id = $emp_obj->region_id;
@@ -94,7 +94,7 @@ if($_REQUEST['id'] != '') {
                                     <fieldset>  
                                         <section class="col col-4">
                                             <label class="ngs_form_lable">
-                                               Employee Name
+                                                Employee Name
                                             </label>
                                         </section>
                                         <section class="col col-4">
@@ -102,27 +102,56 @@ if($_REQUEST['id'] != '') {
                                                 <input type="text" name="emp_name" id="emp_name" value="<?php print $emp_obj->name ?>"/> 
                                             </label>
                                         </section>
+                                        <section class="col col-8">
+
+                                        </section>
+                                        <?php
+                                        if ($emp_obj->saq_employee_id == '') {
+                                            ?>
+                                            <section class="col col-4">
+                                                <label class="ngs_form_lable">
+                                                    Username <span style="color:red;"> &nbsp; (Please select username relevant to employee)</span>
+
+                                                </label>
+                                            </section>
+                                            <section class="col col-4">
+                                                <label class="select">
+                                                    <select name="user_id" id="user_id">
+                                                        <option value="" selected="" disabled="">Select username ....</option>
+                                                        <?php
+                                                        $user_obj = new user();
+                                                        $users = $user_obj->getUserNoEmployee();
+
+                                                        if (count($users) > 0) {
+                                                            foreach ($users as $user) {
+                                                                print "<option value='" . $user['id'] . "'>" . $user['user_name'] . "</option>";
+                                                            }
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </label>
+                                            </section>
+                                        <?php } ?>
                                         <section class="col col-4">
                                             <label class="ngs_form_lable">
-                                               Designation
+                                                Designation
                                             </label>
                                         </section>
                                         <section class="col col-4">
                                             <label class="select">
-                                           <select name="emp_designation" id="emp_designation">
-                                                        <option value="" selected="">SELECT DESIGNATION</option>
-                                                        
-                                                        <?php
-                                                        
-                                                        //$ary_status = $const->getFTStatus();
+                                                <select name="emp_designation" id="emp_designation">
+                                                    <option value="" selected="">SELECT DESIGNATION</option>
+
+                                                    <?php
+                                                    //$ary_status = $const->getFTStatus();
 //                                                        if ($gn_district ==""){
 //                                                            $gn_district = '';
 //                                                        }else {
 //                                                            $gn_district = $gn_district;
 //                                                        }
-                                                        print $fn->CreateMenu('saq_designation', 'designation', "", "$designation_id", "", "id", "", "");
-                                                        ?>
-                                                    </select> <i></i> 
+                                                    print $fn->CreateMenu('saq_designation', 'designation', "", "$designation_id", "", "id", "", "");
+                                                    ?>
+                                                </select> <i></i> 
                                             </label>
                                         </section>
                                         <section class="col col-4">
@@ -133,34 +162,32 @@ if($_REQUEST['id'] != '') {
                                         <section class="col col-4">
                                             <label class="select">
                                                 <select name="saq_district_ids[]" id="saq_district_id" multiple style="width:100%;">                                                        
-                                                        
-                                                        <?php
-                                                        
-                                                        //$ary_status = $const->getFTStatus();
+
+                                                    <?php
+                                                    //$ary_status = $const->getFTStatus();
 //                                                        if ($gn_district ==""){
 //                                                            $gn_district = '';
 //                                                        }else {
 //                                                            $gn_district = $gn_district;
 //                                                        }
-                                                        print $fn->CreateMenu('saq_district', 'name', "", "$district_id", "", "id", "", "");
-                                                        ?>
-                                                    </select> <i></i> 
+                                                    print $fn->CreateMenu('saq_district', 'name', "", "$district_id", "", "id", "", "");
+                                                    ?>
+                                                </select> <i></i> 
                                             </label>
                                         </section>
                                         <div class="hidden" id="select_region">
-                                        <section class="col col-4 " id="">
-                                            <label class="ngs_form_lable">
-                                               Region
-                                            </label>
-                                        </section>
-                                        <section class="col col-4">
-                                            <label class="select">
-                                           <select name="emp_region" id="emp_region">
+                                            <section class="col col-4 " id="">
+                                                <label class="ngs_form_lable">
+                                                    Region
+                                                </label>
+                                            </section>
+                                            <section class="col col-4">
+                                                <label class="select">
+                                                    <select name="emp_region" id="emp_region">
                                                         <option value="" selected="">SELECT</option>
-                                                        
+
                                                         <?php
-                                                        
-                                                        //$ary_status = $const->getFTStatus();
+//$ary_status = $const->getFTStatus();
 //                                                        if ($gn_district ==""){
 //                                                            $gn_district = '';
 //                                                        }else {
@@ -169,23 +196,22 @@ if($_REQUEST['id'] != '') {
                                                         print $fn->CreateMenu('saq_region', 'name', "", "", "", "id", "", "");
                                                         ?>
                                                     </select> <i></i> 
-                                            </label>
-                                        </section>
+                                                </label>
+                                            </section>
                                         </div>
                                         <div class="hidden" id="select_dns_region">
-                                        <section class="col col-4 " id="">
-                                            <label class="ngs_form_lable">
-                                               DNS Region
-                                            </label>
-                                        </section>
-                                        <section class="col col-4">
-                                            <label class="select">
-                                           <select name="emp_dns_region" id="emp_dns_region">
+                                            <section class="col col-4 " id="">
+                                                <label class="ngs_form_lable">
+                                                    DNS Region
+                                                </label>
+                                            </section>
+                                            <section class="col col-4">
+                                                <label class="select">
+                                                    <select name="emp_dns_region" id="emp_dns_region">
                                                         <option value="" selected="">SELECT</option>
-                                                        
+
                                                         <?php
-                                                        
-                                                        //$ary_status = $const->getFTStatus();
+//$ary_status = $const->getFTStatus();
 //                                                        if ($gn_district ==""){
 //                                                            $gn_district = '';
 //                                                        }else {
@@ -194,40 +220,40 @@ if($_REQUEST['id'] != '') {
                                                         print $fn->CreateMenu('saq_dns_office', 'name', "", "", "", "id", "", "");
                                                         ?>
                                                     </select> <i></i> 
-                                            </label>
-                                        </section>
+                                                </label>
+                                            </section>
                                         </div>
-                                        
+
 <!--                                        <section class="col col-4">
-                                            <label class="ngs_form_lable">
-                                                Email
-                                            </label>
-                                        </section>
-                                        <section class="col col-4">
-                                            <label class="input">
-                                                <input type="email" name="email" id="email"/>
-                                            </label>
-                                        </section>
-                                        <section class="col col-4">
-                                            <label class="ngs_form_lable">
-                                                Contact no
-                                            </label>
-                                        </section>
-                                        <section class="col col-4">
-                                            <label class="input">
-                                                <input type="text" name="contact_no" id="contact_no"/>
-                                            </label>
-                                        </section>
-                                        <section class="col col-4">
-                                            <label class="ngs_form_lable">
-                                                Address
-                                            </label>
-                                        </section>
-                                        <section class="col col-4">
-                                            <label class="input">
-                                                <input type="text" name="address" id="address"/>
-                                            </label>
-                                        </section>-->
+    <label class="ngs_form_lable">
+        Email
+    </label>
+</section>
+<section class="col col-4">
+    <label class="input">
+        <input type="email" name="email" id="email"/>
+    </label>
+</section>
+<section class="col col-4">
+    <label class="ngs_form_lable">
+        Contact no
+    </label>
+</section>
+<section class="col col-4">
+    <label class="input">
+        <input type="text" name="contact_no" id="contact_no"/>
+    </label>
+</section>
+<section class="col col-4">
+    <label class="ngs_form_lable">
+        Address
+    </label>
+</section>
+<section class="col col-4">
+    <label class="input">
+        <input type="text" name="address" id="address"/>
+    </label>
+</section>-->
                                         <footer>
                                             <input type="hidden" name="SID" value="<?php print (($_REQUEST['id'] != '') ? '202' : '201') ?>" />
                                             <input type="hidden" name="id" value="<?php print $emp_obj->id ?>" />
@@ -273,11 +299,10 @@ include("../inc/scripts.php");
     var district_selector = $('#saq_district_id').select2();
     var districts = <?php print json_encode($emp_obj->districts) ?>;
     $(document).ready(function () {
-        if(districts.length > 0) {
+        if (districts.length > 0) {
             district_selector.val(districts).trigger('change');
         }
-<?php 
-
+<?php
 //if($designation_id =="1"){
 //    print "$('#select_region').removeClass('hidden');";
 //    print "$('#emp_designation').val('".$designation_id."');";
@@ -289,9 +314,8 @@ include("../inc/scripts.php");
 //}else {
 //    
 //}
-
 ?>
-    });    
+    });
 //$('#emp_designation').change(function (){
 //    var val = $(this).val();
 //   if( val =='1'){
@@ -308,8 +332,8 @@ include("../inc/scripts.php");
 //    
 //    
 //})
-    
-    
+
+
     function submitHandler() {
         var form = $('#user_form').serialize();
         $.ajax({

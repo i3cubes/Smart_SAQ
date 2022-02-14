@@ -1,4 +1,6 @@
 <?php
+//error_reporting(E_ALL);
+//ini_set("display_errors", 1);
 require_once("../lib/config.php");
 
 //require UI configuration (nav, ribbon, etc.)
@@ -40,6 +42,7 @@ include_once '../class/cls_divisional_secretariat.php';
 include_once '../class/cls_saq_local_authority.php';
 include_once '../class/cls_police_station.php';
 include_once '../class/cls_saq_region.php';
+include_once '../class/cls_saq_gs.php';
 //include_once '../class/cls_saq_ownership.php';
 $gn_division = new saq_gn_division();
 //
@@ -242,7 +245,7 @@ $gn_district = $_POST['gn_district'];
                         <header>
                             <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
                             <h2 style=""><b>GS Division</b></h2> 
-                            <button class="btn btn-default btn-xs" style="float:right;margin:5px;" type="button" onclick="addDnsDepotName()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
+                            <button class="btn btn-default btn-xs" style="float:right;margin:5px;" type="button" onclick="addGsDivision()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
                             <!--<button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="bulk_update(0)">Bulk Edit&nbsp;<i class="fa fa-cogs"></i></button>-->
                         </header> 
                         <div class="widget-body">                    
@@ -252,28 +255,28 @@ $gn_district = $_POST['gn_district'];
 
                                     <?php
 //$gn_division->saq_district_id = $gn_district;
-//                                    $saq_ds = new saq_ds();
-//                                    $saq_dss = $saq_ds->getAll();
-//
-////print_r($dns_depte_details);
-//                                    if (count($saq_dss) > 0) {
-//                                        foreach ($saq_dss as $ds) {
-//                                            print "<tr class='ngs-popup-ds' id ='$ds->id'>"
-//                                                    . "<td>" . $ds->name . "</td>"
-//                                                    . "</tr>";
-//                                        }
-//                                    }
+                                    $saq_gs = new saq_gs();
+                                    $saq_gss = $saq_gs->getAll();
+
+//print_r($dns_depte_details);
+                                    if (count($saq_gss) > 0) {
+                                        foreach ($saq_gss as $gs) {
+                                            print "<tr class='ngs-popup-gs' id ='$gs->id'>"
+                                                    . "<td>" . $gs->gs_name . "</td>"
+                                                    . "</tr>";
+                                        }
+                                    }
                                     ?>
                                 </tbody>
                             </table>
                             <!--</div>-->
                             <script>
-                                $('.ngs-popup-depot').click(function () {
+                                $('.ngs-popup-gs').click(function () {
 
 
                                     var id = this.id;
 
-                                    addDnsDepotName(id);
+                                    addGsDivision(id);
 
                                 });
 
@@ -977,6 +980,18 @@ include("../inc/scripts.php");
                                 function addDsName(id = '') {
                                     var options = {
                                         url: 'add_ds?id=' + id,
+                                        width: '600',
+                                        height: '300',
+                                        skinClass: 'jg_popup_round',
+                                        resizable: false,
+                                        scrolling: 'no'
+                                    };
+                                    $.jeegoopopup.open(options);
+                                }
+                                
+                                function addGsDivision(id = '') {                                    
+                                    var options = {
+                                        url: 'add_gs?id=' + id,
                                         width: '600',
                                         height: '300',
                                         skinClass: 'jg_popup_round',

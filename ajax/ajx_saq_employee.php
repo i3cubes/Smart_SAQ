@@ -7,6 +7,7 @@
  */
 include_once '../class/cls_saq_employee.php';
 include_once '../class/cls_saq_region.php';
+include_once '../class/cls_user.php';
 
 $REQUEST_METHOD = $_SERVER["REQUEST_METHOD"];
 $SID = $_REQUEST['SID'];
@@ -35,6 +36,7 @@ switch ($REQUEST_METHOD) {
                 $emp_dns_region = $_POST['emp_dns_region'];
                 $saq_district_id = $_POST['saq_district_id'];
                 $districts = $_POST['saq_district_ids'];
+                $user_id = $_POST['user_id'];
 
                 $emp = new saq_employee();
                 $emp->name = $name;
@@ -48,6 +50,12 @@ switch ($REQUEST_METHOD) {
 //        }
                 $addNew = $emp->insert();
                 if ($addNew) {
+                    if ($user_id != '') {
+                        $user_obj = new user($user_id);
+                        $user_obj->saq_employee_id = $emp->id;
+                        $user_obj->edit();
+                    }
+
                     echo json_encode(array('result' => 1, 'msg' => "Successfully Added"));
                 } else {
                     echo json_encode(array('result' => 0, 'msg' => "Save Failed"));
@@ -60,7 +68,8 @@ switch ($REQUEST_METHOD) {
                 $designation = $_POST['emp_designation'];
                 $reigion = $_POST['emp_region'];
                 $emp_dns_region = $_POST['emp_dns_region'];
-                $districts = $_POST['saq_district_ids'];                
+                $districts = $_POST['saq_district_ids'];
+                $user_id = $_POST['user_id'];
 
                 $emp = new saq_employee($id);
                 $emp->name = $name;
@@ -73,6 +82,12 @@ switch ($REQUEST_METHOD) {
                 }
                 $edit = $emp->updateEmp();
                 if ($edit) {
+                    if ($user_id != '') {
+                        $user_obj = new user($user_id);
+                        $user_obj->saq_employee_id = $emp->id;
+                        $user_obj->edit();
+                    }
+                    
                     echo json_encode(array('result' => 1, 'msg' => "Successfully Edited"));
                 } else {
                     echo json_encode(array('result' => 0, 'msg' => "Update Failed"));

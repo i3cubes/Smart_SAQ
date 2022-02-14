@@ -6,7 +6,7 @@ include_once 'constants.php';
 class saq_employee {
 
     public $id, $name, $address, $mobile, $email, $status, $saq_department_id, $designtion_id, $dns_region_id, $region_id, $saq_district_id;
-    public $designation, $department, $districts, $username;
+    public $designation, $department, $districts, $username, $saq_employee_id;
     private $table_name = 'saq_employee';
 
     public function __construct($id = '') {
@@ -14,7 +14,7 @@ class saq_employee {
     }
 
     public function getData() {
-        $string = "SELECT * FROM `$this->table_name` WHERE `id` = $this->id;";
+        $string = "SELECT t1.*,t2.id AS `user_id` FROM `$this->table_name` AS `t1` LEFT JOIN `saq_us` AS `t2` ON t1.id = t2.saq_employee_id WHERE t1.id = $this->id;";
 //        print $string;
         $result = dbQuery($string);
         $row = dbFetchAssoc($result);
@@ -28,6 +28,7 @@ class saq_employee {
         $this->designtion_id = $row['saq_designation_id'];
         $this->dns_region_id = $row['saq_dns_office_id'];
         $this->saq_district_id = $row['saq_district_id'];
+        $this->saq_employee_id = $row['user_id'];
         $this->districts = $this->getEmployeeDistricts($this->id);
     }
 
@@ -81,12 +82,13 @@ class saq_employee {
         $saq_region_id = getStringFormatted($this->region_id);
         $DNS_region_id = getStringFormatted($this->dns_region_id);        
         //id, name, address, mobile, email, status, saq_department_id, saq_designation_id, DNS_region_id, saq_region_id
-        $str = "INSERT INTO $this->table_name (name, address, mobile, email, status, saq_department_id, saq_designation_id,saq_dns_office_id,saq_region_id,saq_district_id) "
+        $str = "INSERT INTO $this->table_name (name, address, mobile, email, status, saq_department_id, saq_designation_id,saq_dns_office_id,saq_region_id) "
                 . "VALUES ($name, $address, $mobile, $email, '1', $dept, $des,$DNS_region_id,$saq_region_id)";
 
         $res = dbQuery($str);
         if ($res) {
             $employee_id = dbInsertId();
+            $this->id = $employee_id;
             $this->employeeHasDistricts($employee_id,$this->districts);
             return true;
         } else {
