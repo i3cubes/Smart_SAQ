@@ -27,6 +27,7 @@ include("../inc/nav.php");
 include_once '../class/constants.php';
 
 include_once '../class/cls_saq_payment_mode.php';
+include_once '../class/cls_saq_rate_increment.php';
 //
 include_once '../class/functions.php';
 
@@ -77,34 +78,43 @@ if(isset($_POST['submit'])) {
 
                         <header>
                             <!--<span class="widget-icon"> <i class="fa fa-edit"></i> </span>-->
-                            <h2 style=""><b>Variables</b></h2> 
-                            <!--<button class="btn btn-default btn-xs" style="float:right;margin:5px;" type="button" onclick="addDistrictName()">Add&nbsp;<i class="fa fa-plus-square"></i></button>-->
+                            <h2 style=""><b>Rate Increment</b></h2> 
+                            <button class="btn btn-default btn-xs" style="float:right;margin:5px;" type="button" onclick="addRateIncrement()">Add&nbsp;<i class="fa fa-plus-square"></i></button>
                             <!--<button class="btn btn-default btn-xs" style="float: right;margin: 5px;" onclick="bulk_update(0)">Bulk Edit&nbsp;<i class="fa fa-cogs"></i></button>-->
                         </header> 
-                        <div class="widget-body" style="height: auto;">
-                            <form class="smart-form" action="" method="POST">
-                                <fieldset>
-                                    <section class="col col-12">
-                                        <label class="label">
-                                            RATE Increment (%)
-                                        </label>
-                                        <?php 
-                                            $shared = new shared();
-                                            $getValue = $shared->getVariable();
-                                        ?>
-                                        <label class="input">
-                                            <input type="number" name="increment_rate" id="increment_rate" value="<?php print $getValue ?>"/>
-                                        </label>
-                                    </section>
-                                </fieldset>
-                                <footer>
-                                    <button type="submit" class="btn btn-success" name="submit" value="submit">Save &nbsp; <i class="fa fa-save"></i></button>
-                                </footer>
-                            </form>
+                        <div class="widget-body">
+                            
+                            <table id="table" class="table table-bordered table_style table-striped table-hover" style="width:100% !important;">       
+                                <tbody>       
+
+                                    <?php
+                                    //$gn_division->saq_district_id = $gn_district;
+                                    $saq_rate_increment_obj = new saq_rate_increment();
+                                    $rate_increments = $saq_rate_increment_obj->getAll();
+
+                                    //print_r($gn_division);
+                                    if (count($rate_increments) > 0) {
+                                        foreach ($rate_increments as $rate_increment) {
+                                            print "<tr class='ngs-popup-rate-increment' id ='$rate_increment->id'>"
+                                                    . "<td>" . $rate_increment->name . "</td>"
+                                                    . "</tr>";
+                                        }
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                            <script>
+                                $('.ngs-popup-rate-increment').click(function () {
 
 
-                            <!--</div>-->
+                                    var id = this.id;
 
+                                    addRateIncrement(id);
+
+                                });
+
+
+                            </script>
                         </div>
 
                     </div>
@@ -228,6 +238,18 @@ include("../inc/scripts.php");
                                 function addPaymentMode(id = '') {
                                     var options = {
                                         url: 'add_payment_mode?id=' + id,
+                                        width: '600',
+                                        height: '300',
+                                        skinClass: 'jg_popup_round',
+                                        resizable: false,
+                                        scrolling: 'no'
+                                    };
+                                    $.jeegoopopup.open(options);
+                                }
+                                
+                                function addRateIncrement(id = '') {
+                                    var options = {
+                                        url: 'add_rate_increment?id=' + id,
                                         width: '600',
                                         height: '300',
                                         skinClass: 'jg_popup_round',

@@ -21,6 +21,7 @@ include_once '../class/cls_saq_payment_mode.php';
 include_once '../class/cls_site_type.php';
 include_once '../class/cls_saq_gs.php';
 include_once '../class/cls_saq_employee.php';
+include_once '../class/cls_saq_rate_increment.php';
 
 include_once '../class/constants.php';
 
@@ -264,6 +265,55 @@ switch ($REQUEST_METHOD) {
 
                 $gs->status = constants::$inactive;
                 $delete = $gs->delete();
+                //print $edit;
+                if ($delete) {
+                    echo json_encode(array('result' => 1, 'msg' => "Successfully Deleted"));
+                } else {
+                    echo json_encode(array('result' => 0, 'msg' => "Deletion Failed"));
+                }
+                break;
+            case 400://get rate increment
+                $name = $_POST['name'];
+                $rate_increment = new saq_rate_increment();
+                $rate_increment->name = $name;
+                $rate_increment_details = $rate_increment->getAll();
+                if (count($rate_increment_details) > 0) {
+                    echo json_encode(array('result' => 1, "data" => $rate_increment_details));
+                } else {
+                    echo json_encode(array('result' => 0, "data" => $rate_increment_details));
+                }
+                break;
+            case 401://add rate increment               
+                $name = $_POST['name'];                
+                $rate_increment = new saq_rate_increment();
+                $rate_increment->name = $name;                
+                $addNew = $rate_increment->add();
+                if ($addNew) {
+                    echo json_encode(array('result' => 1, 'msg' => "Successfully Added"));
+                } else {
+                    echo json_encode(array('result' => 0, 'msg' => "Save Failed"));
+                }
+                break;
+            case 402://edit rate increment
+                $name = $_POST['name'];                
+                $id = $_POST['id'];
+                $rate_increment = new saq_rate_increment($id);
+                
+                $rate_increment->name = $name;                
+                $edit = $rate_increment->edit();
+                //print $edit;
+                if ($edit) {
+                    echo json_encode(array('result' => 1, 'msg' => "Successfully Updated"));
+                } else {
+                    echo json_encode(array('result' => 0, 'msg' => "Update Failed"));
+                }
+                break;
+            case 381://delete la                
+                $id = $_POST['id'];
+                $rate_increment = new saq_rate_increment($id);
+
+                $rate_increment->status = constants::$inactive;
+                $delete = $rate_increment->delete();
                 //print $edit;
                 if ($delete) {
                     echo json_encode(array('result' => 1, 'msg' => "Successfully Deleted"));

@@ -21,6 +21,7 @@ require_once("../lib/config.php");
 include_once '../class/constants.php';
 include_once '../class/cls_site.php';
 include_once '../class/cls_saq_payment_mode.php';
+include_once '../class/cls_saq_rate_increment.php';
 
 if ($_REQUEST['id'] != 0) {
     $site_obj = new site($_REQUEST['id']);
@@ -930,13 +931,22 @@ $ngs_date = new ngs_date();
                                                         <tr>
                                                             <td>RATE Increment (%)</td>
                                                             <td>
-                                                                <?php 
-                                                                    $shared = new shared();
-                                                                    $getValue = $shared->getVariable();
-                                                                ?>
-                                                                <label class="input">
-                                                                    <input type="number" name="rate_increment" id="rate_increment" value="<?php print (($agreement_data_obj->rate_increment == '') ? $getValue : $agreement_data_obj->rate_increment) ?>"/>
-                                                                </label>
+                                                                <label class="select">
+                                                                    <select name='saq_rate_increment_id' id='saq_rate_increment_id'>
+                                                                        <option value='' selected="" disabled="">Please Select Rate Increment...</option>
+                                                                         <?php 
+                                                                            $rate_increment_obj = new saq_rate_increment();
+                                                                            $rate_increments = $rate_increment_obj->getAll();
+
+                                                                            if(count($rate_increments)>0) {
+                                                                                foreach ($rate_increments as $rate_increment) {
+                                                                                    print "<option value='$rate_increment->id' ".(($agreement_data_obj->saq_rate_increment_id == $rate_increment->id) ? "selected=''" : "").">$rate_increment->name</option>";
+                                                                                }
+                                                                            }
+                                                                        ?>
+                                                                        
+                                                                    </select><i></i>
+                                                                </label>                                                                                                                               
                                                             </td>
                                                             <td>Advance Recovery Period (Months)</td>
                                                             <td>

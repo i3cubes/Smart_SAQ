@@ -31,7 +31,8 @@ class saq_site_agreement_data {
             $acc_no_property_id,
             $assessment_owner_name,
             $saq_sites_id,
-            $saq_payment_mode_id;
+            $saq_payment_mode_id,
+            $saq_rate_increment_id;
     public $update_string;
     private $table_name = 'saq_site_agreement_data';
 
@@ -71,6 +72,7 @@ class saq_site_agreement_data {
             $this->assessment_owner_name = $row['assessment_owner_name'];
             $this->saq_sites_id = $row['saq_sites_id'];
             $this->saq_payment_mode_id = $row['saq_payment_mode_id'];
+            $this->saq_rate_increment_id = $row['saq_rate_increment_id'];
         }
     }
 
@@ -135,6 +137,8 @@ class saq_site_agreement_data {
         array_push($value, getStringFormatted($this->saq_sites_id));
         array_push($key, 'saq_payment_mode_id');
         array_push($value, getStringFormatted($this->saq_payment_mode_id));
+        array_push($key, 'saq_rate_increment_id');
+        array_push($value, getStringFormatted($this->saq_rate_increment_id));
 
         if (!empty($key)) {
             $sql_str_key = implode(",", array_filter($key));
@@ -183,6 +187,7 @@ class saq_site_agreement_data {
             array_push($sql, shared::getCleanedData('acc_no_property_id', $this->acc_no_property_id, $source));
             array_push($sql, shared::getCleanedData('assessment_owner_name', $this->assessment_owner_name, $source));
             array_push($sql, shared::getCleanedData('saq_payment_mode_id', $this->saq_payment_mode_id, $source));
+            array_push($sql, shared::getCleanedData('saq_rate_increment_id', $this->saq_rate_increment_id, $source));
 
             if (!empty($sql)) {
                 $sql_str = implode(",", array_filter($sql));

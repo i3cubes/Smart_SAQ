@@ -266,6 +266,7 @@ class site {
                     $agreement_data_obj->assessment_owner_name = $this->agreement_data['assessment_owner_name'];
                     $agreement_data_obj->saq_sites_id = $this->id;
                     $agreement_data_obj->saq_payment_mode_id = $this->agreement_data['payment_mode'];
+                    $agreement_data_obj->saq_rate_increment_id = $this->agreement_data['saq_rate_increment_id'];
 
 //                    $result = $agreement_data_obj->update('WEB');
                     $result = $agreement_data_obj->update($source);
@@ -487,6 +488,7 @@ class site {
                     $agreement_data_obj->acc_no_property_id = $this->agreement_data['acc_no_property_id'];
                     $agreement_data_obj->assessment_owner_name = $this->agreement_data['assessment_owner_name'];
                     $agreement_data_obj->saq_payment_mode_id = $this->agreement_data['payment_mode'];
+                    $agreement_data_obj->saq_rate_increment_id = $this->agreement_data['saq_rate_increment_id'];
                     
                     $result = $agreement_data_obj->update('WEB');
                     if ($result) {
