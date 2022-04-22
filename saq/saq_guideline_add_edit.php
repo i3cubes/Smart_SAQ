@@ -152,7 +152,7 @@ if ($_REQUEST['id'] != 0) {
                                         </section>
                                         <section class="col col-4">
                                             <label class="input">
-                                                <input type="file" name="file" id="file" style="padding:5px;"/>
+                                                <input type="file" name="file" id="file"  accept="application/pdf" style="padding:5px;"/>
                                             </label>
                                         </section>                                       
                                         <footer>

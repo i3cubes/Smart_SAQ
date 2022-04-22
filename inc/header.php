@@ -7,7 +7,9 @@ if (!isset($index_page)) {
         header("Location: $url");
     }
 }
-echo implode(' ', array_map(function($prop, $value) {
+
+
+echo implode(' ', array_map(function ($prop, $value) {
             return $prop . '="' . $value . '"';
         }, array_keys($page_html_prop), $page_html_prop));
 ?>>
@@ -15,7 +17,7 @@ echo implode(' ', array_map(function($prop, $value) {
         <meta charset="utf-8">
         <!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
 
-        <title> <?php echo $page_title != "" ? $page_title: ""; ?></title>
+        <title> <?php echo $page_title != "" ? $page_title : ""; ?></title>
         <meta name="description" content="">
         <meta name="author" content="">
 
@@ -116,7 +118,7 @@ echo implode(' ', array_map(function($prop, $value) {
         <?php $page_body_prop['class'] = 'body_back smart-style-3'; ?>
     </head>
     <body onload=""<?php
-    echo implode(' ', array_map(function($prop, $value) {
+    echo implode(' ', array_map(function ($prop, $value) {
                 return $prop . '="' . $value . '"';
             }, array_keys($page_body_prop), $page_body_prop));
     ?> style="overflow-x: hidden;">
@@ -158,9 +160,9 @@ echo implode(' ', array_map(function($prop, $value) {
 
                         <!-- logout button -->
                         <div id="logout" class="btn-header transparent pull-right">
-                            <span> <a href="<?php echo ASSETS_URL; ?>" title="Sign Out" data-action="userLogout" data-logout-msg="You can improve your security further after logging out by closing this opened browser" onclick="logOut()"><i class="fa fa-sign-out"></i></a> </span>
+                            <span> <a href="<?php echo ASSETS_URL; ?>/signOut" title="Sign Out" data-action="userLogout" data-logout-msg="You can improve your security further after logging out by closing this opened browser" onclick="logOut()"><i class="fa fa-sign-out"></i></a> </span>
                         </div>  
-                        
+
 
                         <!-- collapse menu button -->
 
@@ -168,13 +170,13 @@ echo implode(' ', array_map(function($prop, $value) {
 
 
                     </div>
-                    <?php 
-                        if($_SESSION['subscription']!='1') {
-                    ?>
-                    <div id="hide-menu" class="pull-right">
-                        <!--<span> <a href="javascript:addSubscription(<?php //print $_SESSION['UID'] ?>);" style="font-size: 11px;"><b>Subscribe for project's updates</b></a> </span>-->
-                    </div>
-                        <?php } ?>
+                    <?php
+                    if ($_SESSION['subscription'] != '1') {
+                        ?>
+                        <div id="hide-menu" class="pull-right">
+                            <!--<span> <a href="javascript:addSubscription(<?php //print $_SESSION['UID']  ?>);" style="font-size: 11px;"><b>Subscribe for project's updates</b></a> </span>-->
+                        </div>
+                    <?php } ?>
                     <!-- end pulled right: nav area -->
                 </section>    
             </header>           

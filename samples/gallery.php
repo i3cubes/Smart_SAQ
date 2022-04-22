@@ -148,6 +148,7 @@ include("../inc/scripts.php");
                                         url: "../ajax/ajx_saq_site_images",
                                         autoProcessQueue: false,
                                         addRemoveLinks: true,
+                                        acceptedFiles: ".jpeg,.jpg,.png,.gif",
                                         init: function () {
                                             this.on("sending", function (file, xhr, formData) {
                                                 formData.append("option", "ADD");
@@ -158,7 +159,7 @@ include("../inc/scripts.php");
                                                 if (this.getQueuedFiles().length == 0 && this.getUploadingFiles().length == 0) {
                                                     var _this = this;
                                                     _this.removeAllFiles();
-                                                    $.notify("Successfully uploaded", "success");
+//                                                    $.notify("Successfully uploaded", "success");
                                                     getImages(<?php print $id ?>);
                                                 }
                                             });
