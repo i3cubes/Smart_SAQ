@@ -5,9 +5,40 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+use Firebase\JWT\JWT;
+
+//
+require_once('../vendor/autoload.php');
+
 include_once '../class/cls_saq_employee.php';
 include_once '../class/cls_saq_region.php';
 include_once '../class/cls_user.php';
+
+include_once '../class/constants.php';
+
+if (!preg_match('/Bearer\s(\S+)/', $_SERVER['HTTP_AUTHORIZATION'], $matches)) {
+    header('HTTP/1.0 400 Bad Request');
+    echo 'Token not found in request';
+    exit;
+}
+$jwt = $matches[1];
+if (!$jwt) {
+    // No token was able to be extracted from the authorization header
+    header('HTTP/1.0 400 Bad Request');
+    exit;
+}
+
+$secretKey = constants::$secretKey;
+$token = JWT::decode($jwt, $secretKey, ['HS512']);
+$now = new DateTimeImmutable();
+$serverName = constants::$serverName;
+
+if ($token->iss !== $serverName ||
+        $token->nbf > $now->getTimestamp() ||
+        $token->exp < $now->getTimestamp()) {
+    header('HTTP/1.1 401 Unauthorized');
+    exit;
+}
 
 $REQUEST_METHOD = $_SERVER["REQUEST_METHOD"];
 $SID = $_REQUEST['SID'];
@@ -87,7 +118,7 @@ switch ($REQUEST_METHOD) {
                         $user_obj->saq_employee_id = $emp->id;
                         $user_obj->edit();
                     }
-                    
+
                     echo json_encode(array('result' => 1, 'msg' => "Successfully Edited"));
                 } else {
                     echo json_encode(array('result' => 0, 'msg' => "Update Failed"));

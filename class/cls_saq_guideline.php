@@ -67,7 +67,7 @@ class saq_guideline {
                 'id' => $row['id'],
                 'name' => $row['name'],
                 'type' => $row['type'],
-                'location' => $row['location'],
+//                'location' => $row['location'],
                 'uploaded_date_time' => $row['uploaded_date_time'],
                 'saq_guideline_id' => $row['saq_guideline_id']
             ));

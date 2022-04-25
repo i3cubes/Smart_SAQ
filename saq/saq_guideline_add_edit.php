@@ -3,13 +3,12 @@
 //ini_set("display_errors", 1);
 include_once '../class/cls_file.php';
 
-
 $file_id = $_REQUEST['file_id'];
 //print_r($_REQUEST);
-if ($file_id != "") {  
+if ($file_id != "") {
     $file = new file($file_id);
-    
-    $row_file = $file->get_file_infomation("saq_guideline_files");   
+
+    $row_file = $file->get_file_infomation("saq_guideline_files");
     $file_path = '../' . $file->location;
     $file_name = $file->name;
 
@@ -31,7 +30,7 @@ if ($file_id != "") {
         header('Content-Length: ' . filesize($file_path));
         ob_clean();
         flush();
-        readfile($file_path);        
+        readfile($file_path);
     } else {
         print "File Not Found";
     }
@@ -144,7 +143,7 @@ if ($_REQUEST['id'] != 0) {
                                                 <textarea name="description" id="description"><?php print $saq_obj->description ?></textarea>
                                             </label>
                                         </section>
-                                                                                                                    
+
                                         <section class="col col-4">
                                             <label class="ngs_form_lable">
                                                 Upload File <span style="color:red;">(You can upload PDF files only)</span>
@@ -159,33 +158,32 @@ if ($_REQUEST['id'] != 0) {
                                             <input type="hidden" name="id" id="id" value="<?php print $saq_obj->id ?>" />
                                             <input type="hidden" name="option" value="<?php print (($saq_obj->id != '') ? 'EDIT' : 'ADD') ?>" />
                                             <button class="btn btn-primary">Save&nbsp;<i class="fa fa-save"></i></button>
-                                            <?php if($saq_obj->id != '') {?>
-                                            <button class="btn btn-danger" type="button" onclick="saq_guideline_delete(<?php print $saq_obj->id ?>)">Delete&nbsp;<i class="fa fa-trash"></i></button>
+                                            <?php if ($saq_obj->id != '') { ?>
+                                                <button class="btn btn-danger" type="button" onclick="saq_guideline_delete(<?php print $saq_obj->id ?>)">Delete&nbsp;<i class="fa fa-trash"></i></button>
                                             <?php } ?>
                                         </footer>                                          
                                     </fieldset>                                             
                                 </form>
                                 <section class="col-12" style="margin:0px 15px;">
                                     <?php
-                                    if($saq_obj->id != '') {
+                                    if ($saq_obj->id != '') {
                                         $saq_g_file = new saq_guideline_file();
-                                    $saq_files = $saq_g_file->getAll($saq_obj->id);
+                                        $saq_files = $saq_g_file->getAll($saq_obj->id);
 
-                                    if (count($saq_files) > 0) {
-                                        print "<table class='table' id='saq_files'>"
-                                        . "<thead>"
-                                        . "<th>Name</th>"
-                                                . "<th>Delete</th></thead><tbody>";
-                                        foreach ($saq_files as $file) {                                            
-                                                   print "<tr>"
-                                                    . "<td><a href='?file_id=".$file['id']."'>" . $file['name'] . "</a></td>"
-                                                    . "<td width='5%' align='center'><button class='btn btn-danger btn-xs' type='button' onclick='deleteFile(".$file['id'].")'><i class='fa fa-trash'></i></button></td>"
-                                                    . "</tr>";
-                                                    
+                                        if (count($saq_files) > 0) {
+                                            print "<table class='table' id='saq_files'>"
+                                                    . "<thead>"
+                                                    . "<th>Name</th>"
+                                                    . "<th>Delete</th></thead><tbody>";
+                                            foreach ($saq_files as $file) {
+                                                print "<tr>"
+                                                        . "<td><a href='?file_id=" . $file['id'] . "'>" . $file['name'] . "</a></td>"
+                                                        . "<td width='5%' align='center'><button class='btn btn-danger btn-xs' type='button' onclick='deleteFile(" . $file['id'] . ")'><i class='fa fa-trash'></i></button></td>"
+                                                        . "</tr>";
+                                            }
+                                            print "</tbody></table>";
                                         }
-                                        print "</tbody></table>";
                                     }
-                                    }                                    
                                     ?>
                                 </section>
                             </div>
@@ -252,7 +250,7 @@ include("../inc/scripts.php");
                 }
             });
 <?php } ?>
-    
+
 //        $('.download_file').click(function() {
 //            location.reload();
 //        });
@@ -281,9 +279,12 @@ include("../inc/scripts.php");
                 contentType: false,
                 processData: false,
                 data: form_data,
+                headers: {
+                    "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                },
                 success: function (response) {
                     if (response['msg'] == 1) {
-                        if(response['error'] != null) {
+                        if (response['error'] != null) {
                             alert(response['error']);
                         }
                         window.parent.location.reload();
@@ -293,61 +294,67 @@ include("../inc/scripts.php");
                     }
                 },
                 error: function (xhr, status, error) {
-                    alert(status);
+                    alert("error :" + xhr.responseText);
                 }
             });
         }
     }
-    
+
     function deleteFile(id) {
-         var newDiv = $(document.createElement('div'));
-    $(newDiv).html('Are you sure ?');
-    $(newDiv).attr("title", "DELETE");
-    $(newDiv).dialog({
-        resizable: false,
-        height: 150,
-        modal: true,
-        buttons: {
-            Yes: function () {
-                $.ajax({
-                    url: '../ajax/ajx_saq_guideline',
-                    type: 'POST',
-                    data: {option: 'DELETEFILE', id: id},
-                    dataType: "json",
-                    success: function (response) {
-                        if (response['msg'] == 1) {
+        var newDiv = $(document.createElement('div'));
+        $(newDiv).html('Are you sure ?');
+        $(newDiv).attr("title", "DELETE");
+        $(newDiv).dialog({
+            resizable: false,
+            height: 150,
+            modal: true,
+            buttons: {
+                Yes: function () {
+                    $.ajax({
+                        url: '../ajax/ajx_saq_guideline',
+                        type: 'POST',
+                        data: {option: 'DELETEFILE', id: id},
+                        dataType: "json",
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                        },
+                        success: function (response) {
+                            if (response['msg'] == 1) {
 //                            getFiles();
-                            window.parent.location.reload();
-                        window.parent.$.jeegoopopup.close();
-                        } else {
-                            alert('Failure');
+                                window.parent.location.reload();
+                                window.parent.$.jeegoopopup.close();
+                            } else {
+                                alert('Failure');
+                            }
+                            $(newDiv).dialog("close");
+                            $(newDiv).remove();
+                        },
+                        error: function (xhr, status, error) {
+                            alert("error :" + xhr.responseText);
                         }
-                        $(newDiv).dialog("close");
-                        $(newDiv).remove();
-                    },
-                    error: function (xhr, status, error) {
-                        alert(status);
-                    }
-                });
-            },
-            cancel: function () {
-                $(this).dialog("close");
-                $(newDiv).remove();
+                    });
+                },
+                cancel: function () {
+                    $(this).dialog("close");
+                    $(newDiv).remove();
+                }
             }
-        }
-    });
+        });
     }
-    
+
     function getFiles() {
         $.ajax({
             url: '../ajax/ajx_saq_guideline',
             type: 'POST',
             dataType: 'JSON',
+            headers: {
+                "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+            },
             data: {option: 'GETFILES', id: $('#id').val()},
-            success: function(response) {
+            success: function (response) {
                 $('#saq_files > tbody').children().remove();
-                if(response.length > 0) {
-                    $.each(response, function(index, data){
+                if (response.length > 0) {
+                    $.each(response, function (index, data) {
                         $('#saq_files tbody').append(`
                                 "<tr>"
                                                     . "<td><a href='?file_id=".${data.id}."'>${data.name}</a></td>"
@@ -358,46 +365,49 @@ include("../inc/scripts.php");
                 }
             },
             error: function (xhr, status, error) {
-                        alert(status);
-                    }
+                alert("error :" + xhr.responseText);
+            }
         });
     }
-    
+
     function saq_guideline_delete(id) {
-     var newDiv = $(document.createElement('div'));
-    $(newDiv).html('Are you sure ?');
-    $(newDiv).attr("title", "DELETE");
-    $(newDiv).dialog({
-        resizable: false,
-        height: 150,
-        modal: true,
-        buttons: {
-            Yes: function () {
-                $.ajax({
-                    url: '../ajax/ajx_saq_guideline',
-                    type: 'POST',
-                    data: {option: 'DELETE', id: id},
-                    dataType: "json",
-                    success: function (response) {
-                        if (response['msg'] == 1) {
-                            window.parent.location.reload();
-                        window.parent.$.jeegoopopup.close();
-                        } else {
-                            alert('Failure');
+        var newDiv = $(document.createElement('div'));
+        $(newDiv).html('Are you sure ?');
+        $(newDiv).attr("title", "DELETE");
+        $(newDiv).dialog({
+            resizable: false,
+            height: 150,
+            modal: true,
+            buttons: {
+                Yes: function () {
+                    $.ajax({
+                        url: '../ajax/ajx_saq_guideline',
+                        type: 'POST',
+                        data: {option: 'DELETE', id: id},
+                        dataType: "json",
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                        },
+                        success: function (response) {
+                            if (response['msg'] == 1) {
+                                window.parent.location.reload();
+                                window.parent.$.jeegoopopup.close();
+                            } else {
+                                alert('Failure');
+                            }
+                            $(newDiv).dialog("close");
+                            $(newDiv).remove();
+                        },
+                        error: function (xhr, status, error) {
+                            alert("error :" + xhr.responseText);
                         }
-                        $(newDiv).dialog("close");
-                        $(newDiv).remove();
-                    },
-                    error: function (xhr, status, error) {
-                        alert(status);
-                    }
-                });
-            },
-            cancel: function () {
-                $(this).dialog("close");
-                $(newDiv).remove();
+                    });
+                },
+                cancel: function () {
+                    $(this).dialog("close");
+                    $(newDiv).remove();
+                }
             }
-        }
-    });
-}
+        });
+    }
 </script>

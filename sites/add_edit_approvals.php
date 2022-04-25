@@ -155,6 +155,9 @@ include("../inc/scripts.php");
                 url: '../ajax/ajx_saq_site',
                 type: 'POST',
                 dataType: 'JSON',
+                headers: {
+                    "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                },
                 data: {
                     option: $('#option').val(),
                     id: $('#id').val(),
@@ -167,7 +170,7 @@ include("../inc/scripts.php");
                     window.parent.location.reload();
                 },
                 error: function (xhr, status, error) {
-                    $.notify('Error occured', 'error');
+                    $.notify('Error occured', xhr.responseText);
                 }
             });
         } else {
@@ -190,6 +193,9 @@ include("../inc/scripts.php");
                         type: 'POST',
                         data: {option: 'DELETEAPPROVAL', id: id},
                         dataType: "json",
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                        },
                         success: function (response) {
                             if (response.msg == '1') {
                                 $.notify('Successfully deleted', 'success');

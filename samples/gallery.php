@@ -149,6 +149,9 @@ include("../inc/scripts.php");
                                         autoProcessQueue: false,
                                         addRemoveLinks: true,
                                         acceptedFiles: ".jpeg,.jpg,.png,.gif",
+                                        headers: {
+                                            "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                                        },
                                         init: function () {
                                             this.on("sending", function (file, xhr, formData) {
                                                 formData.append("option", "ADD");
@@ -173,6 +176,9 @@ include("../inc/scripts.php");
                                         type: 'GET',
                                         dataType: 'json',
                                         data: {'option': 'VIEW', 'id': id},
+                                        headers: {
+                                            "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                                        },
                                         success: function (response) {
                                             if (response.length > 0) {
                                                 $('.superbox .superbox-list').remove();

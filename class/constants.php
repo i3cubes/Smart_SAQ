@@ -28,6 +28,10 @@ class constants {
     public static $removed =3;
     public static $workInProgress = 4;
     
+    public static $secretKey = 'e06e3653c06b2355c67ec1f73760c4beff4b2c89';
+    public static $serverName = '127.0.0.1/Smart_SAQ';
+
+
     // site status array
     public static $siteStatus = array('On air', 'Hold', 'Removed', 'Work in progress');
 

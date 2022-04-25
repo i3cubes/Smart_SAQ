@@ -31,14 +31,14 @@ include("../inc/header_less.php");
 // ====================== LOGIC ================== --!>
 include_once '../class/constants.php';
 include_once '../class/cls_saq_dns_depot.php';
- $heading = "DNS Depot";
- include_once '../class/functions.php';
+$heading = "DNS Depot";
+include_once '../class/functions.php';
 
 $fn = new functions();
-if($_REQUEST['id'] != '') {
+if ($_REQUEST['id'] != '') {
     $saq_depot_obj = new saq_dns_depot($_REQUEST['id']);
     $saq_depot_obj->getData();
-   
+
     $heading = "DNS Depot";
 }
 ?>
@@ -79,7 +79,7 @@ if($_REQUEST['id'] != '') {
                          data-widget-colorbutton="false">
 
                         <header style="margin:0px;">
-                            <span class="widget-icon"><?php print (($saq_depot_obj->id != '') ? '<i class="fa fa-edit"></i>' : '<i class="fa fa-plus"></i>') ?>&nbsp;<?php echo $heading;?></span>                            			                           
+                            <span class="widget-icon"><?php print (($saq_depot_obj->id != '') ? '<i class="fa fa-edit"></i>' : '<i class="fa fa-plus"></i>') ?>&nbsp;<?php echo $heading; ?></span>                            			                           
                         </header>
 
                         <!-- widget div-->
@@ -89,18 +89,18 @@ if($_REQUEST['id'] != '') {
                             <div class="widget-body">
                                 <form class="smart-form" onsubmit="saveHandler(event)">
                                     <fieldset>
-                                        
-                                        
+
+
                                         <div class="row">
                                             <section class="col col-3 ">
                                                 <label class="input">
-                                            <input type="text" id="depot_name" name="depot_name" value="<?php print $saq_depot_obj->depot_name ?>"/>
-                                        </label>
-                                                
+                                                    <input type="text" id="depot_name" name="depot_name" value="<?php print $saq_depot_obj->depot_name ?>"/>
+                                                </label>
+
                                             </section>
                                         </div>
-                                        
-                                        
+
+
                                     </fieldset>
                                     <footer>
                                         <input type="hidden" name="id" id="id" value="<?php print $saq_depot_obj->id ?>"/>
@@ -111,7 +111,7 @@ if($_REQUEST['id'] != '') {
                                             <?php } ?>
                                     </footer>
                                 </form>
-                                                                
+
                             </div>
                             <!-- end widget content -->
 
@@ -145,37 +145,40 @@ include("../inc/scripts.php");
 ?>
 <script type="text/javascript">
     $(document).ready(function () {
-                                        
-                                       
-    });                          
-    
+
+
+    });
+
     function saveHandler(e) {
-        e.preventDefault();     
-        if( $('#depot_name').val() != '' ) {
+        e.preventDefault();
+        if ($('#depot_name').val() != '') {
             $.ajax({
                 url: '../ajax/ajx_site_customize',
                 type: 'POST',
                 dataType: 'JSON',
-                data: {SID: $('#option').val(),id: $('#id').val(), name: $('#depot_name').val()},
-                success: function(response) {
-                    if(response.result == '1'){
-                         $.notify(response.msg, 'success');
-                          window.parent.location.reload();
-                    }else {
-                         $.notify(response.msg, 'error');
+                headers: {
+                    "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                },
+                data: {SID: $('#option').val(), id: $('#id').val(), name: $('#depot_name').val()},
+                success: function (response) {
+                    if (response.result == '1') {
+                        $.notify(response.msg, 'success');
+                        window.parent.location.reload();
+                    } else {
+                        $.notify(response.msg, 'error');
                     }
-                   
-                   
+
+
                 },
                 error: function (xhr, status, error) {
-                    $.notify('Error occured', 'error');
-                } 
+                    $.notify(xhr.responseText, 'error');
+                }
             });
         } else {
             $.notify('All Fields are required');
         }
     }
-    
+
     function deleteHandler(id) {
         var newDiv = $(document.createElement('div'));
         $(newDiv).html('Are you sure?');
@@ -191,6 +194,9 @@ include("../inc/scripts.php");
                         type: 'POST',
                         data: {SID: '301', id: id},
                         dataType: "json",
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                        },
                         success: function (response) {
                             if (response.result == '1') {
                                 $.notify(response.msg, 'success');
@@ -213,5 +219,5 @@ include("../inc/scripts.php");
             }
         });
     }
-                                                                         
+
 </script>

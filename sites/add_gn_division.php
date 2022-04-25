@@ -31,14 +31,14 @@ include("../inc/header_less.php");
 // ====================== LOGIC ================== --!>
 include_once '../class/constants.php';
 include_once '../class/cls_saq_gndivision.php';
- $heading = "New GN Division";
- include_once '../class/functions.php';
+$heading = "New GN Division";
+include_once '../class/functions.php';
 
 $fn = new functions();
-if($_REQUEST['id'] != '') {
+if ($_REQUEST['id'] != '') {
     $saq_division_obj = new saq_gn_division($_REQUEST['id']);
     $saq_division_obj->getData();
-   $gn_district = $saq_division_obj->saq_district_id;
+    $gn_district = $saq_division_obj->saq_district_id;
     $heading = "Edit GN Division";
 }
 ?>
@@ -79,7 +79,7 @@ if($_REQUEST['id'] != '') {
                          data-widget-colorbutton="false">
 
                         <header style="margin:0px;">
-                            <span class="widget-icon" style="width: auto"><?php print (($saq_division_obj->id != '') ? '<i class="fa fa-edit"></i>' : '<i class="fa fa-plus"></i>') ?><?php echo $heading;?></span>                            			                           
+                            <span class="widget-icon" style="width: auto"><?php print (($saq_division_obj->id != '') ? '<i class="fa fa-edit"></i>' : '<i class="fa fa-plus"></i>') ?><?php echo $heading; ?></span>                            			                           
                         </header>
 
                         <!-- widget div-->
@@ -94,13 +94,12 @@ if($_REQUEST['id'] != '') {
                                                 <label class="select">
                                                     <select name="gn_district" id="gn_district">
                                                         <!--<option value="" selected="">All</option>-->
-                                                        
+
                                                         <?php
-                                                        
                                                         //$ary_status = $const->getFTStatus();
-                                                        if ($gn_district ==""){
+                                                        if ($gn_district == "") {
                                                             $gn_district = '9';
-                                                        }else {
+                                                        } else {
                                                             $gn_district = $gn_district;
                                                         }
                                                         print $fn->CreateMenu('saq_district', 'name', "", "$gn_district", "", "id", "", "");
@@ -108,19 +107,19 @@ if($_REQUEST['id'] != '') {
                                                     </select> <i></i> 
                                                 </label>
                                             </section>
-                                            
+
                                         </div>
-                                        
+
                                         <div class="row">
                                             <section class="col col-3 ">
                                                 <label class="input">
-                                            <input type="text" id="division_name" name="division_name" value="<?php print $saq_division_obj->gn_division ?>"/>
-                                        </label>
-                                                
+                                                    <input type="text" id="division_name" name="division_name" value="<?php print $saq_division_obj->gn_division ?>"/>
+                                                </label>
+
                                             </section>
                                         </div>
-                                        
-                                        
+
+
                                     </fieldset>
                                     <footer>
                                         <input type="hidden" name="id" id="id" value="<?php print $saq_division_obj->id ?>"/>
@@ -128,7 +127,7 @@ if($_REQUEST['id'] != '') {
                                         <button class="btn btn-primary">Save &nbsp;<i class="fa fa-save"></i></button>
                                     </footer>
                                 </form>
-                                                                
+
                             </div>
                             <!-- end widget content -->
 
@@ -162,35 +161,38 @@ include("../inc/scripts.php");
 ?>
 <script type="text/javascript">
     $(document).ready(function () {
-                                        
-                                       
-    });                          
-    
+
+
+    });
+
     function saveHandler(e) {
-        e.preventDefault();     
-        if($('#gn_district').val() != '' || $('#division_name').val() != '' ) {
+        e.preventDefault();
+        if ($('#gn_district').val() != '' || $('#division_name').val() != '') {
             $.ajax({
                 url: '../ajax/ajx_saq_gndivision',
                 type: 'POST',
                 dataType: 'JSON',
-                data: {SID: $('#option').val(),id: $('#id').val(), district_id: $('#gn_district').val(), gn_name: $('#division_name').val()},
-                success: function(response) {
-                    if(response.result == '1'){
-                         $.notify(response.msg, 'success');
-                          window.parent.location.reload();
-                    }else {
-                         $.notify(response.msg, 'error');
+                headers: {
+                    "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                },
+                data: {SID: $('#option').val(), id: $('#id').val(), district_id: $('#gn_district').val(), gn_name: $('#division_name').val()},
+                success: function (response) {
+                    if (response.result == '1') {
+                        $.notify(response.msg, 'success');
+                        window.parent.location.reload();
+                    } else {
+                        $.notify(response.msg, 'error');
                     }
-                   
-                   
+
+
                 },
                 error: function (xhr, status, error) {
-                    $.notify('Error occured', 'error');
-                } 
+                    $.notify(xhr.responseText, 'error');
+                }
             });
         } else {
             $.notify('All Fields are required');
         }
     }
-                                                                         
+
 </script>

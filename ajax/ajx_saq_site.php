@@ -1,12 +1,40 @@
 <?php
+
 //error_reporting(E_ALL);
 //ini_set("display_errors", 1);
 session_start();
+use Firebase\JWT\JWT;
+require_once('../vendor/autoload.php');
+
 include_once '../class/cls_site.php';
 include_once '../class/cls_saq_technical.php';
 include_once '../class/cls_saq_other_operator.php';
 include_once '../class/cls_saq_approvals.php';
 include_once '../class/ngs_date.php';
+
+if (!preg_match('/Bearer\s(\S+)/', $_SERVER['HTTP_AUTHORIZATION'], $matches)) {
+    header('HTTP/1.0 400 Bad Request');
+    echo 'Token not found in request';
+    exit;
+}
+$jwt = $matches[1];
+if (!$jwt) {
+    // No token was able to be extracted from the authorization header
+    header('HTTP/1.0 400 Bad Request');
+    exit;
+}
+
+$secretKey = constants::$secretKey;
+$token = JWT::decode($jwt, $secretKey, ['HS512']);
+$now = new DateTimeImmutable();
+$serverName = constants::$serverName;
+
+if ($token->iss !== $serverName ||
+        $token->nbf > $now->getTimestamp() ||
+        $token->exp < $now->getTimestamp()) {
+    header('HTTP/1.1 401 Unauthorized');
+    exit;
+}
 $ngs_date = new ngs_date();
 $site_obj = new site($_REQUEST['id']);
 // tab general
@@ -47,7 +75,6 @@ $site_obj->regional_manager_id = $_REQUEST['rm_id']; //add by thara
 $site_obj->saq_region_employee_id = $_REQUEST['select_saq_officer_id']; //add by thara
 $site_obj->saq_officer_id = $_REQUEST['select_saq_officer_id']; //add by thara
 $site_obj->saq_dns_employee_id = $_REQUEST['dns_officer_id']; //add by thara
-
 // tab contact
 $site_obj->lo_name = $_REQUEST['land_owner_name'];
 $site_obj->lo_email = $_REQUEST['email_address'];
@@ -155,12 +182,12 @@ switch ($_REQUEST['option']) {
             echo json_encode(array('msg' => 0));
         }
         break;
-     case 'ADDAPPROVAL':
+    case 'ADDAPPROVAL':
         $saq_approvals_obj = new saq_approvals();
         $saq_approvals_obj->requirement = $_REQUEST['requirement'];
         $saq_approvals_obj->description = $_REQUEST['approval_name'];
         $saq_approvals_obj->code = $_REQUEST['short_name'];
-        
+
         $result = $saq_approvals_obj->add();
         if ($result) {
             echo json_encode(array('msg' => 1));
@@ -199,7 +226,7 @@ switch ($_REQUEST['option']) {
 //        var_dump($array);
         $saq_site = new site();
         $result = $saq_site->bulkDelete($array);
-        if($result) {
+        if ($result) {
             echo json_encode(array('result' => 1, 'msg' => 'Successfully Deleted'));
         } else {
             echo json_encode(array('result' => 0, 'msg' => 'Failure in Deletion'));

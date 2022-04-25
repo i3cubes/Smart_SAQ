@@ -1,13 +1,12 @@
 <?php
 include_once '../class/cls_file.php';
 
-
 $file_id = $_REQUEST['file_id'];
 //print 'a';
-if ($file_id != "") {  
+if ($file_id != "") {
     $file = new file($file_id);
-    
-    $row_file = $file->get_file_infomation("saq_sample_agreement_files");   
+
+    $row_file = $file->get_file_infomation("saq_sample_agreement_files");
     $file_path = '../' . $file->base_path;
     $file_name = $file->name;
 
@@ -29,7 +28,7 @@ if ($file_id != "") {
         header('Content-Length: ' . filesize($file_path));
         ob_clean();
         flush();
-        readfile($file_path);        
+        readfile($file_path);
     } else {
         print "File Not Found";
     }
@@ -133,7 +132,7 @@ $agreement_model_obj->getData();
 
 
                                 </div>
-                                
+
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="">
                                     <table id="agreement_files" class="table">
                                         <thead>
@@ -141,7 +140,7 @@ $agreement_model_obj->getData();
                                         <th width='5%'>Delete</th>
                                         </thead>
                                         <tbody>
-                                            
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -178,101 +177,110 @@ include("../inc/scripts.php");
 ?>
 <script src="<?php echo ASSETS_URL; ?>/js/dropzone.js"></script>
 <script type="text/javascript">
-                                    $(document).ready(function () {
-                                        
-                                        getFiles(<?php print $id ?>);
-                                        
-                                        $("#drop").dropzone({
-                                            url: "../ajax/ajx_saq_agreement_files",
-                                            autoProcessQueue: false,
-                                            addRemoveLinks: true,
-                                            acceptedFiles: ".jpeg,.jpg,.png,.gif",
-                                            init: function () {
-                                                this.on("sending", function (file, xhr, formData) {
-                                                    formData.append("option", "ADD");
-                                                    formData.append("id", <?php print $id ?>);
+                                            $(document).ready(function () {
+
+                                                getFiles(<?php print $id ?>);
+
+                                                $("#drop").dropzone({
+                                                    url: "../ajax/ajx_saq_agreement_files",
+                                                    autoProcessQueue: false,
+                                                    addRemoveLinks: true,
+                                                    acceptedFiles: ".jpeg,.jpg,.png,.gif",
+                                                    headers: {
+                                                        "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                                                    },
+                                                    init: function () {
+                                                        this.on("sending", function (file, xhr, formData) {
+                                                            formData.append("option", "ADD");
+                                                            formData.append("id", <?php print $id ?>);
 //                                                JSON.stringify(formData);
-                                                });
-                                                this.on("complete", function () {
-                                                    if (this.getQueuedFiles().length == 0 && this.getUploadingFiles().length == 0) {
-                                                        var _this = this;
-                                                        _this.removeAllFiles();
+                                                        });
+                                                        this.on("complete", function () {
+                                                            if (this.getQueuedFiles().length == 0 && this.getUploadingFiles().length == 0) {
+                                                                var _this = this;
+                                                                _this.removeAllFiles();
 //                                                        $.notify("Successfully uploaded", "success"); 
-                                                        getFiles(<?php print $id ?>);
+                                                                getFiles(<?php print $id ?>);
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                            });
+
+                                            function upload_image() {
+                                                var myDropzone = Dropzone.forElement(".dropzone");
+                                                if (myDropzone.files.length != 0) {
+                                                    myDropzone.processQueue();
+                                                } else {
+                                                    $.notify("add files", "error");
+                                                }
+                                            }
+
+                                            function getFiles(id) {
+                                                $.ajax({
+                                                    url: '../ajax/ajx_saq_agreement_files',
+                                                    type: 'GET',
+                                                    dataType: 'json',
+                                                    data: {'option': 'VIEW', 'id': id},
+                                                    headers: {
+                                                        "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                                                    },
+                                                    success: function (response) {
+                                                        $('#agreement_files > tbody').children().remove();
+                                                        if (response.length > 0) {
+                                                            $.each(response, function (index, data) {
+                                                                $('#agreement_files tbody').append(
+                                                                        `<tr>
+                                                            <td><a href='?file_id=${data.id}'>${data.name}</a></td>
+                                                            <td><button class='btn btn-danger btn-xs' onclick='deleteFile(${data.id})'><i class='fa fa-trash'></i></button></td>
+                                                        </tr>`);
+                                                            });
+                                                        }
+                                                    },
+                                                    error: function (xhr, resp, text) {
+                                                        alert("error :" + xhr.responseText);
                                                     }
                                                 });
                                             }
-                                        });
-                                    });                                   
-                                    
-                                     function upload_image() {
-                                        var myDropzone = Dropzone.forElement(".dropzone");
-                                        if (myDropzone.files.length != 0) {
-                                            myDropzone.processQueue();
-                                        } else {
-                                            $.notify("add files", "error");
-                                        }
-                                    }
 
-                                    function getFiles(id) {
-                                        $.ajax({
-                                            url: '../ajax/ajx_saq_agreement_files',
-                                            type: 'GET',
-                                            dataType: 'json',
-                                            data: {'option': 'VIEW', 'id': id},
-                                            success: function (response) {
-                                                $('#agreement_files > tbody').children().remove();
-                                                if (response.length > 0) {
-                                                    $.each(response, function(index, data){
-                                                       $('#agreement_files tbody').append(
-                                                        `<tr>
-                                                            <td><a href='?file_id=${data.id}'>${data.name}</a></td>
-                                                            <td><button class='btn btn-danger btn-xs' onclick='deleteFile(${data.id})'><i class='fa fa-trash'></i></button></td>
-                                                        </tr>`); 
-                                                    });                                                    
-                                                }
-                                            },
-                                            error: function (xhr, resp, text) {
-                                                alert("error :" + xhr.responseText);
-                                            }
-                                        });
-                                    }
-                                    
-                                    function deleteFile(id) {                                        
-                                                        var newDiv = $(document.createElement('div'));
-                                                        $(newDiv).html('Are you sure?');
-                                                        $(newDiv).attr('title', 'Delete');
-                                                        //$(newDiv).css('font-size','62.5%');
-                                                        $(newDiv).dialog({
-                                                            resizable: false,
-                                                            height: 200,
-                                                            modal: true,
-                                                            buttons: {
-                                                                "Delete": function () {
-                                                                    $.ajax({
-                                                                        url: '../ajax/ajx_saq_agreement_files',
-                                                                        type: 'POST',
-                                                                        data: {option: 'DELETE', id: id},
-                                                                        dataType: "json",
-                                                                        success: function (res) {
-                                                                            if(res['msg'] == 1) {
-                                                                                getFiles(<?php print $id ?>);
-                                                                            } else {
-                                                                                alert('Error');
-                                                                            }
-                                                                        },
-                                                                        error: function (xhr, status, error) {
-                                                                            alert("error :" + xhr.responseText);
-                                                                        }
-                                                                    });
-                                                                    $(this).dialog("close");
-                                                                    $(newDiv).remove();
+                                            function deleteFile(id) {
+                                                var newDiv = $(document.createElement('div'));
+                                                $(newDiv).html('Are you sure?');
+                                                $(newDiv).attr('title', 'Delete');
+                                                //$(newDiv).css('font-size','62.5%');
+                                                $(newDiv).dialog({
+                                                    resizable: false,
+                                                    height: 200,
+                                                    modal: true,
+                                                    buttons: {
+                                                        "Delete": function () {
+                                                            $.ajax({
+                                                                url: '../ajax/ajx_saq_agreement_files',
+                                                                type: 'POST',
+                                                                data: {option: 'DELETE', id: id},
+                                                                dataType: "json",
+                                                                headers: {
+                                                                    "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
                                                                 },
-                                                                cancel: function () {
-                                                                    $(this).dialog("close");
-                                                                    $(newDiv).remove();
+                                                                success: function (res) {
+                                                                    if (res['msg'] == 1) {
+                                                                        getFiles(<?php print $id ?>);
+                                                                    } else {
+                                                                        alert('Error');
+                                                                    }
+                                                                },
+                                                                error: function (xhr, status, error) {
+                                                                    alert("error :" + xhr.responseText);
                                                                 }
-                                                            }
-                                                        });
-                                    }
+                                                            });
+                                                            $(this).dialog("close");
+                                                            $(newDiv).remove();
+                                                        },
+                                                        cancel: function () {
+                                                            $(this).dialog("close");
+                                                            $(newDiv).remove();
+                                                        }
+                                                    }
+                                                });
+                                            }
 </script>

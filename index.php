@@ -74,7 +74,7 @@ include("inc/header.php");
                         </header>
 
                         <fieldset style="margin:10px;background:none;padding:0px 14px 5px;">
-
+                            <?php // echo session_id(); ?>
                             <section>
                                 <label class="label" style="font-weight:bolder;">User Name</label>
                                 <label class="input"> <i class="icon-append fa fa-user"></i>
@@ -185,6 +185,7 @@ include("inc/scripts.php");
                 data: form,
                 success: function (response) {
                     if (response['msg'] == 1) {
+                        sessionStorage.setItem('JWT',response['token']);
                         location.href = 'home';
                     } else if (response['msg'] == 100) {
                         $.notify('Your account has been locked please contact admin', 'error');

@@ -99,17 +99,17 @@ if ($id != '') {
                                                 <label>Province</label>
                                                 <label class="select">
                                                     <select name="saq_province_id" id="saq_province_id">
-                                                        <?php 
+                                                        <?php
                                                         $provinces = $saq_province_obj->getAll();
-                                                        if(count($provinces)>0) {
+                                                        if (count($provinces) > 0) {
                                                             foreach ($provinces as $p) {
-                                                                print "<option value='$p->id' ".(($saq_district_obj->saq_province_id == $p->id) ? "selected=''" : "").">$p->name</option>";
+                                                                print "<option value='$p->id' " . (($saq_district_obj->saq_province_id == $p->id) ? "selected=''" : "") . ">$p->name</option>";
                                                             }
                                                         }
-                                                    ?>
+                                                        ?>
                                                     </select>
-                                                    
-                                                    
+
+
                                                 </label>
 
                                             </section>
@@ -180,6 +180,9 @@ include("../inc/scripts.php");
                 url: '../ajax/ajx_site_customize',
                 type: 'POST',
                 dataType: 'JSON',
+                headers: {
+                    "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                },
                 data: {SID: $('#option').val(), id: $('#id').val(), name: $('#district_name').val(), province_id: $('#saq_province_id').val()},
                 success: function (response) {
                     if (response.result == '1') {
@@ -192,7 +195,7 @@ include("../inc/scripts.php");
 
                 },
                 error: function (xhr, status, error) {
-                    $.notify('Error occured', 'error');
+                    $.notify(xhr.responseText, 'error');
                 }
             });
         } else {
@@ -215,6 +218,9 @@ include("../inc/scripts.php");
                         type: 'POST',
                         data: {SID: '310', id: id},
                         dataType: "json",
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                        },
                         success: function (response) {
                             if (response.result == '1') {
                                 $.notify(response.msg, 'success');

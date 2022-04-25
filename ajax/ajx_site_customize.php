@@ -1,11 +1,8 @@
 <?php
-//error_reporting(E_ALL);
-//ini_set("display_errors", 1);
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+use Firebase\JWT\JWT;
+require_once('../vendor/autoload.php');
+
 include_once '../class/cls_saq_dns_depot.php';
 include_once '../class/cls_saq_site_category.php';
 include_once '../class/cls_saq_access_type.php';
@@ -25,6 +22,30 @@ include_once '../class/cls_saq_rate_increment.php';
 
 include_once '../class/constants.php';
 
+if (!preg_match('/Bearer\s(\S+)/', $_SERVER['HTTP_AUTHORIZATION'], $matches)) {
+    header('HTTP/1.0 400 Bad Request');
+    echo 'Token not found in request';
+    exit;
+}
+$jwt = $matches[1];
+if (!$jwt) {
+    // No token was able to be extracted from the authorization header
+    header('HTTP/1.0 400 Bad Request');
+    exit;
+}
+
+$secretKey = constants::$secretKey;
+$token = JWT::decode($jwt, $secretKey, ['HS512']);
+$now = new DateTimeImmutable();
+$serverName = constants::$serverName;
+
+if ($token->iss !== $serverName ||
+        $token->nbf > $now->getTimestamp() ||
+        $token->exp < $now->getTimestamp()) {
+    header('HTTP/1.1 401 Unauthorized');
+    exit;
+}
+
 $REQUEST_METHOD = $_SERVER["REQUEST_METHOD"];
 $SID = $_REQUEST['SID'];
 
@@ -35,7 +56,7 @@ switch ($REQUEST_METHOD) {
                 $employee_id = $_POST['employee_id'];
                 $saq_employee_obj = new saq_employee($employee_id);
                 $saq_employee_obj->saq_designation_id = constants::$engineer;
-                $update = $saq_employee_obj->updateEmp();                
+                $update = $saq_employee_obj->updateEmp();
                 if ($update) {
                     echo json_encode(array('result' => 1, "msg" => 'Successfully updated!!!'));
                 } else {
@@ -46,7 +67,7 @@ switch ($REQUEST_METHOD) {
                 $employee_id = $_POST['employee_id'];
                 $saq_employee_obj = new saq_employee($employee_id);
                 $saq_employee_obj->saq_designation_id = constants::$system_admin;
-                $update = $saq_employee_obj->updateEmp();                
+                $update = $saq_employee_obj->updateEmp();
                 if ($update) {
                     echo json_encode(array('result' => 1, "msg" => 'Successfully updated!!!'));
                 } else {
@@ -57,7 +78,7 @@ switch ($REQUEST_METHOD) {
                 $employee_id = $_POST['employee_id'];
                 $saq_employee_obj = new saq_employee($employee_id);
                 $saq_employee_obj->saq_designation_id = constants::$admin;
-                $update = $saq_employee_obj->updateEmp();                
+                $update = $saq_employee_obj->updateEmp();
                 if ($update) {
                     echo json_encode(array('result' => 1, "msg" => 'Successfully updated!!!'));
                 } else {
@@ -248,7 +269,7 @@ switch ($REQUEST_METHOD) {
                 $saq_district_id = $_POST['saq_district_id'];
                 $id = $_POST['id'];
                 $gs = new saq_gs($id);
-                
+
                 $gs->gs_name = $name;
                 $gs->saq_district_id = $saq_district_id;
                 $edit = $gs->edit();
@@ -284,9 +305,9 @@ switch ($REQUEST_METHOD) {
                 }
                 break;
             case 401://add rate increment               
-                $name = $_POST['name'];                
+                $name = $_POST['name'];
                 $rate_increment = new saq_rate_increment();
-                $rate_increment->name = $name;                
+                $rate_increment->name = $name;
                 $addNew = $rate_increment->add();
                 if ($addNew) {
                     echo json_encode(array('result' => 1, 'msg' => "Successfully Added"));
@@ -295,11 +316,11 @@ switch ($REQUEST_METHOD) {
                 }
                 break;
             case 402://edit rate increment
-                $name = $_POST['name'];                
+                $name = $_POST['name'];
                 $id = $_POST['id'];
                 $rate_increment = new saq_rate_increment($id);
-                
-                $rate_increment->name = $name;                
+
+                $rate_increment->name = $name;
                 $edit = $rate_increment->edit();
                 //print $edit;
                 if ($edit) {
@@ -371,7 +392,7 @@ switch ($REQUEST_METHOD) {
                     echo json_encode(array('result' => 0, 'msg' => "Deletion Failed"));
                 }
                 break;
-             case 260://get region
+            case 260://get region
                 $name = $_POST['name'];
                 $region = new saq_region();
                 $region->name = $name;
@@ -437,10 +458,10 @@ switch ($REQUEST_METHOD) {
                 }
                 break;
             case 271://add payment mode             
-                $name = $_POST['name'];                
+                $name = $_POST['name'];
                 $payment_mode = new saq_payment_mode();
                 $payment_mode->name = $name;
-                
+
                 $addNew = $payment_mode->add();
                 if ($addNew) {
                     echo json_encode(array('result' => 1, 'msg' => "Successfully Added"));
@@ -449,12 +470,12 @@ switch ($REQUEST_METHOD) {
                 }
                 break;
             case 272://edit payment mode
-                $name = $_POST['name'];                
+                $name = $_POST['name'];
                 $id = $_POST['id'];
                 $payment_mode = new saq_payment_mode($id);
 
 //                $payment_mode->id = $id;
-                $payment_mode->name = $name;                
+                $payment_mode->name = $name;
                 $edit = $payment_mode->edit();
                 //print $edit;
                 if ($edit) {
@@ -488,10 +509,10 @@ switch ($REQUEST_METHOD) {
                 }
                 break;
             case 281://add site type           
-                $name = $_POST['site_type'];                
+                $name = $_POST['site_type'];
                 $site_type = new saq_site_type();
                 $site_type->type = $name;
-                
+
                 $addNew = $site_type->addNew();
                 if ($addNew) {
                     echo json_encode(array('result' => 1, 'msg' => "Successfully Added"));
@@ -500,12 +521,12 @@ switch ($REQUEST_METHOD) {
                 }
                 break;
             case 282://edit site type                  
-                $name = $_POST['site_type'];                
+                $name = $_POST['site_type'];
                 $id = $_POST['id'];
                 $site_type = new saq_site_type($id);
 
 //                $payment_mode->id = $id;
-                $site_type->type = $name;                
+                $site_type->type = $name;
                 $edit = $site_type->edit();
                 //print $edit;
                 if ($edit) {

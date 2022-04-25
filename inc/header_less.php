@@ -1,6 +1,15 @@
 <!DOCTYPE html>
+<?php
+session_start();
+if (!isset($index_page)) {
+    if (!isset($_SESSION['UID'])) {
+        $url = ASSETS_URL . "/";
+        header("Location: $url");
+    }
+}
+?>
 <html lang="en-us" <?php
-echo implode(' ', array_map(function($prop, $value) {
+echo implode(' ', array_map(function ($prop, $value) {
             return $prop . '="' . $value . '"';
         }, array_keys($page_html_prop), $page_html_prop));
 ?>>
@@ -13,8 +22,8 @@ echo implode(' ', array_map(function($prop, $value) {
         <meta name="author" content="">
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        
-        
+
+
         <!-- Basic Styles -->
         <link rel="stylesheet" type="text/css" media="all" href="<?php echo ASSETS_URL; ?>/css/ngs.css">
         <link rel="stylesheet" type="text/css" media="all" href="<?php echo ASSETS_URL; ?>/css/bootstrap.min.css">
@@ -27,9 +36,9 @@ echo implode(' ', array_map(function($prop, $value) {
         <!-- SmartAdmin RTL Support is under construction-->
         <link rel="stylesheet" type="text/css" media="all" href="<?php echo ASSETS_URL; ?>/css/smartadmin-rtl.min.css">
         <link href="<?php echo ASSETS_URL; ?>/js/plugin/PopupWindows/themes/metro/css/jquery.msgbox.css" rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="<?php  echo ASSETS_URL; ?>/css/dropzone.css">
-        
-        
+        <link rel="stylesheet" type="text/css" media="screen" href="<?php echo ASSETS_URL; ?>/css/dropzone.css">
+
+
         <?php
         if ($page_css) {
             foreach ($page_css as $css) {
@@ -40,7 +49,7 @@ echo implode(' ', array_map(function($prop, $value) {
 
 
         <!-- Demo purpose only: goes with demo.js, you can delete this css when designing your own WebApp -->
-        
+
         <link rel="stylesheet" type="text/css" media="all" href="<?php echo ASSETS_URL; ?>/css/demo.min.css">
         <link rel="stylesheet" type="text/css" media="all" href="<?php echo ASSETS_URL; ?>/css/jquery.datetimepicker.css">
         <link rel="stylesheet" href="<?php echo ASSETS_URL; ?>/css/site_styles.css" type="text/css" media="screen, print"/>
@@ -68,14 +77,14 @@ echo implode(' ', array_map(function($prop, $value) {
         <link rel="apple-touch-startup-image" href="<?php echo ASSETS_URL; ?>/img/splash/iphone.png" media="screen and (max-device-width: 320px)">
 
         <!-- NGS Addings-->
-        
+
         <link rel="stylesheet" type="text/css" media="all" href="<?php echo ASSETS_URL; ?>/lib/jqueary-confirm/jquery-confirm.min.css">
         <link rel="stylesheet" href="../css/styles.css" type="text/css" media="screen, print"/>
-        
+
         <!-- We recommend you use "your_style.css" to override SmartAdmin
                  specific styles this will also ensure you retrain your customization with each SmartAdmin update.-->
-        
-        
+
+
         <!-- NGS Addings-->
 
         <!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
@@ -92,42 +101,64 @@ echo implode(' ', array_map(function($prop, $value) {
 <!--<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <script>
         if (!window.jQuery.ui) {
-                document.write('<script src="<?php //echo ASSETS_URL; ?>/js/libs/jquery-ui-1.10.3.min.js"><\/script>');
+                document.write('<script src="<?php //echo ASSETS_URL;  ?>/js/libs/jquery-ui-1.10.3.min.js"><\/script>');
         }
 </script>
 
         -->
         <script src="<?php echo ASSETS_URL; ?>/js/libs/jquery-ui.min.js">
-             <script src="<?php echo ASSETS_URL; ?>/js/plugin/datatables/datatables.min.js"></script>
-        </script>
-        <script type="text/javascript">
-             
-            $(document).ready(function () {
-//               loading();
-            });         
+            <script src="<?php echo ASSETS_URL; ?>/js/plugin/datatables/datatables.min.js"></script>
+    </script>
+    <script type="text/javascript">
+        var index_page = <?php print $index_page; ?>
+        $(document).ready(function () {
+                setInterval(keepAlive(), 300000);
+        });    
+        
+        function keepAlive() {
+                $.ajax({
+                url: '<?php echo ASSETS_URL; ?>/ajax/ajx_keep_alive',
+                        type: 'GET',
+                        dataType: "json",
+                        headers: {
+                        "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                        },
+                        success: function (res) {
+                            if (index_page != 1) {
+                                if (res['result'] == 1) {
+                                    alert(res['msg']);
+                                    location.reload();
+                                }
+                            }                        
+                        },
+                        error: function (xhr, status, error) {
+                        alert("error :" + xhr.responseText);
+                        }
+                });
+        }
         </script>
         <?php $page_body_prop['class'] = 'smart-style-3 desktop-detected pace-done'; ?>
     </head>
     <body onload=""<?php
-    echo implode(' ', array_map(function($prop, $value) {
+    echo implode(' ', array_map(function ($prop, $value) {
                 return $prop . '="' . $value . '"';
             }, array_keys($page_body_prop), $page_body_prop));
     ?> style="overflow-x: hidden;">
-<!--        <div class="col-2">
-            $nbsp;
-        </div>
-        <div class="col-8">-->
-                    
-<!--        <div id="preloader" style="display:  none;">
-            <div id="status1"><h3 id="text">Please Wait</h3></div>
-        </div>-->
+        <!--        <div class="col-2">
+                    $nbsp;
+                </div>
+                <div class="col-8">-->
+
+        <!--        <div id="preloader" style="display:  none;">
+                    <div id="status1"><h3 id="text">Please Wait</h3></div>
+                </div>-->
         <!-- POSSIBLE CLASSES: minified, fixed-ribbon, fixed-header, fixed-width
                  You can also add different skin classes such as "smart-skin-1", "smart-skin-2" etc...-->
         <?php
         if (!$no_main_header) {
             ?>
             <!-- HEADER -->
-            
+
             <!-- END HEADER -->
 
             <!-- END SHORTCUT AREA -->

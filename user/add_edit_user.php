@@ -90,7 +90,7 @@ $user_roles = $user_role_obj->getAll();
 
                         <!-- widget div-->
                         <div>
-
+                            <?php // echo session_id(); ?>
                             <!-- widget content -->
                             <div class="widget-body">
                                 <form class="smart-form" id="user_form">  
@@ -187,7 +187,7 @@ include("../inc/scripts.php");
 
 <script type="text/javascript">
     var passwordCheck = <?php print (($id != '') ? 'false' : 'true') ?>;
-    $(document).ready(function () {        
+    $(document).ready(function () {
         $.validator.addMethod("pwcheck", function (value) {
             return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) // consists of only these
                     && /[a-z]/.test(value) // has a lowercase letter
@@ -248,19 +248,22 @@ include("../inc/scripts.php");
                 url: '../ajax/ajx_user',
                 type: 'POST',
                 dataType: 'JSON',
+                headers: {
+                    "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                },
                 data: form,
                 success: function (response) {
                     if (response['msg'] == 1) {
                         window.parent.location.reload();
                         window.parent.$.jeegoopopup.close();
                     } else if (response['msg'] == 2) {
-                        alert('Username already taken');
+                        alert('User credentials not unique');
                     } else {
                         alert('Failure');
                     }
                 },
                 error: function (xhr, status, error) {
-                    alert(status);
+                    alert("error :" + xhr.responseText);
                 }
             });
         }

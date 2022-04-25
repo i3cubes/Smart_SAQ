@@ -158,7 +158,7 @@ include("../inc/scripts.php");
                         function changeStatus(user_id, status) {
                             var newDiv = $(document.createElement('div'));
                             $(newDiv).html(`Are you sure?`);
-                            $(newDiv).attr('title', `${((status == 'E') ? 'UNLOCK' : 'LOCK')} USER`);                           
+                            $(newDiv).attr('title', `${((status == 'E') ? 'UNLOCK' : 'LOCK')} USER`);
                             $(newDiv).dialog({
                                 resizable: false,
                                 height: 200,
@@ -170,12 +170,15 @@ include("../inc/scripts.php");
                                             type: 'POST',
                                             data: {option: 'CHANGESTATUS', id: user_id, status: status},
                                             dataType: "json",
+                                            headers: {
+                                                 "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                                            },
                                             success: function (res) {
-                                               if(res['msg'] == 1) {
-                                                   location.reload();
-                                               } else {
-                                                   $.notify('Error occured','error');
-                                               }
+                                                if (res['msg'] == 1) {
+                                                    location.reload();
+                                                } else {
+                                                    $.notify('Error occured', 'error');
+                                                }
                                             },
                                             error: function (xhr, status, error) {
                                                 alert("error :" + xhr.responseText);
@@ -189,12 +192,12 @@ include("../inc/scripts.php");
                                         $(newDiv).remove();
                                     }
                                 }
-                            });                          
+                            });
                         }
 
                         function add_edit_user(id) {
                             var options = {
-                                url: 'add_edit_user?id=' + id,
+                                url: 'add_edit_user?id=' + id + '&flag=inside',
                                 width: '500',
                                 height: '470',
                                 skinClass: 'jg_popup_round',

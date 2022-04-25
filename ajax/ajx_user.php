@@ -1,19 +1,78 @@
 <?php
 
+//error_reporting(E_ALL);
+//ini_set("display_errors", 1);
 session_start();
+
+//declare(strict_types=1);
+//
+use Firebase\JWT\JWT;
+
+//
+require_once('../vendor/autoload.php');
+
 include_once '../class/cls_user.php';
+include_once '../class/constants.php';
+
+//var_dump($_SERVER['HTTP_AUTHORIZATION']);
+$option = $_POST['option'];
+if ($option != 'LOGIN') {      
+    if (!preg_match('/Bearer\s(\S+)/', $_SERVER['HTTP_AUTHORIZATION'], $matches)) {
+        header('HTTP/1.0 400 Bad Request');
+        echo 'Token not found in request';
+        exit;
+    }    
+    $jwt = $matches[1];
+    if (!$jwt) {
+        // No token was able to be extracted from the authorization header
+        header('HTTP/1.0 400 Bad Request');
+        exit;
+    }
+
+    $secretKey = constants::$secretKey;
+    $token = JWT::decode($jwt, $secretKey, ['HS512']);
+    $now = new DateTimeImmutable();
+    $serverName = constants::$serverName;
+
+    if ($token->iss !== $serverName ||
+            $token->nbf > $now->getTimestamp() ||
+            $token->exp < $now->getTimestamp()) {
+        header('HTTP/1.1 401 Unauthorized');
+        exit;
+    }
+}
+
+
 $u_obj = new user($_POST['id']);
 
 $u_obj->name = $_POST['username'];
 $u_obj->password = $_POST['password'];
 $u_obj->saq_us_role_id = $_POST['role'];
 
-
-switch ($_POST['option']) {
+switch ($option) {
     case 'LOGIN':
         $result = $u_obj->loginUser();
         if ($result === true) {
-            echo json_encode(array('msg' => 1));
+            $u_obj = new user($_SESSION['UID']);
+            $u_obj->getDetails();
+
+            $secretKey = constants::$secretKey;
+            $issuedAt = new DateTimeImmutable();
+            $expire = $issuedAt->modify('+30 minutes')->getTimestamp();
+            $serverName = constants::$serverName;
+            $username = $u_obj->name;
+
+            $data = [
+                'iat' => $issuedAt->getTimestamp(), // Issued at: time when the token was generated
+                'iss' => $serverName, // Issuer
+                'nbf' => $issuedAt->getTimestamp(), // Not before
+                'exp' => $expire, // Expire
+                'userName' => $username, // User name
+            ];
+
+            $JWT_TOKEN = JWT::encode($data, $secretKey, 'HS512');
+
+            echo json_encode(array('msg' => 1, 'token' => $JWT_TOKEN));
         } else if ($result == 100) {
             echo json_encode(array('msg' => 100));
         } else {
@@ -21,10 +80,10 @@ switch ($_POST['option']) {
         }
         break;
     case 'ADDUSER':
-        $result = $u_obj->add();       
+        $result = $u_obj->add();
         if ($result === true) {
             echo json_encode(array('msg' => 1));
-        } else if($result == 100){
+        } else if ($result == 100) {
             echo json_encode(array('msg' => 2));
         } else {
             echo json_encode(array('msg' => 0));
@@ -34,7 +93,7 @@ switch ($_POST['option']) {
         $result = $u_obj->edit();
         if ($result === true) {
             echo json_encode(array('msg' => 1));
-        } else if($result == 100){
+        } else if ($result == 100) {
             echo json_encode(array('msg' => 2));
         } else {
             echo json_encode(array('msg' => 0));

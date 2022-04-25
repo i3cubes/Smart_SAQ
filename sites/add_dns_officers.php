@@ -104,7 +104,7 @@ $id = $_REQUEST['id'];
                                                         $saq_employees = $dns_emoployee_obj->getAll();
                                                         if (count($saq_employees) > 0) {
                                                             foreach ($saq_employees as $emp) {
-                                                                
+
                                                                 if ($emp->designtion_id != constants::$admin && $emp->designtion_id != constants::$admin) {
                                                                     print "<option value='$emp->id' >$emp->name</option>";
                                                                 }
@@ -122,9 +122,9 @@ $id = $_REQUEST['id'];
                                         <!--<input type="hidden" name="id" id="id" value="<?php print $saq_region_obj->id ?>"/>-->
                                         <input type="hidden" name="option" id="option" value="430"/>
                                         <button class="btn btn-primary">Save &nbsp;<i class="fa fa-save"></i></button>
-                                        <?php // if ($saq_region_obj->id != '') { ?>
+                                            <?php // if ($saq_region_obj->id != '') { ?>
                                             <!--<button type="button" class="btn btn-danger" onclick="deleteHandler(<?php print $saq_region_obj->id ?>)">Delete &nbsp;<i class="fa fa-trash"></i></button>--> 
-                                            <?php // } ?>
+                                        <?php // } ?>
                                     </footer>
                                 </form>
 
@@ -172,7 +172,10 @@ include("../inc/scripts.php");
                 url: '../ajax/ajx_site_customize',
                 type: 'POST',
                 dataType: 'JSON',
-               data: {SID: $('#option').val(), employee_id: $('#employee_id').val()},
+                headers: {
+                    "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                },
+                data: {SID: $('#option').val(), employee_id: $('#employee_id').val()},
                 success: function (response) {
                     if (response.result == '1') {
                         $.notify(response.msg, 'success');
@@ -184,7 +187,7 @@ include("../inc/scripts.php");
 
                 },
                 error: function (xhr, status, error) {
-                    $.notify('Error occured', 'error');
+                    $.notify('Error occured', xhr.responseText);
                 }
             });
         } else {
@@ -207,6 +210,9 @@ include("../inc/scripts.php");
                         type: 'POST',
                         data: {SID: '341', id: id},
                         dataType: "json",
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                        },
                         success: function (response) {
                             if (response.result == '1') {
                                 $.notify(response.msg, 'success');

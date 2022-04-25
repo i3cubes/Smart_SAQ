@@ -32,7 +32,7 @@ include("../inc/header_less.php");
 include_once '../class/constants.php';
 include_once '../class/cls_saq_technical.php';
 
-if($_REQUEST['id'] != '') {
+if ($_REQUEST['id'] != '') {
     $saq_technical_obj = new saq_technical($_REQUEST['id']);
     $saq_technical_obj->getData();
 }
@@ -97,7 +97,7 @@ if($_REQUEST['id'] != '') {
                                             <?php } ?>
                                     </footer>
                                 </form>
-                                                                
+
                             </div>
                             <!-- end widget content -->
 
@@ -131,31 +131,34 @@ include("../inc/scripts.php");
 ?>
 <script type="text/javascript">
     $(document).ready(function () {
-                                        
-                                       
-    });                          
-    
+
+
+    });
+
     function saveHandler(e) {
-        e.preventDefault();     
-        if($('#technology').val() != '') {
+        e.preventDefault();
+        if ($('#technology').val() != '') {
             $.ajax({
                 url: '../ajax/ajx_saq_site',
                 type: 'POST',
                 dataType: 'JSON',
+                headers: {
+                    "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                },
                 data: {option: $('#option').val(), id: $('#id').val(), technology: $('#technology').val()},
-                success: function(response) {
+                success: function (response) {
                     $.notify('Successfully saved', 'success');
                     window.parent.location.reload();
                 },
                 error: function (xhr, status, error) {
-                    $.notify('Error occured', 'error');
-                } 
+                    $.notify(xhr.responseText, 'error');
+                }
             });
         } else {
             $.notify('please fill technology field');
         }
     }
-    
+
     function deleteHandler(id) {
         var newDiv = $(document.createElement('div'));
         $(newDiv).html('Are you sure?');
@@ -171,6 +174,9 @@ include("../inc/scripts.php");
                         type: 'POST',
                         data: {option: 'DELETETECH', id: id},
                         dataType: "json",
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                        },
                         success: function (response) {
                             if (response.msg == '1') {
                                 $.notify('Successfully deleted', 'success');
@@ -193,5 +199,5 @@ include("../inc/scripts.php");
             }
         });
     }
-                                                                         
+
 </script>

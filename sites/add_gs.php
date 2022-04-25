@@ -35,7 +35,6 @@ include_once '../class/cls_saq_district.php';
 $heading = "GS Division";
 include_once '../class/functions.php';
 
-
 $fn = new functions();
 $id = $_REQUEST['id'];
 if ($id != '') {
@@ -92,7 +91,7 @@ if ($id != '') {
                             <div class="widget-body">
                                 <form class="smart-form" onsubmit="saveHandler(event)">
                                     <fieldset>
-                                       
+
                                         <div class="row">
                                             <section class="col col-3 ">
                                                 <label>GS Division Name</label>
@@ -109,12 +108,12 @@ if ($id != '') {
                                                     <select name="saq_district_id" id="saq_district_id">
                                                         <option value="" selected="" disabled="">Please Select District...</option>
                                                         <?php
-                                                            $district_obj = new saq_district();
-                                                            $districts = $district_obj->getAll();
-                                                            
-                                                            foreach ($districts as $district) {
-                                                                print "<option value='".$district->id."' ".(($saq_gs_obj->saq_district_id == $district->id) ? "selected=''" : "").">".$district->name."</option>";
-                                                            }
+                                                        $district_obj = new saq_district();
+                                                        $districts = $district_obj->getAll();
+
+                                                        foreach ($districts as $district) {
+                                                            print "<option value='" . $district->id . "' " . (($saq_gs_obj->saq_district_id == $district->id) ? "selected=''" : "") . ">" . $district->name . "</option>";
+                                                        }
                                                         ?>
                                                     </select>
                                                 </label>
@@ -178,6 +177,9 @@ include("../inc/scripts.php");
                 url: '../ajax/ajx_site_customize',
                 type: 'POST',
                 dataType: 'JSON',
+                headers: {
+                    "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                },
                 data: {SID: $('#option').val(), id: $('#id').val(), gs_name: $('#gs_name').val(), saq_district_id: $('#saq_district_id').val()},
                 success: function (response) {
                     if (response.result == '1') {
@@ -190,7 +192,7 @@ include("../inc/scripts.php");
 
                 },
                 error: function (xhr, status, error) {
-                    $.notify('Error occured', 'error');
+                    $.notify(xhr.responseText, 'error');
                 }
             });
         } else {
@@ -213,6 +215,9 @@ include("../inc/scripts.php");
                         type: 'POST',
                         data: {SID: '371', id: id},
                         dataType: "json",
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                        },
                         success: function (response) {
                             if (response.result == '1') {
                                 $.notify(response.msg, 'success');

@@ -97,12 +97,12 @@ $agreement_model_obj->getData();
                                         <section class="col col-12">
                                             <div style="float: right;">
                                                 <input type="hidden" name="id" id="id" value="<?php print $id ?>" />                                           
-                                            <button class="btn btn-primary btn-sm" id="add">Add Node&nbsp;<i class="fa fa-plus"></i></button>
-                                            <button class="btn btn-danger btn-sm" id="delete" type="button">Delete&nbsp;<i class="fa fa-trash"></i></button>                                            
-                                            <button class="btn btn-primary btn-sm">Save&nbsp;<i class="fa fa-save"></i></button>
+                                                <button class="btn btn-primary btn-sm" id="add">Add Node&nbsp;<i class="fa fa-plus"></i></button>
+                                                <button class="btn btn-danger btn-sm" id="delete" type="button">Delete&nbsp;<i class="fa fa-trash"></i></button>                                            
+                                                <button class="btn btn-primary btn-sm">Save&nbsp;<i class="fa fa-save"></i></button>
                                             </div>
                                         </section>
-                                            
+
                                         <!--</footer>-->                                        
                                     </fieldset>                                             
                                 </form>
@@ -162,6 +162,9 @@ include("../inc/scripts.php");
                             type: 'POST',
                             data: {option: 'DELETE', id: $('#id').val()},
                             dataType: "json",
+                            headers: {
+                                "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                            },
                             success: function (res) {
                                 if (res['msg'] == 1) {
                                     window.parent.loadTree();
@@ -193,6 +196,9 @@ include("../inc/scripts.php");
             type: 'POST',
             dataType: 'JSON',
             data: {option: 'EDIT', name: $('#name').val(), id: $('#id').val()},
+            headers: {
+                "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+            },
             success: function (response) {
                 if (response['msg'] == 1) {
                     window.parent.loadTree();
@@ -202,7 +208,7 @@ include("../inc/scripts.php");
                 }
             },
             error: function (xhr, status, error) {
-                alert(status);
+                alert("error :" + xhr.responseText);
             }
         });
     }

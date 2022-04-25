@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-us" <?php
+<?php
 session_start();
 if (!isset($index_page)) {
     if (!isset($_SESSION['UID'])) {
@@ -7,8 +7,8 @@ if (!isset($index_page)) {
         header("Location: $url");
     }
 }
-
-
+?>
+<html lang="en-us" <?php
 echo implode(' ', array_map(function ($prop, $value) {
             return $prop . '="' . $value . '"';
         }, array_keys($page_html_prop), $page_html_prop));
@@ -103,12 +103,36 @@ echo implode(' ', array_map(function ($prop, $value) {
         <script src="<?php echo ASSETS_URL; ?>/js/libs/jquery-ui.min.js">
         </script>
         <script type="text/javascript">
-
+            var index_page = <?php print $index_page; ?>
             $(document).ready(function () {
-//               loading();
+                setInterval(keepAlive(), 300000);
             });
             function loading() {
                 $('#preloader').css("display", "block");
+
+            }
+
+            function keepAlive() {
+                $.ajax({
+                    url: '<?php echo ASSETS_URL; ?>/ajax/ajx_keep_alive',
+                    type: 'GET',
+                    dataType: "json",
+                    headers: {
+                        "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                    },
+                    success: function (res) {
+                        if (index_page != 1) {
+                            if (res['result'] == 1) {
+                                alert(res['msg']);
+                                location.reload();
+                            }
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert("error :" + xhr.responseText);
+                    }
+                });
             }
 
             function stoploading() {
@@ -174,7 +198,7 @@ echo implode(' ', array_map(function ($prop, $value) {
                     if ($_SESSION['subscription'] != '1') {
                         ?>
                         <div id="hide-menu" class="pull-right">
-                            <!--<span> <a href="javascript:addSubscription(<?php //print $_SESSION['UID']  ?>);" style="font-size: 11px;"><b>Subscribe for project's updates</b></a> </span>-->
+                            <!--<span> <a href="javascript:addSubscription(<?php //print $_SESSION['UID']    ?>);" style="font-size: 11px;"><b>Subscribe for project's updates</b></a> </span>-->
                         </div>
                     <?php } ?>
                     <!-- end pulled right: nav area -->

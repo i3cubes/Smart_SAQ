@@ -32,7 +32,7 @@ include("../inc/header_less.php");
 include_once '../class/constants.php';
 include_once '../class/cls_saq_site_category.php';
 
-if($_REQUEST['id'] != '') {
+if ($_REQUEST['id'] != '') {
     $saq_site_category_obj = new saq_site_category($_REQUEST['id']);
     $saq_site_category_obj->getData();
 }
@@ -97,7 +97,7 @@ if($_REQUEST['id'] != '') {
                                             <?php } ?>
                                     </footer>
                                 </form>
-                                                                
+
                             </div>
                             <!-- end widget content -->
 
@@ -131,32 +131,35 @@ include("../inc/scripts.php");
 ?>
 <script type="text/javascript">
     $(document).ready(function () {
-                                        
-                                       
-    });                          
-    
+
+
+    });
+
     function saveHandler(e) {
-        e.preventDefault();     
-        if($('#technology').val() != '') {
+        e.preventDefault();
+        if ($('#technology').val() != '') {
             $.ajax({
                 url: '../ajax/ajx_site_customize',
                 type: 'POST',
                 dataType: 'JSON',
+                headers: {
+                    "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                },
                 data: {SID: $('#option').val(), id: $('#id').val(), category: $('#category').val()},
-                success: function(response) {
+                success: function (response) {
                     $.notify('Successfully saved', 'success');
                     window.parent.location.reload();
                 },
                 error: function (xhr, status, error) {
-                    $.notify('Error occured', 'error');
-                } 
+                    $.notify('Error occured', xhr.responseText);
+                }
             });
         } else {
             $.notify('please fill technology field');
         }
     }
-    
-     function deleteHandler(id) {
+
+    function deleteHandler(id) {
         var newDiv = $(document.createElement('div'));
         $(newDiv).html('Are you sure?');
         $(newDiv).attr('title', 'Delete');
@@ -171,6 +174,9 @@ include("../inc/scripts.php");
                         type: 'POST',
                         data: {SID: '303', id: id},
                         dataType: "json",
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                        },
                         success: function (response) {
                             if (response.result == '1') {
                                 $.notify(response.msg, 'success');
@@ -193,5 +199,5 @@ include("../inc/scripts.php");
             }
         });
     }
-                                                                         
+
 </script>

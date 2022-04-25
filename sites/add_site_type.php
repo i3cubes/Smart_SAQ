@@ -156,6 +156,9 @@ include("../inc/scripts.php");
                 url: '../ajax/ajx_site_customize',
                 type: 'POST',
                 dataType: 'JSON',
+                headers: {
+                    "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                },
                 data: {SID: $('#option').val(), id: $('#id').val(), site_type: $('#site_type').val()},
                 success: function (response) {
                     if (response.result == '1') {
@@ -168,7 +171,7 @@ include("../inc/scripts.php");
 
                 },
                 error: function (xhr, status, error) {
-                    $.notify('Error occured', 'error');
+                    $.notify(xhr.responseText, 'error');
                 }
             });
         } else {
@@ -191,6 +194,9 @@ include("../inc/scripts.php");
                         type: 'POST',
                         data: {SID: '361', id: id},
                         dataType: "json",
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                        },
                         success: function (response) {
                             if (response.result == '1') {
                                 $.notify(response.msg, 'success');

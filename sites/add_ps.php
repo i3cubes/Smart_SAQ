@@ -34,7 +34,6 @@ include_once '../class/cls_police_station.php';
 $heading = "Police Station";
 include_once '../class/functions.php';
 
-
 $fn = new functions();
 $id = $_REQUEST['id'];
 if ($id != '') {
@@ -91,7 +90,7 @@ if ($id != '') {
                             <div class="widget-body">
                                 <form class="smart-form" onsubmit="saveHandler(event)">
                                     <fieldset>
-                                       
+
                                         <div class="row">
                                             <section class="col col-3 ">
                                                 <label>Name</label>
@@ -158,6 +157,9 @@ include("../inc/scripts.php");
                 url: '../ajax/ajx_site_customize',
                 type: 'POST',
                 dataType: 'JSON',
+                headers: {
+                    "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                },
                 data: {SID: $('#option').val(), id: $('#id').val(), name: $('#ps_name').val()},
                 success: function (response) {
                     if (response.result == '1') {
@@ -170,7 +172,7 @@ include("../inc/scripts.php");
 
                 },
                 error: function (xhr, status, error) {
-                    $.notify('Error occured', 'error');
+                    $.notify(xhr.responseText, 'error');
                 }
             });
         } else {
@@ -193,6 +195,9 @@ include("../inc/scripts.php");
                         type: 'POST',
                         data: {SID: '331', id: id},
                         dataType: "json",
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                        },
                         success: function (response) {
                             if (response.result == '1') {
                                 $.notify(response.msg, 'success');

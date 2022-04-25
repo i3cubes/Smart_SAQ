@@ -341,6 +341,9 @@ include("../inc/scripts.php");
             type: 'POST',
             dataType: 'JSON',
             data: form,
+            headers: {
+                "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+            },
             success: function (response) {
                 if (response.result == 1) {
                     window.parent.location.reload();
@@ -350,7 +353,7 @@ include("../inc/scripts.php");
                 }
             },
             error: function (xhr, status, error) {
-                alert(status);
+                alert("error :" + xhr.responseText);
             }
         });
     }

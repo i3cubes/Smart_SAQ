@@ -110,7 +110,7 @@ $parent_model_id = htmlspecialchars($_REQUEST['id']);
                     <!-- END COL -->		
 
             </div>
-      
+
         </section>
         <!-- end widget grid -->
 
@@ -136,23 +136,26 @@ include("../inc/scripts.php");
     });
 
     function submitHandler(e) {
-        e.preventDefault();        
-            $.ajax({
-                url: '../ajax/ajx_saq_site_model',
-                type: 'POST',
-                dataType: 'JSON',                
-                data: {option: $('#option').val(), name: $('#name').val(), parent_model_id: $('#parent_model_id').val()},
-                success: function (response) {
-                    if (response['msg'] == 1) {
-                        window.parent.loadTree();
-                        window.parent.$.jeegoopopup.close();
-                    } else {
-                        alert('Failure');
-                    }
-                },
-                error: function (xhr, status, error) {
-                    alert(status);
+        e.preventDefault();
+        $.ajax({
+            url: '../ajax/ajx_saq_site_model',
+            type: 'POST',
+            dataType: 'JSON',
+            headers: {
+                "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+            },
+            data: {option: $('#option').val(), name: $('#name').val(), parent_model_id: $('#parent_model_id').val()},
+            success: function (response) {
+                if (response['msg'] == 1) {
+                    window.parent.loadTree();
+                    window.parent.$.jeegoopopup.close();
+                } else {
+                    alert('Failure');
                 }
-            });
-        }    
+            },
+            error: function (xhr, status, error) {
+                alert("error :" + xhr.responseText);
+            }
+        });
+    }
 </script>

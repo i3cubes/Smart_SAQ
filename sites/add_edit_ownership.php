@@ -94,7 +94,7 @@ if ($_REQUEST['id'] != '') {
                                         <button class="btn btn-primary">Save &nbsp;<i class="fa fa-save"></i></button>
                                         <?php if ($saq_ownership_obj->id != '') { ?>
                                             <button type="button" class="btn btn-danger" onclick="deleteHandler(<?php print $saq_ownership_obj->id ?>)">Delete &nbsp;<i class="fa fa-trash"></i></button> 
-                                        <?php } ?>
+                                            <?php } ?>
                                     </footer>
                                 </form>
 
@@ -142,21 +142,24 @@ include("../inc/scripts.php");
                 url: '../ajax/ajx_site_customize',
                 type: 'POST',
                 dataType: 'JSON',
+                headers: {
+                    "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                },
                 data: {SID: $('#option').val(), id: $('#id').val(), ownership: $('#ownership').val()},
                 success: function (response) {
                     $.notify('Successfully saved', 'success');
                     window.parent.location.reload();
                 },
                 error: function (xhr, status, error) {
-                    $.notify('Error occured', 'error');
+                    $.notify('Error occured', xhr.responseText);
                 }
             });
         } else {
             $.notify('please fill technology field');
         }
     }
-    
-     function deleteHandler(id) {
+
+    function deleteHandler(id) {
         var newDiv = $(document.createElement('div'));
         $(newDiv).html('Are you sure?');
         $(newDiv).attr('title', 'Delete');
@@ -171,6 +174,9 @@ include("../inc/scripts.php");
                         type: 'POST',
                         data: {SID: '302', id: id},
                         dataType: "json",
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                        },
                         success: function (response) {
                             if (response.result == '1') {
                                 $.notify(response.msg, 'success');

@@ -173,6 +173,9 @@ include("../inc/scripts.php");
                                             type: 'POST',
                                             data: {SID: '204', id: emp_id, status: status},
                                             dataType: "json",
+                                            headers: {
+                                                "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                                            },
                                             success: function (res) {
                                                 if (res['msg'] == 1) {
                                                     location.reload();

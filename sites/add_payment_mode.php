@@ -34,7 +34,6 @@ include_once '../class/cls_saq_payment_mode.php';
 $heading = "Payment Mode";
 include_once '../class/functions.php';
 
-
 $fn = new functions();
 $id = $_REQUEST['id'];
 if ($id != '') {
@@ -91,7 +90,7 @@ if ($id != '') {
                             <div class="widget-body">
                                 <form class="smart-form" onsubmit="saveHandler(event)">
                                     <fieldset>
-                                       
+
                                         <div class="row">
                                             <section class="col col-3 ">
                                                 <label>Name</label>
@@ -158,13 +157,16 @@ include("../inc/scripts.php");
                 url: '../ajax/ajx_site_customize',
                 type: 'POST',
                 dataType: 'JSON',
+                headers: {
+                    "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                },
                 data: {SID: $('#option').val(), id: $('#id').val(), name: $('#pm_name').val()},
                 success: function (response) {
                     if (response.result == '1') {
                         $.notify(response.msg, 'success');
                         window.parent.location.reload();
                     } else {
-                        $.notify(response.msg, 'error');
+                        $.notify(response.msg, xhr.responseText);
                     }
 
 
@@ -193,6 +195,9 @@ include("../inc/scripts.php");
                         type: 'POST',
                         data: {SID: '351', id: id},
                         dataType: "json",
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                        },
                         success: function (response) {
                             if (response.result == '1') {
                                 $.notify(response.msg, 'success');

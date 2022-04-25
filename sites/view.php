@@ -161,91 +161,94 @@ include("../inc/scripts.php");
 <script src="<?php echo ASSETS_URL; ?>/js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
 
 <script>
-                            var table = $("#table").DataTable({
-                                "paging": true,
-                                "ordering": false,
-                                "info": true,
-                                select: true
+                        var table = $("#table").DataTable({
+                            "paging": true,
+                            "ordering": false,
+                            "info": true,
+                            select: true
 
+                        });
+
+
+
+                        $(document).ready(function () {
+                            $('#selectAllCheckBox').click(function () {
+                                if ($(this).prop('checked')) {
+                                    $("input[type='checkbox']").prop('checked', true);
+                                } else {
+                                    $("input[type='checkbox']").prop('checked', false);
+                                }
                             });
+                        });
 
-
-
-                            $(document).ready(function () {
-                                $('#selectAllCheckBox').click(function(){
-                                    if($(this).prop('checked')) {
-                                        $("input[type='checkbox']").prop('checked',true);
-                                    } else {
-                                        $("input[type='checkbox']").prop('checked',false);
+                        function bulk_delete() {
+                            var array = [];
+                            var checkboxes = table.$(".getValueCheck:checked", {"page": "all"});
+                            if (checkboxes.length > 0) {
+                                var newDiv = $(document.createElement('div'));
+                                $(newDiv).html('Are you sure?');
+                                $(newDiv).attr('title', 'Delete');
+                                $(newDiv).dialog({
+                                    resizable: false,
+                                    height: 200,
+                                    modal: true,
+                                    buttons: {
+                                        "Delete": function () {
+                                            checkboxes.each(function (index, value) {
+                                                array.push($(value).val());
+                                            });
+                                            $.ajax({
+                                                url: '../ajax/ajx_saq_site',
+                                                type: 'POST',
+                                                data: {option: 'BULKDELETE', values: array},
+                                                dataType: "json",
+                                                headers: {
+                                                    "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                                                },
+                                                success: function (response) {
+                                                    if (response.result == '1') {
+                                                        $.notify(response.msg, 'success');
+                                                        window.parent.location.reload();
+                                                    } else {
+                                                        $.notify(response.msg, 'error');
+                                                    }
+                                                },
+                                                error: function (xhr, status, error) {
+                                                    alert("error :" + xhr.responseText);
+                                                }
+                                            });
+                                            $(this).dialog("close");
+                                            $(newDiv).remove();
+                                        },
+                                        cancel: function () {
+                                            $(this).dialog("close");
+                                            $(newDiv).remove();
+                                        }
                                     }
                                 });
-                            });
 
-                            function bulk_delete() {
-                                var array = [];
-                                var checkboxes = table.$(".getValueCheck:checked", {"page": "all"});
-                                if (checkboxes.length > 0) {
-                                    var newDiv = $(document.createElement('div'));
-                                    $(newDiv).html('Are you sure?');
-                                    $(newDiv).attr('title', 'Delete');
-                                    $(newDiv).dialog({
-                                        resizable: false,
-                                        height: 200,
-                                        modal: true,
-                                        buttons: {
-                                            "Delete": function () {
-                                                checkboxes.each(function (index, value) {
-                                                    array.push($(value).val());
-                                                });
-                                                $.ajax({
-                                                    url: '../ajax/ajx_saq_site',
-                                                    type: 'POST',
-                                                    data: {option: 'BULKDELETE', values: array},
-                                                    dataType: "json",
-                                                    success: function (response) {
-                                                        if (response.result == '1') {
-                                                            $.notify(response.msg, 'success');
-                                                            window.parent.location.reload();
-                                                        } else {
-                                                            $.notify(response.msg, 'error');
-                                                        }
-                                                    },
-                                                    error: function (xhr, status, error) {
-                                                        alert("error :" + xhr.responseText);
-                                                    }
-                                                });
-                                                $(this).dialog("close");
-                                                $(newDiv).remove();
-                                            },
-                                            cancel: function () {
-                                                $(this).dialog("close");
-                                                $(newDiv).remove();
-                                            }
-                                        }
-                                    });
-
-                                } else {
-                                    $.notify('Please select rows to be delete', 'error');
-                                }                                
+                            } else {
+                                $.notify('Please select rows to be delete', 'error');
                             }
+                        }
 
-                            function add_edit_site(id) {
-                                //location.href = 'view?id=' + id;
+                        function add_edit_site(id) {
+                            //location.href = 'view?id=' + id;
 
-                                var url = 'add_edit?<?php print SID . "&id=" ?>' + id;
-                                var NWin = window.open(url, '_blank');
-                                if (window.focus)
-                                {
-                                    NWin.focus();
-                                }
+                            var url = 'add_edit?<?php print SID . "&id=" ?>' + id;
+                            var NWin = window.open(url, '_blank');
+                            if (window.focus)
+                            {
+                                NWin.focus();
                             }
-                            function bulk_update() {
-                                var url = 'bulk_update?<?php print SID ?>';
-                                var NWin = window.open(url, '_blank');
-                                if (window.focus)
-                                {
-                                    NWin.focus();
-                                }
+                        }
+                        function bulk_update() {
+                            var url = 'bulk_update?<?php print SID ?>';
+                            var NWin = window.open(url, '_blank');
+                            if (window.focus)
+                            {
+                                NWin.focus();
                             }
+                        }
 </script>
 
