@@ -2,6 +2,8 @@
 *.txt
 lib/ngs_config.php
 class/database.php
+
+/vendor/
 files/saq_guidelines
 files/site_images
 files/sitedata
