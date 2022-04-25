@@ -184,9 +184,9 @@ include("../inc/scripts.php");
                                                 $('.superbox .superbox-list').remove();
                                                 $.each(response, function (index, data) {
                                                     $('.superbox').append(`
-                            <div class="superbox-list">
-                                <img src="../${data.base_path}" data-img="../${data.base_path}" alt="" title="" class="superbox-img">
-                            </div>`)
+                                                        <div class="superbox-list">
+                                                            <img src="../${data.base_path}" data-img="../${data.base_path}" alt="" title="" class="superbox-img">
+                                                        </div>`)
                                                 });
                                             }
                                         },
