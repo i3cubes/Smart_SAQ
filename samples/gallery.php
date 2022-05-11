@@ -1,4 +1,40 @@
 <?php
+include_once '../class/cls_file.php';
+
+$file_id = $_REQUEST['file_id'];
+//print 'a';
+if ($file_id != "") {
+    $file = new file($file_id);
+
+    $row_file = $file->get_file_infomation("saq_site_model_images");
+    $file_path = '../' . $file->base_path;
+    $file_name = $file->name;
+
+    if ($file_path != "") {
+        $exist = true;
+    } else {
+        $exist = false;
+    }
+
+    if ($exist) {
+        $file_name = urlencode($file_name);
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename=' . $file_name);
+        header('Content-Transfer-Encoding: binary');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($file_path));
+        ob_clean();
+        flush();
+        readfile($file_path);
+    } else {
+        print "File Not Found";
+    }
+}
+?>
+<?php
 require_once("../lib/config.php");
 
 //require UI configuration (nav, ribbon, etc.)
@@ -76,10 +112,20 @@ $site_model_obj->getData();
                     <div class="row">
                         <div class="superbox col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
-                            <div class="superbox-float"></div>
+                            <div class="superbox-float" style="margin:15px;">
+                                <?php 
+                                    $site_model_obj->getImages();
+                                    
+                                    if(count($site_model_obj->files)>0) {
+                                        foreach ($site_model_obj->files as $file) {
+                                            print "<div><a href='?file_id=".$file['id']."'>".$file['name']."</a></div>";
+                                        }
+                                    }
+                                ?>
+                            </div>
 
                         </div>
-                        <div class="superbox-show" style="height:300px; display: none"></div>  
+                        <!--<div class="superbox-show" style="height:300px; display: none"></div>-->  
                     </div>
 
 
@@ -142,7 +188,7 @@ include("../inc/scripts.php");
 <script>
                                 $(document).ready(function () {
 
-                                    getImages(<?php print $id ?>);
+//                                    getImages(<?php print $id ?>);
 
                                     $("#drop").dropzone({
                                         url: "../ajax/ajx_saq_site_images",
@@ -163,7 +209,8 @@ include("../inc/scripts.php");
                                                     var _this = this;
                                                     _this.removeAllFiles();
 //                                                    $.notify("Successfully uploaded", "success");
-                                                    getImages(<?php print $id ?>);
+                                                    window.parent.$.jeegoopopup.close();
+//                                                    getImages(<?php print $id ?>);
                                                 }
                                             });
                                         }

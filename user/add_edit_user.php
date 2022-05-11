@@ -203,16 +203,16 @@ include("../inc/scripts.php");
                         required: true
                     },
                     password: {
-                        required: passwordCheck,
-                        minlength: 8,
-                        maxlength: 8,
-                        pwcheck: passwordCheck
+                        required: true,
+                        minlength: 8
+//                        maxlength: 8,
+//                        pwcheck: passwordCheck
                     },
                     rePassword: {
                         required: true,
-                        minlength: 8,
-                        maxlength: 8,
-                        pwcheck: true
+                        minlength: 8
+//                        maxlength: 8,
+//                        pwcheck: true
                     }
                 },
 

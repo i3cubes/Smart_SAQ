@@ -4,27 +4,97 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/xampp/htdocs/Smart_SAQ/employee/employee_management.php</file>
-            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/view.php</file>
-            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_saq_employee.php</file>
-            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/database.php</file>
-            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_site_manager.php</file>
-            <file>file:/C:/xampp/htdocs/Smart_SAQ/ajax/ajx_saq_employee.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/vendor/autoload.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/add_rate_increment.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/samples/site.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/general.php</file>
             <file>file:/C:/xampp/htdocs/Smart_SAQ/class/constants.php</file>
-            <file>file:/C:/xampp/htdocs/Smart_SAQ/ajax/ajx_user.php</file>
-            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/add_edit.php</file>
-            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_saq_region.php</file>
-            <file>file:/C:/xampp/htdocs/Smart_SAQ/inc/header.php</file>
-            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_site.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/add_edit_site_category.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/api_v3/index.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_site_model_manager.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/site_category.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/add_dns_depot.php</file>
             <file>file:/C:/xampp/htdocs/Smart_SAQ/index.php</file>
-            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_saq_district.php</file>
-            <file>file:/C:/xampp/htdocs/Smart_SAQ/user/add_edit_user.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/bulk_update.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_site_model.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/download_template_file.php</file>
             <file>file:/C:/xampp/htdocs/Smart_SAQ/class/functions.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/site_data_technical.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/add_payment_mode.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/add_region.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/view.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_saq_guideline.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/error.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_agreement_model.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/agreements_payments.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/inc/google-analytics.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/database.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/samples/agreements.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/operators.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/.gitignore</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/shared.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/add_edit.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/inc/header.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/ajax/ajx_saq_site_model.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_site.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/add_dns_officers.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/ajax/ajx_saq_agreement_files.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/inc/header_less.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/site_management.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/ajax/ajx_site_customize.php</file>
             <file>file:/C:/xampp/htdocs/Smart_SAQ/inc/config.ui.php</file>
-            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_saq_site_agreement_data.php</file>
             <file>file:/C:/xampp/htdocs/Smart_SAQ/user/user_management.php</file>
-            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_user.php</file>
-            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_saq_site_assesment_info.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/vendor/composer/autoload_real.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/ajax/ajx_saq_agreement.php</file>
             <file>file:/C:/xampp/htdocs/Smart_SAQ/employee/add_edit_employee.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/add_rm_officers.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/.htaccess</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/ajax/ajx_saq_site_images.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/ajax/ajx_saq_gndivision.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_site_manager.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/ajax/ajx_user.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/samples/agreement_add.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/ajax/ajx_keep_alive.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/add_saq_officers.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_saq_region.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/add_gn_division.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/composer.lock</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/samples/agreement_edit.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/approvals.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_saq_district.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/js/dropzone.js</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/add_la.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/samples/site_model_add.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_saq_site_agreement_data.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_user.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/saq/saq_guideline.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/ajax/ajx_saq_guideline_files.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/add_edit_ownership.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/add_district.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_saq_site_assesment_info.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/saq/saq_guideline_add_edit.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/signOut.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/add_edit_other_operator.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/add_edit_permission_type.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/class/cls_saq_employee.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/ajax/ajx_saq_site.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/add_ds.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/api_v2/index.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/add_site_type.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/ajax/ajx_saq_site_types.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/ajax/ajx_saq_employee.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/add_edit_approvals.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/composer.json</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/samples/site_model_edit.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/vendor/composer/platform_check.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/ajax/ajx_saq_guideline.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/add_ps.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/user/add_edit_user.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/samples/agreement_view.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/add_gs.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/samples/gallery.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/add_edit_technology.php</file>
+            <file>file:/C:/xampp/htdocs/Smart_SAQ/sites/add_edit_access_type.php</file>
         </group>
     </open-files>
 </project-private>

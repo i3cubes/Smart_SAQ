@@ -1,5 +1,7 @@
 <?php
+
 use Firebase\JWT\JWT;
+
 require_once('../vendor/autoload.php');
 
 include_once '../class/cls_saq_gndivision.php';
@@ -16,7 +18,15 @@ if (!$jwt) {
 }
 
 $secretKey = constants::$secretKey;
-$token = JWT::decode($jwt, $secretKey, ['HS512']);
+if ($jwt != 'undefined') {
+    try {
+        $token = JWT::decode($jwt, $secretKey, ['HS512']);
+    } catch (\Firebase\JWT\ExpiredException $e) {
+        echo json_encode(array('msg' => 'Session expired!!!', 'result' => 1));
+        session_destroy();
+        exit();
+    }
+}
 $now = new DateTimeImmutable();
 $serverName = constants::$serverName;
 
@@ -31,65 +41,59 @@ if ($token->iss !== $serverName ||
 $REQUEST_METHOD = $_SERVER["REQUEST_METHOD"];
 $SID = $_REQUEST['SID'];
 
-switch ($REQUEST_METHOD){
-case "POST":
-    switch ($SID){
-        case 200://get gn
-            $gn_division = new saq_gn_division();
-            $district_id = $_REQUEST['district_id'];
-            $gn_division->saq_district_id = $district_id;
-            $gn_division_all = $gn_division->getAll();
-            $getAll = $gn_division->getAll();
-            if(count($getAll)>0){
-                echo json_encode(array('result'=>1,"data"=>$getAll));
-            } else {
-                 echo json_encode(array('result'=>0,"data"=>$getAll));
-            }
-           break; 
-    case 201:
-        $district_id = $_POST['district_id'];
-        $gn_name = $_POST['gn_name'];
-        $gn_division = new saq_gn_division();
-        $gn_division->gn_division = $gn_name;
-        $gn_division->saq_district_id = $district_id;
-        $addNew = $gn_division->addNew();
-        if($addNew){
-            echo json_encode(array('result'=>1,'msg'=>"Successfully Added"));
-        }else {
-            echo json_encode(array('result'=>0,'msg'=>"Save Failed"));
+switch ($REQUEST_METHOD) {
+    case "POST":
+        switch ($SID) {
+            case 200://get gn
+                $gn_division = new saq_gn_division();
+                $district_id = $_REQUEST['district_id'];
+                $gn_division->saq_district_id = $district_id;
+                $gn_division_all = $gn_division->getAll();
+                $getAll = $gn_division->getAll();
+                if (count($getAll) > 0) {
+                    echo json_encode(array('result' => 1, "data" => $getAll));
+                } else {
+                    echo json_encode(array('result' => 0, "data" => $getAll));
+                }
+                break;
+            case 201:
+                $district_id = $_POST['district_id'];
+                $gn_name = $_POST['gn_name'];
+                $gn_division = new saq_gn_division();
+                $gn_division->gn_division = $gn_name;
+                $gn_division->saq_district_id = $district_id;
+                $addNew = $gn_division->addNew();
+                if ($addNew) {
+                    echo json_encode(array('result' => 1, 'msg' => "Successfully Added"));
+                } else {
+                    echo json_encode(array('result' => 0, 'msg' => "Save Failed"));
+                }
+
+                break;
+            case 202:
+                $id = $_REQUEST['id'];
+                $gn_name = $_REQUEST['gn_name'];
+                $district_id = $_REQUEST['district_id'];
+                $gn_division = new saq_gn_division();
+                $gn_division->gn_division = $gn_name;
+                $gn_division->saq_district_id = $district_id;
+                $gn_division->id = $id;
+                $edit = $gn_division->edit();
+                if ($edit) {
+                    echo json_encode(array('result' => 1, 'msg' => "Successfully Edited"));
+                } else {
+                    echo json_encode(array('result' => 0, 'msg' => "Update Failed"));
+                }
+                break;
+
+            default :// default SID
+                return false;
+                break;
         }
-        
         break;
-    case 202:
-        $id = $_REQUEST['id'];
-        $gn_name = $_REQUEST['gn_name'];
-        $district_id = $_REQUEST['district_id'];
-         $gn_division = new saq_gn_division();
-        $gn_division->gn_division = $gn_name;
-        $gn_division->saq_district_id = $district_id;
-        $gn_division->id = $id;
-        $edit = $gn_division->edit();
-        if($edit){
-            echo json_encode(array('result'=>1,'msg'=>"Successfully Edited"));
-        }else {
-            echo json_encode(array('result'=>0,'msg'=>"Update Failed"));
-        }
-        break;
-    
-    
-    
-    
-    
-    default :// default SID
+
+    default :
         return false;
         break;
-    }
-    break;
-
-default :
-    return false;
-    break;
-    
-    
 }
 

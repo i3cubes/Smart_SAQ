@@ -19,7 +19,15 @@ if (!$jwt) {
 }
 
 $secretKey = constants::$secretKey;
-$token = JWT::decode($jwt, $secretKey, ['HS512']);
+if ($jwt != 'undefined') {
+    try {
+        $token = JWT::decode($jwt, $secretKey, ['HS512']);
+    } catch (\Firebase\JWT\ExpiredException $e) {
+        echo json_encode(array('msg' => 'Session expired!!!', 'result' => 1));
+        session_destroy();
+        exit();
+    }
+}
 $now = new DateTimeImmutable();
 $serverName = constants::$serverName;
 
@@ -38,17 +46,21 @@ switch ($_REQUEST['option']) {
         if (!empty($_FILES)) {
             $test = explode(".", $_FILES['file']['name']);
             $extension = end($test);
-            $newName = time() . rand(100, 999) . "." . $extension;
-            $location = "files/sample_agreements/" . $newName;
-            $save_to = "../files/sample_agreements/" . $newName;
-            $file_name = $_FILES['file']['name'];
-            if (move_uploaded_file($_FILES['file']['tmp_name'], $save_to)) {
-                $result = $agreement_model_obj->addFile($_FILES['file']['type'], $file_name, $location);
-                if ($result) {
-                    echo json_encode(array('msg' => 1));
-                } else {
-                    echo json_encode(array('msg' => 0));
+            if ($extension == 'jpeg' || $extension == 'jpg' || $extension == 'png' || $extension == 'gif') {
+                $newName = time() . rand(100, 999) . "." . $extension;
+                $location = "files/sample_agreements/" . $newName;
+                $save_to = "../files/sample_agreements/" . $newName;
+                $file_name = $_FILES['file']['name'];
+                if (move_uploaded_file($_FILES['file']['tmp_name'], $save_to)) {
+                    $result = $agreement_model_obj->addFile($_FILES['file']['type'], $file_name, $location);
+                    if ($result) {
+                        echo json_encode(array('msg' => 1));
+                    } else {
+                        echo json_encode(array('msg' => 0));
+                    }
                 }
+            } else {
+                echo json_encode(array('msg' => -1));
             }
         } else {
             echo json_encode(array('msg' => 0));

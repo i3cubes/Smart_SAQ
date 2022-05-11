@@ -146,9 +146,9 @@ include("inc/scripts.php");
                 },
                 password: {
                     required: true,
-                    minlength: 8,
-                    maxlength: 8,
-                    pwcheck: true
+                    minlength: 8
+//                    maxlength: 8,
+//                    pwcheck: true
                 }
             },
 

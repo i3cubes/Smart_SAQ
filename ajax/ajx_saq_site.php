@@ -3,7 +3,9 @@
 //error_reporting(E_ALL);
 //ini_set("display_errors", 1);
 session_start();
+
 use Firebase\JWT\JWT;
+
 require_once('../vendor/autoload.php');
 
 include_once '../class/cls_site.php';
@@ -25,7 +27,15 @@ if (!$jwt) {
 }
 
 $secretKey = constants::$secretKey;
-$token = JWT::decode($jwt, $secretKey, ['HS512']);
+if ($jwt != 'undefined') {
+    try {
+        $token = JWT::decode($jwt, $secretKey, ['HS512']);
+    } catch (\Firebase\JWT\ExpiredException $e) {
+        echo json_encode(array('msg' => 'Session expired!!!', 'result' => 1));
+        session_destroy();
+        exit();
+    }
+}
 $now = new DateTimeImmutable();
 $serverName = constants::$serverName;
 

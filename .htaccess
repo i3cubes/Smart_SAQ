@@ -12,4 +12,6 @@ RewriteRule .* - [L,R=404]
 # RewriteCond %{THE_REQUEST} "^[^ ]* .*?\.php[? ].*$" [NC]
 RewriteCond %{HTTP:Authorization} ^(.*)
 RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
+
+#LimitRequestLine 10000
 </IfModule>

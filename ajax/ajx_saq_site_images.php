@@ -1,5 +1,7 @@
 <?php
+
 use Firebase\JWT\JWT;
+
 require_once('../vendor/autoload.php');
 
 include_once '../class/cls_site_model.php';
@@ -16,7 +18,15 @@ if (!$jwt) {
 }
 
 $secretKey = constants::$secretKey;
-$token = JWT::decode($jwt, $secretKey, ['HS512']);
+if ($jwt != 'undefined') {
+    try {
+        $token = JWT::decode($jwt, $secretKey, ['HS512']);
+    } catch (\Firebase\JWT\ExpiredException $e) {
+        echo json_encode(array('msg' => 'Session expired!!!', 'result' => 1));
+        session_destroy();
+        exit();
+    }
+}
 $now = new DateTimeImmutable();
 $serverName = constants::$serverName;
 
@@ -28,25 +38,27 @@ if ($token->iss !== $serverName ||
 }
 $site_model_obj = new site_model($_REQUEST['id']);
 
-
-
 switch ($_REQUEST['option']) {
     case 'ADD':
         // upload file if uploded
         if (!empty($_FILES)) {
             $test = explode(".", $_FILES['file']['name']);
             $extension = end($test);
-            $newName = time() . rand(100, 999) . "." . $extension;
-            $location = "files/site_images/" . $newName;
-            $save_to = "../files/site_images/" . $newName;
-            $file_name = $_FILES['file']['name'];
-            if (move_uploaded_file($_FILES['file']['tmp_name'], $save_to)) {               
-                $result = $site_model_obj->addImage($_FILES['file']['type'],$file_name,$location);
-                if ($result) {
-                    echo json_encode(array('msg' => 1));
-                } else {
-                    echo json_encode(array('msg' => 0));
+            if ($extension == 'jpeg' || $extension == 'jpg' || $extension == 'png' || $extension == 'gif') {
+                $newName = time() . rand(100, 999) . "." . $extension;
+                $location = "files/site_images/" . $newName;
+                $save_to = "../files/site_images/" . $newName;
+                $file_name = $_FILES['file']['name'];
+                if (move_uploaded_file($_FILES['file']['tmp_name'], $save_to)) {
+                    $result = $site_model_obj->addImage($_FILES['file']['type'], $file_name, $location);
+                    if ($result) {
+                        echo json_encode(array('msg' => 1));
+                    } else {
+                        echo json_encode(array('msg' => 0));
+                    }
                 }
+            } else {
+                echo json_encode(array('msg' => -1));
             }
         } else {
             echo json_encode(array('msg' => 0));

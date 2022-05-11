@@ -76,6 +76,8 @@ class site_model extends tree_node {
         $str="SELECT * FROM saq_site_model_images WHERE saq_site_model_id='$this->id';";
         $result= dbQuery($str);
         while ($row= dbFetchAssoc($result)){
+//            $img = file_get_contents('../'.$row['base_path']);
+//            $img_data = base64_encode($img);
             array_push($this->files, array(
                 'id' => $row['id'],
                 'name' => $row['name'],
