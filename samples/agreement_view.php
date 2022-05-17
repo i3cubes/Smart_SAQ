@@ -129,7 +129,7 @@ $agreement_model_obj->getData();
                                     <div class="page-title">
                                         <a class="btn btn-default" onclick="upload_image()">Upload</a>                            
                                     </div>
-
+                                    <p style="color:red;">Supported file type(s) .jpeg,.jpg,.png,.gif,.pdf</p>
 
                                 </div>
 
@@ -185,7 +185,7 @@ include("../inc/scripts.php");
                                                     url: "../ajax/ajx_saq_agreement_files",
                                                     autoProcessQueue: false,
                                                     addRemoveLinks: true,
-                                                    acceptedFiles: ".jpeg,.jpg,.png,.gif",
+                                                    acceptedFiles: ".jpeg,.jpg,.png,.gif,.pdf",
                                                     headers: {
                                                         "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
                                                     },
@@ -201,6 +201,11 @@ include("../inc/scripts.php");
                                                                 _this.removeAllFiles();
 //                                                        $.notify("Successfully uploaded", "success"); 
                                                                 getFiles(<?php print $id ?>);
+                                                            }
+                                                        });
+                                                        this.on("success", function(file,response){
+                                                            if(response['msg'] == -1) {
+                                                                alert("File type not supported!");
                                                             }
                                                         });
                                                     }

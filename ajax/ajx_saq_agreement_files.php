@@ -46,7 +46,7 @@ switch ($_REQUEST['option']) {
         if (!empty($_FILES)) {
             $test = explode(".", $_FILES['file']['name']);
             $extension = end($test);
-            if ($extension == 'jpeg' || $extension == 'jpg' || $extension == 'png' || $extension == 'gif') {
+            if ($extension == 'jpeg' || $extension == 'jpg' || $extension == 'png' || $extension == 'gif' || $extension == 'pdf') {
                 $newName = time() . rand(100, 999) . "." . $extension;
                 $location = "files/sample_agreements/" . $newName;
                 $save_to = "../files/sample_agreements/" . $newName;

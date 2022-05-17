@@ -105,7 +105,7 @@ $site_model_obj->getData();
                         <div class="page-title">
                             <a class="btn btn-default" onclick="upload_image()">Upload</a>                            
                         </div>
-
+                        <p style="color:red;">Supported file type(s) .jpeg,.jpg,.png,.gif,.pdf</p>
 
                     </div>
 
@@ -113,14 +113,14 @@ $site_model_obj->getData();
                         <div class="superbox col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
                             <div class="superbox-float" style="margin:15px;">
-                                <?php 
-                                    $site_model_obj->getImages();
-                                    
-                                    if(count($site_model_obj->files)>0) {
-                                        foreach ($site_model_obj->files as $file) {
-                                            print "<div><a href='?file_id=".$file['id']."'>".$file['name']."</a></div>";
-                                        }
+                                <?php
+                                $site_model_obj->getImages();
+
+                                if (count($site_model_obj->files) > 0) {
+                                    foreach ($site_model_obj->files as $file) {
+                                        print "<div><a href='?file_id=" . $file['id'] . "'>" . $file['name'] . "</a></div>";
                                     }
+                                }
                                 ?>
                             </div>
 
