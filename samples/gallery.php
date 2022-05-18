@@ -105,24 +105,38 @@ $site_model_obj->getData();
                         <div class="page-title">
                             <a class="btn btn-default" onclick="upload_image()">Upload</a>                            
                         </div>
-                        <p style="color:red;">Supported file type(s) .jpeg,.jpg,.png,.gif,.pdf</p>
+                        <p style="color:red;">Supported file type(s) .jpeg,.jpg,.png,.gif</p>
 
                     </div>
 
                     <div class="row">
-                        <div class="superbox col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="superbox col-xs-12 col-sm-12 col-md-12 col-lg-12" >
 
-                            <div class="superbox-float" style="margin:15px;">
-                                <?php
-                                $site_model_obj->getImages();
+                            <!--<div class="superbox-float" style="margin:15px;">-->
+                            <table width="100%" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>File</th>
+                                            <th width="5%">...</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    $site_model_obj->getImages();
 
-                                if (count($site_model_obj->files) > 0) {
-                                    foreach ($site_model_obj->files as $file) {
-                                        print "<div><a href='?file_id=" . $file['id'] . "'>" . $file['name'] . "</a></div>";
+                                    if (count($site_model_obj->files) > 0) {
+                                        foreach ($site_model_obj->files as $file) {
+                                            print "<tr>"
+                                                    . "<td><a href='?file_id=" . $file['id'] . "'>" . $file['name'] . "</a></td>"
+                                                    . "<td><button class='btn btn-danger btn-xs' onclick='deleteFile(" . $file['id'] . ")'><i class='fa fa-trash'></i></button></td>"
+                                                    . "</tr>";
+                                        }
                                     }
-                                }
-                                ?>
-                            </div>
+                                    ?>
+                                    </tbody>
+                                </table>
+
+                            <!--</div>-->
 
                         </div>
                         <!--<div class="superbox-show" style="height:300px; display: none"></div>-->  
@@ -204,6 +218,12 @@ include("../inc/scripts.php");
                                                 formData.append("id", <?php print $id ?>);
 //                                                JSON.stringify(formData);
                                             });
+                                            this.on("error", function (file, message, xhr) {
+                                                if (xhr == null) {
+                                                    this.removeFile(file); // perhaps not remove on xhr errors
+                                                    alert(message);
+                                                }
+                                            });
                                             this.on("complete", function () {
                                                 if (this.getQueuedFiles().length == 0 && this.getUploadingFiles().length == 0) {
                                                     var _this = this;
@@ -211,6 +231,11 @@ include("../inc/scripts.php");
 //                                                    $.notify("Successfully uploaded", "success");
                                                     window.parent.$.jeegoopopup.close();
 //                                                    getImages(<?php print $id ?>);
+                                                }
+                                            });
+                                            this.on("success", function (file, response) {
+                                                if (response['msg'] == -1) {
+                                                    alert("File type not supported!");
                                                 }
                                             });
                                         }
@@ -250,6 +275,47 @@ include("../inc/scripts.php");
                                     } else {
                                         $.notify("add files", "error");
                                     }
+                                }
+
+                                function deleteFile(id) {
+                                    var newDiv = $(document.createElement('div'));
+                                    $(newDiv).html('Are you sure?');
+                                    $(newDiv).attr('title', 'Delete');
+                                    //$(newDiv).css('font-size','62.5%');
+                                    $(newDiv).dialog({
+                                        resizable: false,
+                                        height: 200,
+                                        modal: true,
+                                        buttons: {
+                                            "Delete": function () {
+                                                $.ajax({
+                                                    url: '../ajax/ajx_saq_site_images',
+                                                    type: 'POST',
+                                                    data: {option: 'DELETE', id: id},
+                                                    dataType: "json",
+                                                    headers: {
+                                                        "Authorization": `Bearer ${sessionStorage.getItem('JWT')}`
+                                                    },
+                                                    success: function (res) {
+                                                        if (res['msg'] == 1) {
+                                                            window.parent.$.jeegoopopup.close();
+                                                        } else {
+                                                            alert('Error');
+                                                        }
+                                                    },
+                                                    error: function (xhr, status, error) {
+                                                        alert("error :" + xhr.responseText);
+                                                    }
+                                                });
+                                                $(this).dialog("close");
+                                                $(newDiv).remove();
+                                            },
+                                            cancel: function () {
+                                                $(this).dialog("close");
+                                                $(newDiv).remove();
+                                            }
+                                        }
+                                    });
                                 }
 
                                 // PAGE RELATED SCRIPTS

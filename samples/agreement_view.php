@@ -195,6 +195,12 @@ include("../inc/scripts.php");
                                                             formData.append("id", <?php print $id ?>);
 //                                                JSON.stringify(formData);
                                                         });
+                                                        this.on("error", function (file, message, xhr) {
+                                                            if (xhr == null) {
+                                                                this.removeFile(file); // perhaps not remove on xhr errors
+                                                                alert(message);
+                                                            }
+                                                        });
                                                         this.on("complete", function () {
                                                             if (this.getQueuedFiles().length == 0 && this.getUploadingFiles().length == 0) {
                                                                 var _this = this;
@@ -203,8 +209,8 @@ include("../inc/scripts.php");
                                                                 getFiles(<?php print $id ?>);
                                                             }
                                                         });
-                                                        this.on("success", function(file,response){
-                                                            if(response['msg'] == -1) {
+                                                        this.on("success", function (file, response) {
+                                                            if (response['msg'] == -1) {
                                                                 alert("File type not supported!");
                                                             }
                                                         });

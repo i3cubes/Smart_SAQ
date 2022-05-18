@@ -105,6 +105,12 @@ class site_model extends tree_node {
         return $result;
     }
     
+    public function deleteImage($id){
+        $str="DELETE FROM `saq_site_model_images` WHERE `id` = $id;";
+        $result= dbQuery($str);
+        return $result;
+    }
+    
     public function delete() {
         $str="UPDATE `saq_site_model` SET `status` = ".constants::$inactive." WHERE `id` = $this->id;";
         $result = dbQuery($str);

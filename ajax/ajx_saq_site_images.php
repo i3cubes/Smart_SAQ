@@ -69,7 +69,13 @@ switch ($_REQUEST['option']) {
         echo json_encode($view_saq_site_image);
         break;
     case 'DELETE':
-
+        $id = $_REQUEST['id'];
+        $delete_file = $site_model_obj->deleteImage($id);
+        if ($delete_file) {
+            echo json_encode(array('msg' => 1));
+        } else {
+            echo json_encode(array('msg' => 0));
+        }
         break;
     default :
         header('HTTP/1.0 405 Method Not Allowed');
