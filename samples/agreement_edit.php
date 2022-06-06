@@ -175,6 +175,7 @@ include("../inc/scripts.php");
                             },
                             error: function (xhr, status, error) {
                                 alert("error :" + xhr.responseText);
+                                location.reload();
                             }
                         });
                         $(this).dialog("close");
@@ -209,6 +210,7 @@ include("../inc/scripts.php");
             },
             error: function (xhr, status, error) {
                 alert("error :" + xhr.responseText);
+                location.reload();
             }
         });
     }

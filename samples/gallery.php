@@ -222,6 +222,7 @@ include("../inc/scripts.php");
                                                 if (xhr == null) {
                                                     this.removeFile(file); // perhaps not remove on xhr errors
                                                     alert(message);
+                                                    location.reload();
                                                 }
                                             });
                                             this.on("complete", function () {
@@ -264,6 +265,7 @@ include("../inc/scripts.php");
                                         },
                                         error: function (xhr, resp, text) {
                                             alert("error :" + xhr.responseText);
+                                            location.reload();
                                         }
                                     });
                                 }
@@ -305,6 +307,7 @@ include("../inc/scripts.php");
                                                     },
                                                     error: function (xhr, status, error) {
                                                         alert("error :" + xhr.responseText);
+                                                        location.reload();
                                                     }
                                                 });
                                                 $(this).dialog("close");

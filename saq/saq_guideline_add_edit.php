@@ -295,6 +295,7 @@ include("../inc/scripts.php");
                 },
                 error: function (xhr, status, error) {
                     alert("error :" + xhr.responseText);
+                    location.reload();
                 }
             });
         }
@@ -331,6 +332,7 @@ include("../inc/scripts.php");
                         },
                         error: function (xhr, status, error) {
                             alert("error :" + xhr.responseText);
+                            location.reload();
                         }
                     });
                 },
@@ -366,6 +368,7 @@ include("../inc/scripts.php");
             },
             error: function (xhr, status, error) {
                 alert("error :" + xhr.responseText);
+                location.reload();
             }
         });
     }
@@ -400,6 +403,7 @@ include("../inc/scripts.php");
                         },
                         error: function (xhr, status, error) {
                             alert("error :" + xhr.responseText);
+                            location.reload();
                         }
                     });
                 },
