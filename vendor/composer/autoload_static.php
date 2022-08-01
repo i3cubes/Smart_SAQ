@@ -6,6 +6,11 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit0b29c9488901e7390aaafa04cc60f1a2
 {
+    public static $files = array (
+        '7e9bd612cc444b3eed788ebbe46263a0' => __DIR__ . '/..' . '/laminas/laminas-zendframework-bridge/src/autoload.php',
+        '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
         'P' => 
         array (
@@ -13,6 +18,7 @@ class ComposerStaticInit0b29c9488901e7390aaafa04cc60f1a2
         ),
         'L' => 
         array (
+            'Laminas\\ZendFrameworkBridge\\' => 28,
             'Laminas\\Stdlib\\' => 15,
             'Laminas\\Config\\' => 15,
         ),
@@ -26,6 +32,10 @@ class ComposerStaticInit0b29c9488901e7390aaafa04cc60f1a2
         'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+        'Laminas\\ZendFrameworkBridge\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-zendframework-bridge/src',
         ),
         'Laminas\\Stdlib\\' => 
         array (

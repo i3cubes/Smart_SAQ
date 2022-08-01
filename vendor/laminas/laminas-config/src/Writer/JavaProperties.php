@@ -1,15 +1,14 @@
 <?php
 
+/**
+ * @see       https://github.com/laminas/laminas-config for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-config/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-config/blob/master/LICENSE.md New BSD License
+ */
+
 namespace Laminas\Config\Writer;
 
 use Laminas\Config\Exception;
-
-use function get_class;
-use function gettype;
-use function is_object;
-use function is_scalar;
-use function is_string;
-use function sprintf;
 
 class JavaProperties extends AbstractWriter
 {

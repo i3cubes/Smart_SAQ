@@ -1,17 +1,17 @@
 <?php
 
+/**
+ * @see       https://github.com/laminas/laminas-config for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-config/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-config/blob/master/LICENSE.md New BSD License
+ */
+
 namespace Laminas\Config;
 
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\AbstractFactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Traversable;
-
-use function array_unshift;
-use function is_array;
-use function is_string;
-use function iterator_to_array;
-use function preg_match;
 
 /**
  * Class AbstractConfigFactory
@@ -62,7 +62,7 @@ class AbstractConfigFactory implements AbstractFactoryInterface
             return true;
         }
 
-        if (! $container->has('config')) {
+        if (! $container->has('Config')) {
             return false;
         }
 
@@ -71,7 +71,7 @@ class AbstractConfigFactory implements AbstractFactoryInterface
             return false;
         }
 
-        $config = $container->get('config');
+        $config = $container->get('Config');
         return isset($config[$key]);
     }
 
@@ -108,7 +108,7 @@ class AbstractConfigFactory implements AbstractFactoryInterface
             return $this->configs[$key];
         }
 
-        $config = $container->get('config');
+        $config = $container->get('Config');
         $this->configs[$requestedName] = $this->configs[$key] = $config[$key];
         return $config[$key];
     }

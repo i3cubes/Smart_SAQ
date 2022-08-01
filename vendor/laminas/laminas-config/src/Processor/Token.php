@@ -1,19 +1,16 @@
 <?php
 
+/**
+ * @see       https://github.com/laminas/laminas-config for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-config/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-config/blob/master/LICENSE.md New BSD License
+ */
+
 namespace Laminas\Config\Processor;
 
 use Laminas\Config\Config;
 use Laminas\Config\Exception;
 use Traversable;
-
-use function array_keys;
-use function gettype;
-use function is_array;
-use function is_bool;
-use function is_numeric;
-use function is_scalar;
-use function is_string;
-use function strtr;
 
 class Token implements ProcessorInterface
 {

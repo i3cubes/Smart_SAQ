@@ -7,6 +7,7 @@ session_start();
 //declare(strict_types=1);
 //
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 //
 require_once('../vendor/autoload.php');
@@ -33,7 +34,7 @@ if ($option != 'LOGIN') {
         $secretKey = constants::$secretKey;
         if ($jwt != 'undefined') {
             try {
-                $token = JWT::decode($jwt, $secretKey, ['HS512']);
+                $token = JWT::decode($jwt, new Key($secretKey, 'HS512'));
             } catch (\Firebase\JWT\ExpiredException $e) {
                 echo json_encode(array('msg' => 'Session expired!!!', 'result' => 1));
                 session_destroy();

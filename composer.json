@@ -1,6 +1,13 @@
 {
     "require": {
-        "firebase/php-jwt": "^5.2",
-        "laminas/laminas-config": "^3.5.0"
+        "firebase/php-jwt": "6.3.0",
+        "laminas/laminas-config": "3.3.0",
+        "paragonie/sodium_compat": "^1.17"
+    },
+    "platform-check": false,
+    "config": {
+        "platform": {
+            "php": "7.2.24"
+        }
     }
 }

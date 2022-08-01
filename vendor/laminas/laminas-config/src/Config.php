@@ -1,21 +1,16 @@
 <?php
 
+/**
+ * @see       https://github.com/laminas/laminas-config for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-config/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-config/blob/master/LICENSE.md New BSD License
+ */
+
 namespace Laminas\Config;
 
 use ArrayAccess;
 use Countable;
 use Iterator;
-// @codingStandardsIgnoreLine
-use ReturnTypeWillChange;
-
-use function array_key_exists;
-use function count;
-use function current;
-use function is_array;
-use function is_int;
-use function key;
-use function next;
-use function reset;
 
 /**
  * Provides a property based interface to an array.
@@ -203,7 +198,6 @@ class Config implements Countable, Iterator, ArrayAccess
      * @see    Countable::count()
      * @return int
      */
-    #[ReturnTypeWillChange]
     public function count()
     {
         return count($this->data);
@@ -215,7 +209,6 @@ class Config implements Countable, Iterator, ArrayAccess
      * @see    Iterator::current()
      * @return mixed
      */
-    #[ReturnTypeWillChange]
     public function current()
     {
         $this->skipNextIteration = false;
@@ -228,7 +221,6 @@ class Config implements Countable, Iterator, ArrayAccess
      * @see    Iterator::key()
      * @return mixed
      */
-    #[ReturnTypeWillChange]
     public function key()
     {
         return key($this->data);
@@ -240,7 +232,6 @@ class Config implements Countable, Iterator, ArrayAccess
      * @see    Iterator::next()
      * @return void
      */
-    #[ReturnTypeWillChange]
     public function next()
     {
         if ($this->skipNextIteration) {
@@ -257,7 +248,6 @@ class Config implements Countable, Iterator, ArrayAccess
      * @see    Iterator::rewind()
      * @return void
      */
-    #[ReturnTypeWillChange]
     public function rewind()
     {
         $this->skipNextIteration = false;
@@ -270,7 +260,6 @@ class Config implements Countable, Iterator, ArrayAccess
      * @see    Iterator::valid()
      * @return bool
      */
-    #[ReturnTypeWillChange]
     public function valid()
     {
         return ($this->key() !== null);
@@ -283,7 +272,6 @@ class Config implements Countable, Iterator, ArrayAccess
      * @param  mixed $offset
      * @return bool
      */
-    #[ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return $this->__isset($offset);
@@ -296,7 +284,6 @@ class Config implements Countable, Iterator, ArrayAccess
      * @param  mixed $offset
      * @return mixed
      */
-    #[ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->__get($offset);
@@ -310,7 +297,6 @@ class Config implements Countable, Iterator, ArrayAccess
      * @param  mixed $value
      * @return void
      */
-    #[ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         $this->__set($offset, $value);
@@ -323,7 +309,6 @@ class Config implements Countable, Iterator, ArrayAccess
      * @param  mixed $offset
      * @return void
      */
-    #[ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         $this->__unset($offset);

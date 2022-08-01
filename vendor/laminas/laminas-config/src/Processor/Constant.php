@@ -1,15 +1,12 @@
 <?php
 
-namespace Laminas\Config\Processor;
+/**
+ * @see       https://github.com/laminas/laminas-config for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-config/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-config/blob/master/LICENSE.md New BSD License
+ */
 
-use function class_exists;
-use function constant;
-use function defined;
-use function get_defined_constants;
-use function is_string;
-use function preg_match;
-use function strpos;
-use function substr;
+namespace Laminas\Config\Processor;
 
 class Constant extends Token implements ProcessorInterface
 {
