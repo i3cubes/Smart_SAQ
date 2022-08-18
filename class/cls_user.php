@@ -72,6 +72,7 @@ class user {
 
     public function getDetailsFromDID($did) {
         $string = "SELECT * FROM `$this->table_name` WHERE `device_id` = '$did';";
+        //print $string;
         $result = dbQuery($string);
         $row = dbFetchAssoc($result);
         $this->id = $row['id'];
@@ -198,7 +199,7 @@ class user {
             $string = "SELECT t1.*,t2.id AS `emp_id` FROM `$this->table_name` AS `t1` LEFT JOIN `saq_employee` AS `t2` ON t1.saq_employee_id = t2.id WHERE t1.user_name = $name AND "
                     . "t1.password = $password AND t1.status = '" . constants::$active . "';";
         }
-//        print $string;
+        //print $string;
         $result = dbQuery($string);
         if (dbNumRows($result) == 1) {
             $row = dbFetchAssoc($result);
@@ -258,6 +259,7 @@ class user {
 
     public function setSID($sid, $did) {
         $str = "UPDATE saq_us SET api_sid='$sid',api_sid_time=NOW(),device_id='$did' WHERE id='$this->id';";
+        //print $str;
         $result = dbQuery($str);
         return $result;
     }

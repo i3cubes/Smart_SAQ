@@ -42,10 +42,10 @@ $data=$_REQUEST['data'];
 
 //print_r($_SERVER);
 
-if($_REQUEST['did']!=""){
+if($device_id!=""){
     $us=new user();    
-    if($did!=""){
-        $us->getDetailsFromDID($did);
+    if($device_id!=""){
+        $us->getDetailsFromDID($device_id);
         if($us->id!=""){
             if(strtotime($us->api_sid_time)>(time()-(7*24*60*60*100))){
                 $valid=true;
@@ -96,7 +96,7 @@ if($sid=='100'){
         $login_res=$us->loginUser();
         
         if($login_res===true){
-            $us->setSID(session_id(),$did);
+            $us->setSID(session_id(),$device_id);
             $response[0]["result"] = '1';
             //$response[0]["user_id"] = $_SESSION['UID'];
             $response[0]["pid"] = "";
@@ -370,6 +370,6 @@ else{
     }
 }
 header('Content-Type: application/json');
-echo base64_encode(json_encode($response));
-//echo json_encode($response);
+//echo base64_encode(json_encode($response));
+echo json_encode($response);
 ?>
