@@ -370,6 +370,6 @@ else{
     }
 }
 header('Content-Type: application/json');
-//echo base64_encode(json_encode($response));
-echo json_encode($response);
+echo base64_encode(json_encode($response));
+//echo json_encode($response);
 ?>
