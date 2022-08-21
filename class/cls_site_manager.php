@@ -6,6 +6,7 @@ include_once 'database.php';
 
 include_once 'constants.php';
 include_once 'cls_saq_employee.php';
+include_once 'cls_user.php';
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -21,7 +22,9 @@ class site_manager {
 
     //put your code here
 
-    public function serchSite($name, $region_id, $radius, $code) {
+    public function serchSite($name, $region_id, $radius, $code,$user='') {
+        $us=new \user();
+        $role_id="";$emp_id="";
         $result = array();
         $ary_sql = array();
         if ($name != "") {
@@ -36,10 +39,19 @@ class site_manager {
         if (!empty($ary_sql)) {
             $where = implode(" AND ", $ary_sql);
         } else {
-            if ($_SESSION['UROLE'] == constants::$system_admin || $_SESSION['UROLE'] == constants::$admin) {
+            if($user!=null){
+                $us=$user;
+                $role_id=$us->saq_us_role_id;
+                $emp_id=$us->saq_employee_id;
+            }
+            else{
+                $role_id=$_SESSION['UROLE'];
+                $emp_id=$_SESSION['EID'];
+            }
+            if ($role_id == constants::$system_admin || $role_id == constants::$admin) {
                 $where = "t1.status_delete = " . constants::$active . " AND t1.id>0 ORDER BY t1.id DESC";
             } else {
-                $emp_id = $_SESSION['EID'];
+                //$emp_id = $_SESSION['EID'];
                 $employee_obj = new saq_employee($emp_id);
                 $employee_obj->getData();
                 $employee_districts = $employee_obj->districts;
@@ -50,7 +62,7 @@ class site_manager {
                     return $result;
 
                 }
-                
+
             }
         }
         $str = "SELECT DISTINCT t1.id,t1.*,t2.name as district_name,t3.name as ds_name,t4.name as la_name,t5.name as police_station_name,"
@@ -60,7 +72,7 @@ class site_manager {
                 . "left join saq_region as t6 on t1.saq_region_id=t6.id left join saq_sites_status as t7 on t1.saq_sites_status_id=t7.id "
                 . "LEFT JOIN saq_site_ownership AS t8 ON t1.saq_site_ownership_id = t8.id left join saq_employee_has_saq_district AS t9 ON t2.id = t9.saq_district_id"
                 . " WHERE " . $where;
-//        print $str;
+        //print $str;
         $res = dbQuery($str);
         while ($row = dbFetchAssoc($res)) {
             //print_r($row);

@@ -40,6 +40,8 @@ $module=$_REQUEST['module'];
 $seq_no=$_REQUEST['sequence_no'];
 $data=$_REQUEST['data'];
 
+$us=null; //user object
+
 //print_r($_SERVER);
 
 if($device_id!=""){
@@ -214,7 +216,7 @@ else{
         case '101':
             $site_mgr=new site_manager();
             $site=new \site();
-            $ary_sites=$site_mgr->serchSite($site_name, $region_id, $radius,$code);
+            $ary_sites=$site_mgr->serchSite($site_name, $region_id, $radius,$code,$us);
 
             $response[0]["result"] = '1';
             $response[0]["count"] = count($ary_sites);

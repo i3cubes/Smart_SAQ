@@ -15,7 +15,7 @@ class saq_employee {
 
     public function getData() {
         $string = "SELECT t1.*,t2.id AS `user_id` FROM `$this->table_name` AS `t1` LEFT JOIN `saq_us` AS `t2` ON t1.id = t2.saq_employee_id WHERE t1.id = $this->id;";
-//        print $string;
+        print $string;
         $result = dbQuery($string);
         $row = dbFetchAssoc($result);
         $this->id = $row['id'];

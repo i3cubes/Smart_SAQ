@@ -81,6 +81,8 @@ class user {
         $this->date_created = $row['date_create'];
         $this->date_lastlogin = $row['date_last_login'];
         $this->wrong_attempt = $row['wrong_attempts'];
+        $this->employees_id=$row['saq_employee_id'];
+        $this->saq_employee_id=$row['saq_employee_id'];
 //        $this->email = $row['email'];
 //        $this->address = $row['address'];
 //        $this->contact_no = $row['contact_no'];
