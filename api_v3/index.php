@@ -17,7 +17,8 @@ include_once '../class/cls_user_backup_image.php';
 
 //session_id($_REQUEST['pid']);
 
-$system_url="https://smartsaq.dialog.lk/";
+//$system_url="https://smartsaq.dialog.lk/";
+$system_url="http://203.94.66.253:8080/i3c/Smart_SAQ/";
 $key = $_REQUEST['KEY'];
 $sid=$_REQUEST['SID'];
 $device_id=$_REQUEST['device_id'];
