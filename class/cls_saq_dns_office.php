@@ -5,7 +5,7 @@
 include_once 'database.php';
 include_once 'constants.php';
 
-class saq_site_ownership {
+class saq_dns_office {
 
     public $id, $name;
     private $table_name = 'saq_dns_office';

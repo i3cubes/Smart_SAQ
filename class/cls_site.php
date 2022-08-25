@@ -105,6 +105,16 @@ class site {
         $this->site_agreement_data = new saq_site_agreement_data();
         $this->site_agreement_data->getDataFromSiteID($this->id);       
     }
+    
+    public function getAll() {
+        $array = array();
+        $string = "SELECT * FROM `saq_sites`;";
+        $result = dbQuery($string);
+        while ($row = dbFetchAssoc($result)){
+            array_push($array, $row);
+        }
+        return $array;
+    }
 
     public function addSite() {
         if ($this->addTemplate()) {
