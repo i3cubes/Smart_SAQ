@@ -91,7 +91,7 @@ foreach ($sites as $s) {
         $s['tower_height'],
         $s['building_height'],
         $s['land_area'],
-        $s['on_air_date'],
+        (($s['on_air_date']!='' && $s['on_air_date']!='0000-00-00')?$s['on_air_date']:''),
         $site_category_obj->id,
         $s['lon'],
         $s['lat'],
