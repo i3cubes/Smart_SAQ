@@ -568,7 +568,7 @@ function uploadContact() {
                                                     <span id="template_file_url"></span>
                                                 </td>
                                                 <td>
-                                                    <a class="btn btn-success btn-xs" href="exist_site_update">Update exist sites</a>
+                                                    <a class="btn btn-success btn-xs" href="exist_site_update">Update existing sites</a>
                                                 </td>
                                                 <td>
                                                     <label class="input"> <i class="icon-append fa fa-file"></i>
